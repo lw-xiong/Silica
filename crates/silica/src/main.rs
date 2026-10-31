@@ -23,6 +23,7 @@ mod graph;
 mod help;
 mod math;
 mod mentions;
+mod mermaid;
 mod palette;
 mod panes;
 mod pdf;

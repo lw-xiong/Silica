@@ -62,7 +62,7 @@ What works today, measured against Obsidian:
 
 Factual gaps versus upstream Obsidian:
 
-**Rendering** — Math typeset with a KaTeX-compatible engine rather than MathJax (MathJax-only commands show source in red; no `\require` extension loader); HTML in notes parsed and shown as literal text; remote images `![](https://…)` do not load; Mermaid diagrams not rendered; PDF viewer has toolbar/sidebar/find bar and `![[x.pdf]]` embeds, but text cannot be selected or copied and there is no export; audio and video recognized as file kinds with no player; headings do not collapse.
+**Rendering** — Math typeset with a KaTeX-compatible engine rather than MathJax (MathJax-only commands show source in red; no `\require` extension loader); HTML in notes parsed and shown as literal text; remote images `![](https://…)` do not load; Mermaid diagrams not rendered; PDF viewer has toolbar/sidebar/find bar and `![[x.pdf]]` embeds, but text cannot be selected or copied and there is no export; audio and video recognized as file kinds with no player.
 
 **Views** — Bases YAML format round-trips but there is no base view (canvas has one); `![[Board.canvas]]` opens in its own view rather than embedded in a note; no popout windows; tabs and split groups exist but stacking does not; one vault per window (run Silica once per vault); local graph is a full view, not a side pane; graph depth beyond 1, arrows, timelapse and screenshot export not supported.
 

@@ -46,6 +46,9 @@ gpui_platform.workspace = true
 # Already in the tree through gpui; a rendered PDF page is handed to gpui as
 # one of its `image` frames.
 image.workspace = true
+mermaid-rs-renderer.workspace = true
+resvg.workspace = true
+usvg.workspace = true
 
 [build-dependencies]
 embed-resource.workspace = true

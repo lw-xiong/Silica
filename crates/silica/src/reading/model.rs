@@ -267,6 +267,10 @@ pub enum RBlock {
         spans: Vec<Vec<Range<usize>>>,
     },
     Math(String),
+    Mermaid {
+        id: usize,
+        text: String,
+    },
     /// `(number, body)` in reference order, rendered after a rule.
     Footnotes(Vec<(usize, Vec<RBlock>)>),
 }
@@ -436,6 +440,9 @@ pub fn build_widgets(
             // an editable table instead of raw YAML.
             BlockKind::Yaml { .. } => true,
             BlockKind::Table { .. } | BlockKind::Math { .. } => true,
+            BlockKind::CodeBlock { info, .. } => {
+                info.as_deref().and_then(|i| i.split_whitespace().next()) == Some("mermaid")
+            }
             // A callout is drawn as the same tinted block the reading view
             // draws; a cursor inside it still brings its source lines back.
             BlockKind::Callout { .. } => true,
@@ -606,6 +613,15 @@ impl<'v> Builder<'v> {
             },
             BlockKind::ThematicBreak => RBlock::ThematicBreak,
             BlockKind::CodeBlock { info, content, .. } => {
+                let lang = info
+                    .as_deref()
+                    .and_then(|i| i.split_whitespace().next());
+                if lang == Some("mermaid") {
+                    return Some(RBlock::Mermaid {
+                        id: self.id(),
+                        text: content.trim_end_matches('\n').to_string(),
+                    });
+                }
                 // Obsidian renders and copies a code block with `\n`
                 // endings whatever the file holds, and its copy button
                 // drops exactly one trailing newline rather than trimming.
@@ -2039,5 +2055,25 @@ mod tests {
         // The block form is a block.
         let m = build_with("A.md", "$$\nz\n$$", &stub(), BuildOptions::default());
         assert_eq!(m.blocks[0], RBlock::Math("z".to_string()));
+    }
+
+    #[test]
+    fn parses_mermaid_block_and_builds_widget() {
+        let text = "```mermaid\nflowchart TD\n    A --> B\n```";
+        let doc = silica_markdown::parse(text);
+        let stub = Stub {
+            files: HashMap::new(),
+            base_calls: std::cell::Cell::new(0),
+        };
+        let m = build("test.md", text, &stub);
+        assert_eq!(m.blocks.len(), 1);
+        let RBlock::Mermaid { text: diagram, .. } = &m.blocks[0] else {
+            panic!("expected Mermaid block");
+        };
+        assert_eq!(diagram, "flowchart TD\n    A --> B");
+
+        let widgets = build_widgets("test.md", &doc, &stub, BuildOptions::default());
+        assert_eq!(widgets.len(), 1);
+        assert!(matches!(widgets[0].block, RBlock::Mermaid { .. }));
     }
 }

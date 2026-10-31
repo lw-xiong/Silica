@@ -411,7 +411,7 @@ pub struct VaultState {
 type Reindexed = (String, Option<(CachedMetadata, Arc<String>)>);
 
 /// What a batch of filesystem events changed.
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct Changes {
     pub files: Vec<FileChange>,
     /// Notes whose text was re-indexed.
@@ -421,6 +421,12 @@ pub struct Changes {
 }
 
 impl Changes {
+    pub fn extend(&mut self, other: Changes) {
+        self.files.extend(other.files);
+        self.notes.extend(other.notes);
+        self.removed_notes.extend(other.removed_notes);
+    }
+
     fn structural(&self) -> bool {
         self.files
             .iter()
@@ -777,6 +783,17 @@ impl VaultState {
             .write()
             .unwrap_or_else(|e| e.into_inner())
             .create_note(path, text)
+            .map_err(|e| e.to_string())?;
+        Ok(self.absorb(files))
+    }
+
+    /// Saves an attachment file (and creates its folders) and indexes it.
+    pub fn save_attachment(&self, path: &str, bytes: &[u8]) -> Result<Changes, String> {
+        let files = self
+            .vault
+            .write()
+            .unwrap_or_else(|e| e.into_inner())
+            .save_attachment(path, bytes)
             .map_err(|e| e.to_string())?;
         Ok(self.absorb(files))
     }
@@ -2684,6 +2701,9 @@ fn view_subscriptions(
                 this.assign_property_type(key.clone(), *ty, cx)
             }
             EditorEvent::Reported(message) => this.report(message.clone(), cx),
+            EditorEvent::FilesChanged(changes) => {
+                this.after_changes(changes.clone(), cx);
+            }
         }),
     ]
 }

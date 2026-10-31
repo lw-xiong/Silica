@@ -261,6 +261,17 @@ impl Vault {
         Ok(self.refresh_path(&abs))
     }
 
+    /// Saves an attachment file with `bytes`, creating parent directories as needed.
+    pub fn save_attachment(&mut self, path: &str, bytes: &[u8]) -> Result<Vec<FileChange>, OpError> {
+        validate_path(path)?;
+        let abs = self.write_path(path)?;
+        if let Some(parent) = abs.parent() {
+            std::fs::create_dir_all(parent).map_err(io("create folder", parent))?;
+        }
+        crate::write_no_follow(&abs, bytes).map_err(io("create attachment", &abs))?;
+        Ok(self.refresh_path(&abs))
+    }
+
     /// Creates an empty folder (and its parents).
     pub fn create_folder(&mut self, path: &str) -> Result<(), OpError> {
         validate_path(path)?;
@@ -1018,5 +1029,38 @@ mod daily_tests {
             vault.daily_note_day("DD-MM-YYYY", "Journal", "Journal/Meeting.md", &at()),
             None
         );
+    }
+
+    #[test]
+    fn save_attachment_creates_file_and_folders() {
+        let (_dir, mut vault) = vault(&[], &[]);
+        let bytes = b"test attachment content";
+        let changes = vault
+            .save_attachment("Attachments/Sub/image.png", bytes)
+            .expect("attachment saved");
+        assert_eq!(changes.len(), 1);
+        assert_eq!(changes[0], crate::FileChange::Added("Attachments/Sub/image.png".to_string()));
+        assert!(vault.exists("Attachments/Sub/image.png"));
+        let abs = vault.root().join("Attachments/Sub/image.png");
+        let read = std::fs::read(&abs).expect("read attachment");
+        assert_eq!(read, bytes);
+    }
+
+    #[test]
+    fn attachment_folder_resolution_and_collision() {
+        use super::attachment_folder;
+        assert_eq!(attachment_folder(None, "Notes/Doc.md"), "");
+        assert_eq!(attachment_folder(Some("/"), "Notes/Doc.md"), "");
+        assert_eq!(attachment_folder(Some("./"), "Notes/Doc.md"), "Notes");
+        assert_eq!(attachment_folder(Some("./assets"), "Notes/Doc.md"), "Notes/assets");
+        assert_eq!(attachment_folder(Some("Assets"), "Notes/Doc.md"), "Assets");
+        assert_eq!(attachment_folder(Some("./assets"), "Root.md"), "assets");
+
+        let (_dir, mut vault) = vault(&["Attachments"], &["Attachments/Pasted image 20261101120000.png"]);
+        let folder = attachment_folder(Some("Attachments"), "Notes/Doc.md");
+        let available = vault.available_path(&folder, "Pasted image 20261101120000", "png");
+        assert_eq!(available, "Attachments/Pasted image 20261101120000 1.png");
+        let changes = vault.save_attachment(&available, b"image2").unwrap();
+        assert_eq!(changes, vec![crate::FileChange::Added("Attachments/Pasted image 20261101120000 1.png".into())]);
     }
 }

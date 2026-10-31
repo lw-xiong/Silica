@@ -1249,6 +1249,7 @@ impl<'a> Renderer<'a> {
                     .into_any_element()
             }
             RBlock::Math(text) => self.math_block(text, gap),
+            RBlock::Mermaid { id, text } => self.mermaid_block(*id, text, gap),
             RBlock::Footnotes(notes) => div()
                 .mt(px(base * 2.))
                 .pt(px(base))
@@ -1391,6 +1392,63 @@ impl<'a> Renderer<'a> {
                 .text_color(math::error_color())
                 .text_center()
                 .child(SharedString::from(tex.to_string()))
+                .into_any_element(),
+        }
+    }
+
+    fn mermaid_block(&self, id: usize, text: &str, gap: Pixels) -> AnyElement {
+        let t = self.theme;
+        let base = t.base_font_size;
+        let text = text.trim();
+        match crate::mermaid::render_mermaid(text, t.dark) {
+            Ok(image) => div()
+                .id(ElementId::Name(format!("mermaid-block:{id}").into()))
+                .mb(gap)
+                .py(px(base * 0.5))
+                .w_full()
+                .overflow_x_scroll()
+                .flex()
+                .flex_row()
+                .child(
+                    div()
+                        .mx_auto()
+                        .flex_shrink_0()
+                        .child(img(image).max_w_full().object_fit(ObjectFit::Contain)),
+                )
+                .into_any_element(),
+            Err(err) => div()
+                .id(ElementId::Name(format!("mermaid-err:{id}").into()))
+                .mb(gap)
+                .p_3()
+                .rounded_md()
+                .bg(t.code_bg)
+                .border_1()
+                .border_color(t.border)
+                .child(
+                    div()
+                        .text_size(px(base * 0.875))
+                        .text_color(crate::math::error_color())
+                        .font_weight(FontWeight::SEMIBOLD)
+                        .child("Mermaid syntax error"),
+                )
+                .child(
+                    div()
+                        .my_1()
+                        .text_size(px(base * 0.75))
+                        .text_color(t.text_muted)
+                        .child(SharedString::from(err)),
+                )
+                .child(
+                    div()
+                        .mt_2()
+                        .p_2()
+                        .rounded_sm()
+                        .bg(t.bg)
+                        .font_family(t.mono_font.clone())
+                        .text_size(px(base * 0.75))
+                        .text_color(t.text)
+                        .child(SharedString::from(text.to_string())),
+                )
                 .into_any_element(),
         }
     }

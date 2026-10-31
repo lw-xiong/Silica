@@ -66,6 +66,9 @@ notify = "8"
 # features embed the 14 standard fonts and the CMaps, so a PDF without its own
 # fonts renders the same on every machine without touching system fonts.
 hayro = "0.8"
+mermaid-rs-renderer = { version = "0.3.1", default-features = false }
+resvg = "0.45.1"
+usvg = "0.45.1"
 # RaTeX: a KaTeX-compatible TeX math engine in pure Rust, for `$x$` and `$$x$$`.
 # The parser and layout crates hand back a display list in em units that the
 # app paints with gpui; `ratex-katex-fonts` embeds the KaTeX faces (SIL OFL)
