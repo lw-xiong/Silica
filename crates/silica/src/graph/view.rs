@@ -2467,6 +2467,14 @@ mod tests {
         }
     }
 
+fn restored_defaults(config: &GraphConfig) -> GraphConfig {
+        GraphConfig {
+            show_tags: Some(false),
+            link_distance: config.link_distance.or(Some(250.0)),
+            ..config.clone()
+        }
+    }
+
     #[test]
     fn restore_keeps_the_panel_state_and_the_camera() {
         let mut config = GraphConfig {
