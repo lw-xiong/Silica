@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="300" viewBox="0 0 640 300" font-family="Inter, Helvetica, Arial, sans-serif">
+<rect width="640" height="300" rx="6" fill="#262626"/>
+<polygon points="100,230 280,80 340,80 520,230" fill="#5a2a1a" stroke="#2a150c"/>
+<polygon points="114,230 274,98 346,98 506,230" fill="#6f3620" stroke="#2a150c"/>
+<polygon points="128,230 268,116 352,116 492,230" fill="#7d4028" stroke="#2a150c"/>
+<polygon points="142,230 262,134 358,134 478,230" fill="#8b4a30" stroke="#2a150c"/>
+<polygon points="156,230 256,152 364,152 464,230" fill="#a0563a" stroke="#2a150c"/>
+<polygon points="170,230 250,170 370,170 450,230" fill="#b8653f" stroke="#2a150c"/>
+<path d="M 280 80 Q 310 112 340 80" fill="#262626" stroke="#2a150c"/>
+<rect x="304" y="100" width="12" height="130" fill="#e8590c"/>
+<path d="M 316 226 Q 420 226 470 222 L 630 222 L 630 232 L 318 232 Z" fill="#e8590c" opacity="0.85"/>
+<path d="M 470 222 Q 520 216 630 218 L 630 222 Z" fill="#8b8b8b" opacity="0.9"/>
+<rect x="0" y="230" width="640" height="70" fill="#333"/>
+<line x1="0" y1="230" x2="640" y2="230" stroke="#555"/>
+<path d="M 304 230 Q 310 262 316 230" fill="#e8590c"/>
+<path d="M 520 230 L 640 230 L 640 224 Q 560 220 520 228 Z" fill="#4a2a1e"/>
+<text x="310" y="66" fill="#dadada" font-size="12" text-anchor="middle">crater</text>
+<text x="150" y="150" fill="#dadada" font-size="12" text-anchor="end">bedded silica,</text>
+<text x="150" y="165" fill="#dadada" font-size="12" text-anchor="end">slopes at 30–33°</text>
+<text x="360" y="150" fill="#dadada" font-size="12" text-anchor="start">conduit</text>
+<line x1="358" y1="146" x2="318" y2="150" stroke="#9a9a9a"/>
+<text x="470" y="208" fill="#dadada" font-size="12" text-anchor="start">lava flow breaks out at the base</text>
+<text x="580" y="250" fill="#dadada" font-size="12" text-anchor="middle">tephra blanket</text>
+<text x="60" y="270" fill="#dadada" font-size="12" text-anchor="start">magma feeder</text>
+<line x1="150" y1="266" x2="304" y2="262" stroke="#9a9a9a"/>
+<text x="20" y="25" fill="#dadada" font-size="12" text-anchor="start">Cinder cone, cross-section</text>
+</svg>

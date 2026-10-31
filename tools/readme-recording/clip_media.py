@@ -1,0 +1,22 @@
+import sys, os, time; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from rec import Rec
+r = Rec("media"); r.reset()
+r.command("outline:open")
+r.open("Sunset Crater", mode="reading"); r.frame(2.0)
+r.scroll(500); r.frame(1.1)
+r.scroll(500); r.frame(1.4)
+r.open("TAS classification", mode="reading"); r.frame(2.0)
+r.scroll(380); r.frame(1.3)
+r.open("Vesiculation#Measuring it", mode="reading"); r.frame(1.8)
+r.click_row("Media"); r.frame(0.9)
+r.click_row("stromboli-night"); r.frame(2.0)
+# The canvas: fit the whole diagram, then zoom in far enough to read a card
+# and pan along the chain to the note and image nodes.
+r.click_row("Rock cycle"); r.idle(0.8)
+r.keys("shift-1"); r.idle(0.6); r.frame(2.0)
+r.keys("ctrl-=", "ctrl-="); r.idle(0.5); r.frame(1.8)
+r.scroll(0, dx=380); r.frame(1.8)
+r.scroll(0, dx=380); r.frame(2.0)
+r.command("graph:open"); r.idle(1.0); r.frame(0.8)
+time.sleep(2.5); r.idle(0.3); r.frame(2.4)
+r.done()

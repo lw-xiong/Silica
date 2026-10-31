@@ -1,0 +1,20 @@
+[package]
+name = "silica-bases"
+description = "The Bases expression language: statements parsed into the tree Obsidian parses them into"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+# One way only: `silica-formats` must never depend on this crate, or a writer
+# could route a statement through an AST and lose the file's own bytes.
+silica-formats = { workspace = true }
+chrono = { workspace = true }
+indexmap = { workspace = true }
+regex = { workspace = true }
+# A view's layout keys are the file's own YAML values, which is the type
+# `silica-formats` keeps them in; reading one needs no other parser.
+serde_yaml = { workspace = true }

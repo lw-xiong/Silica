@@ -1,0 +1,5 @@
+summaries:
+  broken: 'values.'
+views:
+  - type: table
+    name: BS

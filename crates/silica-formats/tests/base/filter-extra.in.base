@@ -1,0 +1,7 @@
+filters:
+  and:
+    - 'status != "done"'
+  weirdFilterKey: 1
+views:
+  - type: table
+    name: X

@@ -1,0 +1,513 @@
+{
+ "frameSettings": {
+  "fixtures": {
+   "startedAt": "2026-10-20T21:45:53.921Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 1,
+   "wrote": [
+    ".obsidian",
+    "Alpha.md",
+    "Beta.md"
+   ]
+  },
+  "run": {
+   "startedAt": "2026-10-20T21:45:55.105Z",
+   "steps": {
+    "s01-ribbon": {
+     "ok": true,
+     "ms": 2,
+     "chain": [
+      {
+       "cls": "clickable-icon side-dock-ribbon-action",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 47.99568557739258,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       },
+       "style": {
+        "width": "27.9741px",
+        "height": "23.9871px",
+        "padding": "4px 6px",
+        "margin": "0px 3.66379px",
+        "background-color": "rgba(0, 0, 0, 0)",
+        "border-right": "0px none rgb(179, 179, 179)",
+        "gap": "normal",
+        "flex-direction": "row"
+       }
+      },
+      {
+       "cls": "side-dock-actions",
+       "rect": {
+        "x": 3.9978444576263428,
+        "y": 47.99568557739258,
+        "w": 35.312496185302734,
+        "h": 203.8577423095703
+       },
+       "style": {
+        "width": "35.3125px",
+        "height": "203.858px",
+        "padding": "0px",
+        "margin": "0px",
+        "background-color": "rgba(0, 0, 0, 0)",
+        "border-right": "0px none rgb(179, 179, 179)",
+        "gap": "6px",
+        "flex-direction": "column"
+       }
+      },
+      {
+       "cls": "workspace-ribbon side-dock-ribbon mod-primary",
+       "rect": {
+        "x": 0,
+        "y": 39.999996185302734,
+        "w": 43.997840881347656,
+        "h": 759.9999389648438
+       },
+       "style": {
+        "width": "43.9978px",
+        "height": "760px",
+        "padding": "8px 4px 12px",
+        "margin": "40px 0px 0px",
+        "background-color": "rgb(40, 40, 40)",
+        "border-right": "0.689655px solid rgb(51, 51, 51)",
+        "gap": "4px",
+        "flex-direction": "column"
+       }
+      },
+      {
+       "cls": "workspace is-primary-sidedock-open is-left-sidedock-open",
+       "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1024.1378173828125,
+        "h": 799.9999389648438
+       },
+       "style": {
+        "width": "1024.14px",
+        "height": "800px",
+        "padding": "0px",
+        "margin": "0px",
+        "background-color": "rgba(0, 0, 0, 0)",
+        "border-right": "0px none rgb(218, 218, 218)",
+        "gap": "normal",
+        "flex-direction": "row"
+       }
+      },
+      {
+       "cls": "horizontal-main-container",
+       "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1024.1378173828125,
+        "h": 799.9999389648438
+       },
+       "style": {
+        "width": "1024.14px",
+        "height": "800px",
+        "padding": "0px",
+        "margin": "0px",
+        "background-color": "rgba(0, 0, 0, 0)",
+        "border-right": "0px none rgb(218, 218, 218)",
+        "gap": "normal",
+        "flex-direction": "row"
+       }
+      },
+      {
+       "cls": "app-container no-transition",
+       "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1024.1378173828125,
+        "h": 799.9999389648438
+       },
+       "style": {
+        "width": "1024.14px",
+        "height": "800px",
+        "padding": "0px",
+        "margin": "0px",
+        "background-color": "rgba(0, 0, 0, 0)",
+        "border-right": "0px none rgb(218, 218, 218)",
+        "gap": "normal",
+        "flex-direction": "column"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "aria": "Open quick switcher",
+       "icon": "svg-icon lucide-file-search",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 47.99568557739258,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       }
+      },
+      {
+       "aria": "Open graph view",
+       "icon": "svg-icon lucide-git-fork",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 77.97413635253906,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       }
+      },
+      {
+       "aria": "Create new canvas",
+       "icon": "svg-icon lucide-layout-dashboard",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 107.95257568359375,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       }
+      },
+      {
+       "aria": "Open today's daily note",
+       "icon": "svg-icon lucide-calendar",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 137.9310302734375,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       }
+      },
+      {
+       "aria": "Insert template",
+       "icon": "svg-icon lucide-files",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 167.9094696044922,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       }
+      },
+      {
+       "aria": "Open command palette",
+       "icon": "svg-icon lucide-terminal",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 197.88792419433594,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       }
+      },
+      {
+       "aria": "Create new base",
+       "icon": "svg-icon lucide-layout-list",
+       "rect": {
+        "x": 7.661637306213379,
+        "y": 227.86636352539062,
+        "w": 27.974136352539062,
+        "h": 23.98706817626953
+       }
+      }
+     ],
+     "settings": [
+      {
+       "cls": "side-dock-settings",
+       "aria": null,
+       "icon": null,
+       "rect": {
+        "x": 3.9978444576263428,
+        "y": 788.0064086914062,
+        "w": 35.312496185302734,
+        "h": 0
+       }
+      }
+     ]
+    },
+    "s02-frame-setting": {
+     "ok": false,
+     "ms": 7352,
+     "error": "Error: no frame setting among \n    at file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/frame-settings.mjs:95:21\n    at async step (file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/frame-settings.mjs:30:19)\n    at async file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/frame-settings.mjs:86:1",
+     "partial": {
+      "tabs": [],
+      "modalHtmlHead": null,
+      "items": []
+     }
+    },
+    "s03-light-theme": {
+     "ok": true,
+     "ms": 1612,
+     "dark": {
+      "bodyClass": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+      "vars": {
+       "--background-primary": "#1C1C1C",
+       "--background-primary-alt": "#232323",
+       "--background-secondary": "#282828",
+       "--background-secondary-alt": "#333333",
+       "--background-modifier-border": "#333333",
+       "--background-modifier-hover": "color-mix(in oklch, white 6.7%, transparent)",
+       "--background-modifier-active-hover": "color-mix(in oklch, hsl(258, 88%, 66%) 10%, transparent)",
+       "--text-normal": "#dadada",
+       "--text-muted": "#b3b3b3",
+       "--text-faint": "#666666",
+       "--text-accent": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--text-accent-hover": "hsl(calc(258 - 5), calc(88% * 1.05), calc(66% * 1.29))",
+       "--text-on-accent": "white",
+       "--interactive-accent": "hsl(258, 88%, 66%)",
+       "--interactive-normal": "#333333",
+       "--interactive-hover": "#3f3f3f",
+       "--tab-container-background": "#282828",
+       "--titlebar-background": "#282828",
+       "--titlebar-text-color": "#b3b3b3",
+       "--titlebar-text-color-focused": "#dadada",
+       "--status-bar-background": "#282828",
+       "--status-bar-text-color": "#b3b3b3",
+       "--tab-text-color": "#666666",
+       "--tab-text-color-active": "#b3b3b3",
+       "--tab-text-color-focused": "#b3b3b3",
+       "--tab-text-color-focused-active": "#b3b3b3",
+       "--tab-background-active": "#1C1C1C",
+       "--sidebar-tab-text-color": "",
+       "--sidebar-tab-text-color-active": "",
+       "--sidebar-tab-background-active": "",
+       "--nav-item-color": "#b3b3b3",
+       "--nav-item-color-hover": "#dadada",
+       "--nav-item-color-active": "#dadada",
+       "--nav-item-background-active": "color-mix(in oklch, white 6.7%, transparent)",
+       "--nav-item-background-hover": "color-mix(in oklch, white 6.7%, transparent)",
+       "--icon-color": "#b3b3b3",
+       "--icon-color-hover": "#b3b3b3",
+       "--icon-color-active": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--icon-color-focused": "#dadada",
+       "--clickable-icon-radius": "4px",
+       "--divider-color": "#333333",
+       "--divider-width": "1px",
+       "--divider-color-hover": "hsl(258, 88%, 66%)",
+       "--divider-width-hover": "3px",
+       "--link-color": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--link-color-hover": "hsl(calc(258 - 5), calc(88% * 1.05), calc(66% * 1.29))",
+       "--tag-color": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--tag-background": "color-mix(in oklch, hsl(258, 88%, 66%) 10%, transparent)",
+       "--code-background": "#232323",
+       "--text-highlight-bg": "",
+       "--text-selection": "color-mix(in oklch, hsl(258, 88%, 66%) 33%, transparent)",
+       "--scrollbar-thumb-bg": "color-mix(in oklch, white 10%, transparent)",
+       "--window-border-radius": "",
+       "--titlebar-height": "30px",
+       "--header-height": "40px",
+       "--tab-radius-active": "10px 10px 0 0",
+       "--tab-curve": "10px",
+       "--tab-width": "200px",
+       "--tab-max-width": "320px",
+       "--color-base-00": "#1C1C1C",
+       "--color-base-10": "#232323",
+       "--color-base-20": "#282828",
+       "--color-base-25": "#2e2e2e",
+       "--color-base-30": "#333333",
+       "--color-base-35": "#3f3f3f",
+       "--color-base-40": "#555555",
+       "--color-base-50": "#666666",
+       "--color-base-60": "#999999",
+       "--color-base-70": "#b3b3b3",
+       "--color-base-100": "#dadada",
+       "--color-accent": "hsl(258, 88%, 66%)",
+       "--color-accent-1": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--color-accent-2": "hsl(calc(258 - 5), calc(88% * 1.05), calc(66% * 1.29))",
+       "--accent-h": "258",
+       "--accent-s": "88%",
+       "--accent-l": "66%"
+      },
+      "bodyBg": "rgb(28, 28, 28)",
+      "bodyColor": "rgb(218, 218, 218)",
+      "tabBg": "rgb(40, 40, 40)",
+      "activeTabBg": "rgb(28, 28, 28)",
+      "rootBg": "rgb(28, 28, 28)",
+      "leftBg": "rgb(40, 40, 40)",
+      "border": "0.689655px solid rgb(51, 51, 51)",
+      "handleBorder": "0.689655px solid rgb(51, 51, 51)",
+      "statusBg": "rgb(40, 40, 40)",
+      "statusBorder": "0.689655px solid rgb(51, 51, 51)",
+      "statusRadius": "8px 0px 0px",
+      "navActive": null,
+      "ribbonBg": "rgb(40, 40, 40)",
+      "ribbonBorder": "0.689655px solid rgb(51, 51, 51)"
+     },
+     "light": {
+      "bodyClass": "mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused theme-light",
+      "vars": {
+       "--background-primary": "#ffffff",
+       "--background-primary-alt": "#fafafa",
+       "--background-secondary": "#f6f6f6",
+       "--background-secondary-alt": "#fcfcfc",
+       "--background-modifier-border": "#e4e4e4",
+       "--background-modifier-hover": "color-mix(in oklch, black 6.7%, transparent)",
+       "--background-modifier-active-hover": "color-mix(in oklch, hsl(calc(258 - 1), calc(88% * 1.01), calc(66% * 1.075)) 10%, transparent)",
+       "--text-normal": "#222222",
+       "--text-muted": "#5c5c5c",
+       "--text-faint": "#ababab",
+       "--text-accent": "hsl(258, 88%, 66%)",
+       "--text-accent-hover": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--text-on-accent": "white",
+       "--interactive-accent": "hsl(calc(258 - 1), calc(88% * 1.01), calc(66% * 1.075))",
+       "--interactive-normal": "#ffffff",
+       "--interactive-hover": "#fafafa",
+       "--tab-container-background": "#f6f6f6",
+       "--titlebar-background": "#f6f6f6",
+       "--titlebar-text-color": "#5c5c5c",
+       "--titlebar-text-color-focused": "#222222",
+       "--status-bar-background": "#f6f6f6",
+       "--status-bar-text-color": "#5c5c5c",
+       "--tab-text-color": "#ababab",
+       "--tab-text-color-active": "#5c5c5c",
+       "--tab-text-color-focused": "#5c5c5c",
+       "--tab-text-color-focused-active": "#5c5c5c",
+       "--tab-background-active": "#ffffff",
+       "--sidebar-tab-text-color": "",
+       "--sidebar-tab-text-color-active": "",
+       "--sidebar-tab-background-active": "",
+       "--nav-item-color": "#5c5c5c",
+       "--nav-item-color-hover": "#222222",
+       "--nav-item-color-active": "#222222",
+       "--nav-item-background-active": "color-mix(in oklch, black 6.7%, transparent)",
+       "--nav-item-background-hover": "color-mix(in oklch, black 6.7%, transparent)",
+       "--icon-color": "#5c5c5c",
+       "--icon-color-hover": "#5c5c5c",
+       "--icon-color-active": "hsl(258, 88%, 66%)",
+       "--icon-color-focused": "#222222",
+       "--clickable-icon-radius": "4px",
+       "--divider-color": "#e4e4e4",
+       "--divider-width": "1px",
+       "--divider-color-hover": "hsl(calc(258 - 1), calc(88% * 1.01), calc(66% * 1.075))",
+       "--divider-width-hover": "3px",
+       "--link-color": "hsl(258, 88%, 66%)",
+       "--link-color-hover": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--tag-color": "hsl(258, 88%, 66%)",
+       "--tag-background": "color-mix(in oklch, hsl(calc(258 - 1), calc(88% * 1.01), calc(66% * 1.075)) 10%, transparent)",
+       "--code-background": "#fafafa",
+       "--text-highlight-bg": "",
+       "--text-selection": "color-mix(in oklch, hsl(calc(258 - 1), calc(88% * 1.01), calc(66% * 1.075)) 20%, transparent)",
+       "--scrollbar-thumb-bg": "color-mix(in oklch, black 10%, transparent)",
+       "--window-border-radius": "",
+       "--titlebar-height": "30px",
+       "--header-height": "40px",
+       "--tab-radius-active": "10px 10px 0 0",
+       "--tab-curve": "10px",
+       "--tab-width": "200px",
+       "--tab-max-width": "320px",
+       "--color-base-00": "#ffffff",
+       "--color-base-10": "#fafafa",
+       "--color-base-20": "#f6f6f6",
+       "--color-base-25": "#efefef",
+       "--color-base-30": "#e4e4e4",
+       "--color-base-35": "#dadada",
+       "--color-base-40": "#bdbdbd",
+       "--color-base-50": "#ababab",
+       "--color-base-60": "#707070",
+       "--color-base-70": "#5c5c5c",
+       "--color-base-100": "#222222",
+       "--color-accent": "hsl(258, 88%, 66%)",
+       "--color-accent-1": "hsl(calc(258 - 1), calc(88% * 1.01), calc(66% * 1.075))",
+       "--color-accent-2": "hsl(calc(258 - 3), calc(88% * 1.02), calc(66% * 1.15))",
+       "--accent-h": "258",
+       "--accent-s": "88%",
+       "--accent-l": "66%"
+      },
+      "bodyBg": "rgb(255, 255, 255)",
+      "bodyColor": "rgb(34, 34, 34)",
+      "tabBg": "rgb(246, 246, 246)",
+      "activeTabBg": "rgb(255, 255, 255)",
+      "rootBg": "rgb(255, 255, 255)",
+      "leftBg": "rgb(246, 246, 246)",
+      "border": "0.689655px solid rgb(228, 228, 228)",
+      "handleBorder": "0.689655px solid rgb(228, 228, 228)",
+      "statusBg": "rgb(246, 246, 246)",
+      "statusBorder": "0.689655px solid rgb(228, 228, 228)",
+      "statusRadius": "8px 0px 0px",
+      "navActive": null,
+      "ribbonBg": "rgb(246, 246, 246)",
+      "ribbonBorder": "0.689655px solid rgb(228, 228, 228)"
+     },
+     "lightAppearance": "{}",
+     "hover": {
+      "hover": "color-mix(in oklch, white 6.7%, transparent)",
+      "activeHover": "color-mix(in oklch, hsl(258, 88%, 66%) 10%, transparent)",
+      "iconHover": "#b3b3b3",
+      "navHover": "color-mix(in oklch, white 6.7%, transparent)"
+     }
+    },
+    "s04-restart-with-obsidian-frame": {
+     "ok": false,
+     "ms": 6896,
+     "error": "Error: no option to leave on\n    at file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/frame-settings.mjs:136:22\n    at async step (file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/frame-settings.mjs:30:19)\n    at async file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/frame-settings.mjs:127:1",
+     "partial": {}
+    }
+   },
+   "order": [
+    "s01-ribbon",
+    "s02-frame-setting",
+    "s03-light-theme",
+    "s04-restart-with-obsidian-frame"
+   ],
+   "elapsedMs": 15911,
+   "vaultPath": "/tmp/silica-probe-vault.3CDhEt"
+  },
+  "after-restart": {
+   "startedAt": "2026-10-20T21:46:14.626Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 51,
+   "vaultPath": "/tmp/silica-probe-vault.3CDhEt",
+   "restart": {
+    "bodyClass": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+    "appearance": "{\n  \"theme\": \"obsidian\"\n}",
+    "titlebar": {
+     "x": 0,
+     "y": 0,
+     "w": 1024.1378173828125,
+     "h": 38.997840881347656
+    },
+    "text": "New tab - silica-probe-vault.3CDhEt - Obsidian 1.14.4",
+    "buttons": [
+     {
+      "cls": "titlebar-button mod-logo",
+      "rect": {
+       "x": 0,
+       "y": 0,
+       "w": 0,
+       "h": 0
+      }
+     },
+     {
+      "cls": "titlebar-button mod-minimize",
+      "rect": {
+       "x": 892.208984375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-maximize",
+      "rect": {
+       "x": 936.185302734375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-close",
+      "rect": {
+       "x": 980.1615600585938,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     }
+    ],
+    "rootHeader": {
+     "x": 343.9978332519531,
+     "y": 0,
+     "w": 680.1400146484375,
+     "h": 39.999996185302734
+    },
+    "rootHeaderPadding": "0px 134px 0px 8px"
+   }
+  }
+ }
+}

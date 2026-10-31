@@ -1,0 +1,378 @@
+/* silica.cc — the site's own skin over the shared ragtux.com stylesheet.
+
+   shared/site.css is vendored byte for byte from the ragtux.com repository, so
+   every departure from it lives here, loaded after it. What this sheet changes:
+
+   - Inter instead of Fira Sans, the same faces the application bundles
+     (crates/silica/assets/fonts), so the manual and the app read as one thing.
+   - A near-black warm neutral ramp in place of the blue-grey one, and paper
+     rather than white in the light theme.
+   - Chrome removed: cards lose their fill and their box and keep one hairline
+     rule above them, section rules run the full width of the window, and radii
+     drop to 3 px. Structure comes from the lines and the whitespace, not from
+     panels stacked on panels.
+   - Display type set tight and large; every micro-label — card kickers,
+     sidebar headings, badges, the code-block language — set in the mono face,
+     uppercase and tracked out.
+   - The accent is spent sparingly: links, kickers and the mark. The loud
+     actions are ink on paper, inverted, rather than orange buttons, so the one
+     orange thing on a page is the thing worth looking at.
+
+   The accent hues themselves are the ones fixed in the repository's vault
+   (docs/silica/Silica.md, 2026-10-17) and are not changed here: #E8590C for
+   the logo and large marks, #C2410C for text and links on light backgrounds,
+   #F2691F on the dark theme. Against the backgrounds below they measure 5.0:1
+   on the paper and 6.3:1 on the near-black — the dark theme gains over the
+   5.4:1 the vault records against the old #1e1e22, the light one gives up .2
+   of the 5.2:1 it has on pure white. Both clear AA for body text. */
+
+/* ---------- the faces ----------
+   Subset to Latin plus the punctuation, arrows and marks the content uses, from
+   the TTFs in crates/silica/assets/fonts. 400/500/600 and one italic: 700 maps
+   to 600 on purpose, because Inter's SemiBold is already the weight the
+   headings want and a fourth upright face is 26 KB for nothing. */
+@font-face { font-family:'InterS'; font-style:normal; font-weight:400; font-display:swap; src:url(fonts/inter-400.woff2) format('woff2'); }
+@font-face { font-family:'InterS'; font-style:italic; font-weight:400; font-display:swap; src:url(fonts/inter-400-italic.woff2) format('woff2'); }
+@font-face { font-family:'InterS'; font-style:normal; font-weight:500; font-display:swap; src:url(fonts/inter-500.woff2) format('woff2'); }
+@font-face { font-family:'InterS'; font-style:normal; font-weight:600; font-display:swap; src:url(fonts/inter-600.woff2) format('woff2'); }
+
+/* ---------- tokens ---------- */
+:root {
+  --font:'InterS', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono:'Fira Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* The page is held narrower than the shared default: a marketing column at
+     1120 px keeps the hero's measure honest. Manual pages keep 1480. */
+  --page:1120px;
+  --bar:60px;
+  --measure:70ch;
+  --r:3px;
+
+  /* dark, the default: near-black with a warm cast rather than blue-grey */
+  --bg:#0b0b0c; --panel:#111112; --raise:#17171a; --border:#232327; --widget:#1a1a1d;
+  --text:#e7e5e2; --dim:#8b8984; --head:#faf9f7;
+  --shadow:0 18px 50px rgba(0,0,0,.55);
+
+  --brand:#E8590C;
+  --accent:#F2691F; --accent-fg:#0b0b0c; --accent-soft:rgba(242,105,31,.13);
+  /* --pop, orange in the shared sheet, is red here: it marks warnings, and
+     beside an orange accent an orange warning stops reading as one. */
+  --pop:#f2545b; --c-source:#d98324; --c-depth:#3fb27f;
+}
+:root[data-theme="light"] {
+  --bg:#fbfaf8; --panel:#fff; --raise:#f2f0ec; --border:#e5e2db; --widget:#f2f0ec;
+  --text:#1a1a1c; --dim:#6b6861; --head:#0c0c0d;
+  --shadow:0 18px 50px rgba(30,25,18,.10);
+  --accent:#C2410C; --accent-fg:#fff; --accent-soft:rgba(194,65,12,.09);
+  --pop:#c0392b; --c-source:#9a5a00; --c-depth:#157a52;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:#fbfaf8; --panel:#fff; --raise:#f2f0ec; --border:#e5e2db; --widget:#f2f0ec;
+    --text:#1a1a1c; --dim:#6b6861; --head:#0c0c0d;
+    --shadow:0 18px 50px rgba(30,25,18,.10);
+    --accent:#C2410C; --accent-fg:#fff; --accent-soft:rgba(194,65,12,.09);
+    --pop:#c0392b; --c-source:#9a5a00; --c-depth:#157a52;
+  }
+}
+
+/* ---------- base ----------
+   overflow-x:clip, not hidden, because the section rules below run 100vw wide
+   and hidden would take the sticky top bar and sidebar down with it. */
+body {
+  overflow-x:clip;
+  font-size:16px; line-height:1.7;
+  font-feature-settings:'liga' 1, 'calt' 1, 'cv05' 1;
+  letter-spacing:-.003em;
+}
+html { scroll-padding-top:calc(var(--bar) + 20px); }
+::selection { background:var(--accent-soft); }
+
+/* The shared sheet's micro-label idiom, restated in the mono face. Card
+   kickers, rail headings, badges and chips all come from here. */
+.card .k, .side-group h4, .toc h4, .hero .badge, .code-lang, .tag, .stat span {
+  font-family:var(--mono); font-weight:400;
+}
+
+/* ---------- the shell, held narrower ---------- */
+.shell { max-width:var(--page); padding:0 28px; }
+.topbar .bar, .footer .bar { max-width:var(--page); padding:0 28px; height:var(--bar); }
+main { padding:0 0 96px; }
+html[data-layout="doc"] main { padding-top:38px; }
+
+/* ---------- top bar ---------- */
+.topbar {
+  background:color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter:blur(14px) saturate(140%);
+}
+/* The wordmark in normal case, tight, the way a product signs itself; the
+   shared sheet's tracked-out uppercase belongs to ragtux.com. */
+.wordmark {
+  font-size:17.5px; font-weight:600; letter-spacing:-.02em; text-transform:none; gap:8px;
+}
+.wordmark-mark { height:1.35em; }
+.wordmark:hover { color:var(--head); }
+.mainnav a { font-size:14px; border-radius:var(--r); color:var(--dim); padding:5px 9px; }
+.mainnav a.on { background:transparent; color:var(--head); }
+.bar-right { gap:8px; }
+.search input, .theme-btn, .menu-btn { border-radius:var(--r); }
+.search input { font-size:13.5px; background:transparent; }
+.search input:focus { border-color:var(--dim); background:var(--widget); }
+.search .results { border-radius:var(--r); }
+.search .results a { border-radius:var(--r); }
+
+/* ---------- actions ----------
+   Ink on paper, inverted, for the one action that matters on a page; a hairline
+   for the rest. Orange stays on the links and the kickers. */
+.btn, .cta {
+  border-radius:var(--r); font-weight:500; letter-spacing:-.01em;
+  background:transparent; border:1px solid var(--border); color:var(--text);
+  transition:border-color .12s, background-color .12s, color .12s;
+}
+.btn { padding:11px 19px; font-size:14.5px; }
+.cta { padding:6px 13px; font-size:13.5px; }
+.btn:hover, .cta:hover { border-color:var(--dim); color:var(--head); background:var(--raise); filter:none; }
+.btn.primary, .cta {
+  background:var(--head); border-color:var(--head); color:var(--bg); font-weight:500;
+}
+.btn.primary:hover, .cta:hover {
+  background:var(--text); border-color:var(--text); color:var(--bg); filter:none;
+}
+.btn-row { gap:10px; }
+
+/* ---------- prose ---------- */
+.prose h1, .prose h2, .prose h3, .prose h4 { font-weight:600; }
+.prose h1 { font-size:clamp(2rem, 4vw, 2.6rem); letter-spacing:-.036em; line-height:1.08; margin:.1em 0 .6em; }
+.prose h2 {
+  font-size:1.42rem; letter-spacing:-.026em; line-height:1.2;
+  margin:2.6em 0 .7em; padding-top:1.1em; border-top:1px solid var(--border);
+}
+.prose h3 { font-size:1.1rem; letter-spacing:-.02em; margin:2em 0 .5em; }
+.prose h4 { font-size:.97rem; letter-spacing:-.012em; color:var(--dim); margin:1.6em 0 .4em; }
+.prose p { margin:0 0 1.15em; }
+/* Body links underlined, thin and offset — readable in a paragraph without
+   the accent having to carry the whole job. */
+.prose p > a, .prose li > a, .prose td > a {
+  text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.22em;
+  text-decoration-color:color-mix(in srgb, var(--accent) 38%, transparent);
+}
+.prose p > a:hover, .prose li > a:hover, .prose td > a:hover { text-decoration-color:var(--accent); }
+.prose strong { font-weight:600; }
+.prose blockquote { border-left-width:2px; padding-left:1.3em; }
+.prose img { border-radius:var(--r); }
+.prose hr { margin:3em 0; }
+
+.prose code { border-radius:var(--r); font-size:.86em; background:var(--raise); }
+.prose figure.code pre { border-radius:var(--r); padding:16px 18px; background:var(--panel); }
+.prose figure.code code { font-size:13px; }
+.code-lang {
+  border-radius:var(--r); background:var(--bg); font-size:9.5px; letter-spacing:.13em;
+  padding:1px 7px;
+}
+
+.table-scroll { border-radius:var(--r); }
+.prose table { font-size:14px; }
+.prose th, .prose td { padding:10px 14px; }
+.prose thead th {
+  background:transparent; border-bottom:1px solid var(--border);
+  font-family:var(--mono); font-weight:400; font-size:11.5px;
+  letter-spacing:.07em; text-transform:uppercase; color:var(--dim);
+}
+
+.prose .callout { border-radius:0; border:0; border-left:2px solid var(--accent); background:transparent; padding:2px 0 2px 20px; }
+.prose .callout .callout-label { font-family:var(--mono); font-weight:400; font-size:11px; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.5em; }
+
+/* ---------- the rails ---------- */
+.sidebar, .toc { top:var(--bar); max-height:calc(100vh - var(--bar)); }
+.sidebar { font-size:13.5px; padding-top:38px; }
+.side-group { margin-bottom:26px; }
+.side-group h4, .toc h4 { font-size:10px; letter-spacing:.14em; color:var(--dim); font-weight:400; margin-bottom:9px; }
+.side-group li a, .toc li a { padding-top:4.5px; padding-bottom:4.5px; }
+.side-group li a.on { font-weight:500; }
+.toc { padding-top:42px; font-size:12.5px; }
+
+/* ---------- pager and footer ---------- */
+.pager { gap:12px; margin-top:72px; }
+.pg { border-radius:var(--r); padding:14px 18px; }
+.pg:hover { border-color:var(--dim); }
+.pg b { font-weight:500; letter-spacing:-.015em; }
+.pg .small { font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; }
+.edit { margin-top:48px; font-family:var(--mono); font-size:11.5px; }
+
+.footer { background:transparent; margin-top:0; }
+.footer .bar { height:auto; padding-top:26px; padding-bottom:40px; gap:20px; }
+.foot-links { gap:18px; font-size:13px; }
+.foot-links a:hover { color:var(--head); }
+
+/* ---------- hero ---------- */
+.hero { padding:104px 0 88px; }
+/* The repository's own mark, which carries its colours whatever the theme —
+   the point of a brand mark. The shared sheet frames .prose img for
+   screenshots; a logo is not one, and it needs its own line. */
+.hero .mark {
+  display:block; width:72px; height:auto; margin:0 0 26px;
+  border:0; border-radius:0;
+}
+.hero h1 {
+  font-size:clamp(2.6rem, 6.4vw, 4.4rem); line-height:1.0; letter-spacing:-.04em;
+  font-weight:600; max-width:18ch; margin:0 0 .32em;
+}
+.hero .lede {
+  font-size:clamp(1.05rem, 1.9vw, 1.26rem); line-height:1.6; letter-spacing:-.011em;
+  color:var(--dim); max-width:58ch; margin:0 0 2em;
+}
+.hero .badge {
+  font-size:10.5px; letter-spacing:.13em; border-radius:var(--r);
+  border-color:var(--border); color:var(--dim); padding:4px 9px; margin-bottom:26px;
+}
+/* An alpha says so in the warning colour: the shared .badge is green, which
+   reads as "ready". */
+.hero .badge.pre { color:var(--pop); border-color:color-mix(in srgb, var(--pop) 40%, transparent); }
+
+/* ---------- sections ----------
+   One hairline per section, running the full width of the window rather than
+   stopping at the content column. The rule is the only furniture a section
+   gets; the rest is air. */
+.band { padding:88px 0; border-top:0; position:relative; }
+.band::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:100vw; height:1px; background:var(--border); pointer-events:none;
+}
+/* A band heading is a section opener, not a rule in a manual: the hairline
+   and the top padding .prose h2 carries come off again. */
+.band > h2 {
+  font-size:clamp(1.6rem, 3vw, 2.1rem); font-weight:600; letter-spacing:-.032em;
+  line-height:1.12; margin:0 0 .5em; max-width:26ch;
+  border-top:0; padding-top:0;
+}
+.band > .lede {
+  font-size:1.08rem; line-height:1.65; letter-spacing:-.008em;
+  color:var(--dim); max-width:66ch; margin:0 0 3em;
+}
+
+/* ---------- cards, unboxed ----------
+   A rule above, the kicker in mono, the heading tight. Dropping the box is
+   what wrapping-proofs the grid: there are no part-filled rows of chrome when
+   four cards land in three columns. */
+.grid { gap:40px 44px; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr)); }
+.card {
+  padding:20px 0 0; background:transparent; border:0; border-radius:0;
+  border-top:1px solid var(--border);
+}
+.card .k {
+  font-size:10.5px; letter-spacing:.13em; color:var(--accent);
+  margin-bottom:1.1em; display:block;
+}
+.card h3 {
+  font-size:1.09rem; font-weight:600; letter-spacing:-.021em; line-height:1.3;
+  margin:0 0 .55em; color:var(--head);
+}
+.card p { font-size:14.5px; line-height:1.68; color:var(--dim); }
+.card p a { color:var(--accent); }
+
+/* Chips: hairline and lettered, never filled, so a "Planned" never shouts as
+   loud as the sentence it qualifies. */
+.tag {
+  background:transparent; border:1px solid var(--border); color:var(--dim);
+  border-radius:var(--r); font-size:9.5px; letter-spacing:.12em; padding:2px 7px;
+  font-weight:400; vertical-align:.16em;
+}
+.tag.now { background:transparent; color:var(--c-depth); border-color:color-mix(in srgb, var(--c-depth) 42%, transparent); }
+.tag.soon { background:transparent; color:var(--dim); border-color:var(--border); }
+
+/* ---------- numbers ----------
+   A single row divided by hairlines, the figures large and tabular. */
+.stats {
+  gap:0; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+  border-top:1px solid var(--border);
+}
+.stat {
+  padding:26px 28px 4px; background:transparent; border:0; border-radius:0;
+  border-left:1px solid var(--border);
+}
+.stat:first-child { border-left:0; padding-left:0; }
+.stat b {
+  font-size:clamp(1.9rem, 3.4vw, 2.5rem); font-weight:600; letter-spacing:-.04em;
+  line-height:1.05; color:var(--head); font-variant-numeric:tabular-nums;
+}
+.stat span {
+  font-size:11.5px; line-height:1.55; letter-spacing:.02em; color:var(--dim);
+  margin-top:.9em; max-width:26ch;
+}
+
+/* ---------- download and pricing cards ----------
+   These two keep their box: they are things to act on, and a bounded card is
+   how a reader knows where one platform's instructions end. */
+.dl, .tier { border-radius:var(--r); background:transparent; border-color:var(--border); padding:26px; }
+.dl:hover, .tier:hover { border-color:var(--dim); }
+/* The margin is restated because .prose h3 above sets one for manual pages,
+   and a card heading starts at the top of its card. */
+.dl h3, .tier h3 { font-weight:600; letter-spacing:-.022em; margin:0 0 .4em; }
+.dl .os { font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; }
+.dl .btn { border-radius:var(--r); }
+.dl ul { font-size:13.5px; line-height:1.65; }
+.tier.featured { box-shadow:none; border-color:var(--accent); }
+.tier .price { letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+
+/* ---------- screenshots and recordings ----------
+   The README's own captures (docs/img/app, copied in by `just site-media`).
+   A figure is the full column width with its caption under it in the small
+   dim face, and the image carries its intrinsic size in the markup so the
+   page does not reflow when a 900 KB recording finally arrives. */
+figure.shot { margin:40px 0 0; }
+.hero figure.shot { margin-top:52px; }
+figure.shot img {
+  display:block; width:100%; height:auto;
+  border:1px solid var(--border); border-radius:var(--r); background:var(--panel);
+}
+figure.shot figcaption {
+  margin-top:14px; max-width:68ch;
+  font-size:13.5px; line-height:1.6; color:var(--dim);
+}
+
+/* platform.js swaps the hero's download buttons after the first paint; without
+   this the swapped button animates its background in from the hairline style
+   and reads as a glitch. Hover keeps its transition — the class is gone by the
+   next frame. */
+.btn-row.dl-switching .btn { transition:none; }
+
+/* The visitor's own platform, marked by platform.js: the accent border a
+   download card gets on hover, kept lit, and a chip in the heading. Entirely
+   additive — the card reads the same without it. */
+.dl[data-you] { border-color:var(--accent); }
+.dl[data-you] h3::after {
+  content:'Yours'; margin-left:.6em; vertical-align:.18em;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.12em;
+  color:var(--accent); border:1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  border-radius:var(--r); padding:2px 7px; font-weight:400;
+}
+
+/* ---------- the status note ---------- */
+.notice {
+  border-radius:0; border:0; border-left:2px solid var(--accent);
+  background:transparent; padding:2px 0 2px 20px; margin:0 0 3em;
+  font-size:15px; line-height:1.68; max-width:70ch;
+}
+.notice strong { font-weight:600; }
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px) {
+  html[data-layout="doc"] .topbar .bar, html[data-layout="doc"] .footer .bar { max-width:1480px; }
+}
+@media (max-width:880px) {
+  .shell, .topbar .bar, .footer .bar { padding:0 20px; }
+  .mainnav { inset:var(--bar) 0 auto 0; }
+  .sidebar { inset:var(--bar) 0 0 0; padding:20px 20px 60px; }
+  .hero { padding:64px 0 52px; }
+  .hero h1 { max-width:none; }
+  .band { padding:60px 0; }
+  .band > .lede { margin-bottom:2.2em; }
+  .grid { gap:32px; }
+}
+@media (max-width:660px) {
+  /* One number per row: the hairline that divided the columns becomes the rule
+     above each figure. */
+  .stats { grid-template-columns:1fr; border-top:0; }
+  .stat { border-left:0; border-top:1px solid var(--border); padding:20px 0 4px; }
+  .stat:first-child { border-top:1px solid var(--border); }
+}

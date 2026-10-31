@@ -1,0 +1,17 @@
+[package]
+name = "silica-mcp"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish = false
+
+[[bin]]
+name = "silica-mcp"
+path = "src/main.rs"
+
+[dependencies]
+silica-control.workspace = true
+serde.workspace = true
+serde_json.workspace = true

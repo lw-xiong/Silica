@@ -1,0 +1,204 @@
+{
+	"nodes": [
+		{
+			"id": "magma",
+			"type": "text",
+			"x": -760,
+			"y": -60,
+			"width": 260,
+			"height": 120,
+			"text": "# Magma\nBasaltic melt with dissolved H\u2082O and CO\u2082, rising from depth.",
+			"color": "1"
+		},
+		{
+			"id": "vesic",
+			"type": "text",
+			"x": -400,
+			"y": -60,
+			"width": 260,
+			"height": 120,
+			"text": "# Vesiculation\nPressure drops, bubbles nucleate, grow and coalesce.\n\n[[Vesiculation]]",
+			"color": "2"
+		},
+		{
+			"id": "strom",
+			"type": "text",
+			"x": -40,
+			"y": -220,
+			"width": 280,
+			"height": 120,
+			"text": "# Strombolian burst\nA gas slug breaks the lava surface and throws out clots.\n\n[[Strombolian eruptions]]",
+			"color": "3"
+		},
+		{
+			"id": "flow",
+			"type": "text",
+			"x": -40,
+			"y": 100,
+			"width": 280,
+			"height": 120,
+			"text": "# Lava flow\nDegassed melt leaves the vent at the base of the cone.\n\n[[Basalt]]",
+			"color": "4"
+		},
+		{
+			"id": "img-strom",
+			"type": "file",
+			"x": 300,
+			"y": -300,
+			"width": 320,
+			"height": 240,
+			"file": "Media/stromboli-night.jpg"
+		},
+		{
+			"id": "silica",
+			"type": "file",
+			"x": 300,
+			"y": -40,
+			"width": 300,
+			"height": 200,
+			"file": "Rocks/Silica.md",
+			"color": "1"
+		},
+		{
+			"id": "img-silica",
+			"type": "file",
+			"x": 660,
+			"y": -300,
+			"width": 320,
+			"height": 240,
+			"file": "Media/silica-macro.jpg"
+		},
+		{
+			"id": "cone",
+			"type": "file",
+			"x": 660,
+			"y": -40,
+			"width": 300,
+			"height": 200,
+			"file": "Volcanoes/Cinder cone.md"
+		},
+		{
+			"id": "img-cone",
+			"type": "file",
+			"x": 1020,
+			"y": -300,
+			"width": 320,
+			"height": 240,
+			"file": "Media/sunset-crater.jpg"
+		},
+		{
+			"id": "columns",
+			"type": "file",
+			"x": 300,
+			"y": 220,
+			"width": 300,
+			"height": 200,
+			"file": "Processes/Columnar jointing.md",
+			"color": "5"
+		},
+		{
+			"id": "img-columns",
+			"type": "file",
+			"x": 660,
+			"y": 220,
+			"width": 320,
+			"height": 240,
+			"file": "Media/giants-causeway.jpg"
+		},
+		{
+			"id": "note",
+			"type": "text",
+			"x": 1020,
+			"y": -40,
+			"width": 320,
+			"height": 200,
+			"text": "> [!tip] The same lava, three fates\n> Thrown out hot and gas-rich: **silica**. Flowed out and ponded: **columnar basalt**. Fountained to 500 m: **reticulite**.\n\n[[Reticulite]]",
+			"color": "6"
+		}
+	],
+	"edges": [
+		{
+			"id": "e1",
+			"fromNode": "magma",
+			"fromSide": "right",
+			"toNode": "vesic",
+			"toSide": "left",
+			"label": "decompression"
+		},
+		{
+			"id": "e2",
+			"fromNode": "vesic",
+			"fromSide": "right",
+			"toNode": "strom",
+			"toSide": "left",
+			"label": "gas-rich"
+		},
+		{
+			"id": "e3",
+			"fromNode": "vesic",
+			"fromSide": "right",
+			"toNode": "flow",
+			"toSide": "left",
+			"label": "gas-poor"
+		},
+		{
+			"id": "e4",
+			"fromNode": "strom",
+			"fromSide": "right",
+			"toNode": "silica",
+			"toSide": "left",
+			"label": "quenches in the air"
+		},
+		{
+			"id": "e5",
+			"fromNode": "silica",
+			"fromSide": "right",
+			"toNode": "cone",
+			"toSide": "left",
+			"label": "piles up"
+		},
+		{
+			"id": "e6",
+			"fromNode": "flow",
+			"fromSide": "right",
+			"toNode": "columns",
+			"toSide": "left",
+			"label": "cools slowly"
+		},
+		{
+			"id": "e7",
+			"fromNode": "silica",
+			"fromSide": "top",
+			"toNode": "img-silica",
+			"toSide": "bottom"
+		},
+		{
+			"id": "e8",
+			"fromNode": "strom",
+			"fromSide": "top",
+			"toNode": "img-strom",
+			"toSide": "left"
+		},
+		{
+			"id": "e9",
+			"fromNode": "cone",
+			"fromSide": "top",
+			"toNode": "img-cone",
+			"toSide": "bottom"
+		},
+		{
+			"id": "e10",
+			"fromNode": "columns",
+			"fromSide": "right",
+			"toNode": "img-columns",
+			"toSide": "left"
+		},
+		{
+			"id": "e11",
+			"fromNode": "cone",
+			"fromSide": "right",
+			"toNode": "note",
+			"toSide": "left"
+		}
+	]
+}

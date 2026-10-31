@@ -1,0 +1,7 @@
+formulas:
+  broken: foo((((
+views:
+  - type: table
+    name: BFo
+    order:
+      - formula.broken

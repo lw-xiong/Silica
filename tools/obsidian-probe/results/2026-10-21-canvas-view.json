@@ -1,0 +1,6027 @@
+{
+ "startedAt": "2026-10-21",
+ "note": "Canvas view probe over CDP, Obsidian 1.14.4 (installer 1.13.7). Phases: the agent harness (tools/obsidian-probe/canvas-view.mjs run: env, surface, commands, css) and the follow-up scripts probe-a/b/c (saved beside this file as canvas-view-probe-*.mjs).",
+ "harness": {
+  "fixtures": {
+   "startedAt": "2026-10-21T06:56:50.907Z",
+   "steps": {
+    "fixtures": {
+     "ok": true,
+     "ms": 2,
+     "vaultFiles": [
+      ".obsidian",
+      "Empty.canvas",
+      "Fixture.canvas",
+      "Long.md",
+      "Plan.md",
+      "Two.canvas",
+      "pic.png"
+     ],
+     "obsidian": [
+      "app.json"
+     ]
+    }
+   },
+   "order": [
+    "fixtures"
+   ],
+   "elapsedMs": 3
+  },
+  "run": {
+   "startedAt": "2026-10-21T07:08:43.428Z",
+   "steps": {
+    "00-env": {
+     "ok": true,
+     "ms": 2,
+     "version": {
+      "title": "New tab - vault - Obsidian 1.14.4",
+      "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.13.7 Chrome/150.0.7871.47 Electron/43.1.0 Safari/537.36",
+      "apiVersion": null,
+      "inner": {
+       "w": 1024,
+       "h": 800
+      },
+      "dpr": 1,
+      "theme": "system",
+      "bodyTheme": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars is-focused show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header"
+     },
+     "obsidianDir": [
+      "app.json"
+     ],
+     "appJson": {},
+     "corePlugins": null,
+     "canvasPlugin": {
+      "enabled": true,
+      "keys": [
+       "_loaded",
+       "_events",
+       "_children",
+       "lastSave",
+       "manager",
+       "instance",
+       "enabled",
+       "commands",
+       "settingTab",
+       "ribbonItems",
+       "mobileFileInfo",
+       "hasStatusBarItem",
+       "statusBarEl",
+       "addedButtonEls",
+       "views",
+       "onConfigFileChange",
+       "app"
+      ],
+      "instanceKeys": [
+       "id",
+       "name",
+       "description",
+       "defaultOn",
+       "options",
+       "renames",
+       "renameQueue",
+       "requestProcessRename",
+       "app",
+       "plugin",
+       "index",
+       "localDataManager"
+      ],
+      "options": {
+       "snapToObjects": true,
+       "snapToGrid": true
+      }
+     }
+    },
+    "01-surface": {
+     "ok": true,
+     "ms": 1527,
+     "opened": {
+      "viewType": "canvas",
+      "file": "Fixture.canvas",
+      "nodes": 14,
+      "edges": 7
+     },
+     "canvasKeys": [
+      [
+       "config",
+       "Object"
+      ],
+      [
+       "requestUpdateFileOpen",
+       "fn"
+      ],
+      [
+       "zIndexCounter",
+       "12"
+      ],
+      [
+       "isHoldingSpace",
+       "false"
+      ],
+      [
+       "readonly",
+       "false"
+      ],
+      [
+       "history",
+       "e"
+      ],
+      [
+       "data",
+       "Object"
+      ],
+      [
+       "requestPushHistory",
+       "fn"
+      ],
+      [
+       "x",
+       "1020"
+      ],
+      [
+       "y",
+       "350"
+      ],
+      [
+       "zoom",
+       "-1.8049281846630643"
+      ],
+      [
+       "scale",
+       "0.28619528619528617"
+      ],
+      [
+       "tx",
+       "1020"
+      ],
+      [
+       "ty",
+       "350"
+      ],
+      [
+       "tZoom",
+       "-1.8049281846630643"
+      ],
+      [
+       "finishViewportAnimation",
+       "false"
+      ],
+      [
+       "zoomToFitQueued",
+       "false"
+      ],
+      [
+       "screenshotting",
+       "false"
+      ],
+      [
+       "nodes",
+       "Map"
+      ],
+      [
+       "nodeIndex",
+       "t"
+      ],
+      [
+       "edges",
+       "Map"
+      ],
+      [
+       "edgeIndex",
+       "t"
+      ],
+      [
+       "edgeFrom",
+       "e"
+      ],
+      [
+       "edgeTo",
+       "e"
+      ],
+      [
+       "staleSelection",
+       "null"
+      ],
+      [
+       "selection",
+       "Set"
+      ],
+      [
+       "selectionChanged",
+       "false"
+      ],
+      [
+       "keys",
+       "Object"
+      ],
+      [
+       "isDragging",
+       "false"
+      ],
+      [
+       "viewportChanged",
+       "false"
+      ],
+      [
+       "moved",
+       "Set"
+      ],
+      [
+       "dirty",
+       "Set"
+      ],
+      [
+       "frame",
+       "0"
+      ],
+      [
+       "wasAnimating",
+       "false"
+      ],
+      [
+       "pauseAnimation",
+       "0"
+      ],
+      [
+       "lastNodesInViewport",
+       "Set"
+      ],
+      [
+       "lastEdgesInViewport",
+       "Set"
+      ],
+      [
+       "onGlobalKeydown",
+       "fn"
+      ],
+      [
+       "onGlobalKeyup",
+       "fn"
+      ],
+      [
+       "pointer",
+       "Object"
+      ],
+      [
+       "pointerFrame",
+       "0"
+      ],
+      [
+       "app",
+       "e"
+      ],
+      [
+       "view",
+       "t"
+      ],
+      [
+       "menu",
+       "e"
+      ],
+      [
+       "wrapperEl",
+       "HTMLDivElement"
+      ],
+      [
+       "backgroundPatternEl",
+       "SVGPatternElement"
+      ],
+      [
+       "moverEl",
+       "HTMLDivElement"
+      ],
+      [
+       "cardMenuEl",
+       "HTMLDivElement"
+      ],
+      [
+       "quickSettingsButton",
+       "HTMLDivElement"
+      ],
+      [
+       "undoBtnEl",
+       "HTMLDivElement"
+      ],
+      [
+       "redoBtnEl",
+       "HTMLDivElement"
+      ],
+      [
+       "canvasControlsEl",
+       "HTMLDivElement"
+      ],
+      [
+       "canvasEl",
+       "HTMLDivElement"
+      ],
+      [
+       "edgeContainerEl",
+       "SVGSVGElement"
+      ],
+      [
+       "edgeEndContainerEl",
+       "SVGSVGElement"
+      ],
+      [
+       "canvasRect",
+       "Object"
+      ],
+      [
+       "nodeInteractionLayer",
+       "e"
+      ],
+      [
+       "frameWin",
+       "null"
+      ],
+      [
+       "zoomCenter",
+       "null"
+      ]
+     ],
+     "canvasProto": {
+      "e": [
+       "options",
+       "createPlaceholder",
+       "getData",
+       "getSelectionData",
+       "updateFileOpen",
+       "setData",
+       "importData",
+       "load",
+       "unload",
+       "clear",
+       "requestSave",
+       "overrideHistory",
+       "undo",
+       "redo",
+       "applyHistory",
+       "pushHistory",
+       "updateHistoryUI",
+       "zoomBreakpoint",
+       "setViewport",
+       "zoomBy",
+       "panTo",
+       "panBy",
+       "zoomToSelection",
+       "nudgeSelection",
+       "zoomToFit",
+       "zoomToBbox",
+       "panIntoView",
+       "gridSpacing",
+       "snapDistance",
+       "posFromEvt",
+       "domPosFromEvt",
+       "domPosFromClient",
+       "posFromClient",
+       "posFromDom",
+       "domFromPos",
+       "posCenter",
+       "posInViewport",
+       "getViewportNodes",
+       "hitTestNode",
+       "addNode",
+       "removeNode",
+       "getIntersectingNodes",
+       "getContainingNodes",
+       "addEdge",
+       "removeEdge",
+       "getEdgesForNode",
+       "getIntersectingEdges",
+       "updateSelection",
+       "select",
+       "deselect",
+       "toggleSelect",
+       "selectOnly",
+       "selectAll",
+       "deselectAll",
+       "deleteSelection",
+       "setDragging",
+       "onResize",
+       "getZIndex",
+       "createTextNode",
+       "createFileNode",
+       "createFileNodes",
+       "createLinkNode",
+       "createGroupNode",
+       "markViewportChanged",
+       "markMoved",
+       "markDirty",
+       "requestFrame",
+       "cancelFrame",
+       "getViewportBBox",
+       "virtualize",
+       "rerenderViewport",
+       "setState",
+       "getState",
+       "handleCut",
+       "cloneData",
+       "handleCopy",
+       "handlePaste",
+       "toggleGridSnapping",
+       "toggleObjectSnapping",
+       "getSnapping",
+       "endSnapPointRendering",
+       "clearSnapPoints",
+       "renderSnapPoints",
+       "onKeydown",
+       "onPriorityPointerdown",
+       "onPointerdown",
+       "interactionHitTest",
+       "onPointermove",
+       "onTouchdown",
+       "handleDragToSelect",
+       "onDoubleClick",
+       "onContextMenu",
+       "setReadonly",
+       "showQuickSettingsMenu",
+       "showCreationMenu",
+       "smartZoom",
+       "onWheel",
+       "handleMoverPointerdown",
+       "onSelectionContextMenu",
+       "canSnap",
+       "dragTempNode",
+       "handleDragWithPan",
+       "handleSelectionDrag",
+       "takeScreenshot",
+       "generateHDImage"
+      ]
+     },
+     "viewKeys": [
+      "_loaded",
+      "_events",
+      "_children",
+      "icon",
+      "navigation",
+      "app",
+      "leaf",
+      "containerEl",
+      "canDropAnywhere",
+      "leftSidebarToggleEl",
+      "headerEl",
+      "contentEl",
+      "backButtonEl",
+      "forwardButtonEl",
+      "titleParentEl",
+      "titleEl",
+      "titleContainerEl",
+      "actionsEl",
+      "moreOptionsButtonEl",
+      "allowNoFile",
+      "fileBeingRenamed",
+      "lastSavedData",
+      "saving",
+      "saveAgain",
+      "isPlaintext",
+      "data",
+      "dirty",
+      "requestSave",
+      "hoverPopover",
+      "plugin",
+      "canvas",
+      "scope",
+      "file"
+     ],
+     "viewProto": {
+      "t": [
+       "updateNavButtons",
+       "load",
+       "handleDrop",
+       "onGroupChange",
+       "addAction",
+       "onMoreOptions",
+       "onPaneMenu",
+       "onTabMenu",
+       "onMoreOptionsMenu"
+      ]
+     },
+     "nodeProto": {
+      "t": [
+       "attach",
+       "preDetach",
+       "detach",
+       "updateBreakpoint",
+       "mountContent",
+       "unmountContent",
+       "initialize"
+      ],
+      "e": [
+       "getData",
+       "setData",
+       "rect",
+       "setColor",
+       "moveTo",
+       "resize",
+       "moveAndResize",
+       "destroy",
+       "attach",
+       "preDetach",
+       "detach",
+       "updateBreakpoint",
+       "isAttached",
+       "initialize",
+       "setIsEditing",
+       "isEditable",
+       "startEditing",
+       "getBBox",
+       "render",
+       "updateZIndex",
+       "renderZIndex",
+       "isFocused",
+       "focus",
+       "blur",
+       "select",
+       "deselect",
+       "onPointerdown",
+       "onClick",
+       "onContextMenu",
+       "showMenu",
+       "onResizePointerdown",
+       "onConnectionPointerdown",
+       "onResizeDblclick",
+       "getConnectedFiles"
+      ]
+     },
+     "nodeKeys": [
+      [
+       "x",
+       "0"
+      ],
+      [
+       "y",
+       "0"
+      ],
+      [
+       "width",
+       "260"
+      ],
+      [
+       "height",
+       "160"
+      ],
+      [
+       "color",
+       "\"\""
+      ],
+      [
+       "unknownData",
+       "Object"
+      ],
+      [
+       "initialized",
+       "true"
+      ],
+      [
+       "zIndex",
+       "2"
+      ],
+      [
+       "aspectRatio",
+       "0"
+      ],
+      [
+       "isEditing",
+       "false"
+      ],
+      [
+       "destroyed",
+       "false"
+      ],
+      [
+       "renderedZIndex",
+       "2"
+      ],
+      [
+       "app",
+       "e"
+      ],
+      [
+       "canvas",
+       "e"
+      ],
+      [
+       "id",
+       "\"t0\""
+      ],
+      [
+       "nodeEl",
+       "HTMLDivElement"
+      ],
+      [
+       "isContentMounted",
+       "false"
+      ],
+      [
+       "alwaysKeepLoaded",
+       "false"
+      ],
+      [
+       "resizeDirty",
+       "false"
+      ],
+      [
+       "text",
+       "\"# Heading\\n\\n- item one\\n- **bold** item\\n\\n[[Plan]]\""
+      ],
+      [
+       "bbox",
+       "Object"
+      ],
+      [
+       "containerEl",
+       "HTMLDivElement"
+      ],
+      [
+       "contentEl",
+       "HTMLDivElement"
+      ],
+      [
+       "contentBlockerEl",
+       "HTMLDivElement"
+      ],
+      [
+       "placeholderEl",
+       "HTMLDivElement"
+      ],
+      [
+       "child",
+       "t"
+      ]
+     ],
+     "edgeProto": {
+      "e": [
+       "attach",
+       "detach",
+       "isAttached",
+       "destroy",
+       "getData",
+       "setData",
+       "setColor",
+       "setLabel",
+       "update",
+       "getBBox",
+       "focus",
+       "blur",
+       "select",
+       "deselect",
+       "editLabel",
+       "getCenter",
+       "initialize",
+       "render",
+       "updatePath",
+       "createEdgeEnd",
+       "onClick",
+       "onContextMenu",
+       "showMenu",
+       "onConnectionPointerdown"
+      ]
+     },
+     "edgeKeys": [
+      [
+       "color",
+       "\"2\""
+      ],
+      [
+       "label",
+       "\"leads to\""
+      ],
+      [
+       "unknownData",
+       "Object"
+      ],
+      [
+       "initialized",
+       "true"
+      ],
+      [
+       "canvas",
+       "e"
+      ],
+      [
+       "id",
+       "\"e1\""
+      ],
+      [
+       "from",
+       "Object"
+      ],
+      [
+       "to",
+       "Object"
+      ],
+      [
+       "lineGroupEl",
+       "SVGGElement"
+      ],
+      [
+       "lineEndGroupEl",
+       "SVGGElement"
+      ],
+      [
+       "bbox",
+       "Object"
+      ],
+      [
+       "path",
+       "Object"
+      ],
+      [
+       "bezier",
+       "Object"
+      ],
+      [
+       "fromLineEnd",
+       "null"
+      ],
+      [
+       "toLineEnd",
+       "Object"
+      ],
+      [
+       "labelElement",
+       "e"
+      ]
+     ],
+     "config": {
+      "config": {
+       "zoomMultiplier": 0.5,
+       "objectSnapDistance": 15,
+       "minContainerDimension": 50,
+       "defaultTextNodeDimensions": {
+        "width": 250,
+        "height": 60
+       },
+       "defaultFileNodeDimensions": {
+        "width": 400,
+        "height": 400
+       }
+      },
+      "options": {
+       "snapToObjects": true,
+       "snapToGrid": true
+      },
+      "zoom": -1.8049281846630643,
+      "tZoom": -1.8049281846630643,
+      "x": 1020,
+      "y": 350,
+      "tx": 1020,
+      "ty": 350,
+      "scale": 0.28619528619528617,
+      "zoomCenter": null,
+      "screenshotting": false,
+      "readonly": false,
+      "wrapperEl": "canvas-wrapper node-insert-event mod-zoomed-out",
+      "canvasEl": "canvas"
+     },
+     "leafState": {
+      "viewState": {
+       "type": "canvas",
+       "state": {
+        "file": "Fixture.canvas",
+        "viewState": {
+         "x": 1020,
+         "y": 350,
+         "zoom": -1.8049281846630643
+        }
+       },
+       "icon": "lucide-layout-dashboard",
+       "title": "Fixture"
+      },
+      "state": {
+       "file": "Fixture.canvas",
+       "viewState": {
+        "x": 1020,
+        "y": 350,
+        "zoom": -1.8049281846630643
+       }
+      },
+      "icon": "lucide-layout-dashboard",
+      "title": "Fixture",
+      "ephemeral": {}
+     },
+     "dom": [
+      {
+       "tag": "DIV",
+       "cls": "canvas-wrapper node-insert-event mod-zoomed-out",
+       "kids": [
+        {
+         "tag": "svg",
+         "cls": "canvas-background",
+         "kids": [
+          {
+           "tag": "pattern",
+           "cls": "",
+           "kids": [
+            {
+             "tag": "circle",
+             "cls": "",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "rect",
+           "cls": "",
+           "kids": []
+          }
+         ]
+        },
+        {
+         "tag": "DIV",
+         "cls": "canvas-card-menu",
+         "kids": [
+          {
+           "tag": "DIV",
+           "cls": "canvas-card-menu-button mod-draggable",
+           "kids": [
+            {
+             "tag": "svg",
+             "cls": "svg-icon lucide-sticky-note",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-card-menu-button mod-draggable",
+           "kids": [
+            {
+             "tag": "svg",
+             "cls": "svg-icon lucide-file-text",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-card-menu-button mod-draggable",
+           "kids": [
+            {
+             "tag": "svg",
+             "cls": "svg-icon lucide-file-image",
+             "kids": []
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "tag": "DIV",
+         "cls": "canvas-controls",
+         "kids": [
+          {
+           "tag": "DIV",
+           "cls": "canvas-control-group mod-raised",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-control-group mod-raised",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-control-group mod-raised",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item is-disabled",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item is-disabled",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-control-group mod-raised",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-control-item",
+             "kids": []
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "tag": "DIV",
+         "cls": "canvas",
+         "kids": [
+          {
+           "tag": "svg",
+           "cls": "canvas-edges",
+           "kids": [
+            {
+             "tag": "g",
+             "cls": "is-themed mod-canvas-color-2",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "is-themed mod-canvas-color-custom",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "is-themed mod-canvas-color-5",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "svg",
+           "cls": "canvas-edges",
+           "kids": [
+            {
+             "tag": "g",
+             "cls": "is-themed mod-canvas-color-2",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "is-themed mod-canvas-color-custom",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "",
+             "kids": []
+            },
+            {
+             "tag": "g",
+             "cls": "is-themed mod-canvas-color-5",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-group-label mod-foreground-dark",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node canvas-node-group",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-group-label",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-label",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node is-themed mod-canvas-color-1",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node is-themed mod-canvas-color-6",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node is-themed mod-canvas-color-3",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node is-themed mod-canvas-color-4",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node is-themed mod-canvas-color-5",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            }
+           ]
+          },
+          {
+           "tag": "DIV",
+           "cls": "canvas-node canvas-node-group",
+           "kids": [
+            {
+             "tag": "DIV",
+             "cls": "canvas-node-container",
+             "kids": []
+            },
+            {
+             "tag": "DIV",
+             "cls": "canvas-group-label",
+             "kids": []
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "02-commands": {
+     "ok": true,
+     "ms": 0,
+     "commands": [
+      {
+       "id": "canvas:convert-to-file",
+       "name": "Canvas: Convert to file...",
+       "icon": "lucide-file-input",
+       "hotkeys": null,
+       "defaultHotkeys": null,
+       "checkCallback": true,
+       "editorCallback": false
+      },
+      {
+       "id": "canvas:export-as-image",
+       "name": "Canvas: Export as image",
+       "icon": "lucide-image",
+       "hotkeys": null,
+       "defaultHotkeys": null,
+       "checkCallback": true,
+       "editorCallback": false
+      },
+      {
+       "id": "canvas:jump-to-group",
+       "name": "Canvas: Jump to group",
+       "icon": "lucide-move",
+       "hotkeys": null,
+       "defaultHotkeys": null,
+       "checkCallback": true,
+       "editorCallback": false
+      },
+      {
+       "id": "canvas:new-file",
+       "name": "Canvas: Create new canvas",
+       "icon": "lucide-layout-dashboard",
+       "hotkeys": null,
+       "defaultHotkeys": null,
+       "checkCallback": false,
+       "editorCallback": false
+      }
+     ],
+     "allWithCanvasInName": []
+    },
+    "03-css-dark": {
+     "ok": true,
+     "ms": 326,
+     "theme": {
+      "theme": "obsidian",
+      "body": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars is-focused show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header"
+     },
+     "vars": {
+      "--canvas-background": "#1C1C1C",
+      "--canvas-card-label-color": "#666666",
+      "--canvas-color": "#7e7e7e",
+      "--canvas-color-1": "#fb464c",
+      "--canvas-color-2": "#e9973f",
+      "--canvas-color-3": "#e0de71",
+      "--canvas-color-4": "#44cf6e",
+      "--canvas-color-5": "#53dfdd",
+      "--canvas-color-6": "#a882ff",
+      "--canvas-controls-icon-size": "16px",
+      "--canvas-controls-icon-stroke": "2px",
+      "--canvas-controls-radius": "4px",
+      "--canvas-dot-pattern": "#333333",
+      "--color-blue": "#027aff",
+      "--color-blue-rgb": "2, 122, 255",
+      "--color-cyan": "#53dfdd",
+      "--color-cyan-rgb": "83, 223, 221",
+      "--color-green": "#44cf6e",
+      "--color-green-rgb": "68, 207, 110",
+      "--color-orange": "#e9973f",
+      "--color-orange-rgb": "233, 151, 63",
+      "--color-pink": "#fa99cd",
+      "--color-pink-rgb": "250, 153, 205",
+      "--color-purple": "#a882ff",
+      "--color-purple-rgb": "168, 130, 255",
+      "--color-red": "#fb464c",
+      "--color-red-rgb": "251, 70, 76",
+      "--color-yellow": "#e0de71",
+      "--color-yellow-rgb": "224, 222, 113"
+     },
+     "computed": {
+      "body": {
+       "_rect": [
+        0,
+        0,
+        1024,
+        800
+       ],
+       "--canvas-background": "#1C1C1C",
+       "--canvas-color": "#7e7e7e",
+       "--canvas-dot-pattern": "#333333",
+       "--canvas-card-label-color": "#666666",
+       "background-color": "rgb(28, 28, 28)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-family": "\"??\", \"??\", \"??\", ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, \"Segoe UI\", \"Google Sans Flex\", Roboto, \"Inter Variable\", Inter, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif"
+      },
+      "wrapper": {
+       "_rect": [
+        344,
+        78.05,
+        680,
+        721.95
+       ],
+       "width": "680px",
+       "height": "721.953px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgb(28, 28, 28)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "340px 360.977px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "canvas": {
+       "_rect": [
+        392.08,
+        338.88,
+        194.61,
+        206.62
+       ],
+       "width": "680px",
+       "height": "721.953px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(0.286195, 0, 0, 0.286195, 48.0808, 260.832)",
+       "transform-origin": "0px 0px",
+       "overflow": "visible",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px",
+       "background-image": "none",
+       "background-size": "auto",
+       "background-position": "0% 0%"
+      },
+      "background": {
+       "_rect": [
+        344,
+        78.05,
+        680,
+        721.95
+       ],
+       "width": "680px",
+       "height": "721.953px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "340px 360.977px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px",
+       "background-image": "none",
+       "background-size": "auto",
+       "background-position": "0% 0%"
+      },
+      "bgPatternCircle": {
+       "_rect": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "fill": "rgb(51, 51, 51)",
+       "r": "0.7px",
+       "cx": "0.7px",
+       "cy": "0.7px",
+       "fill-opacity": "1"
+      },
+      "node": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -60, -120)",
+       "transform-origin": "750px 160px",
+       "overflow": "visible",
+       "top": "0px",
+       "left": "0px",
+       "right": "-820px",
+       "bottom": "401.953px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeContainer": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "1px",
+       "border-color": "oklch(0.757772 0.180999 149.614 / 0.7)",
+       "border-style": "solid",
+       "border-radius": "8px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "oklch(0.757772 0.180999 149.614 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "750px 160px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeContent": {
+       "_rect": [
+        375.2,
+        304.82,
+        428.72,
+        91.01
+       ],
+       "width": "1498px",
+       "height": "318px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "oklch(0.757772 0.180999 149.614 / 0.07)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "749px 159px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "relative",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeLabel": {
+       "_rect": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "width": "auto",
+       "height": "auto",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(102, 102, 102)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(102, 102, 102)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(102, 102, 102) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "0% 100%",
+       "overflow": "hidden",
+       "top": "-7.47702px",
+       "left": "0px",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "groupLabel": {
+       "_rect": [
+        374.91,
+        286.08,
+        90.15,
+        16.32
+       ],
+       "width": "168.516px",
+       "height": "30.5px",
+       "padding": "4px 8px",
+       "border-width": "0px",
+       "border-color": "rgb(0, 0, 0)",
+       "border-style": "none",
+       "border-radius": "4px",
+       "background-color": "rgb(68, 207, 110)",
+       "color": "rgb(0, 0, 0)",
+       "font-size": "22.5px",
+       "font-weight": "400",
+       "line-height": "22.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(0, 0, 0) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1.86926, 0, 0, 1.86926, 0, -30.5)",
+       "transform-origin": "0px 30.5px",
+       "overflow": "hidden",
+       "top": "-7.47702px",
+       "left": "0px",
+       "right": "1331.48px",
+       "bottom": "296.969px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "groupNode": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -60, -120)",
+       "transform-origin": "750px 160px",
+       "overflow": "visible",
+       "top": "0px",
+       "left": "0px",
+       "right": "-820px",
+       "bottom": "401.953px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "groupContainer": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "1px",
+       "border-color": "oklch(0.757772 0.180999 149.614 / 0.7)",
+       "border-style": "solid",
+       "border-radius": "8px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "oklch(0.757772 0.180999 149.614 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "750px 160px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "edgePath": {
+       "_rect": [
+        466.49,
+        347.46,
+        15.17,
+        14.31
+       ],
+       "stroke": "rgba(0, 0, 0, 0)",
+       "stroke-width": "44.8621px",
+       "fill": "none",
+       "stroke-linecap": "round",
+       "stroke-dasharray": "none",
+       "opacity": "1",
+       "pointer-events": "stroke",
+       "marker-end": "none",
+       "marker-start": "none",
+       "d": "path(\"M 260 80 L 267 80 M 267 80 C 337 80 243 30 313 30\")"
+      },
+      "edgeInteraction": {
+       "_rect": [
+        466.49,
+        347.46,
+        15.17,
+        14.31
+       ],
+       "stroke": "rgba(0, 0, 0, 0)",
+       "stroke-width": "44.8621px",
+       "fill": "none",
+       "stroke-linecap": "round",
+       "stroke-dasharray": "none",
+       "opacity": "1",
+       "pointer-events": "stroke",
+       "marker-end": "none",
+       "marker-start": "none"
+      },
+      "edgeDisplay": {
+       "_rect": [
+        466.49,
+        347.46,
+        15.17,
+        14.31
+       ],
+       "stroke": "rgb(233, 151, 63)",
+       "stroke-width": "3.73851px",
+       "fill": "none",
+       "stroke-linecap": "butt",
+       "stroke-dasharray": "none",
+       "opacity": "1",
+       "pointer-events": "none",
+       "marker-end": "none",
+       "marker-start": "none"
+      },
+      "edgeLabel": {
+       "_rect": [
+        452.07,
+        344.46,
+        46.02,
+        20.32
+       ],
+       "width": "160.812px",
+       "height": "71px",
+       "padding": "11.2155px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "4px",
+       "background-color": "rgb(28, 28, 28)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "37.3851px",
+       "font-weight": "400",
+       "line-height": "48.6007px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -80.4062, -35.5)",
+       "transform-origin": "80.4062px 35.5px",
+       "overflow": "visible",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "controls": {
+       "_rect": [
+        982,
+        86.05,
+        34,
+        292
+       ],
+       "width": "34px",
+       "height": "292px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "17px 146px",
+       "overflow": "visible",
+       "top": "8px",
+       "left": "638px",
+       "right": "8px",
+       "bottom": "421.953px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "8px",
+       "margin": "0px"
+      },
+      "controlGroup": {
+       "_rect": [
+        982,
+        86.05,
+        34,
+        34
+       ],
+       "width": "34px",
+       "height": "34px",
+       "padding": "0px",
+       "border-width": "1px",
+       "border-color": "rgb(51, 51, 51)",
+       "border-style": "solid",
+       "border-radius": "4px",
+       "background-color": "rgb(51, 51, 51)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "rgba(255, 255, 255, 0.09) 0px 0.5px 0.5px 0.5px inset, rgba(0, 0, 0, 0.15) 0px 2px 4px 0px, rgba(0, 0, 0, 0.1) 0px 1px 1.5px 0px, rgba(0, 0, 0, 0.2) 0px 1px 2px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "17px 17px",
+       "overflow": "hidden",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "controlItem": {
+       "_rect": [
+        983,
+        87.05,
+        32,
+        32
+       ],
+       "width": "32px",
+       "height": "32px",
+       "padding": "8px",
+       "border-width": "0px",
+       "border-color": "rgb(179, 179, 179)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgb(28, 28, 28)",
+       "color": "rgb(179, 179, 179)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "15px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(179, 179, 179) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "16px 16px",
+       "overflow": "visible",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "cardMenu": {
+       "_rect": [
+        612,
+        736,
+        144,
+        48
+       ],
+       "width": "144px",
+       "height": "48px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(218, 218, 218)",
+       "border-style": "none",
+       "border-radius": "4px",
+       "background-color": "rgb(40, 40, 40)",
+       "color": "rgb(218, 218, 218)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "rgba(255, 255, 255, 0.09) 0px 0.5px 0.5px 0.5px inset, rgba(0, 0, 0, 0.15) 0px 2px 4px 0px, rgba(0, 0, 0, 0.1) 0px 1px 1.5px 0px, rgba(0, 0, 0, 0.2) 0px 1px 2px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+       "outline": "rgb(218, 218, 218) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -72, 0)",
+       "transform-origin": "72px 24px",
+       "overflow": "visible",
+       "top": "657.953px",
+       "left": "340px",
+       "right": "196px",
+       "bottom": "16px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "cardMenuButton": {
+       "_rect": [
+        612,
+        736,
+        48,
+        48
+       ],
+       "width": "48px",
+       "height": "48px",
+       "padding": "8px",
+       "border-width": "0px",
+       "border-color": "rgb(179, 179, 179)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(179, 179, 179)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "15px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(179, 179, 179) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "24px 24px",
+       "overflow": "visible",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeMenu": null,
+      "nodeMenuItem": null,
+      "connectionPoint": null,
+      "resizeHandle": null
+     }
+    },
+    "03-css-light": {
+     "ok": true,
+     "ms": 315,
+     "theme": {
+      "theme": "moonstone",
+      "body": "mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars is-focused show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header theme-light"
+     },
+     "vars": {
+      "--canvas-background": "#ffffff",
+      "--canvas-card-label-color": "#ababab",
+      "--canvas-color": "#c0c0c0",
+      "--canvas-color-1": "#e93147",
+      "--canvas-color-2": "#ec7500",
+      "--canvas-color-3": "#e0ac00",
+      "--canvas-color-4": "#08b94e",
+      "--canvas-color-5": "#00bfbc",
+      "--canvas-color-6": "#7852ee",
+      "--canvas-controls-icon-size": "16px",
+      "--canvas-controls-icon-stroke": "2px",
+      "--canvas-controls-radius": "4px",
+      "--canvas-dot-pattern": "#e4e4e4",
+      "--color-blue": "#086ddd",
+      "--color-blue-rgb": "8, 109, 221",
+      "--color-cyan": "#00bfbc",
+      "--color-cyan-rgb": "0, 191, 188",
+      "--color-green": "#08b94e",
+      "--color-green-rgb": "8, 185, 78",
+      "--color-orange": "#ec7500",
+      "--color-orange-rgb": "236, 117, 0",
+      "--color-pink": "#d53984",
+      "--color-pink-rgb": "213, 57, 132",
+      "--color-purple": "#7852ee",
+      "--color-purple-rgb": "120, 82, 238",
+      "--color-red": "#e93147",
+      "--color-red-rgb": "233, 49, 71",
+      "--color-yellow": "#e0ac00",
+      "--color-yellow-rgb": "224, 172, 0"
+     },
+     "computed": {
+      "body": {
+       "_rect": [
+        0,
+        0,
+        1024,
+        800
+       ],
+       "--canvas-background": "#ffffff",
+       "--canvas-color": "#c0c0c0",
+       "--canvas-dot-pattern": "#e4e4e4",
+       "--canvas-card-label-color": "#ababab",
+       "background-color": "rgb(255, 255, 255)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-family": "\"??\", \"??\", \"??\", ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, \"Segoe UI\", \"Google Sans Flex\", Roboto, \"Inter Variable\", Inter, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif"
+      },
+      "wrapper": {
+       "_rect": [
+        344,
+        78.05,
+        680,
+        721.95
+       ],
+       "width": "680px",
+       "height": "721.953px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgb(255, 255, 255)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "340px 360.977px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "canvas": {
+       "_rect": [
+        392.08,
+        338.88,
+        194.61,
+        206.62
+       ],
+       "width": "680px",
+       "height": "721.953px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(0.286195, 0, 0, 0.286195, 48.0808, 260.832)",
+       "transform-origin": "0px 0px",
+       "overflow": "visible",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px",
+       "background-image": "none",
+       "background-size": "auto",
+       "background-position": "0% 0%"
+      },
+      "background": {
+       "_rect": [
+        344,
+        78.05,
+        680,
+        721.95
+       ],
+       "width": "680px",
+       "height": "721.953px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "340px 360.977px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px",
+       "background-image": "none",
+       "background-size": "auto",
+       "background-position": "0% 0%"
+      },
+      "bgPatternCircle": {
+       "_rect": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "fill": "rgb(228, 228, 228)",
+       "r": "0.7px",
+       "cx": "0.7px",
+       "cy": "0.7px",
+       "fill-opacity": "1"
+      },
+      "node": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -60, -120)",
+       "transform-origin": "750px 160px",
+       "overflow": "visible",
+       "top": "0px",
+       "left": "0px",
+       "right": "-820px",
+       "bottom": "401.953px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeContainer": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "1px",
+       "border-color": "oklch(0.686205 0.194562 148.477 / 0.7)",
+       "border-style": "solid",
+       "border-radius": "8px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "oklch(0.686205 0.194562 148.477 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "750px 160px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeContent": {
+       "_rect": [
+        375.2,
+        304.82,
+        428.72,
+        91.01
+       ],
+       "width": "1498px",
+       "height": "318px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "oklch(0.686205 0.194562 148.477 / 0.07)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "749px 159px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "relative",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeLabel": {
+       "_rect": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "width": "auto",
+       "height": "auto",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(171, 171, 171)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(171, 171, 171)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(171, 171, 171) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "0% 100%",
+       "overflow": "hidden",
+       "top": "-7.47702px",
+       "left": "0px",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "groupLabel": {
+       "_rect": [
+        374.91,
+        286.08,
+        90.15,
+        16.32
+       ],
+       "width": "168.516px",
+       "height": "30.5px",
+       "padding": "4px 8px",
+       "border-width": "0px",
+       "border-color": "rgb(0, 0, 0)",
+       "border-style": "none",
+       "border-radius": "4px",
+       "background-color": "rgb(8, 185, 78)",
+       "color": "rgb(0, 0, 0)",
+       "font-size": "22.5px",
+       "font-weight": "400",
+       "line-height": "22.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(0, 0, 0) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1.86926, 0, 0, 1.86926, 0, -30.5)",
+       "transform-origin": "0px 30.5px",
+       "overflow": "hidden",
+       "top": "-7.47702px",
+       "left": "0px",
+       "right": "1331.48px",
+       "bottom": "296.969px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "groupNode": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -60, -120)",
+       "transform-origin": "750px 160px",
+       "overflow": "visible",
+       "top": "0px",
+       "left": "0px",
+       "right": "-820px",
+       "bottom": "401.953px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "groupContainer": {
+       "_rect": [
+        374.91,
+        304.54,
+        429.29,
+        91.58
+       ],
+       "width": "1500px",
+       "height": "320px",
+       "padding": "0px",
+       "border-width": "1px",
+       "border-color": "oklch(0.686205 0.194562 148.477 / 0.7)",
+       "border-style": "solid",
+       "border-radius": "8px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "oklch(0.686205 0.194562 148.477 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "750px 160px",
+       "overflow": "hidden",
+       "top": "0px",
+       "left": "0px",
+       "right": "0px",
+       "bottom": "0px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "edgePath": {
+       "_rect": [
+        466.49,
+        347.46,
+        15.17,
+        14.31
+       ],
+       "stroke": "rgba(0, 0, 0, 0)",
+       "stroke-width": "44.8621px",
+       "fill": "none",
+       "stroke-linecap": "round",
+       "stroke-dasharray": "none",
+       "opacity": "1",
+       "pointer-events": "stroke",
+       "marker-end": "none",
+       "marker-start": "none",
+       "d": "path(\"M 260 80 L 267 80 M 267 80 C 337 80 243 30 313 30\")"
+      },
+      "edgeInteraction": {
+       "_rect": [
+        466.49,
+        347.46,
+        15.17,
+        14.31
+       ],
+       "stroke": "rgba(0, 0, 0, 0)",
+       "stroke-width": "44.8621px",
+       "fill": "none",
+       "stroke-linecap": "round",
+       "stroke-dasharray": "none",
+       "opacity": "1",
+       "pointer-events": "stroke",
+       "marker-end": "none",
+       "marker-start": "none"
+      },
+      "edgeDisplay": {
+       "_rect": [
+        466.49,
+        347.46,
+        15.17,
+        14.31
+       ],
+       "stroke": "rgb(236, 117, 0)",
+       "stroke-width": "3.73851px",
+       "fill": "none",
+       "stroke-linecap": "butt",
+       "stroke-dasharray": "none",
+       "opacity": "1",
+       "pointer-events": "none",
+       "marker-end": "none",
+       "marker-start": "none"
+      },
+      "edgeLabel": {
+       "_rect": [
+        452.07,
+        344.46,
+        46.02,
+        20.32
+       ],
+       "width": "160.812px",
+       "height": "71px",
+       "padding": "11.2155px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "4px",
+       "background-color": "rgb(255, 255, 255)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "37.3851px",
+       "font-weight": "400",
+       "line-height": "48.6007px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -80.4062, -35.5)",
+       "transform-origin": "80.4062px 35.5px",
+       "overflow": "visible",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "controls": {
+       "_rect": [
+        982,
+        86.05,
+        34,
+        292
+       ],
+       "width": "34px",
+       "height": "292px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "17px 146px",
+       "overflow": "visible",
+       "top": "8px",
+       "left": "638px",
+       "right": "8px",
+       "bottom": "421.953px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "8px",
+       "margin": "0px"
+      },
+      "controlGroup": {
+       "_rect": [
+        982,
+        86.05,
+        34,
+        34
+       ],
+       "width": "34px",
+       "height": "34px",
+       "padding": "0px",
+       "border-width": "1px",
+       "border-color": "rgb(228, 228, 228)",
+       "border-style": "solid",
+       "border-radius": "4px",
+       "background-color": "rgb(255, 255, 255)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "rgba(0, 0, 0, 0.12) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.067) 0px 1px 2px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "17px 17px",
+       "overflow": "hidden",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "controlItem": {
+       "_rect": [
+        983,
+        87.05,
+        32,
+        32
+       ],
+       "width": "32px",
+       "height": "32px",
+       "padding": "8px",
+       "border-width": "0px",
+       "border-color": "rgb(92, 92, 92)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgb(255, 255, 255)",
+       "color": "rgb(92, 92, 92)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "15px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(92, 92, 92) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "16px 16px",
+       "overflow": "visible",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "cardMenu": {
+       "_rect": [
+        612,
+        736,
+        144,
+        48
+       ],
+       "width": "144px",
+       "height": "48px",
+       "padding": "0px",
+       "border-width": "0px",
+       "border-color": "rgb(34, 34, 34)",
+       "border-style": "none",
+       "border-radius": "4px",
+       "background-color": "rgb(255, 255, 255)",
+       "color": "rgb(34, 34, 34)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "19.5px",
+       "opacity": "1",
+       "box-shadow": "rgba(0, 0, 0, 0.12) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.067) 0px 1px 2px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+       "outline": "rgb(34, 34, 34) none 3px",
+       "outline-offset": "0px",
+       "transform": "matrix(1, 0, 0, 1, -72, 0)",
+       "transform-origin": "72px 24px",
+       "overflow": "visible",
+       "top": "657.953px",
+       "left": "340px",
+       "right": "196px",
+       "bottom": "16px",
+       "position": "absolute",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "cardMenuButton": {
+       "_rect": [
+        612,
+        736,
+        48,
+        48
+       ],
+       "width": "48px",
+       "height": "48px",
+       "padding": "8px",
+       "border-width": "0px",
+       "border-color": "rgb(92, 92, 92)",
+       "border-style": "none",
+       "border-radius": "0px",
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(92, 92, 92)",
+       "font-size": "15px",
+       "font-weight": "400",
+       "line-height": "15px",
+       "opacity": "1",
+       "box-shadow": "none",
+       "outline": "rgb(92, 92, 92) none 3px",
+       "outline-offset": "0px",
+       "transform": "none",
+       "transform-origin": "24px 24px",
+       "overflow": "visible",
+       "top": "auto",
+       "left": "auto",
+       "right": "auto",
+       "bottom": "auto",
+       "position": "static",
+       "box-sizing": "border-box",
+       "letter-spacing": "normal",
+       "text-transform": "none",
+       "gap": "normal",
+       "margin": "0px"
+      },
+      "nodeMenu": null,
+      "nodeMenuItem": null,
+      "connectionPoint": null,
+      "resizeHandle": null
+     }
+    },
+    "04-css-rules": {
+     "ok": true,
+     "ms": 25,
+     "count": 198,
+     "rules": [
+      ".textLayer { position: absolute; text-align: initial; inset: 0px; overflow: clip; opacity: 1; line-height: 1; text-size-adjust: none; forced-color-adjust: none; transform-origin: 0px 0px; caret-color: canvastext; z-index: 0; }",
+      ".annotationLayer section:has(div.annotationContent) canvas.annotationContent { display: none; }",
+      ".annotationLayer .buttonWidgetAnnotation.checkBox input:checked::before, .annotationLayer .buttonWidgetAnnotation.checkBox input:checked::after, .annotationLayer .buttonWidgetAnnotation.radioButton input:checked::before { background-color: canvastext; content: \"\"; display: block; position: absolute; }",
+      ".pdfViewer .canvasWrapper { overflow: hidden; width: 100%; height: 100%; }",
+      ".pdfViewer .canvasWrapper canvas { position: absolute; top: 0px; left: 0px; margin: 0px; display: block; width: 100%; height: 100%; contain: content; }",
+      ".pdfViewer .canvasWrapper canvas .structTree { contain: strict; }",
+      "body { --anim-duration-none: 0; --anim-duration-superfast: 70ms; --anim-duration-fast: 140ms; --anim-duration-moderate: 300ms; --anim-duration-slow: 560ms; --anim-motion-smooth: cubic-bezier(0.45, 0.05, 0.55, 0.95); --anim-motion-delay: cubic-bezier(0.65, 0.05, 0.36, 1); --anim-motion-jumpy: cubic-bezier(0.68, -0.55, 0.27, 1.55); --anim-motion-swing: cubic-bezier(0, 0.55, 0.45, 1); --bases-header-border-width: 0 0 var(--border-width) 0; --bases-header-height: 40px; --bases-header-padding-start: 2px; --bases-header-padding-end: 2px; --bases-toolbar-label-display: block; --bases-toolbar-badge-display: none; --bases-embed-border-width: 0px; --bases-embed-border-color: var(--background-modifier-border); --bases-embed-border-radius: var(--radius-s); --bases-filter-menu-width: 520px; --bases-filter-input-background: var(--background-modifier-form-field); --bases-group-heading-property-size: var(--font-ui-smaller); --bases-group-heading-property-weight: var(--font-normal); --bases-group-heading-property-color: var(--text-muted); --bases-group-heading-value-size: var(--font-smaller); --bases-group-heading-value-weight: var(--font-semibold); --bases-group-heading-property-display: block; --bases-table-container-border-width: var(--border-width); --bases-table-container-border-radius: var(--radius-s); --bases-table-group-background: var(--background-primary-alt); --bases-table-header-weight: var(--font-weight); --bases-table-header-color: var(--text-muted); --bases-table-header-icon-di",
+      ".theme-light { color-scheme: light; --highlight-mix-blend-mode: darken; --mono-0: white; --mono-100: black; --color-red: #e93147; --color-orange: #ec7500; --color-yellow: #e0ac00; --color-green: #08b94e; --color-cyan: #00bfbc; --color-blue: #086ddd; --color-purple: #7852ee; --color-pink: #d53984; --color-base-00: #ffffff; --color-base-05: #fcfcfc; --color-base-10: #fafafa; --color-base-20: #f6f6f6; --color-base-25: #efefef; --color-base-30: #e4e4e4; --color-base-35: #dadada; --color-base-40: #bdbdbd; --color-base-50: #ababab; --color-base-60: #707070; --color-base-70: #5c5c5c; --color-base-100: #222222; --color-accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l)); --color-accent-1: hsl(calc(var(--accent-h) - 1), calc(var(--accent-s) * 1.01), calc(var(--accent-l) * 1.075)); --color-accent-2: hsl(calc(var(--accent-h) - 3), calc(var(--accent-s) * 1.02), calc(var(--accent-l) * 1.15)); --background-secondary-alt: var(--color-base-05); --background-modifier-box-shadow: rgba(0, 0, 0, 0.1); --background-modifier-cover: rgba(220, 220, 220, 0.4); --input-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.065), 0 0 0 0 transparent; --input-shadow-hover: inset 0 0 0 1px rgba(0, 0, 0, 0.17), 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 0 0 0 transparent; --shadow-edges: 0 0 transparent; --shadow-xs: 0 1px 6px rgba(0, 0, 0, 0.015), 0 4px 24px rgba(0, 0, 0, 0.065), var(--shadow-edges); --shadow-s: 0px 1px 2px rgba(0, 0, 0, 0.028), 0px 3.4px 6.7px rgba(0, 0, 0, 0.042), 0",
+      ".theme-dark { color-scheme: dark; --highlight-mix-blend-mode: lighten; --mono-0: black; --mono-100: white; --color-red: #fb464c; --color-orange: #e9973f; --color-yellow: #e0de71; --color-green: #44cf6e; --color-cyan: #53dfdd; --color-blue: #027aff; --color-purple: #a882ff; --color-pink: #fa99cd; --color-base-00: #1C1C1C; --color-base-05: #212121; --color-base-10: #232323; --color-base-20: #282828; --color-base-25: #2e2e2e; --color-base-30: #333333; --color-base-35: #3f3f3f; --color-base-40: #555555; --color-base-50: #666666; --color-base-60: #999999; --color-base-70: #b3b3b3; --color-base-100: #dadada; --color-accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l)); --color-accent-1: hsl(calc(var(--accent-h) - 3), calc(var(--accent-s) * 1.02), calc(var(--accent-l) * 1.15)); --color-accent-2: hsl(calc(var(--accent-h) - 5), calc(var(--accent-s) * 1.05), calc(var(--accent-l) * 1.29)); --color-secondary-2: color-mix(in srgb, var(--background-secondary) 96%, white 4%); --color-secondary-3: color-mix(in srgb, var(--background-secondary) 92%, white 8%); --color-secondary-4: color-mix(in srgb, var(--background-secondary) 90%, white 10%); --color-secondary-5: color-mix(in srgb, var(--background-secondary) 84%, white 16%); --color-secondary-6: color-mix(in srgb, var(--background-secondary) 76%, white 24%); --blur-background: color-mix(in srgb, var(--interactive-normal) var(--blur-opacity-s), transparent) linear-gradient(var(--interactive-normal), color-mix(in srgb, var(--interac",
+      ".highlight-swatch[data-highlight=\"red\"] { background-color: var(--color-red); }",
+      ".highlight-swatch[data-highlight=\"orange\"] { background-color: var(--color-orange); }",
+      ".highlight-swatch[data-highlight=\"yellow\"] { background-color: var(--color-yellow); }",
+      ".highlight-swatch[data-highlight=\"green\"] { background-color: var(--color-green); }",
+      ".highlight-swatch[data-highlight=\"blue\"] { background-color: var(--color-blue); }",
+      ".highlight-swatch[data-highlight=\"purple\"] { background-color: var(--color-purple); }",
+      ".mod-rtl .community-modal-readme, .mod-rtl .canvas-wrapper { direction: ltr; }",
+      ".mod-rtl .canvas-card-menu { flex-direction: row-reverse; }",
+      ".pdf-container .pdfViewer .canvasWrapper { box-shadow: var(--pdf-shadow); }",
+      ".pdf-container .pdfViewer.removePageBorders .spread .canvasWrapper { box-shadow: var(--pdf-spread-shadow); }",
+      ".pdf-container .textLayer .highlight:not(.selected) { box-shadow: 0 0 0 2px var(--color-yellow); background-color: var(--color-yellow); }",
+      ".pdf-embed:not(.canvas-node-content) { border: var(--border-width) solid var(--background-modifier-border); border-radius: var(--radius-s); }",
+      ".pdf-embed:not(.canvas-node-content) .embed-actions + .pdf-toolbar { padding-inline-end: var(--size-4-9); }",
+      "@print .pdf-embed:not(.canvas-node-content) { align-items: center; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; justify-content: center; max-height: 80vh; }",
+      "@print .pdf-embed:not(.canvas-node-content) .pdf-container, .pdf-embed:not(.canvas-node-content) .pdf-toolbar { display: none; }",
+      "@print .pdf-embed:not(.canvas-node-content) .canvasWrapper { border-radius: var(--radius-s); border: 1px solid var(--background-modifier-border); max-height: 100%; overflow: hidden; width: fit-content; }",
+      "@print .pdf-embed:not(.canvas-node-content) canvas { height: auto; width: 100%; }",
+      "@(hover: hover) .metadata-property-warning-icon:hover { color: var(--text-warning); background-color: color-mix(in oklch, var(--color-orange) 15%, transparent); }",
+      ".canvas-node .bases-embed { --bases-embed-border-width: 0; --bases-embed-border-radius: 0; --bases-header-border-width: 0 0 var(--border-width) 0; }",
+      ".canvas-node-content.bases-embed { width: 100%; height: 100%; padding: 0px; display: flex; flex-direction: column; overflow: hidden; }",
+      ".mod-canvas-color-1 { --canvas-color: var(--canvas-color-1); }",
+      ".mod-canvas-color-2 { --canvas-color: var(--canvas-color-2); }",
+      ".mod-canvas-color-3 { --canvas-color: var(--canvas-color-3); }",
+      ".mod-canvas-color-4 { --canvas-color: var(--canvas-color-4); }",
+      ".mod-canvas-color-5 { --canvas-color: var(--canvas-color-5); }",
+      ".mod-canvas-color-6 { --canvas-color: var(--canvas-color-6); }",
+      ".workspace-leaf-content[data-type=\"canvas\"] .view-content { padding: 0px; position: relative; }",
+      "body { --canvas-color: #c0c0c0; }",
+      "body.theme-dark { --canvas-color: #7e7e7e; }",
+      ".canvas-wrapper { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; --resizer-size: 20px; --shadow-stationary: 0px 0.5px 1px 0.5px rgba(0, 0, 0, 0.1); --shadow-drag: var(--shadow-l); --shadow-border-accent: 0 0 0 2px var(--color-accent); --zoom-multiplier: 1; background-color: var(--canvas-background); overflow: hidden; contain: strict; touch-action: none; user-select: none; }",
+      ".canvas-wrapper.is-dragging { cursor: grabbing; }",
+      ".canvas-wrapper.is-dragging iframe:not(.is-controlled), .canvas-wrapper.is-dragging webview { pointer-events: none; }",
+      ".canvas-wrapper.is-screenshotting { z-index: 999999; }",
+      ".canvas-wrapper.is-screenshotting .canvas-card-menu, .canvas-wrapper.is-screenshotting .canvas-controls { display: none !important; }",
+      ".canvas-wrapper.is-screenshotting * { pointer-events: none !important; }",
+      ".canvas-mover { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; cursor: grab; }",
+      ".canvas-mover:active { cursor: grabbing; }",
+      ".canvas-background { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; pointer-events: none; }",
+      ".canvas-background circle { fill: var(--canvas-dot-pattern); }",
+      ".canvas { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; transform-origin: 0px 0px; pointer-events: none; }",
+      ".canvas > * { pointer-events: initial; }",
+      ".canvas-selection { pointer-events: none; position: absolute; background-color: color-mix(in oklch, var(--color-accent) 10%, transparent); border: 2px solid var(--color-accent); z-index: -1; }",
+      ".canvas-selection.mod-group-selection { border-width: 3px; border-radius: 3px; background-color: color-mix(in oklch, var(--color-accent) 3%, transparent); border-color: color-mix(in oklch, var(--color-accent) 30%, transparent); pointer-events: initial; }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-selection.mod-group-selection { cursor: grab; }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-selection.mod-group-selection:active { cursor: grabbing; }",
+      ".canvas-selection.mod-node-highlight { border-radius: var(--radius-m); }",
+      ".canvas-controls, .canvas-card-menu { display: flex; position: absolute; z-index: var(--layer-cover); font-size: var(--font-ui-medium); }",
+      ".canvas-card-menu { background-color: var(--background-primary); border-radius: var(--radius-s); box-shadow: var(--input-shadow); bottom: var(--size-4-4); left: 50%; transform: translateX(-50%); align-items: stretch; }",
+      ".is-phone .canvas-card-menu, .mod-toolbar-open .canvas-card-menu { display: none; }",
+      ".theme-dark .canvas-card-menu { background-color: var(--background-secondary); }",
+      ".canvas-card-menu .canvas-card-menu-divider { width: 1px; background-color: var(--background-modifier-border); }",
+      ".canvas-card-menu .canvas-card-menu-button { color: var(--text-muted); height: auto; display: flex; line-height: 1; align-items: center; justify-content: center; padding: var(--size-4-2); --icon-size: var(--icon-xl); --icon-stroke: var(--icon-xl-stroke-width); }",
+      "@(hover: hover) .canvas-card-menu .canvas-card-menu-button:hover { color: var(--color-accent); }",
+      ".canvas-card-menu .canvas-card-menu-button svg { fill: var(--background-primary); }",
+      ".theme-dark .canvas-card-menu .canvas-card-menu-button svg { fill: var(--background-secondary); }",
+      ".canvas-card-menu .canvas-card-menu-button.mod-draggable { cursor: grab; }",
+      ".canvas-card-menu .canvas-card-menu-button.mod-draggable:active { cursor: grabbing; }",
+      ".canvas-card-menu .canvas-card-menu-button.mod-draggable svg { transition: transform 90ms ease-out; }",
+      "@(hover: hover) .canvas-card-menu .canvas-card-menu-button.mod-draggable:hover svg { transform: translateY(-6px) scale(var(--direction), 1); filter: drop-shadow(rgba(0, 0, 0, 0.1) 0px 6px 2px); }",
+      ".canvas-controls { inset-inline-end: var(--size-4-2); top: var(--size-4-2); gap: var(--size-4-2); display: flex; flex-direction: column; }",
+      ".is-mobile .canvas-controls { inset-inline-end: var(--size-4-3); }",
+      ".canvas-control-group { border-radius: var(--canvas-controls-radius); background-color: var(--interactive-normal); border: 1px solid var(--background-modifier-border); box-shadow: var(--input-shadow); display: flex; flex-direction: column; overflow: hidden; }",
+      ".is-mobile .canvas-control-group { border-width: medium; border-style: none; border-color: currentcolor; border-image: none; }",
+      ".canvas-control-item { border-radius: 0px; box-shadow: none; height: auto; display: flex; line-height: 1; font-size: inherit; align-items: center; justify-content: center; cursor: var(--cursor); padding: var(--size-4-2); background-color: var(--background-primary); border-bottom: 1px solid var(--background-modifier-border); color: var(--text-muted); --icon-size: var(--canvas-controls-icon-size); --icon-stroke: var(--canvas-controls-icon-stroke); }",
+      ".is-mobile .canvas-control-item { border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background-color: transparent; }",
+      ".canvas-control-item:last-child { border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor; }",
+      "@(hover: hover) .canvas-control-item:hover { color: var(--text-normal); background-color: var(--interactive-hover); }",
+      ".canvas-control-item.is-active { color: var(--color-accent); }",
+      ".canvas-control-item.is-disabled svg { color: var(--text-faint); }",
+      ".canvas-control-item svg { pointer-events: none; }",
+      ".canvas-node-container { background-color: var(--background-primary); border-radius: var(--radius-m); border: 1px solid var(--canvas-color); contain: strict; display: flex; flex-direction: column; overflow: hidden; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; box-shadow: var(--shadow-stationary); }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-node:not(.is-editing) .canvas-node-container { cursor: grab; }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-node:not(.is-editing) .canvas-node-container:active { cursor: grabbing; }",
+      ".canvas-node-label { position: absolute; left: 0px; top: calc(-1 * var(--size-4-1) * var(--zoom-multiplier)); transform: translate(0, -100%) scale(var(--zoom-multiplier)); transform-origin: left bottom; max-width: calc(100% / var(--zoom-multiplier)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--canvas-card-label-color); --icon-size: 1em; }",
+      "body:not(.is-ios) .canvas-wrapper.mod-animating .canvas-node-label { transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1); }",
+      ".canvas-node-label svg { position: relative; top: 2px; margin-right: var(--size-4-1); }",
+      ".canvas-node-label.mod-hover-label { opacity: 0; }",
+      "@(hover: hover) .canvas-node-label:hover { color: var(--text-muted); }",
+      "@(hover: hover) .canvas-node:hover .canvas-node-label.mod-hover-label { opacity: 1; }",
+      "@(hover: none) .canvas-node.is-focused .canvas-node-label.mod-hover-label { opacity: 1; }",
+      ".canvas-wrapper.mod-zoomed-out .canvas-node-label { display: none; }",
+      ".canvas-node-placeholder { display: flex; align-items: center; justify-content: center; text-align: center; width: 100%; height: 100%; overflow: hidden; overflow-wrap: anywhere; padding: var(--size-4-6); font-size: 32px; font-weight: var(--font-semibold); background-color: color-mix(in oklch, var(--canvas-color) 10%, transparent); }",
+      ".canvas-icon-placeholder { display: flex; width: 40%; height: 40%; }",
+      ".canvas-icon-placeholder svg { opacity: 0.3; color: var(--canvas-color); width: 100%; height: 100%; }",
+      ".canvas-node-interaction-layer { position: absolute; width: 0px; height: 0px; pointer-events: none; }",
+      ".canvas-node-interaction-layer > * { pointer-events: initial; }",
+      ".canvas-node { --shadow-border-themed-inset: inset 0 0 0 1px var(--canvas-color); --shadow-border-themed: 0 0 0 2px var(--canvas-color); position: absolute; width: 0px; height: 0px; }",
+      ".canvas-node.is-dragging { pointer-events: none; }",
+      ".canvas-node.is-dragging .canvas-node-container { box-shadow: var(--shadow-drag); }",
+      ".canvas-node.is-selected, .canvas-node.is-focused { touch-action: initial; }",
+      ".canvas-node.is-selected .canvas-node-label, .canvas-node.is-focused .canvas-node-label { color: var(--text-muted); }",
+      ".canvas-node.is-selected .canvas-node-container, .canvas-node.is-focused .canvas-node-container { border-color: var(--color-accent); box-shadow: var(--shadow-stationary), var(--shadow-border-accent); }",
+      ".canvas-node.is-selected.is-dragging .canvas-node-container, .canvas-node.is-focused.is-dragging .canvas-node-container { box-shadow: var(--shadow-drag), var(--shadow-border-accent); }",
+      ".canvas-node.is-themed .canvas-node-container { border-color: color-mix(in oklch, var(--canvas-color) 70%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--canvas-color) 70%, transparent), var(--shadow-stationary); }",
+      ".canvas-node.is-selected.is-themed .canvas-node-container, .canvas-node.is-focused.is-themed .canvas-node-container { border-color: var(--canvas-color); box-shadow: var(--shadow-border-themed-inset), var(--shadow-border-themed); }",
+      ".canvas-node.is-selected.is-themed.is-dragging .canvas-node-container, .canvas-node.is-focused.is-themed.is-dragging .canvas-node-container { box-shadow: var(--shadow-border-themed-inset), var(--shadow-border-themed); }",
+      ".canvas-node.is-dummy { cursor: grabbing; }",
+      ".canvas-node.is-dummy .canvas-node-container { border: 4px solid var(--color-accent); box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 10px; background-color: color-mix(in oklch, var(--color-accent) 20%, transparent); }",
+      ".canvas-node.is-focused:not(.is-dragging) .canvas-node-content-blocker { display: none; }",
+      ".canvas-node-content-blocker { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; z-index: var(--layer-cover); }",
+      ".canvas-node-group:not(.is-focused):not(.is-selected) { pointer-events: none; }",
+      ".canvas-node-group .canvas-node-resizer { pointer-events: initial; }",
+      ".canvas-node-group .canvas-node-container { background-color: transparent; }",
+      ".canvas-node-group .canvas-node-content { background-color: color-mix(in oklch, var(--canvas-color) 7%, transparent); }",
+      ".canvas-group-label { position: absolute; left: 0px; top: calc(-1 * var(--size-4-1) * var(--zoom-multiplier)); transform: translate(0, -100%) scale(var(--zoom-multiplier)); transform-origin: left bottom; max-width: calc(100% / var(--zoom-multiplier)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; pointer-events: initial; font-size: 1.5em; padding: var(--size-4-1) var(--size-4-2); border-radius: var(--radius-s); color: var(--text-muted); background-color: color-mix(in oklch, var(--canvas-color) 10%, transparent); line-height: 1; }",
+      "body:not(.is-ios) .canvas-wrapper.mod-animating .canvas-group-label { transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1); }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-group-label { cursor: grab; }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-group-label:active { cursor: grabbing; }",
+      ".canvas-group-label[contenteditable=\"true\"] { cursor: text; background-color: var(--background-primary); box-shadow: 0 0 0 2px var(--canvas-color); color: var(--text-normal); text-overflow: initial; }",
+      ".canvas-node-group.is-themed .canvas-group-label:not([contenteditable=\"true\"]) { background-color: var(--canvas-color); }",
+      ".canvas-node-group.is-themed .canvas-group-label:not([contenteditable=\"true\"]).mod-foreground-light { color: var(--text-on-accent); }",
+      ".canvas-node-group.is-themed .canvas-group-label:not([contenteditable=\"true\"]).mod-foreground-dark { color: var(--text-on-accent-inverted); }",
+      ".canvas-node-content { width: 100%; height: 100%; overflow: hidden; position: relative; }",
+      ".canvas-node-content.markdown-embed { border-width: medium; border-style: none; border-color: currentcolor; border-image: none; padding: 0px; }",
+      ".canvas-node-content.markdown-embed .inline-title { cursor: text; }",
+      ".canvas-node-content.markdown-embed > .markdown-embed-link { display: none; }",
+      ".canvas-node-content.markdown-embed > .markdown-embed-content > .markdown-preview-view { padding: 0 var(--size-4-4); display: flex; flex-direction: column; }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-node-content.markdown-embed > .markdown-embed-content > .markdown-preview-view { user-select: none; }",
+      ".canvas-node-content.markdown-embed > .markdown-embed-content > .markdown-preview-view::before, .canvas-node-content.markdown-embed > .markdown-embed-content > .markdown-preview-view::after { content: \" \"; display: block; min-height: min(calc(var(--canvas-node-height) * 0.1 - 3px), var(--size-4-4)); max-height: var(--size-4-4); flex: 1 1 0px; }",
+      ".canvas-node-content.markdown-embed > .markdown-embed-content > .markdown-preview-view > .markdown-preview-sizer { flex: 1 0 0px; }",
+      ".canvas-node-content.markdown-embed > .markdown-embed-content > .markdown-preview-view .callout { mix-blend-mode: normal; }",
+      ".is-focused .canvas-node-content.markdown-embed > .markdown-embed-content > .markdown-preview-view { transform: translateZ(0px); }",
+      ".canvas-node.is-themed .canvas-node-content { background-color: color-mix(in oklch, var(--canvas-color) 7%, transparent); }",
+      ".canvas-node-content.media-embed { justify-content: center; align-items: center; display: flex; }",
+      ".canvas-node-content.media-embed img, .canvas-node-content.media-embed video, .canvas-node-content.media-embed audio { flex-shrink: 0; flex-grow: 1; }",
+      ".canvas-node-content.media-embed img:not([width]), .canvas-node-content.media-embed video, .canvas-node-content.media-embed audio { max-width: 100%; }",
+      ".canvas-node-resizer { position: absolute; height: calc(var(--resizer-size) * var(--zoom-multiplier)); width: calc(var(--resizer-size) * var(--zoom-multiplier)); }",
+      ".is-selected .canvas-node-resizer { pointer-events: none; }",
+      "body.is-mobile .canvas-node-resizer { --zoom-multiplier: 1; }",
+      ".canvas-wrapper.mod-readonly .canvas-node-resizer { display: none; }",
+      ".canvas-node-resizer[data-resize=\"top\"] { left: 0px; right: 0px; width: auto; top: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: ns-resize; }",
+      ".canvas-node-resizer[data-resize=\"bottom\"] { left: 0px; right: 0px; width: auto; bottom: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: ns-resize; }",
+      ".canvas-node-resizer[data-resize=\"left\"] { top: 0px; bottom: 0px; height: auto; left: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: ew-resize; }",
+      ".canvas-node-resizer[data-resize=\"right\"] { top: 0px; bottom: 0px; height: auto; right: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: ew-resize; }",
+      ".canvas-node-resizer[data-resize=\"topright\"] { right: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); top: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: nesw-resize; }",
+      ".canvas-node-resizer[data-resize=\"bottomright\"] { right: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); bottom: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: nwse-resize; }",
+      ".canvas-node-resizer[data-resize=\"topleft\"] { left: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); top: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: nwse-resize; }",
+      ".canvas-node-resizer[data-resize=\"bottomleft\"] { left: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); bottom: calc(var(--resizer-size) * var(--zoom-multiplier) * -0.5); cursor: nesw-resize; }",
+      ".is-mobile .canvas-node-resizer { pointer-events: none; }",
+      ".is-mobile .canvas-wrapper:not(.mod-readonly) .canvas-node-interaction-layer .canvas-node-resizer[data-resize=\"topright\"], .is-mobile .canvas-wrapper:not(.mod-readonly) .canvas-node-interaction-layer .canvas-node-resizer[data-resize=\"bottomright\"], .is-mobile .canvas-wrapper:not(.mod-readonly) .canvas-node-interaction-layer .canvas-node-resizer[data-resize=\"topleft\"], .is-mobile .canvas-wrapper:not(.mod-readonly) .canvas-node-interaction-layer .canvas-node-resizer[data-resize=\"bottomleft\"] { pointer-events: all; width: 20px; height: 20px; display: block; background-color: var(--background-primary); border: 2px solid var(--color-accent); border-radius: 3px; }",
+      ".canvas-node-connection-point { width: calc(var(--resizer-size) * var(--zoom-multiplier)); height: calc(var(--resizer-size) * var(--zoom-multiplier)); position: absolute; pointer-events: all; cursor: pointer; }",
+      ".canvas-node-connection-point[data-side=\"top\"] { top: 1px; left: calc(50% - var(--resizer-size) * var(--zoom-multiplier) / 2); }",
+      ".canvas-node-connection-point[data-side=\"right\"] { right: 1px; top: calc(50% - var(--resizer-size) * var(--zoom-multiplier) / 2); }",
+      ".canvas-node-connection-point[data-side=\"bottom\"] { bottom: 1px; left: calc(50% - var(--resizer-size) * var(--zoom-multiplier) / 2); }",
+      ".canvas-node-connection-point[data-side=\"left\"] { left: 1px; top: calc(50% - var(--resizer-size) * var(--zoom-multiplier) / 2); }",
+      ".canvas-node-connection-point::after { content: \" \"; background-color: var(--color-accent); border-radius: 50%; border: 3px solid var(--background-modifier-border); box-sizing: border-box; display: block; height: calc(var(--resizer-size) * var(--zoom-multiplier)); opacity: 0; position: relative; width: calc(var(--resizer-size) * var(--zoom-multiplier)); left: 0px; top: 0px; }",
+      ".is-mobile .canvas-node-interaction-layer .canvas-node-connection-point::after, .canvas-node-resizer:hover .canvas-node-connection-point::after { opacity: 1; }",
+      ".canvas-snaps { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; overflow: visible; pointer-events: none; opacity: 0.6; }",
+      ".canvas-snaps line { stroke-width: 1px; stroke: var(--color-accent); }",
+      ".canvas-snaps circle { fill: var(--color-accent); }",
+      ".canvas-edges { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; overflow: visible; pointer-events: none; }",
+      ".canvas-edges > * { pointer-events: initial; }",
+      ".canvas-edges path.canvas-display-path { pointer-events: none; stroke-width: calc(2px * var(--zoom-multiplier)); stroke: var(--canvas-color); fill: none; transition: stroke-width 100ms ease-out; }",
+      ".canvas-edges path.canvas-interaction-path { pointer-events: stroke; stroke-width: calc(24px * var(--zoom-multiplier)); stroke-linecap: round; stroke: transparent; fill: none; transition: stroke 100ms ease-out; }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-edges path.canvas-interaction-path { cursor: grab; }",
+      ".canvas-wrapper:not(.mod-readonly) .canvas-edges path.canvas-interaction-path:active { cursor: grabbing; }",
+      ".canvas-edges polygon.canvas-path-end { pointer-events: none; stroke: var(--canvas-color); fill: var(--canvas-color); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1px; transform-box: fill-box; transform: scale(var(--zoom-multiplier)); transform-origin: center top; }",
+      ".canvas-edges g.is-focused path.canvas-display-path, .canvas:not(.is-connecting) .canvas-edges g:hover path.canvas-display-path { stroke-width: calc(5.5px * var(--zoom-multiplier)); }",
+      ".canvas-edges g.is-focused path.canvas-interaction-path, .canvas:not(.is-connecting) .canvas-edges g:hover path.canvas-interaction-path { stroke: color-mix(in oklch, var(--canvas-color) 10%, transparent); }",
+      ".canvas-path-label-wrapper { position: absolute; width: fit-content; height: fit-content; }",
+      ".canvas-path-label { font-size: calc(var(--font-ui-large) * var(--zoom-multiplier)); background-color: var(--background-primary); border-radius: var(--radius-s); padding: calc(var(--size-2-3) * var(--zoom-multiplier)); line-height: var(--line-height-tight); white-space: pre-wrap; transform: translate(-50%, -50%); text-align: center; max-width: calc(17em * var(--zoom-multiplier)); }",
+      ".canvas-path-label.is-editing { border-color: var(--canvas-color); box-shadow: var(--shadow-stationary), 0 0 0 calc(3px * var(--zoom-multiplier)) var(--canvas-color); }",
+      ".canvas-menu-container { position: absolute; width: 0px; height: 0px; top: 0px; left: 0px; }",
+      ".canvas-menu { position: relative; width: fit-content; height: fit-content; line-height: 1; background-color: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: var(--radius-s); box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 10px; display: flex; padding: var(--size-2-1); gap: 1px; }",
+      ".canvas-menu .clickable-icon { padding: var(--size-2-3) var(--size-4-2); }",
+      ".canvas-submenu { display: flex; position: absolute; top: calc(100% + 5px); left: 50%; transform: translateX(-50%); padding: var(--size-4-2); border: 1px solid var(--background-modifier-border); background-color: var(--background-primary); border-radius: var(--radius-s); box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 10px; overflow: hidden; gap: 1px; }",
+      ".canvas-submenu .clickable-icon { padding: var(--size-2-2) var(--size-2-3); }",
+      ".canvas-color-picker-item { cursor: var(--cursor); width: 24px; height: 24px; margin: 2px; border-radius: 12px; border: 2px solid var(--background-primary); background-color: var(--canvas-color); }",
+      ".canvas-color-picker-item.is-active { box-shadow: 0 0 0 2px var(--canvas-color); }",
+      "@(hover: hover) .canvas-color-picker-item:hover { box-shadow: 0 0 0 2px var(--canvas-color); }",
+      ".canvas-color-picker-item input[type=\"color\"] { margin: -4px 0px 0px -2px; --swatch-width: 20px; --swatch-height: 20px; opacity: 0; }",
+      ".canvas-color-picker-item.canvas-color-picker-custom:not(.is-active) { background: conic-gradient(var(--color-red), var(--color-yellow), var(--color-green), var(--color-blue), var(--color-purple), var(--color-red)); }",
+      "@(hover: hover) .canvas-color-picker-item.canvas-color-picker-custom:not(.is-active):hover { box-shadow: 0 0 0 2px var(--background-modifier-border-hover); }",
+      ".canvas-empty-embed-container { align-items: center; display: flex; flex-direction: column; justify-content: center; height: 100%; padding: var(--size-4-3); text-align: center; }",
+      ".canvas-help { display: flex; flex-direction: column; gap: var(--size-4-3); }",
+      ".canvas-instruction { display: flex; justify-content: space-between; }",
+      ".canvas-instruction-desc { display: flex; gap: var(--size-4-1); }",
+      ".canvas-instruction-desc .setting-hotkey { display: inline; align-self: unset; padding: var(--size-4-1); margin: 0px; line-height: 1; }",
+      ".canvas-placeholder-message { max-width: 70vw; background: color-mix(in oklch, var(--color-accent) 10%, transparent); border-radius: var(--radius-m); color: var(--color-accent); font-size: var(--font-ui-large); line-height: var(--line-height-normal); padding: var(--size-4-4) var(--size-4-6); pointer-events: none; position: absolute; text-align: center; transform: translate(-50%, -50%); }",
+      ".canvas-minimap { width: 100%; height: 100%; padding: var(--size-4-1); }",
+      ".inline-embed > .canvas-minimap { max-height: var(--embed-canvas-max-height); }",
+      ".canvas-minimap rect { stroke-width: 5px; stroke: var(--background-modifier-border); fill: var(--background-modifier-border); fill-opacity: 0.65; }",
+      ".canvas-minimap rect.is-themed { stroke: var(--canvas-color); fill: var(--canvas-color); fill-opacity: 0.5; }",
+      ".canvas-minimap path { stroke: rgb(192, 192, 192); fill: none; }",
+      ".canvas-minimap path.is-themed { stroke: var(--canvas-color); }",
+      ".canvas-cursor { position: absolute; width: 1px; height: 1px; border: 5px solid var(--color-accent); border-radius: 5px; pointer-events: none; }",
+      ".canvas-watermark * { font-family: var(--font-default) !important; }",
+      ".is-mobile { --ribbon-width: var(--touch-size-xl); --view-header-height: var(--touch-size-l); --view-header-action-radius: var(--view-header-height); --bases-header-height: var(--touch-size-l); --mobile-toolbar-height: var(--touch-size-l); --autoscroll-padding: 20px; --button-transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; --system-status-background: var(--background-primary); --canvas-controls-radius: var(--touch-radius-s); --canvas-controls-icon-size: var(--icon-l); --canvas-controls-icon-stroke: var(--icon-l-stroke-width); --caret-color: var(--text-accent); --clickable-icon-radius: var(--touch-size-m); --dropdown-padding-end: var(--size-4-8); --dropdown-padding-start: var(--size-4-4); --dropdown-icon-inset: var(--size-4-3); --dropdown-transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; --embed-actions-padding: 0; --embed-actions-corner-shape: 0; --embed-actions-radius: var(--touch-size-l); --embed-actions-shadow: none; --embed-action-radius: var(--touch-size-l); --font-preferred-size: calc(var(--font-text-size) * var(--preferred-text-scale)); --font-ui-smaller: calc(var(--font-preferred-size) * 0.8); --font-ui-small: calc(var(--font-preferred-size) * 0.937); --font-ui-medium: var(--font-preferred-size); --font-ui-large: calc(var(--font-preferred-size) * 1.2); --icon-xs: calc(18px * var(--preferred-text-scale)); --icon-s: calc(18px * var(--preferred-text-scale)); --icon-m: calc(20px * var(--preferred-text-scale)); --ic",
+      ".mobile-onboarding-radio-option-title .flair { align-self: baseline; color: var(--text-success); display: inline-block; padding: var(--size-4-1) var(--size-4-2); margin-left: auto; border-radius: var(--radius-l); background-color: color-mix(in oklch, var(--color-green) 30%, transparent); }"
+     ]
+    },
+    "05-settings": {
+     "ok": false,
+     "ms": 26324,
+     "error": "Error: Runtime.evaluate timeout\n    at Timeout._onTimeout (file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/cdp.mjs:36:71)\n    at listOnTimeout (node:internal/timers:635:17)\n    at process.processTimers (node:internal/timers:571:7)",
+     "partial": {
+      "before": [
+       "app.json",
+       "appearance.json",
+       "core-plugins.json",
+       "graph.json",
+       "workspace.json"
+      ],
+      "tab": {
+       "id": "canvas",
+       "name": "Canvas",
+       "items": [
+        {
+         "name": "Default location for new canvas files",
+         "desc": "",
+         "toggle": null,
+         "text": null,
+         "dropdown": {
+          "value": "root",
+          "options": [
+           [
+            "root",
+            "Vault folder"
+           ],
+           [
+            "current",
+            "Same folder as current file"
+           ],
+           [
+            "folder",
+            "In the folder specified below"
+           ]
+          ]
+         },
+         "cls": "setting-item"
+        },
+        {
+         "name": "Folder to create new canvas files in",
+         "desc": "Newly created canvas files will appear under this folder.",
+         "toggle": null,
+         "text": "",
+         "dropdown": null,
+         "cls": "setting-item"
+        },
+        {
+         "name": "Default mouse wheel behavior",
+         "desc": "",
+         "toggle": null,
+         "text": null,
+         "dropdown": {
+          "value": "pan",
+          "options": [
+           [
+            "pan",
+            "Pan"
+           ],
+           [
+            "zoom",
+            "Zoom"
+           ]
+          ]
+         },
+         "cls": "setting-item"
+        },
+        {
+         "name": "Default Ctrl + Drag behavior",
+         "desc": "",
+         "toggle": null,
+         "text": null,
+         "dropdown": {
+          "value": "menu",
+          "options": [
+           [
+            "menu",
+            "Show menu"
+           ],
+           [
+            "card",
+            "Add card"
+           ],
+           [
+            "note",
+            "Add note from vault"
+           ],
+           [
+            "media",
+            "Add media from vault"
+           ],
+           [
+            "webpage",
+            "Add web page"
+           ],
+           [
+            "group",
+            "Create group"
+           ]
+          ]
+         },
+         "cls": "setting-item"
+        },
+        {
+         "name": "Show card names",
+         "desc": "",
+         "toggle": null,
+         "text": null,
+         "dropdown": {
+          "value": "always",
+          "options": [
+           [
+            "always",
+            "Always"
+           ],
+           [
+            "hover",
+            "On hover"
+           ],
+           [
+            "never",
+            "Never"
+           ]
+          ]
+         },
+         "cls": "setting-item"
+        },
+        {
+         "name": "Snap to grid",
+         "desc": "Snap cards to the background grid when moving and resizing.",
+         "toggle": true,
+         "text": null,
+         "dropdown": null,
+         "cls": "setting-item mod-toggle"
+        },
+        {
+         "name": "Snap to objects",
+         "desc": "Snap cards to nearby objects when moving and resizing.",
+         "toggle": true,
+         "text": null,
+         "dropdown": null,
+         "cls": "setting-item mod-toggle"
+        },
+        {
+         "name": "Zoom threshold for hiding card content",
+         "desc": "Lower values will increase performance but hide card content sooner when zooming out.",
+         "toggle": null,
+         "text": null,
+         "dropdown": null,
+         "cls": "setting-item"
+        }
+       ]
+      },
+      "toggles": [
+       {
+        "i": 0,
+        "enabled": false,
+        "options": {
+         "snapToObjects": true,
+         "snapToGrid": false
+        },
+        "diff": {
+         "canvas.json": {
+          "before": null,
+          "after": "{\n  \"snapToObjects\": true,\n  \"snapToGrid\": false\n}"
+         }
+        }
+       },
+       {
+        "i": 1,
+        "enabled": false,
+        "options": {
+         "snapToObjects": false,
+         "snapToGrid": true
+        },
+        "diff": {
+         "canvas.json": {
+          "before": "{\n  \"snapToObjects\": true,\n  \"snapToGrid\": true\n}",
+          "after": "{\n  \"snapToObjects\": false,\n  \"snapToGrid\": true\n}"
+         }
+        }
+       }
+      ]
+     }
+    },
+    "06-viewport": {
+     "ok": false,
+     "ms": 502,
+     "error": "Error: Error: no such file Two.canvas\n    at <anonymous>:3:19\n    at <anonymous>:4:139\n    at Object.evaluate (file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/cdp.mjs:85:13)\n    at async openCanvas (file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/canvas-view.mjs:147:3)\n    at async file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/canvas-view.mjs:279:14\n    at async step (file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/canvas-view.mjs:38:19)\n    at async file:///home/ragtux/bstore2/raga/repos/silica/tools/obsidian-probe/canvas-view.mjs:278:1",
+     "partial": {}
+    }
+   },
+   "order": [
+    "00-env",
+    "01-surface",
+    "02-commands",
+    "03-css-dark",
+    "03-css-light",
+    "04-css-rules",
+    "05-settings",
+    "06-viewport"
+   ],
+   "elapsedMs": 553,
+   "vault": "/tmp/claude-1000/-home-ragtux-bstore2-raga-repos-silica/25c6dd87-4f8e-4ed8-8e14-166731abeb08/scratchpad/vault",
+   "version": {
+    "title": "New tab - vault - Obsidian 1.14.4",
+    "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.13.7 Chrome/150.0.7871.47 Electron/43.1.0 Safari/537.36",
+    "apiVersion": null,
+    "inner": {
+     "w": 1024,
+     "h": 800
+    },
+    "dpr": 1,
+    "theme": "obsidian",
+    "bodyTheme": "mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header theme-dark"
+   }
+  }
+ },
+ "probe-a": {
+  "open": {
+   "file": "Fixture.canvas",
+   "hasCanvas": true
+  },
+  "config": {
+   "error": "TypeError: c.gridSpacing is not a function\n    at <anonymous>:1:199\n    at <anonymous>:1:381"
+  },
+  "viewport": {
+   "x": 1020,
+   "y": 350,
+   "zoom": -1.8049281846630643,
+   "scale": 0.28619528619528617,
+   "tx": 1020,
+   "ty": 350,
+   "tZoom": -1.8049281846630643,
+   "canvasRect": {
+    "w": 680,
+    "h": 722,
+    "left": 343.9978332519531,
+    "top": 78.02801513671875
+   },
+   "bbox": {
+    "minX": -168,
+    "minY": -911.3764705882354,
+    "maxX": 2208,
+    "maxY": 1611.3764705882354
+   },
+   "center": {
+    "x": 1020,
+    "y": 350
+   },
+   "viewState": {
+    "file": "Fixture.canvas",
+    "viewState": {
+     "x": 1020,
+     "y": 350,
+     "zoom": -1.8049281846630643
+    }
+   },
+   "leafState": {
+    "type": "canvas",
+    "state": {
+     "file": "Fixture.canvas",
+     "viewState": {
+      "x": 1020,
+      "y": 350,
+      "zoom": -1.8049281846630643
+     }
+    },
+    "icon": "lucide-layout-dashboard",
+    "title": "Fixture"
+   },
+   "pow": 0.28619528619528617,
+   "transform": "matrix(0.286195, 0, 0, 0.286195, 48.0808, 260.832)"
+  },
+  "viewport-moved": {
+   "x": 100,
+   "y": 50,
+   "zoom": 0,
+   "scale": 1,
+   "transform": "matrix(1, 0, 0, 1, 240, 311)",
+   "rect": {
+    "w": 680,
+    "h": 722
+   },
+   "bbox": {
+    "minX": -240,
+    "minY": -311,
+    "maxX": 440,
+    "maxY": 411
+   },
+   "center": {
+    "x": 100,
+    "y": 50
+   },
+   "state": {
+    "file": "Fixture.canvas",
+    "viewState": {
+     "x": 100,
+     "y": 50,
+     "zoom": 0
+    }
+   }
+  },
+  "zoom-limits": {
+   "min": {
+    "zoom": -4,
+    "tZoom": -4,
+    "scale": 0.0625
+   },
+   "max": {
+    "zoom": 1,
+    "tZoom": 1,
+    "scale": 2
+   },
+   "zoomByLength": 2
+  },
+  "defaults": {
+   "text": {
+    "id": "601c8340d4d6599a",
+    "x": 3000,
+    "y": 3000,
+    "w": 250,
+    "h": 60,
+    "data": {
+     "id": "601c8340d4d6599a",
+     "x": 3000,
+     "y": 3000,
+     "width": 250,
+     "height": 60,
+     "type": "text",
+     "text": ""
+    }
+   },
+   "group": {
+    "id": "179ce8c38aee401f",
+    "x": 3000,
+    "y": 3500,
+    "w": 400,
+    "h": 400,
+    "data": {
+     "id": "179ce8c38aee401f",
+     "x": 3000,
+     "y": 3500,
+     "width": 400,
+     "height": 400,
+     "type": "group",
+     "label": "Untitled group"
+    }
+   },
+   "link": {
+    "id": "31419ba30ae14688",
+    "x": 3000,
+    "y": 4000,
+    "w": 400,
+    "h": 400,
+    "data": {
+     "id": "31419ba30ae14688",
+     "x": 3000,
+     "y": 4000,
+     "width": 400,
+     "height": 400,
+     "type": "link",
+     "url": "https://example.org"
+    }
+   },
+   "file": {
+    "id": "361e5a459ba629f8",
+    "x": 3000,
+    "y": 4500,
+    "w": 400,
+    "h": 400,
+    "data": {
+     "id": "361e5a459ba629f8",
+     "x": 3000,
+     "y": 4500,
+     "width": 400,
+     "height": 400,
+     "type": "file",
+     "file": "Plan.md"
+    }
+   },
+   "image": {
+    "id": "941e28248b1b72e9",
+    "x": 4000,
+    "y": 4500,
+    "w": 400,
+    "h": 400,
+    "data": {
+     "id": "941e28248b1b72e9",
+     "x": 4000,
+     "y": 4500,
+     "width": 400,
+     "height": 400,
+     "type": "file",
+     "file": "pic.png"
+    }
+   },
+   "zIndexCounter": 14,
+   "before": 14,
+   "after": 19
+  },
+  "scope-keys": {
+   "view": [
+    {
+     "mods": "Ctrl",
+     "key": "Z"
+    },
+    {
+     "mods": "Ctrl",
+     "key": "A"
+    },
+    {
+     "mods": "Ctrl,Shift",
+     "key": "Z"
+    },
+    {
+     "mods": "Ctrl",
+     "key": "Y"
+    },
+    {
+     "mods": "Shift",
+     "key": "1"
+    },
+    {
+     "mods": "Shift",
+     "key": "2"
+    },
+    {
+     "mods": "",
+     "key": "ArrowRight"
+    },
+    {
+     "mods": "Shift",
+     "key": "ArrowRight"
+    },
+    {
+     "mods": "",
+     "key": "ArrowLeft"
+    },
+    {
+     "mods": "Shift",
+     "key": "ArrowLeft"
+    },
+    {
+     "mods": "",
+     "key": "ArrowUp"
+    },
+    {
+     "mods": "Shift",
+     "key": "ArrowUp"
+    },
+    {
+     "mods": "",
+     "key": "ArrowDown"
+    },
+    {
+     "mods": "Shift",
+     "key": "ArrowDown"
+    }
+   ],
+   "canvasKeys": {},
+   "appScope": 1
+  },
+  "chrome-labels": {
+   "cardMenu": [
+    {
+     "aria": "Drag to add card",
+     "cls": "canvas-card-menu-button mod-draggable",
+     "title": ""
+    },
+    {
+     "aria": "Drag to add note from vault",
+     "cls": "canvas-card-menu-button mod-draggable",
+     "title": ""
+    },
+    {
+     "aria": "Drag to add media from vault",
+     "cls": "canvas-card-menu-button mod-draggable",
+     "title": ""
+    }
+   ],
+   "controls": [
+    [
+     {
+      "aria": "Canvas settings",
+      "cls": "canvas-control-item"
+     }
+    ],
+    [
+     {
+      "aria": "Zoom in",
+      "cls": "canvas-control-item"
+     },
+     {
+      "aria": "Reset zoom",
+      "cls": "canvas-control-item"
+     },
+     {
+      "aria": "Zoom to fit\n(Shift + 1)",
+      "cls": "canvas-control-item"
+     },
+     {
+      "aria": "Zoom out",
+      "cls": "canvas-control-item"
+     }
+    ],
+    [
+     {
+      "aria": "Undo",
+      "cls": "canvas-control-item is-disabled"
+     },
+     {
+      "aria": "Redo",
+      "cls": "canvas-control-item is-disabled"
+     }
+    ],
+    [
+     {
+      "aria": "Canvas help",
+      "cls": "canvas-control-item"
+     }
+    ]
+   ],
+   "quickSettings": "Canvas settings",
+   "undo": "canvas-control-item is-disabled",
+   "controlsRect": {
+    "right": 7.995689392089844,
+    "top": 7.995689392089844,
+    "bottom": 425.8512649536133,
+    "w": 33.36206817626953,
+    "h": 288.1249694824219
+   },
+   "cardMenuRect": {
+    "bottom": 15.991348266601562,
+    "centerOff": -0.00539398193359375,
+    "w": 143.95472717285156,
+    "h": 47.98490905761719
+   }
+  },
+  "node-menu": {
+   "t3": [
+    {
+     "aria": "Remove",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set color",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Zoom to selection\n(Shift + 2)",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Edit",
+     "cls": "clickable-icon"
+    }
+   ],
+   "f1": [
+    {
+     "aria": "Remove",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set color",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Zoom to selection\n(Shift + 2)",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Edit",
+     "cls": "clickable-icon"
+    }
+   ],
+   "l1": [
+    {
+     "aria": "Remove",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set color",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Zoom to selection\n(Shift + 2)",
+     "cls": "clickable-icon"
+    }
+   ],
+   "g1": [
+    {
+     "aria": "Remove",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set color",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Zoom to selection\n(Shift + 2)",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Align",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Edit label",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set background",
+     "cls": "clickable-icon"
+    }
+   ],
+   "f2": [
+    {
+     "aria": "Remove",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set color",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Zoom to selection\n(Shift + 2)",
+     "cls": "clickable-icon"
+    }
+   ],
+   "edge": [
+    {
+     "aria": "Remove",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set color",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Zoom to selection\n(Shift + 2)",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Line direction",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Remove label",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Edit label",
+     "cls": "clickable-icon"
+    }
+   ],
+   "multi": [
+    {
+     "aria": "Remove",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Set color",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Zoom to selection\n(Shift + 2)",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Create group",
+     "cls": "clickable-icon"
+    },
+    {
+     "aria": "Align",
+     "cls": "clickable-icon"
+    }
+   ]
+  },
+  "node-dom": {
+   "nodeClass": "canvas-node is-themed mod-canvas-color-3",
+   "container": {
+    "w": "160px",
+    "h": "60px",
+    "border": "0.689655px solid oklch(0.88004 0.131911 107.863 / 0.7)",
+    "radius": "8px",
+    "bg": "rgb(28, 28, 28)",
+    "shadow": "oklch(0.88004 0.131911 107.863 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+    "outline": "rgb(218, 218, 218) none 2.75862px",
+    "color": "rgb(218, 218, 218)",
+    "font": "15px",
+    "padding": "0px",
+    "top": "0px",
+    "left": "0px",
+    "transform": "none",
+    "opacity": "1"
+   },
+   "content": {
+    "w": "158.621px",
+    "h": "58.6207px",
+    "border": "0px none rgb(218, 218, 218)",
+    "radius": "0px",
+    "bg": "oklch(0.88004 0.131911 107.863 / 0.07)",
+    "shadow": "none",
+    "outline": "rgb(218, 218, 218) none 2.75862px",
+    "color": "rgb(218, 218, 218)",
+    "font": "15px",
+    "padding": "0px",
+    "top": "0px",
+    "left": "0px",
+    "transform": "none",
+    "opacity": "1"
+   },
+   "label": null,
+   "resizers": [],
+   "connections": [],
+   "inner": "markdown-embed-content node-insert-event",
+   "innerStyle": {
+    "w": "158.621px",
+    "h": "58.6207px",
+    "border": "0px none rgb(218, 218, 218)",
+    "radius": "0px",
+    "bg": "rgba(0, 0, 0, 0)",
+    "shadow": "none",
+    "outline": "rgb(218, 218, 218) none 2.75862px",
+    "color": "rgb(218, 218, 218)",
+    "font": "15px",
+    "padding": "0px",
+    "top": "auto",
+    "left": "auto",
+    "transform": "none",
+    "opacity": "1"
+   },
+   "md": {
+    "w": "158.621px",
+    "h": "58.6207px",
+    "border": "0px none rgb(218, 218, 218)",
+    "radius": "0px",
+    "bg": "oklch(0.88004 0.131911 107.863 / 0.07)",
+    "shadow": "none",
+    "outline": "rgb(218, 218, 218) none 2.75862px",
+    "color": "rgb(218, 218, 218)",
+    "font": "15px",
+    "padding": "0px",
+    "top": "0px",
+    "left": "0px",
+    "transform": "none",
+    "opacity": "1"
+   },
+   "scale": 0.5
+  },
+  "labels-dom": {
+   "scale": 0.5,
+   "fileLabel": {
+    "text": "Plan",
+    "style": {
+     "font": "15px",
+     "lh": "19.5px",
+     "color": "rgb(102, 102, 102)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "padding": "0px",
+     "radius": "0px",
+     "top": "-5.65685px",
+     "left": "0px",
+     "transform": "matrix(1.41421, 0, 0, 1.41421, 0, -19.4935)",
+     "origin": "0px 19.4935px",
+     "weight": "400",
+     "opacity": "1",
+     "maxWidth": "70.7107%",
+     "overflow": "hidden",
+     "textOverflow": "ellipsis",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "linkLabel": {
+    "text": "Example Domain",
+    "style": {
+     "font": "15px",
+     "lh": "19.5px",
+     "color": "rgb(102, 102, 102)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "padding": "0px",
+     "radius": "0px",
+     "top": "-5.65685px",
+     "left": "0px",
+     "transform": "matrix(1.41421, 0, 0, 1.41421, 0, -19.4935)",
+     "origin": "0px 19.4935px",
+     "weight": "400",
+     "opacity": "1",
+     "maxWidth": "70.7107%",
+     "overflow": "hidden",
+     "textOverflow": "ellipsis",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "textLabel": false,
+   "groupLabel": {
+    "text": "Colored group",
+    "style": {
+     "font": "22.5px",
+     "lh": "22.5px",
+     "color": "rgb(0, 0, 0)",
+     "bg": "rgb(68, 207, 110)",
+     "padding": "4px 8px",
+     "radius": "4px",
+     "top": "-5.65685px",
+     "left": "0px",
+     "transform": "matrix(1.41421, 0, 0, 1.41421, 0, -30.4957)",
+     "origin": "0px 30.4957px",
+     "weight": "400",
+     "opacity": "1",
+     "maxWidth": "70.7107%",
+     "overflow": "hidden",
+     "textOverflow": "ellipsis",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "plainGroupLabel": {
+    "style": {
+     "font": "22.5px",
+     "lh": "22.5px",
+     "color": "rgb(179, 179, 179)",
+     "bg": "oklch(0.5931 0.0000295426 none / 0.1)",
+     "padding": "4px 8px",
+     "radius": "4px",
+     "top": "-5.65685px",
+     "left": "0px",
+     "transform": "matrix(1.41421, 0, 0, 1.41421, 0, -30.4957)",
+     "origin": "0px 30.4957px",
+     "weight": "400",
+     "opacity": "1",
+     "maxWidth": "70.7107%",
+     "overflow": "hidden",
+     "textOverflow": "ellipsis",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "groupContainer": {
+    "font": "15px",
+    "lh": "19.5px",
+    "color": "rgb(218, 218, 218)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "padding": "0px",
+    "radius": "8px",
+    "top": "0px",
+    "left": "0px",
+    "transform": "none",
+    "origin": "750px 160px",
+    "weight": "400",
+    "opacity": "1",
+    "maxWidth": "none",
+    "overflow": "hidden",
+    "textOverflow": "clip",
+    "whiteSpace": "normal"
+   },
+   "plainGroupContainer": {
+    "font": "15px",
+    "lh": "19.5px",
+    "color": "rgb(218, 218, 218)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "padding": "0px",
+    "radius": "8px",
+    "top": "0px",
+    "left": "0px",
+    "transform": "none",
+    "origin": "750px 280px",
+    "weight": "400",
+    "opacity": "1",
+    "maxWidth": "none",
+    "overflow": "hidden",
+    "textOverflow": "clip",
+    "whiteSpace": "normal"
+   },
+   "picGroupContainer": {
+    "font": "",
+    "lh": "",
+    "color": "",
+    "bg": "",
+    "padding": "",
+    "radius": "",
+    "top": "",
+    "left": "",
+    "transform": "",
+    "origin": "",
+    "weight": "",
+    "opacity": "",
+    "maxWidth": "",
+    "overflow": "",
+    "textOverflow": "",
+    "whiteSpace": ""
+   },
+   "picGroupBg": {
+    "cls": "canvas-node-content",
+    "bgImage": "",
+    "size": "",
+    "repeat": "",
+    "position": ""
+   },
+   "groupNodeClasses": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+   "picGroupHtml": "<div class=\"canvas-node-container\"><div class=\"canvas-node-content\" style=\"background-image: url(&quot;app://8cb270857c1bb672cf4f99c02b29668f7723/tmp/claude-1000/-home-ragtux-bstore2-raga-repos-silica/25c6dd87-4f8e-4ed8-8e14-166731abeb08/scratchpad/cvprobe-399377c5/vault/pic.png?1792567234845&quot;); background-repeat: no-repeat; background-position: center center; background-size: cover;\"></div></div><div class=\"canvas-group-label\" spellcheck=\"false\">Picture group</div>"
+  },
+  "edges-dom": {
+   "scale": 0.5,
+   "edges": [
+    {
+     "id": "e1",
+     "from": {
+      "id": "t0",
+      "side": "right",
+      "end": "none"
+     },
+     "to": {
+      "id": "t1",
+      "side": "left",
+      "end": "arrow"
+     },
+     "d": "M260 80 L267 80 M267,80 C337,80 243,30 313,30",
+     "inter": "M260 80 L267 80 M267,80 C337,80 243,30 313,30",
+     "display": {
+      "stroke": "rgb(233, 151, 63)",
+      "sw": "2.82843px",
+      "cls": "canvas-display-path"
+     },
+     "interaction": {
+      "stroke": "rgba(0, 0, 0, 0)",
+      "sw": "33.9411px",
+      "cls": "canvas-interaction-path"
+     },
+     "ends": {
+      "from": null,
+      "to": "<g style=\"transform: translate(320px, 30px) rotate(90deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g>"
+     },
+     "label": {
+      "cls": "canvas-path-label-wrapper is-themed mod-canvas-color-2",
+      "text": "leads to",
+      "font": "15px",
+      "padding": "0px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "lh": "19.5px",
+      "transform": "matrix(1, 0, 0, 1, 290, 55)",
+      "color": "rgb(218, 218, 218)"
+     },
+     "keys": [
+      "color",
+      "label",
+      "unknownData",
+      "initialized",
+      "canvas",
+      "id",
+      "from",
+      "to",
+      "lineGroupEl",
+      "lineEndGroupEl",
+      "bbox",
+      "path",
+      "bezier",
+      "fromLineEnd",
+      "toLineEnd",
+      "labelElement"
+     ]
+    },
+    {
+     "id": "e2",
+     "from": {
+      "id": "t2",
+      "side": "right",
+      "end": "arrow"
+     },
+     "to": {
+      "id": "t3",
+      "side": "left",
+      "end": "none"
+     },
+     "d": "M707,30 C777,30 683,30 753,30 M753 30 L760 30",
+     "inter": "M707,30 C777,30 683,30 753,30 M753 30 L760 30",
+     "display": {
+      "stroke": "rgb(126, 126, 126)",
+      "sw": "2.82843px",
+      "cls": "canvas-display-path"
+     },
+     "interaction": {
+      "stroke": "rgba(0, 0, 0, 0)",
+      "sw": "33.9411px",
+      "cls": "canvas-interaction-path"
+     },
+     "ends": {
+      "from": "<g style=\"transform: translate(700px, 30px) rotate(270deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g>",
+      "to": null
+     },
+     "label": {
+      "cls": "canvas-path-label-wrapper",
+      "text": "back",
+      "font": "15px",
+      "padding": "0px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "lh": "19.5px",
+      "transform": "matrix(1, 0, 0, 1, 730, 30)",
+      "color": "rgb(218, 218, 218)"
+     },
+     "keys": [
+      "color",
+      "label",
+      "unknownData",
+      "initialized",
+      "canvas",
+      "id",
+      "from",
+      "to",
+      "lineGroupEl",
+      "lineEndGroupEl",
+      "bbox",
+      "path",
+      "bezier",
+      "fromLineEnd",
+      "toLineEnd",
+      "labelElement"
+     ]
+    },
+    {
+     "id": "e3",
+     "from": {
+      "id": "t4",
+      "side": "right",
+      "end": "none"
+     },
+     "to": {
+      "id": "t5",
+      "side": "left",
+      "end": "none"
+     },
+     "d": "M1140 30 L1147 30 M1147,30 C1217,30 1123,30 1193,30 M1193 30 L1200 30",
+     "inter": "M1140 30 L1147 30 M1147,30 C1217,30 1123,30 1193,30 M1193 30 L1200 30",
+     "display": {
+      "stroke": "rgb(126, 126, 126)",
+      "sw": "2.82843px",
+      "cls": "canvas-display-path"
+     },
+     "interaction": {
+      "stroke": "rgba(0, 0, 0, 0)",
+      "sw": "33.9411px",
+      "cls": "canvas-interaction-path"
+     },
+     "ends": {
+      "from": null,
+      "to": null
+     },
+     "label": null,
+     "keys": [
+      "color",
+      "label",
+      "unknownData",
+      "initialized",
+      "canvas",
+      "id",
+      "from",
+      "to",
+      "lineGroupEl",
+      "lineEndGroupEl",
+      "bbox",
+      "path",
+      "bezier",
+      "fromLineEnd",
+      "toLineEnd"
+     ]
+    },
+    {
+     "id": "e4",
+     "from": {
+      "id": "t6",
+      "side": "right",
+      "end": "arrow"
+     },
+     "to": {
+      "id": "t7",
+      "side": "left",
+      "end": "arrow"
+     },
+     "d": "M487,150 C557,150 463,150 533,150",
+     "inter": "M487,150 C557,150 463,150 533,150",
+     "display": {
+      "stroke": "rgb(126, 126, 126)",
+      "sw": "2.82843px",
+      "cls": "canvas-display-path"
+     },
+     "interaction": {
+      "stroke": "rgba(0, 0, 0, 0)",
+      "sw": "33.9411px",
+      "cls": "canvas-interaction-path"
+     },
+     "ends": {
+      "from": "<g style=\"transform: translate(480px, 150px) rotate(270deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g>",
+      "to": "<g style=\"transform: translate(540px, 150px) rotate(90deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g>"
+     },
+     "label": null,
+     "keys": [
+      "color",
+      "label",
+      "unknownData",
+      "initialized",
+      "canvas",
+      "id",
+      "from",
+      "to",
+      "lineGroupEl",
+      "lineEndGroupEl",
+      "bbox",
+      "path",
+      "bezier",
+      "fromLineEnd",
+      "toLineEnd"
+     ]
+    },
+    {
+     "id": "e5",
+     "from": {
+      "id": "f1",
+      "side": "right",
+      "end": "none"
+     },
+     "to": {
+      "id": "f2",
+      "side": "left",
+      "end": "arrow"
+     },
+     "d": "M400 500 L407 500 M407,500 C477,500 423,420 493,420",
+     "inter": "M400 500 L407 500 M407,500 C477,500 423,420 493,420",
+     "display": {
+      "stroke": "rgb(0, 170, 255)",
+      "sw": "2.82843px",
+      "cls": "canvas-display-path"
+     },
+     "interaction": {
+      "stroke": "rgba(0, 0, 0, 0)",
+      "sw": "33.9411px",
+      "cls": "canvas-interaction-path"
+     },
+     "ends": {
+      "from": null,
+      "to": "<g style=\"transform: translate(500px, 420px) rotate(90deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g>"
+     },
+     "label": {
+      "cls": "canvas-path-label-wrapper is-themed mod-canvas-color-custom",
+      "text": "hex edge",
+      "font": "15px",
+      "padding": "0px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "lh": "19.5px",
+      "transform": "matrix(1, 0, 0, 1, 450, 460)",
+      "color": "rgb(218, 218, 218)"
+     },
+     "keys": [
+      "color",
+      "label",
+      "unknownData",
+      "initialized",
+      "canvas",
+      "id",
+      "from",
+      "to",
+      "lineGroupEl",
+      "lineEndGroupEl",
+      "bbox",
+      "path",
+      "bezier",
+      "fromLineEnd",
+      "toLineEnd",
+      "labelElement"
+     ]
+    },
+    {
+     "id": "e6",
+     "from": {
+      "id": "t0",
+      "side": "bottom",
+      "end": "none"
+     },
+     "to": {
+      "id": "f1",
+      "side": "top",
+      "end": "arrow"
+     },
+     "d": "M130 160 L130 167 M130,167 C130,239.06941098690902 200,220.93058901309098 200,293",
+     "inter": "M130 160 L130 167 M130,167 C130,239.06941098690902 200,220.93058901309098 200,29",
+     "display": {
+      "stroke": "rgb(126, 126, 126)",
+      "sw": "2.82843px",
+      "cls": "canvas-display-path"
+     },
+     "interaction": {
+      "stroke": "rgba(0, 0, 0, 0)",
+      "sw": "33.9411px",
+      "cls": "canvas-interaction-path"
+     },
+     "ends": {
+      "from": null,
+      "to": "<g style=\"transform: translate(200px, 300px) rotate(180deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g>"
+     },
+     "label": null,
+     "keys": [
+      "color",
+      "label",
+      "unknownData",
+      "initialized",
+      "canvas",
+      "id",
+      "from",
+      "to",
+      "lineGroupEl",
+      "lineEndGroupEl",
+      "bbox",
+      "path",
+      "bezier",
+      "fromLineEnd",
+      "toLineEnd"
+     ]
+    },
+    {
+     "id": "e7",
+     "from": {
+      "id": "f2",
+      "side": "bottom",
+      "end": "none"
+     },
+     "to": {
+      "id": "l1",
+      "side": "top",
+      "end": "arrow"
+     },
+     "d": "M660 540 L660 547 M660,547 C660,697 1100,143 1100,293",
+     "inter": "M660 540 L660 547 M660,547 C660,697 1100,143 1100,293",
+     "display": {
+      "stroke": "rgb(83, 223, 221)",
+      "sw": "2.82843px",
+      "cls": "canvas-display-path"
+     },
+     "interaction": {
+      "stroke": "rgba(0, 0, 0, 0)",
+      "sw": "33.9411px",
+      "cls": "canvas-interaction-path"
+     },
+     "ends": {
+      "from": null,
+      "to": "<g style=\"transform: translate(1100px, 300px) rotate(180deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g>"
+     },
+     "label": null,
+     "keys": [
+      "color",
+      "label",
+      "unknownData",
+      "initialized",
+      "canvas",
+      "id",
+      "from",
+      "to",
+      "lineGroupEl",
+      "lineEndGroupEl",
+      "bbox",
+      "path",
+      "bezier",
+      "fromLineEnd",
+      "toLineEnd"
+     ]
+    }
+   ],
+   "svgTransform": "none",
+   "svgInCanvas": true,
+   "endSvg": "<g class=\"is-themed mod-canvas-color-2\"><g style=\"transform: translate(320px, 30px) rotate(90deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g></g><g><g style=\"transform: translate(200px, 300px) rotate(180deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g></g><g><g style=\"transform: translate(700px, 30px) rotate(270deg);\"><polygon class=\"canvas-path-end\" points=\"0,0 6.5,10.4 -6.5,10.4\"></polygon></g></g><g></g><g><g style=\"tr"
+  },
+  "bezier-samples": [
+   {
+    "b": [
+     1580,
+     0,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1297,30 1423,30 1573,30 M1573 30 L1580 30"
+   },
+   {
+    "b": [
+     1380,
+     50,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1262.7324500734344,30 1257.2675499265656,80 1373,80 M1373 80 L1380 80"
+   },
+   {
+    "b": [
+     1320,
+     50,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1233.6833317310773,30 1226.3166682689227,80 1313,80 M1313 80 L1320 80"
+   },
+   {
+    "b": [
+     1980,
+     50,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1297,30 1823,80 1973,80 M1973 80 L1980 80"
+   },
+   {
+    "b": [
+     1120,
+     300,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1297,30 963,330 1113,330 M1113 330 L1120 330"
+   },
+   {
+    "b": [
+     1120,
+     -300,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1297,30 963,-270 1113,-270 M1113 -270 L1120 -270"
+   },
+   {
+    "b": [
+     780,
+     50,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1297,30 623,80 773,80 M773 80 L780 80"
+   },
+   {
+    "b": [
+     2980,
+     50,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1297,30 2823,80 2973,80 M2973 80 L2980 80"
+   },
+   {
+    "b": [
+     1320,
+     600,
+     160,
+     60
+    ],
+    "a": [
+     980,
+     0,
+     160,
+     60
+    ],
+    "d": "M1140 30 L1147 30 M1147,30 C1297,30 1163,630 1313,630 M1313 630 L1320 630"
+   }
+  ],
+  "background": {
+   "patternAttrs": {
+    "id": "82bde9abc3822e0a",
+    "patternUnits": "userSpaceOnUse",
+    "x": "330",
+    "y": "351",
+    "width": "20",
+    "height": "20"
+   },
+   "circle": {
+    "cx": "0.7",
+    "cy": "0.7",
+    "r": "0.7"
+   },
+   "scale": 0.5,
+   "x": 700,
+   "y": 300,
+   "rectW": 680,
+   "rectH": 722
+  },
+  "background-zoomed": {
+   "one": {
+    "scale": 1,
+    "attrs": {
+     "id": "82bde9abc3822e0a",
+     "patternUnits": "userSpaceOnUse",
+     "x": "340",
+     "y": "361",
+     "width": "20",
+     "height": "20"
+    },
+    "circle": {
+     "cx": "0.7",
+     "cy": "0.7",
+     "r": "0.7"
+    }
+   },
+   "far": {
+    "scale": 0.1767766952966369,
+    "attrs": {
+     "id": "82bde9abc3822e0a",
+     "patternUnits": "userSpaceOnUse",
+     "x": "329.3933982822018",
+     "y": "350.3933982822018",
+     "width": "14.142135623730951",
+     "height": "14.142135623730951"
+    },
+    "circle": {
+     "cx": "0.7",
+     "cy": "0.7",
+     "r": "0.7"
+    }
+   }
+  },
+  "breakpoint": {
+   "0": {
+    "scale": 1,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": true,
+     "content": null,
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": "block 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(1, 0, 0, 1, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event"
+   },
+   "-0.5": {
+    "scale": 0.7071067811865476,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": "block 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(1.18921, 0, 0, 1.18921, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event"
+   },
+   "-1": {
+    "scale": 0.5,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": "block 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(1.41421, 0, 0, 1.41421, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event"
+   },
+   "-1.3": {
+    "scale": 0.40612619817811774,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": "block 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(1.56917, 0, 0, 1.56917, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event"
+   },
+   "-1.5": {
+    "scale": 0.3535533905932738,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": false,
+     "content": "<div class=\"markdown-embed-content node-insert-event\"><div class=\"markdown-preview-view markdown-rendered node-insert-event show-indentation-guide allow-fold-he",
+     "label": "block 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(1.68179, 0, 0, 1.68179, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event"
+   },
+   "-1.7": {
+    "scale": 0.3077861033362291,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": true,
+     "content": null,
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": true,
+     "content": null,
+     "label": "none 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(1.8025, 0, 0, 1.8025, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event mod-zoomed-out"
+   },
+   "-2": {
+    "scale": 0.25,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": true,
+     "content": null,
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": true,
+     "content": null,
+     "label": "none 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(2, 0, 0, 2, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event mod-zoomed-out"
+   },
+   "-2.5": {
+    "scale": 0.1767766952966369,
+    "t0": {
+     "cls": "canvas-node",
+     "placeholder": true,
+     "content": null,
+     "label": null
+    },
+    "f1": {
+     "cls": "canvas-node",
+     "placeholder": true,
+     "content": null,
+     "label": "none 1"
+    },
+    "g1": {
+     "cls": "canvas-node canvas-node-group is-themed mod-canvas-color-4",
+     "labelFont": "22.5px",
+     "labelTransform": "matrix(2.37841, 0, 0, 2.37841, 0, -30.4957)"
+    },
+    "wrapperClasses": "canvas-wrapper node-insert-event mod-zoomed-out"
+   }
+  },
+  "placeholder-dom": {
+   "scale": 0.1767766952966369,
+   "t0": {
+    "outer": "<div class=\"canvas-node-placeholder\"><div class=\"canvas-icon-placeholder\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-align-left\"><path d=\"M21 5H3\"></path><path d=\"M15 12H3\"></path><path d=\"M17 19H3\"></path></svg></div></div>",
+    "font": "32px",
+    "inner": {
+     "cls": "canvas-icon-placeholder",
+     "font": "32px",
+     "weight": "600",
+     "lh": "41.6px",
+     "color": "rgb(218, 218, 218)",
+     "align": "center",
+     "overflow": "visible",
+     "wrap": "normal",
+     "padding": "0px"
+    },
+    "display": "flex",
+    "justify": "center",
+    "align": "center"
+   },
+   "f1": {
+    "outer": "<div class=\"canvas-node-placeholder\">Plan</div>",
+    "font": "32px",
+    "inner": null,
+    "display": "flex",
+    "justify": "center",
+    "align": "center"
+   },
+   "t3": {
+    "outer": "<div class=\"canvas-node-placeholder\"><div class=\"canvas-icon-placeholder\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-align-left\"><path d=\"M21 5H3\"></path><path d=\"M15 12H3\"></path><path d=\"M17 19H3\"></path></svg></div></div>",
+    "font": "32px",
+    "inner": {
+     "cls": "canvas-icon-placeholder",
+     "font": "32px",
+     "weight": "600",
+     "lh": "41.6px",
+     "color": "rgb(218, 218, 218)",
+     "align": "center",
+     "overflow": "visible",
+     "wrap": "normal",
+     "padding": "0px"
+    },
+    "display": "flex",
+    "justify": "center",
+    "align": "center"
+   },
+   "l1": {
+    "outer": "<div class=\"canvas-node-content\"><webview partition=\"persist:vault-c63b69b4f304e78a\" class=\"canvas-link\" allowpopups=\"\" useragent=\"\" src=\"https://example.com/\" style=\"width: 100%; height: 100%;\"></webview></div>",
+    "font": "15px",
+    "inner": {
+     "cls": "canvas-link",
+     "font": "15px",
+     "weight": "400",
+     "lh": "19.5px",
+     "color": "rgb(218, 218, 218)",
+     "align": "start",
+     "overflow": "visible",
+     "wrap": "normal",
+     "padding": "0px"
+    },
+    "display": "block",
+    "justify": "normal",
+    "align": "normal"
+   },
+   "f2": {
+    "outer": "<div class=\"canvas-node-content media-embed image-embed is-loaded\"><img src=\"app://8cb270857c1bb672cf4f99c02b29668f7723/tmp/claude-1000/-home-ragtux-bstore2-raga-repos-silica/25c6dd87-4f8e-4ed8-8e14-166731abeb08/scratchpad/cvprobe-399377c5/vault/pic.png?1792567234845\" draggable=\"false\"></div>",
+    "font": "15px",
+    "inner": {
+     "cls": "",
+     "font": "15px",
+     "weight": "400",
+     "lh": "19.5px",
+     "color": "rgb(218, 218, 218)",
+     "align": "start",
+     "overflow": "clip",
+     "wrap": "normal",
+     "padding": "0px"
+    },
+    "display": "flex",
+    "justify": "center",
+    "align": "center"
+   }
+  },
+  "selection-dom": {
+   "cls": "canvas-node is-themed mod-canvas-color-3 is-focused",
+   "container": {
+    "border": "0.689655px rgb(224, 222, 113)",
+    "shadow": "rgb(224, 222, 113) 0px 0px 0px 1px inset, rgb(224, 222, 113) 0px 0px 0px 2px",
+    "outline": "rgb(218, 218, 218) none 2.75862px",
+    "bg": "rgb(28, 28, 28)",
+    "w": "160px",
+    "h": "60px",
+    "top": "0px",
+    "left": "0px",
+    "right": "0px",
+    "bottom": "0px",
+    "radius": "8px",
+    "transform": "none",
+    "cursor": "grab",
+    "opacity": "1"
+   },
+   "resizers": [],
+   "connections": [],
+   "focused": "canvas-wrapper node-insert-event",
+   "menuRect": {
+    "gapAboveNode": 10.008636474609375,
+    "w": 136.27154541015625,
+    "h": 33.34051513671875,
+    "centerOff": -2.6702880859375e-05,
+    "style": {
+     "border": "0.689655px rgb(51, 51, 51)",
+     "shadow": "rgba(0, 0, 0, 0.07) 0px 2px 10px 0px",
+     "outline": "rgb(218, 218, 218) none 2.75862px",
+     "bg": "rgb(28, 28, 28)",
+     "w": "136.272px",
+     "h": "33.3405px",
+     "top": "0px",
+     "left": "0px",
+     "right": "0px",
+     "bottom": "0px",
+     "radius": "4px",
+     "transform": "none",
+     "cursor": "auto",
+     "opacity": "1"
+    }
+   }
+  },
+  "history-and-save": {
+   "before": {
+    "undo": 2,
+    "keys": [
+     "data",
+     "current",
+     "max"
+    ],
+    "current": 1,
+    "mtime": 1792568930111
+   },
+   "savedAfterMs": 2011,
+   "after": {
+    "y": 20,
+    "undo": 4,
+    "current": 2
+   }
+  }
+ },
+ "probe-b": {
+  "config": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'length')\n    at e.getSnapping (app://obsidian.md/app.js:1:3333701)\n    at <anonymous>:1:240\n    at <anonymous>:1:306"
+  },
+  "threshold-search": {
+   "zoomBetween": [
+    -1.7,
+    -1.6998046875
+   ],
+   "scaleBetween": [
+    0.3077861033362291,
+    0.30782777433456593
+   ]
+  },
+  "wheel": {
+   "before": {
+    "x": 700,
+    "y": 300,
+    "zoom": 0
+   },
+   "plain": {
+    "x": 700,
+    "y": 392.99999694166524,
+    "zoom": 0,
+    "tx": 700,
+    "ty": 392.99999694166524
+   },
+   "shift": {
+    "x": 792.9999969416652,
+    "y": 392.99999694166524,
+    "zoom": 0,
+    "tx": 792.9999969416652,
+    "ty": 392.99999694166524
+   },
+   "ctrl": {
+    "x": 792.9999969416652,
+    "y": 392.99999694166524,
+    "zoom": -0.33333332237155994,
+    "tZoom": -0.33333332237155994
+   },
+   "ctrlUpOff": {
+    "x": 844.9847681894395,
+    "y": 392.99271521818457,
+    "zoom": 0,
+    "tZoom": 0
+   },
+   "horiz": {
+    "x": 937.9847651311047,
+    "y": 392.99271521818457,
+    "zoom": 0
+   }
+  },
+  "drag-snap": {
+   "before": {
+    "x": 760,
+    "y": 20,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": false
+   },
+   "after": {
+    "x": 760,
+    "y": 20,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": false
+   },
+   "afterAlt": {
+    "x": 727,
+    "y": 3,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": true
+   }
+  },
+  "marquee": {
+   "partial": [],
+   "full": [],
+   "viewportAfterDrags": {
+    "x": 700,
+    "y": 300
+   }
+  },
+  "group-click-and-drag": {
+   "clickSel": [],
+   "moved": [],
+   "sel": [],
+   "undoRestored": false,
+   "movedLabel": [
+    "t3"
+   ],
+   "g1Before": [
+    -60,
+    -120
+   ],
+   "g1After": [
+    -60,
+    -120
+   ]
+  },
+  "delete-group": {
+   "sel": [],
+   "removed": [],
+   "restored": 14
+  },
+  "dblclick-create": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'isEditing')\n    at <anonymous>:1:153\n    at <anonymous>:1:168"
+  },
+  "context-menus": {
+   "card": [
+    [
+     "Zoom to selection",
+     "Edit",
+     "Convert to file...",
+     "---",
+     "---",
+     "Remove"
+    ]
+   ],
+   "fileCard": [
+    [
+     "Open quick switcher",
+     "Open graph view",
+     "Create new canvas",
+     "Open today's daily note",
+     "Insert template",
+     "Open command palette",
+     "Create new base",
+     "---",
+     "Hide ribbon"
+    ]
+   ],
+   "edge": [],
+   "edgeNoLabel": [],
+   "background": [],
+   "groupBody": [],
+   "multi": [
+    [
+     "Zoom to selection",
+     "Create group",
+     "---",
+     "Cut",
+     "Copy",
+     "Paste",
+     "---",
+     "---",
+     "Delete"
+    ]
+   ],
+   "ctrlDrag": [],
+   "ctrlDragNodes": 14,
+   "setColor": {
+    "items": null,
+    "picker": [
+     {
+      "cls": "canvas-color-picker-item",
+      "aria": null,
+      "bg": "rgb(126, 126, 126)"
+     },
+     {
+      "cls": "canvas-color-picker-item mod-canvas-color-1",
+      "aria": null,
+      "bg": "rgb(251, 70, 76)"
+     },
+     {
+      "cls": "canvas-color-picker-item mod-canvas-color-2",
+      "aria": null,
+      "bg": "rgb(233, 151, 63)"
+     },
+     {
+      "cls": "canvas-color-picker-item is-active mod-canvas-color-3",
+      "aria": null,
+      "bg": "rgb(224, 222, 113)"
+     },
+     {
+      "cls": "canvas-color-picker-item mod-canvas-color-4",
+      "aria": null,
+      "bg": "rgb(68, 207, 110)"
+     },
+     {
+      "cls": "canvas-color-picker-item mod-canvas-color-5",
+      "aria": null,
+      "bg": "rgb(83, 223, 221)"
+     },
+     {
+      "cls": "canvas-color-picker-item mod-canvas-color-6",
+      "aria": null,
+      "bg": "rgb(168, 130, 255)"
+     },
+     {
+      "cls": "canvas-color-picker-item canvas-color-picker-custom",
+      "aria": null,
+      "bg": "rgba(0, 0, 0, 0)"
+     }
+    ]
+   },
+   "lineDirection": [
+    {
+     "title": "Nondirectional",
+     "checked": "menu-item tappable"
+    },
+    {
+     "title": "Unidirectional",
+     "checked": "menu-item tappable mod-checked"
+    },
+    {
+     "title": "Bidirectional",
+     "checked": "menu-item tappable"
+    }
+   ],
+   "align": [
+    "Align left",
+    "Align center",
+    "Align right",
+    "Align top",
+    "Align middle",
+    "Align bottom",
+    "Arrange in a row",
+    "Arrange in a column",
+    "Arrange in a grid",
+    "Distribute horizontal spacing",
+    "Distribute vertical spacing",
+    "Justify horizontally",
+    "Justify vertically"
+   ],
+   "quickSettings": [
+    "Snap to grid [x]",
+    "Snap to objects [x]",
+    "Read-only"
+   ],
+   "viewMore": [
+    "Split right",
+    "Split down",
+    "Open in new window",
+    "---",
+    "Rename...",
+    "Move file to...",
+    "Bookmark...",
+    "Export as image",
+    "---",
+    "Copy path",
+    "---",
+    "Open version history",
+    "Open linked view",
+    "---",
+    "Open in default app",
+    "Show in system explorer",
+    "Reveal file in navigation",
+    "---",
+    "---",
+    "Delete file"
+   ]
+  },
+  "hover-resize-connect": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'getBoundingClientRect')\n    at <anonymous>:1:231\n    at <anonymous>:1:306"
+  },
+  "arrows-nudge": {
+   "a": {
+    "x": 760,
+    "y": 0,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": true
+   },
+   "right": {
+    "x": 780,
+    "y": 0,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": true
+   },
+   "shiftDown": {
+    "x": 780,
+    "y": 100,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": true
+   }
+  },
+  "space-and-middle-pan": {
+   "before": {
+    "x": 700,
+    "y": 300
+   },
+   "middle": {
+    "x": 700,
+    "y": 300,
+    "sel": 0
+   },
+   "space": {
+    "x": 700,
+    "y": 300,
+    "sel": 0,
+    "holding": false
+   }
+  },
+  "clipboard": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'view')\n    at <anonymous>:1:68\n    at <anonymous>:1:343"
+  },
+  "light-theme-colors": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'view')\n    at <anonymous>:1:68\n    at <anonymous>:2:1888"
+  },
+  "workspace-leaf": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'view')\n    at <anonymous>:1:68\n    at <anonymous>:1:207"
+  }
+ },
+ "probe-b2": {
+  "drag-snap": {
+   "before": {
+    "x": 760,
+    "y": 0,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": false
+   },
+   "after": {
+    "x": 800,
+    "y": 30,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": true
+   },
+   "afterAlt": {
+    "x": 767,
+    "y": 13,
+    "w": 160,
+    "h": 60,
+    "editing": false,
+    "sel": true
+   }
+  },
+  "marquee": {
+   "partial": [
+    "t3"
+   ],
+   "full": [
+    "t3",
+    "t4"
+   ],
+   "viewportAfterDrags": {
+    "x": 930,
+    "y": 0
+   }
+  },
+  "group-click-and-drag": {
+   "clickSel": [],
+   "moved": [],
+   "sel": [],
+   "undoRestored": false,
+   "movedLabel": [
+    "t3"
+   ],
+   "g1Before": [
+    -60,
+    -120
+   ],
+   "g1After": [
+    -60,
+    -120
+   ]
+  },
+  "delete-group": {
+   "sel": [
+    "g1"
+   ],
+   "removed": [
+    "g1"
+   ],
+   "restored": 14
+  },
+  "dblclick-create": {
+   "created": {
+    "id": "1016b0f913a19f5e",
+    "x": 1075,
+    "y": 620,
+    "w": 250,
+    "h": 60,
+    "editing": true,
+    "data": {
+     "id": "1016b0f913a19f5e",
+     "x": 1075,
+     "y": 620,
+     "width": 250,
+     "height": 60,
+     "type": "text",
+     "text": ""
+    },
+    "sel": true,
+    "cls": "canvas-node is-editing is-focused",
+    "active": "embed-iframe is-controlled"
+   },
+   "typed": {
+    "text": "",
+    "data": {
+     "id": "1016b0f913a19f5e",
+     "x": 1075,
+     "y": 620,
+     "width": 250,
+     "height": 60,
+     "type": "text",
+     "text": ""
+    },
+    "editing": true,
+    "h": 60
+   },
+   "afterEsc": {
+    "text": "Hi there",
+    "editing": true,
+    "sel": true,
+    "selSize": 1,
+    "active": "mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-i"
+   },
+   "afterEsc2": {
+    "selSize": 1
+   },
+   "afterEnter": {
+    "editing": true
+   },
+   "afterDbl": {
+    "editing": true
+   },
+   "afterOutside": {
+    "editing": false,
+    "sel": 0
+   },
+   "emptied": {
+    "exists": false
+   }
+  },
+  "context-menus": {
+   "card": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group",
+     "---",
+     "Undo",
+     "---",
+     "Paste",
+     "---",
+     "Snap to grid",
+     "Snap to objects",
+     "Read-only"
+    ]
+   ],
+   "fileCard": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group",
+     "---",
+     "Undo",
+     "---",
+     "Paste",
+     "---",
+     "Snap to grid",
+     "Snap to objects",
+     "Read-only"
+    ]
+   ],
+   "edge": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group",
+     "---",
+     "Undo",
+     "---",
+     "Paste",
+     "---",
+     "Snap to grid",
+     "Snap to objects",
+     "Read-only"
+    ]
+   ],
+   "edgeNoLabel": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group",
+     "---",
+     "Undo",
+     "---",
+     "Paste",
+     "---",
+     "Snap to grid",
+     "Snap to objects",
+     "Read-only"
+    ]
+   ],
+   "background": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group",
+     "---",
+     "Undo",
+     "---",
+     "Paste",
+     "---",
+     "Snap to grid",
+     "Snap to objects",
+     "Read-only"
+    ]
+   ],
+   "groupBody": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group",
+     "---",
+     "Undo",
+     "---",
+     "Paste",
+     "---",
+     "Snap to grid",
+     "Snap to objects",
+     "Read-only"
+    ]
+   ],
+   "multi": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group",
+     "---",
+     "Undo",
+     "---",
+     "Paste",
+     "---",
+     "Snap to grid",
+     "Snap to objects",
+     "Read-only"
+    ]
+   ],
+   "ctrlDrag": [
+    [
+     "Add card",
+     "Add note from vault",
+     "Add media from vault",
+     "Add web page",
+     "Create group"
+    ]
+   ],
+   "ctrlDragNodes": 0,
+   "setColor": null,
+   "lineDirection": null,
+   "align": null,
+   "quickSettings": [
+    "Snap to grid [x]",
+    "Snap to objects [x]",
+    "Read-only"
+   ],
+   "viewMore": [
+    "Split right",
+    "Split down",
+    "Open in new window",
+    "---",
+    "Rename...",
+    "Move file to...",
+    "Bookmark...",
+    "Export as image",
+    "---",
+    "Copy path",
+    "---",
+    "Open version history",
+    "Open linked view",
+    "---",
+    "Open in default app",
+    "Show in system explorer",
+    "Reveal file in navigation",
+    "---",
+    "---",
+    "Delete file"
+   ]
+  },
+  "hover-resize-connect": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'nodeEl')\n    at <anonymous>:1:137\n    at <anonymous>:5:256"
+  },
+  "space-and-middle-pan": {
+   "before": {
+    "x": 1200,
+    "y": 650
+   },
+   "middle": {
+    "x": 1150,
+    "y": 620,
+    "sel": 0
+   },
+   "space": {
+    "x": 1150,
+    "y": 620,
+    "sel": 0,
+    "holding": false
+   }
+  },
+  "clipboard": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'view')\n    at <anonymous>:1:68\n    at <anonymous>:1:343"
+  },
+  "light-theme-colors": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'view')\n    at <anonymous>:1:68\n    at <anonymous>:2:1888"
+  },
+  "workspace-leaf": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'view')\n    at <anonymous>:1:68\n    at <anonymous>:1:207"
+  }
+ },
+ "probe-c": {
+  "rect": {
+   "w": 980,
+   "h": 722,
+   "left": 43.997840881347656,
+   "top": 78.02801513671875,
+   "inner": [
+    1024,
+    800
+   ]
+  },
+  "hover": {
+   "nodeRect": [
+    293.9978332519531,
+    349.02801513671875,
+    159.99998474121094,
+    59.999996185302734
+   ],
+   "cls": "canvas-node is-themed mod-canvas-color-3",
+   "layerKeys": [
+    "canvas",
+    "interactionEl",
+    "target"
+   ],
+   "layerCls": "canvas-node-interaction-layer",
+   "layerHtml": "<div class=\"canvas-node-interaction-layer\" style=\"transform: translate(760px, 0px); width: 160px; height: 60px; z-index: 13;\"><div class=\"canvas-node-resizer\" data-resize=\"top\"><div class=\"canvas-node-connection-point\" data-side=\"top\"></div></div><div class=\"canvas-node-resizer\" data-resize=\"right\"><div class=\"canvas-node-connection-point\" data-side=\"right\"></div></div><div class=\"canvas-node-resizer\" data-resize=\"bottom\"><div class=\"canvas-node-connection-point\" data-side=\"bottom\"></div></div><div class=\"canvas-node-resizer\" data-resize=\"left\"><div class=\"canvas-node-connection-point\" data-side=\"left\"></div></div><div class=\"canvas-node-resizer\" data-resize=\"topright\"></div><div class=\"canvas-node-resizer\" data-resize=\"bottomright\"></div><div class=\"canvas-node-resizer\" data-resize=\"bottomleft\"></div><div class=\"canvas-node-resizer\" data-resize=\"topleft\"></div></div>",
+   "resizers": [
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "160px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "-10px",
+      "left": "0px",
+      "right": "0px",
+      "bottom": "50px",
+      "transform": "none",
+      "cursor": "ns-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      294,
+      339,
+      160,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "20px",
+      "h": "60px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "0px",
+      "left": "150px",
+      "right": "-10px",
+      "bottom": "0px",
+      "transform": "none",
+      "cursor": "ew-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      444,
+      349,
+      20,
+      60
+     ]
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "160px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "50px",
+      "left": "0px",
+      "right": "0px",
+      "bottom": "-10px",
+      "transform": "none",
+      "cursor": "ns-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      294,
+      399,
+      160,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "20px",
+      "h": "60px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "0px",
+      "left": "-10px",
+      "right": "150px",
+      "bottom": "0px",
+      "transform": "none",
+      "cursor": "ew-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      284,
+      349,
+      20,
+      60
+     ]
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "-10px",
+      "left": "150px",
+      "right": "-10px",
+      "bottom": "50px",
+      "transform": "none",
+      "cursor": "nesw-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      444,
+      339,
+      20,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "50px",
+      "left": "150px",
+      "right": "-10px",
+      "bottom": "-10px",
+      "transform": "none",
+      "cursor": "nwse-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      444,
+      399,
+      20,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "50px",
+      "left": "-10px",
+      "right": "150px",
+      "bottom": "-10px",
+      "transform": "none",
+      "cursor": "nesw-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      284,
+      399,
+      20,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "-10px",
+      "left": "-10px",
+      "right": "150px",
+      "bottom": "50px",
+      "transform": "none",
+      "cursor": "nwse-resize",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      284,
+      339,
+      20,
+      20
+     ]
+    }
+   ],
+   "connections": [
+    {
+     "cls": "canvas-node-connection-point",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "1px",
+      "left": "70px",
+      "right": "70px",
+      "bottom": "-0.991379px",
+      "transform": "none",
+      "cursor": "pointer",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      364,
+      340,
+      20,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-connection-point",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "20px",
+      "left": "-0.991379px",
+      "right": "1px",
+      "bottom": "20px",
+      "transform": "none",
+      "cursor": "pointer",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      443,
+      369,
+      20,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-connection-point",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "-0.991379px",
+      "left": "70px",
+      "right": "70px",
+      "bottom": "1px",
+      "transform": "none",
+      "cursor": "pointer",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      364,
+      398,
+      20,
+      20
+     ]
+    },
+    {
+     "cls": "canvas-node-connection-point",
+     "style": {
+      "w": "20px",
+      "h": "20px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "border": "0px rgb(34, 34, 34)",
+      "top": "20px",
+      "left": "1px",
+      "right": "-0.991379px",
+      "bottom": "20px",
+      "transform": "none",
+      "cursor": "pointer",
+      "opacity": "1",
+      "display": "block",
+      "margin": "0px"
+     },
+     "rect": [
+      285,
+      369,
+      20,
+      20
+     ]
+    }
+   ],
+   "container": {
+    "w": "160px",
+    "h": "60px",
+    "bg": "rgb(255, 255, 255)",
+    "radius": "8px",
+    "border": "0.689655px oklch(0.770907 0.157719 86.6498 / 0.7)",
+    "top": "0px",
+    "left": "0px",
+    "right": "0px",
+    "bottom": "0px",
+    "transform": "none",
+    "cursor": "grab",
+    "opacity": "1",
+    "display": "flex",
+    "margin": "0px"
+   }
+  },
+  "resize": {
+   "handles": [
+    {
+     "cls": "canvas-node-resizer",
+     "x": 373.9978256225586,
+     "y": 349.02801418304443
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "x": 453.9978017807007,
+     "y": 379.0280132293701
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "x": 373.9978256225586,
+     "y": 409.0279836654663
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "x": 293.9978322982788,
+     "y": 379.0280132293701
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "x": 453.9978017807007,
+     "y": 349.02801418304443
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "x": 453.9978017807007,
+     "y": 409.0279836654663
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "x": 293.9978322982788,
+     "y": 409.0279836654663
+    },
+    {
+     "cls": "canvas-node-resizer",
+     "x": 293.9978322982788,
+     "y": 349.02801418304443
+    }
+   ],
+   "br": "canvas-node-resizer",
+   "min": {
+    "x": 760,
+    "y": 0,
+    "w": 50,
+    "h": 50,
+    "sel": true
+   },
+   "small": {
+    "x": 760,
+    "y": 0,
+    "w": 160,
+    "h": 60,
+    "sel": true
+   },
+   "tl": "canvas-node-resizer",
+   "topLeft": {
+    "x": 740,
+    "y": 0,
+    "w": 180,
+    "h": 60,
+    "sel": true
+   },
+   "after": {
+    "x": 760,
+    "y": 0,
+    "w": 160,
+    "h": 60,
+    "sel": true
+   }
+  },
+  "connect": {
+   "pts": [
+    {
+     "cls": "canvas-node-connection-point",
+     "x": 373.9978322982788,
+     "y": 350.01937770843506,
+     "w": 19.999998092651367,
+     "h": 19.999998092651367
+    },
+    {
+     "cls": "canvas-node-connection-point",
+     "x": 453.00643825531006,
+     "y": 379.02801418304443,
+     "w": 19.999998092651367,
+     "h": 19.999998092651367
+    },
+    {
+     "cls": "canvas-node-connection-point",
+     "x": 373.9978322982788,
+     "y": 408.0366201400757,
+     "w": 19.999998092651367,
+     "h": 19.999998092651367
+    },
+    {
+     "cls": "canvas-node-connection-point",
+     "x": 294.98919582366943,
+     "y": 379.02801418304443,
+     "w": 19.999998092651367,
+     "h": 19.999998092651367
+    }
+   ],
+   "before": {
+    "nodes": 14,
+    "edges": 7
+   },
+   "dropped": {
+    "nodes": 14,
+    "edges": 8,
+    "newEdge": {
+     "id": "e6b394c4712975ab",
+     "fromNode": "t3",
+     "fromSide": "right",
+     "toNode": "fb6724d902353f7e",
+     "toSide": "left"
+    },
+    "menu": [
+     "Add card",
+     "Add note from vault"
+    ],
+    "active": "canvas-wrapper node-insert-event"
+   },
+   "afterEsc": {
+    "nodes": 14,
+    "edges": 7
+   },
+   "ontoCard": {
+    "edge": {
+     "id": "c8ef7ad0405c3a0f",
+     "fromNode": "t3",
+     "fromSide": "right",
+     "toNode": "t4",
+     "toSide": "left"
+    },
+    "sel": [],
+    "editingLabel": false
+   },
+   "ontoBottom": {
+    "id": "438b7a728ba29cd2",
+    "fromNode": "t3",
+    "fromSide": "right",
+    "toNode": "t4",
+    "toSide": "bottom"
+   }
+  },
+  "group-drag": {
+   "moved": [
+    "g1",
+    "t0",
+    "t1",
+    "t3",
+    "t4",
+    "t5",
+    "t6",
+    "t2",
+    "t7"
+   ],
+   "sel": [
+    "g1"
+   ],
+   "restored": true,
+   "clickBody": [],
+   "clickBorder": [
+    "g1"
+   ],
+   "movedStraddle": [
+    "g1",
+    "t0",
+    "t1",
+    "t4",
+    "t5",
+    "t6",
+    "t2",
+    "t7"
+   ]
+  },
+  "edge-context": {
+   "clickSel": [
+    "e1"
+   ],
+   "menu": [],
+   "clickSel2": [
+    "e3"
+   ],
+   "menu2": [
+    [
+     "Edit label",
+     "Follow connection",
+     "---",
+     "Remove"
+    ]
+   ],
+   "card": [
+    {
+     "cls": "menu-grabber",
+     "title": "",
+     "icon": null
+    },
+    {
+     "cls": "menu-scroll",
+     "title": "Zoom to selection",
+     "icon": "svg-icon zoom-to-selection"
+    }
+   ],
+   "fileCard": [
+    {
+     "cls": "menu-grabber",
+     "title": ""
+    },
+    {
+     "cls": "menu-scroll",
+     "title": "Zoom to selection"
+    }
+   ],
+   "group": null
+  },
+  "clipboard": {
+   "error": "TypeError: Cannot read properties of undefined (reading 'view')\n    at <anonymous>:1:68\n    at <anonymous>:1:322"
+  },
+  "themes": {
+   "dark": {
+    "selectedDefault": {
+     "border": "0.689655px rgb(192, 192, 192)",
+     "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgb(255, 255, 255)"
+    },
+    "selectedContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "plainDefault": {
+     "border": "0.689655px rgb(192, 192, 192)",
+     "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgb(255, 255, 255)"
+    },
+    "plainContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "bodyBg": "rgb(255, 255, 255)",
+    "text": "rgb(34, 34, 34)",
+    "muted": "#5c5c5c",
+    "faint": "#ababab",
+    "menuBg": null,
+    "controlBg": "rgb(255, 255, 255) / rgb(255, 255, 255) rgb(228, 228, 228)",
+    "controlColor": "rgb(92, 92, 92)",
+    "cardMenuBg": "rgb(255, 255, 255)",
+    "cardMenuColor": "rgb(92, 92, 92)",
+    "labelColor": "rgb(171, 171, 171)",
+    "groupLabel": "rgb(92, 92, 92) on oklch(0.807791 0.0000401911 none / 0.1)",
+    "coloredGroupLabel": "rgb(255, 255, 255) on rgb(8, 185, 78)",
+    "groupContainer": {
+     "border": "0.689655px rgb(192, 192, 192)",
+     "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "groupContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "oklch(0.807791 0.0000401911 none / 0.07)"
+    },
+    "coloredGroupContainer": {
+     "border": "0.689655px oklch(0.686205 0.194562 148.477 / 0.7)",
+     "shadow": "oklch(0.686205 0.194562 148.477 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "coloredGroupContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "oklch(0.686205 0.194562 148.477 / 0.07)"
+    },
+    "edgeDefault": "rgb(192, 192, 192)",
+    "arrow": "rgb(236, 117, 0) rgb(236, 117, 0)",
+    "edgeLabel": {
+     "bg": "rgb(255, 255, 255)",
+     "color": "rgb(34, 34, 34)",
+     "font": "20px",
+     "padding": "6px",
+     "radius": "4px",
+     "lh": "26px",
+     "cls": "canvas-path-label",
+     "border": "0px rgb(34, 34, 34)"
+    },
+    "coloredEdgeLabel": "rgb(255, 255, 255) rgb(34, 34, 34)",
+    "selectedEdge": "rgb(192, 192, 192) 2px",
+    "selectedColoredEdge": "rgb(236, 117, 0)"
+   },
+   "light": {
+    "selectedDefault": {
+     "border": "0.689655px rgb(192, 192, 192)",
+     "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgb(255, 255, 255)"
+    },
+    "selectedContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "plainDefault": {
+     "border": "0.689655px rgb(192, 192, 192)",
+     "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgb(255, 255, 255)"
+    },
+    "plainContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "bodyBg": "rgb(255, 255, 255)",
+    "text": "rgb(34, 34, 34)",
+    "muted": "#5c5c5c",
+    "faint": "#ababab",
+    "menuBg": null,
+    "controlBg": "rgb(255, 255, 255) / rgb(255, 255, 255) rgb(228, 228, 228)",
+    "controlColor": "rgb(92, 92, 92)",
+    "cardMenuBg": "rgb(255, 255, 255)",
+    "cardMenuColor": "rgb(92, 92, 92)",
+    "labelColor": "rgb(171, 171, 171)",
+    "groupLabel": "rgb(92, 92, 92) on oklch(0.807791 0.0000401911 none / 0.1)",
+    "coloredGroupLabel": "rgb(255, 255, 255) on rgb(8, 185, 78)",
+    "groupContainer": {
+     "border": "0.689655px rgb(192, 192, 192)",
+     "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "groupContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "oklch(0.807791 0.0000401911 none / 0.07)"
+    },
+    "coloredGroupContainer": {
+     "border": "0.689655px oklch(0.686205 0.194562 148.477 / 0.7)",
+     "shadow": "oklch(0.686205 0.194562 148.477 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "bg": "rgba(0, 0, 0, 0)"
+    },
+    "coloredGroupContent": {
+     "border": "0px rgb(34, 34, 34)",
+     "shadow": "none",
+     "bg": "oklch(0.686205 0.194562 148.477 / 0.07)"
+    },
+    "edgeDefault": "rgb(192, 192, 192)",
+    "arrow": "rgb(236, 117, 0) rgb(236, 117, 0)",
+    "edgeLabel": {
+     "bg": "rgb(255, 255, 255)",
+     "color": "rgb(34, 34, 34)",
+     "font": "20px",
+     "padding": "6px",
+     "radius": "4px",
+     "lh": "26px",
+     "cls": "canvas-path-label",
+     "border": "0px rgb(34, 34, 34)"
+    },
+    "coloredEdgeLabel": "rgb(255, 255, 255) rgb(34, 34, 34)",
+    "selectedEdge": "rgb(192, 192, 192) 2px",
+    "selectedColoredEdge": "rgb(236, 117, 0)"
+   }
+  },
+  "selected-colors": {
+   "t0": {
+    "border": "rgb(126, 126, 126)",
+    "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+    "plain": {
+     "border": "rgb(126, 126, 126)",
+     "shadow": "rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "content": "rgba(0, 0, 0, 0)"
+    }
+   },
+   "t3": {
+    "border": "oklch(0.88004 0.131911 107.863 / 0.7)",
+    "shadow": "oklch(0.88004 0.131911 107.863 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+    "plain": {
+     "border": "oklch(0.88004 0.131911 107.863 / 0.7)",
+     "shadow": "oklch(0.88004 0.131911 107.863 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "content": "oklch(0.88004 0.131911 107.863 / 0.07)"
+    }
+   },
+   "t7": {
+    "border": "oklch(0.744208 0.181196 56.452 / 0.7)",
+    "shadow": "oklch(0.744208 0.181196 56.452 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+    "plain": {
+     "border": "oklch(0.744208 0.181196 56.452 / 0.7)",
+     "shadow": "oklch(0.744208 0.181196 56.452 / 0.7) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0.5px 1px 0.5px",
+     "content": "oklch(0.744208 0.181196 56.452 / 0.07)"
+    }
+   }
+  },
+  "workspace-leaf": {
+   "leaf": {
+    "id": "bb06cb019f29a16a",
+    "type": "leaf",
+    "state": {
+     "type": "canvas",
+     "state": {
+      "file": "Fixture.canvas",
+      "viewState": {
+       "x": 123.5,
+       "y": -45.25,
+       "zoom": -0.75
+      }
+     },
+     "icon": "lucide-layout-dashboard",
+     "title": "Fixture"
+    }
+   }
+  },
+  "screenshot-setup": {
+   "x": 560,
+   "y": 260,
+   "zoom": -0.4,
+   "scale": 0.757858283255199
+  }
+ }
+}

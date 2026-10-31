@@ -1,0 +1,9 @@
+{
+  "id": "silica-corpus",
+  "name": "Silica corpus renderer",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.0",
+  "description": "Renders every note in this vault to HTML for Silica's parser conformance tests.",
+  "author": "Silica",
+  "isDesktopOnly": true
+}

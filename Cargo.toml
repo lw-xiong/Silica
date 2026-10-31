@@ -1,0 +1,107 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/silica",
+    "crates/silica-vault",
+    "crates/silica-markdown",
+    "crates/silica-cache",
+    "crates/silica-formats",
+    "crates/silica-mcp",
+    "crates/silica-llm-mcp",
+    "crates/silica-commands",
+    "crates/silica-control",
+    "crates/silica-search",
+    "crates/silica-text",
+    "crates/silica-canvas",
+    "crates/silica-bases",
+    "crates/silica-suggest",
+    "crates/silica-templates",
+    "crates/silica-pdf",
+    "crates/silica-math",
+    "crates/silica-bench",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+repository = "https://github.com/ragtux/silica"
+license = "MIT"
+publish = false
+
+[workspace.dependencies]
+silica-vault = { path = "crates/silica-vault" }
+silica-markdown = { path = "crates/silica-markdown" }
+silica-cache = { path = "crates/silica-cache" }
+silica-formats = { path = "crates/silica-formats" }
+silica-commands = { path = "crates/silica-commands" }
+silica-control = { path = "crates/silica-control" }
+silica-search = { path = "crates/silica-search" }
+silica-text = { path = "crates/silica-text" }
+silica-canvas = { path = "crates/silica-canvas" }
+silica-bases = { path = "crates/silica-bases" }
+silica-suggest = { path = "crates/silica-suggest" }
+silica-templates = { path = "crates/silica-templates" }
+silica-pdf = { path = "crates/silica-pdf" }
+silica-math = { path = "crates/silica-math" }
+
+anyhow = "1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+serde_yaml = "0.9"
+async-channel = "2"
+# AF_UNIX on Windows (10 1803 and later) behind std's own socket API: the
+# control socket is a Unix domain socket there too. Already in the tree.
+uds_windows = "1.2"
+# Order-preserving map: Obsidian writes types.json in insertion order, so a
+# sorted map would rewrite the file on every save.
+indexmap = { version = "2", features = ["serde"] }
+walkdir = "2"
+tempfile = "3"
+rayon = "1"
+regex = "1"
+notify = "8"
+# Pure Rust PDF rasterizer for the PDF view and `![[x.pdf]]` embeds. The default
+# features embed the 14 standard fonts and the CMaps, so a PDF without its own
+# fonts renders the same on every machine without touching system fonts.
+hayro = "0.8"
+# RaTeX: a KaTeX-compatible TeX math engine in pure Rust, for `$x$` and `$$x$$`.
+# The parser and layout crates hand back a display list in em units that the
+# app paints with gpui; `ratex-katex-fonts` embeds the KaTeX faces (SIL OFL)
+# the metrics belong to. Pinned together: the four crates share a version.
+ratex-parser = "0.1.15"
+ratex-layout = "0.1.15"
+ratex-types = "0.1.15"
+ratex-font = "0.1.15"
+ratex-katex-fonts = "0.1.15"
+# Rasterizes the KaTeX glyphs for the app to paint as images: gpui's own font
+# database prunes a face with no `m` glyph (every KaTeX size face) and cannot
+# tell the KaTeX italics from the uprights (no italic flag in the files).
+ab_glyph = "0.2"
+# Already in the tree through gpui; crates/silica/build.rs compiles the icon
+# and VERSIONINFO into silica.exe with it, and does nothing off Windows.
+embed-resource = "3"
+# Pin libc to 0.2.189: xattr 0.2.3 reads libc::ENOATTR, which libc 0.2.190 removed on Linux.
+libc = "0.2.189"
+# Already in the tree through gpui; the app wraps a rendered PDF page in one
+# of its frames to hand gpui the texture.
+image = "0.25"
+# Already in the tree through gpui; the app needs it for the local civil
+# date a daily note is named after and a template's `{{date}}` renders.
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+# gpui is pinned to a Zed release commit rather than the crates.io release: the crates.io 0.2.2
+# bundles blade 0.7.1, whose unconditional ray-tracing request fails vkCreateDevice on NVIDIA.
+# Zed v1.3.6 (2026) is known to run on the development machine and builds with rustc 1.95.
+# Bump deliberately, one release at a time, and re-run `cargo run -p silica` on a real GPU.
+# Cargo.lock also pins libc to 0.2.189: gpui -> http_client -> async-tar -> xattr 0.2.3 reads
+# `libc::ENOATTR`, which libc 0.2.190 removed on Linux. Drop the pin once async-tar moves to xattr 1.x.
+gpui = { git = "https://github.com/zed-industries/zed", rev = "4ce18741ad2ea007cb20a1dd96d2a170d224cc01" }
+gpui_platform = { git = "https://github.com/zed-industries/zed", rev = "4ce18741ad2ea007cb20a1dd96d2a170d224cc01", features = ["font-kit", "wayland", "x11"] }
+
+[profile.dev]
+opt-level = 0
+
+# gpui and its graphics stack are slow at opt-level 0; keep dependencies optimized in debug builds.
+[profile.dev.package."*"]
+opt-level = 2

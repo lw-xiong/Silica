@@ -1,0 +1,91 @@
+{
+  "pluginTop": {
+    "k": 1
+  },
+  "edges": [
+    {
+      "toSide": "left",
+      "label": "leads to",
+      "color": "2",
+      "id": "e1",
+      "toEnd": "arrow",
+      "fromEnd": "none",
+      "toNode": "f1",
+      "fromSide": "right",
+      "fromNode": "t1",
+      "pluginEdge": true
+    },
+    {
+      "id": "e2",
+      "fromNode": "l1",
+      "toNode": "f1",
+      "toEnd": "none",
+      "fromEnd": "arrow",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "e3",
+      "fromNode": "f1",
+      "toNode": "t1",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "color": "#00ff00"
+    }
+  ],
+  "nodes": [
+    {
+      "backgroundStyle": "cover",
+      "background": "pic.png",
+      "label": "Area",
+      "x": -20,
+      "y": -20,
+      "width": 900,
+      "height": 800,
+      "type": "group",
+      "id": "g1",
+      "color": "4"
+    },
+    {
+      "color": "1",
+      "text": "Hello",
+      "height": 60,
+      "width": 250,
+      "y": 0,
+      "x": 0,
+      "type": "text",
+      "id": "t1",
+      "pluginNode": {
+        "k": 2
+      }
+    },
+    {
+      "subpath": "#Goals",
+      "file": "Plan.md",
+      "height": 400,
+      "width": 400,
+      "y": 0,
+      "x": 300,
+      "type": "file",
+      "id": "f1",
+      "color": "#ff0000"
+    },
+    {
+      "url": "https://example.com",
+      "x": 0,
+      "y": 200,
+      "width": 300,
+      "height": 200,
+      "type": "link",
+      "id": "l1"
+    },
+    {
+      "id": "g2",
+      "type": "group",
+      "x": 1000,
+      "y": 1000,
+      "width": 200,
+      "height": 100
+    }
+  ]
+}

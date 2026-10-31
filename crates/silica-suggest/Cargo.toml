@@ -1,0 +1,16 @@
+[package]
+name = "silica-suggest"
+description = "Editor autocompletion: what a line triggers, what the vault offers for it, and the text accepting one writes"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+silica-cache.workspace = true
+silica-markdown.workspace = true
+silica-vault.workspace = true
+silica-formats.workspace = true
+silica-search.workspace = true

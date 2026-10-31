@@ -1,0 +1,309 @@
+{
+ "copyModal2": {
+  "fixtures": {
+   "phase": "fixtures",
+   "steps": {
+    "fixtures": {
+     "ok": true,
+     "files": {
+      "apple.md": "apple needle one\n",
+      "notes/banana.md": "banana has a needle in a folder\n",
+      "mango.md": "mango needle first\nno hit\nmango needle second\n",
+      "Apple Pie.md": "apple pie needle\n",
+      "plain.txt": "plain text needle\n"
+     }
+    }
+   }
+  },
+  "run": {
+   "phase": "run",
+   "steps": {
+    "search": {
+     "ok": true,
+     "rows": [
+      "apple",
+      "Apple Pie",
+      "banana",
+      "mango"
+     ]
+    },
+    "open-modal-by-real-click": {
+     "ok": true,
+     "items": [
+      [
+       "Copy search results",
+       "Bookmark..."
+      ]
+     ],
+     "modal": {
+      "title": "Copy search results",
+      "cls": "modal",
+      "settings": [
+       {
+        "name": "Show path",
+        "desc": "Display full path of the file rather than just the file name.",
+        "control": {
+         "type": "toggle",
+         "checked": false,
+         "containerCls": "checkbox-container"
+        }
+       },
+       {
+        "name": "Link style",
+        "desc": "Optionally turn each file result in to a link.",
+        "control": {
+         "type": "select",
+         "value": "none",
+         "options": [
+          {
+           "value": "none",
+           "label": "None"
+          },
+          {
+           "value": "wikilink",
+           "label": "Wikilink"
+          },
+          {
+           "value": "markdown",
+           "label": "Markdown link"
+          }
+         ]
+        }
+       },
+       {
+        "name": "List prefix",
+        "desc": "Optionally add a list item prefix to each file result.",
+        "control": {
+         "type": "select",
+         "value": "none",
+         "options": [
+          {
+           "value": "none",
+           "label": "None"
+          },
+          {
+           "value": "-",
+           "label": "Dash (-)"
+          },
+          {
+           "value": "*",
+           "label": "Asterisk (*)"
+          },
+          {
+           "value": "num",
+           "label": "Numbered"
+          }
+         ]
+        }
+       }
+      ],
+      "textareas": [
+       {
+        "value": "apple\nApple Pie\nbanana\nmango",
+        "rows": 2,
+        "readOnly": false,
+        "cls": "copy-search-result-textarea"
+       }
+      ],
+      "buttons": [
+       {
+        "text": "Copy results",
+        "cls": "mod-cta"
+       },
+       {
+        "text": "Done",
+        "cls": ""
+       }
+      ],
+      "contentText": "Show path\nDisplay full path of the file rather than just the file name.\nLink style\nOptionally turn each file result in to a link.\nNone\nWikilink\nMarkdown link\nList prefix\nOptionally add a list item prefix to each file result.\nNone\nDash (-)\nAsterisk (*)\nNumbered\nCopy results\nDone",
+      "html": "<div class=\"modal\"><div class=\"modal-header-button mod-raised clickable-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-x\"><path d=\"M18 6 6 18\"></path><path d=\"m6 6 12 12\"></path></svg></div><div class=\"modal-header\"><div class=\"modal-title\">Copy search results</div></div><div class=\"modal-content\"><div class=\"copy-search-result-container\"><textarea class=\"copy-search-result-textarea\"></textarea><div class=\"setting-item mod-toggle\" tabindex=\"-1\"><div class=\"setting-item-info\"><div class=\"setting-item-name\">Show path</div><div class=\"setting-item-description\">Display full path of the file rather than just the file name.</div></div><div class=\"setting-item-control\"><label class=\"checkbox-container\" tabindex=\"0\"><input type=\"checkbox\" tabindex=\"-1\"></label></div></div><div class=\"setting-item\" tabindex=\"-1\"><div class=\"setting-item-info\"><div class=\"setting-item-name\">Link style</div><div class=\"setting-item-description\">Optionally turn each file result in to a link.</div></div><div class=\"setting-item-control\"><select class=\"dropdown\" style=\"--dropdown-fitted-width: 75px;\"><option value=\"none\">None</option><option value=\"wikilink\">Wikilink</option><option value=\"markdown\">Markdown link</option></select><select class=\"dropdown is-measuring\" aria-hidden=\"true\" tabindex=\"-1\"><option>None</option></select></div></div><div class=\"setting-item\" tabindex=\"-1\"><div class=\"setting-item-info\"><div class=\"setting-item-name\">List prefix</div><div class=\"setting-item-description\">Optionally add a list item prefix to each file result.</div></div><div class=\"setting-item-control\"><select class=\"dropdown\" style=\"--dropdown-fitted-width: 75px;\"><option value=\"none\">None</option><option value=\"-\">Dash (-)</option><option value=\"*\">Asterisk (*)</option><option value=\"num\">Numbered</option></select><select class=\"dropdown is-measuring\" aria-hidden=\"true\" tabindex=\"-1\"><option>None</option></select></div></div></div><div class=\"modal-button-container\"><button class=\"mod-cta\">Copy results</button><button>Done</button></div></div></div>"
+     }
+    },
+    "variants": {
+     "ok": true,
+     "indexes": {
+      "iPath": 0,
+      "iLink": 1,
+      "iPrefix": 2
+     },
+     "variants": [
+      {
+       "showPath": false,
+       "link": "none",
+       "prefix": "none",
+       "text": "apple\nApple Pie\nbanana\nmango"
+      },
+      {
+       "showPath": false,
+       "link": "none",
+       "prefix": "-",
+       "text": "- apple\n- Apple Pie\n- banana\n- mango"
+      },
+      {
+       "showPath": false,
+       "link": "none",
+       "prefix": "*",
+       "text": "* apple\n* Apple Pie\n* banana\n* mango"
+      },
+      {
+       "showPath": false,
+       "link": "none",
+       "prefix": "num",
+       "text": "1. apple\n2. Apple Pie\n3. banana\n4. mango"
+      },
+      {
+       "showPath": false,
+       "link": "wikilink",
+       "prefix": "none",
+       "text": "[[apple]]\n[[Apple Pie]]\n[[banana]]\n[[mango]]"
+      },
+      {
+       "showPath": false,
+       "link": "wikilink",
+       "prefix": "-",
+       "text": "- [[apple]]\n- [[Apple Pie]]\n- [[banana]]\n- [[mango]]"
+      },
+      {
+       "showPath": false,
+       "link": "wikilink",
+       "prefix": "*",
+       "text": "* [[apple]]\n* [[Apple Pie]]\n* [[banana]]\n* [[mango]]"
+      },
+      {
+       "showPath": false,
+       "link": "wikilink",
+       "prefix": "num",
+       "text": "1. [[apple]]\n2. [[Apple Pie]]\n3. [[banana]]\n4. [[mango]]"
+      },
+      {
+       "showPath": false,
+       "link": "markdown",
+       "prefix": "none",
+       "text": "[apple](apple)\n[Apple Pie](Apple Pie)\n[banana](banana)\n[mango](mango)"
+      },
+      {
+       "showPath": false,
+       "link": "markdown",
+       "prefix": "-",
+       "text": "- [apple](apple)\n- [Apple Pie](Apple Pie)\n- [banana](banana)\n- [mango](mango)"
+      },
+      {
+       "showPath": false,
+       "link": "markdown",
+       "prefix": "*",
+       "text": "* [apple](apple)\n* [Apple Pie](Apple Pie)\n* [banana](banana)\n* [mango](mango)"
+      },
+      {
+       "showPath": false,
+       "link": "markdown",
+       "prefix": "num",
+       "text": "1. [apple](apple)\n2. [Apple Pie](Apple Pie)\n3. [banana](banana)\n4. [mango](mango)"
+      },
+      {
+       "showPath": true,
+       "link": "none",
+       "prefix": "none",
+       "text": "apple.md\nApple Pie.md\nnotes/banana.md\nmango.md"
+      },
+      {
+       "showPath": true,
+       "link": "none",
+       "prefix": "-",
+       "text": "- apple.md\n- Apple Pie.md\n- notes/banana.md\n- mango.md"
+      },
+      {
+       "showPath": true,
+       "link": "none",
+       "prefix": "*",
+       "text": "* apple.md\n* Apple Pie.md\n* notes/banana.md\n* mango.md"
+      },
+      {
+       "showPath": true,
+       "link": "none",
+       "prefix": "num",
+       "text": "1. apple.md\n2. Apple Pie.md\n3. notes/banana.md\n4. mango.md"
+      },
+      {
+       "showPath": true,
+       "link": "wikilink",
+       "prefix": "none",
+       "text": "[[apple.md]]\n[[Apple Pie.md]]\n[[notes/banana.md]]\n[[mango.md]]"
+      },
+      {
+       "showPath": true,
+       "link": "wikilink",
+       "prefix": "-",
+       "text": "- [[apple.md]]\n- [[Apple Pie.md]]\n- [[notes/banana.md]]\n- [[mango.md]]"
+      },
+      {
+       "showPath": true,
+       "link": "wikilink",
+       "prefix": "*",
+       "text": "* [[apple.md]]\n* [[Apple Pie.md]]\n* [[notes/banana.md]]\n* [[mango.md]]"
+      },
+      {
+       "showPath": true,
+       "link": "wikilink",
+       "prefix": "num",
+       "text": "1. [[apple.md]]\n2. [[Apple Pie.md]]\n3. [[notes/banana.md]]\n4. [[mango.md]]"
+      },
+      {
+       "showPath": true,
+       "link": "markdown",
+       "prefix": "none",
+       "text": "[apple](apple.md)\n[Apple Pie](Apple Pie.md)\n[banana](notes/banana.md)\n[mango](mango.md)"
+      },
+      {
+       "showPath": true,
+       "link": "markdown",
+       "prefix": "-",
+       "text": "- [apple](apple.md)\n- [Apple Pie](Apple Pie.md)\n- [banana](notes/banana.md)\n- [mango](mango.md)"
+      },
+      {
+       "showPath": true,
+       "link": "markdown",
+       "prefix": "*",
+       "text": "* [apple](apple.md)\n* [Apple Pie](Apple Pie.md)\n* [banana](notes/banana.md)\n* [mango](mango.md)"
+      },
+      {
+       "showPath": true,
+       "link": "markdown",
+       "prefix": "num",
+       "text": "1. [apple](apple.md)\n2. [Apple Pie](Apple Pie.md)\n3. [banana](notes/banana.md)\n4. [mango](mango.md)"
+      }
+     ]
+    },
+    "press-copy-button": {
+     "ok": true,
+     "btns": [
+      "Copy results",
+      "Done"
+     ],
+     "pressed": "Copy results",
+     "reads": [
+      {
+       "afterMs": 200,
+       "electron": "1. [apple](apple.md)\n2. [Apple Pie](Apple Pie.md)\n3. [banana](notes/banana.md)\n4. [mango](mango.md)"
+      },
+      {
+       "afterMs": 800,
+       "electron": "1. [apple](apple.md)\n2. [Apple Pie](Apple Pie.md)\n3. [banana](notes/banana.md)\n4. [mango](mango.md)"
+      },
+      {
+       "afterMs": 2000,
+       "electron": "1. [apple](apple.md)\n2. [Apple Pie](Apple Pie.md)\n3. [banana](notes/banana.md)\n4. [mango](mango.md)"
+      }
+     ],
+     "modalStillOpen": true,
+     "notices": [
+      "Results copied to your clipboard."
+     ]
+    },
+    "cleanup": {
+     "ok": true,
+     "modal": false
+    }
+   }
+  }
+ }
+}

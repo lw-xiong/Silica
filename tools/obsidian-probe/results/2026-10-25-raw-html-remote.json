@@ -1,0 +1,1400 @@
+{
+ "rawHtmlRemote": {
+  "fixtures": {
+   "startedAt": "2026-10-25T15:43:13.633Z",
+   "steps": {},
+   "order": [],
+   "httpLog": [],
+   "elapsedMs": 2
+  },
+  "run": {
+   "startedAt": "2026-10-25T15:43:14.862Z",
+   "steps": {
+    "s01-raw-html-dom": {
+     "ok": true,
+     "ms": 6450,
+     "opened": {
+      "file": "Raw HTML.md",
+      "mode": "preview"
+     },
+     "sections": [
+      {
+       "cls": "markdown-preview-pusher",
+       "tag": "DIV",
+       "text": "",
+       "rect": {
+        "x": 376,
+        "y": 110,
+        "w": 0.99,
+        "h": 0.1
+       },
+       "innerTags": []
+      },
+      {
+       "cls": "mod-header mod-ui",
+       "tag": "DIV",
+       "text": "Raw HTMLPropertiesAdd property",
+       "rect": {
+        "x": 376,
+        "y": 110,
+        "w": 604.43,
+        "h": 31.06
+       },
+       "innerTags": [
+        "DIV.inline-title",
+        "DIV.metadata-container",
+        "DIV.metadata-error-container",
+        "DIV.metadata-properties-heading",
+        "DIV.collapse-indicator",
+        "svg.[object",
+        "path.[object",
+        "DIV.metadata-properties-title",
+        "DIV.metadata-content",
+        "DIV.metadata-properties",
+        "DIV.metadata-add-button",
+        "SPAN.text-button-icon"
+       ]
+      },
+      {
+       "cls": "el-h1",
+       "tag": "DIV",
+       "text": "Raw HTML probe",
+       "rect": {
+        "x": 376,
+        "y": 154,
+        "w": 604.43,
+        "h": 31.06
+       },
+       "innerTags": [
+        "H1",
+        "SPAN.heading-collapse-indicator",
+        "svg.[object",
+        "path.[object"
+       ]
+      },
+      {
+       "cls": "el-h2",
+       "tag": "DIV",
+       "text": "Images block",
+       "rect": {
+        "x": 376,
+        "y": 201,
+        "w": 604.43,
+        "h": 28.07
+       },
+       "innerTags": [
+        "H2",
+        "SPAN.heading-collapse-indicator",
+        "svg.[object",
+        "path.[object"
+       ]
+      },
+      {
+       "cls": "el-img",
+       "tag": "DIV",
+       "text": "\n\n\n\n",
+       "rect": {
+        "x": 376,
+        "y": 245,
+        "w": 604.43,
+        "h": 66.07
+       },
+       "innerTags": [
+        "IMG",
+        "IMG",
+        "IMG",
+        "IMG",
+        "IMG"
+       ]
+      },
+      {
+       "cls": "el-h2",
+       "tag": "DIV",
+       "text": "Anchors",
+       "rect": {
+        "x": 376,
+        "y": 327,
+        "w": 604.43,
+        "h": 28.07
+       },
+       "innerTags": [
+        "H2",
+        "SPAN.heading-collapse-indicator",
+        "svg.[object",
+        "path.[object"
+       ]
+      },
+      {
+       "cls": "el-p",
+       "tag": "DIV",
+       "text": "bare basename\nwith extension\nan attachment\nmissing note\nin-n",
+       "rect": {
+        "x": 376,
+        "y": 371,
+        "w": 604.43,
+        "h": 143.99
+       },
+       "innerTags": [
+        "P",
+        "A",
+        "BR",
+        "A",
+        "BR",
+        "A",
+        "BR",
+        "A",
+        "BR",
+        "A",
+        "BR",
+        "A"
+       ]
+      },
+      {
+       "cls": "el-h2",
+       "tag": "DIV",
+       "text": "Details",
+       "rect": {
+        "x": 376,
+        "y": 555,
+        "w": 604.43,
+        "h": 28.07
+       },
+       "innerTags": [
+        "H2",
+        "SPAN.heading-collapse-indicator",
+        "svg.[object",
+        "path.[object"
+       ]
+      },
+      {
+       "cls": "el-details",
+       "tag": "DIV",
+       "text": "a summarythe details body",
+       "rect": {
+        "x": 376,
+        "y": 599,
+        "w": 604.43,
+        "h": 24
+       },
+       "innerTags": [
+        "DETAILS",
+        "SUMMARY"
+       ]
+      },
+      {
+       "cls": "el-h2",
+       "tag": "DIV",
+       "text": "Sup and sub",
+       "rect": {
+        "x": 376,
+        "y": 639,
+        "w": 604.43,
+        "h": 28.07
+       },
+       "innerTags": [
+        "H2",
+        "SPAN.heading-collapse-indicator",
+        "svg.[object",
+        "path.[object"
+       ]
+      },
+      {
+       "cls": "el-p",
+       "tag": "DIV",
+       "text": "Water is H2O and E = mc2.",
+       "rect": {
+        "x": 376,
+        "y": 683,
+        "w": 604.43,
+        "h": 29.9
+       },
+       "innerTags": [
+        "P",
+        "SUB",
+        "SUP"
+       ]
+      },
+      {
+       "cls": "el-h2",
+       "tag": "DIV",
+       "text": "Unwrap cases",
+       "rect": {
+        "x": 376,
+        "y": 753,
+        "w": 604.43,
+        "h": 28.07
+       },
+       "innerTags": [
+        "H2",
+        "SPAN.heading-collapse-indicator",
+        "svg.[object",
+        "path.[object"
+       ]
+      },
+      {
+       "cls": "el-p",
+       "tag": "DIV",
+       "text": "object body\n",
+       "rect": {
+        "x": 376,
+        "y": 797,
+        "w": 604.43,
+        "h": 24
+       },
+       "innerTags": [
+        "P",
+        "BR"
+       ]
+      },
+      {
+       "cls": "el-form",
+       "tag": "DIV",
+       "text": "\n\n\n\n\n\nbackground image\n",
+       "rect": {
+        "x": 376,
+        "y": 837,
+        "w": 604.43,
+        "h": 94.5
+       },
+       "innerTags": [
+        "FORM",
+        "INPUT",
+        "svg.[object",
+        "rect.[object",
+        "IFRAME",
+        "DIV"
+       ]
+      },
+      {
+       "cls": "el-h2",
+       "tag": "DIV",
+       "text": "In containers",
+       "rect": {
+        "x": 376,
+        "y": 948,
+        "w": 604.43,
+        "h": 28.07
+       },
+       "innerTags": [
+        "H2",
+        "SPAN.heading-collapse-indicator",
+        "svg.[object",
+        "path.[object"
+       ]
+      },
+      {
+       "cls": "el-div",
+       "tag": "DIV",
+       "text": "A callout\nbold in a callout and \n",
+       "rect": {
+        "x": 376,
+        "y": 992,
+        "w": 604.43,
+        "h": 142.83
+       },
+       "innerTags": [
+        "DIV.callout",
+        "DIV.callout-title",
+        "DIV.callout-icon",
+        "svg.[object",
+        "path.[object",
+        "path.[object",
+        "DIV.callout-title-inner",
+        "DIV.callout-content",
+        "P",
+        "B",
+        "IMG"
+       ]
+      },
+      {
+       "cls": "el-blockquote",
+       "tag": "DIV",
+       "text": "\nbold in a blockquote\n",
+       "rect": {
+        "x": 376,
+        "y": 1151,
+        "w": 604.43,
+        "h": 24
+       },
+       "innerTags": [
+        "BLOCKQUOTE",
+        "P",
+        "B"
+       ]
+      },
+      {
+       "cls": "el-table",
+       "tag": "DIV",
+       "text": "\n\n\nhead\nhead\n\n\n\n\nbold in a cell\n\n\n\n",
+       "rect": {
+        "x": 376,
+        "y": 1191,
+        "w": 604.43,
+        "h": 135.09
+       },
+       "innerTags": [
+        "TABLE",
+        "THEAD",
+        "TR",
+        "TH",
+        "TH",
+        "TBODY",
+        "TR",
+        "TD",
+        "B",
+        "TD",
+        "IMG"
+       ]
+      },
+      {
+       "cls": "el-ul",
+       "tag": "DIV",
+       "text": "\nbold in a list item\nplain item\n",
+       "rect": {
+        "x": 376,
+        "y": 1342,
+        "w": 604.43,
+        "h": 52.78
+       },
+       "innerTags": [
+        "UL.has-list-bullet",
+        "LI",
+        "SPAN.list-bullet",
+        "B",
+        "LI",
+        "SPAN.list-bullet"
+       ]
+      },
+      {
+       "cls": "el-p",
+       "tag": "DIV",
+       "text": "A paragraph that is interrupted by inline HTML.",
+       "rect": {
+        "x": 376,
+        "y": 1411,
+        "w": 604.43,
+        "h": 24
+       },
+       "innerTags": [
+        "P",
+        "B"
+       ]
+      },
+      {
+       "cls": "el-p",
+       "tag": "DIV",
+       "text": "A paragraph then",
+       "rect": {
+        "x": 376,
+        "y": 1451,
+        "w": 604.43,
+        "h": 24
+       },
+       "innerTags": [
+        "P"
+       ]
+      },
+      {
+       "cls": "el-div",
+       "tag": "DIV",
+       "text": "a raw block interrupting it\nand more text.",
+       "rect": {
+        "x": 376,
+        "y": 1491,
+        "w": 604.43,
+        "h": 48
+       },
+       "innerTags": [
+        "DIV"
+       ]
+      },
+      {
+       "cls": "mod-footer mod-ui",
+       "tag": "DIV",
+       "text": "",
+       "rect": {
+        "x": 376,
+        "y": 1539,
+        "w": 604.43,
+        "h": 0
+       },
+       "innerTags": [
+        "DIV.embedded-backlinks"
+       ]
+      }
+     ],
+     "unwrapCases": {
+      "OBJECT": {
+       "count": 0,
+       "first": null
+      },
+      "EMBED": {
+       "count": 0,
+       "first": null
+      },
+      "FORM": {
+       "count": 1,
+       "first": {
+        "outer": "<form action=\"/x\"><input name=\"q\"></form>",
+        "rect": {
+         "x": 376,
+         "y": 837,
+         "w": 604.43,
+         "h": 24.44
+        }
+       }
+      },
+      "INPUT": {
+       "count": 1,
+       "first": {
+        "outer": "<input name=\"q\">",
+        "rect": {
+         "x": 376,
+         "y": 842,
+         "w": 178.47,
+         "h": 19.91
+        }
+       }
+      },
+      "SVG": {
+       "count": 11,
+       "first": {
+        "outer": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" str",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      },
+      "STYLE": {
+       "count": 0,
+       "first": null
+      },
+      "LINK": {
+       "count": 0,
+       "first": null
+      },
+      "META": {
+       "count": 0,
+       "first": null
+      },
+      "IFRAME": {
+       "count": 1,
+       "first": {
+        "outer": "<iframe height=\"40\" width=\"100\" src=\"http://127.0.0.1:8731/frame.html\" sandbox=\"allow-forms allow-presentation allow-same-origin allow-scripts allow-modals\"></i",
+        "rect": {
+         "x": 390,
+         "y": 862,
+         "w": 100,
+         "h": 40
+        }
+       }
+      },
+      "SCRIPT": {
+       "count": 0,
+       "first": null
+      },
+      "DETAILS": {
+       "count": 1,
+       "first": {
+        "outer": "<details><summary>a summary</summary>the details body</details>",
+        "rect": {
+         "x": 376,
+         "y": 599,
+         "w": 604.43,
+         "h": 24
+        }
+       }
+      },
+      "SUMMARY": {
+       "count": 1,
+       "first": {
+        "outer": "<summary>a summary</summary>",
+        "rect": {
+         "x": 376,
+         "y": 599,
+         "w": 604.43,
+         "h": 24
+        }
+       }
+      },
+      "SUP": {
+       "count": 1,
+       "first": {
+        "outer": "<sup>2</sup>",
+        "rect": {
+         "x": 559,
+         "y": 683,
+         "w": 7.63,
+         "h": 18.62
+        }
+       }
+      },
+      "SUB": {
+       "count": 1,
+       "first": {
+        "outer": "<sub>2</sub>",
+        "rect": {
+         "x": 453,
+         "y": 693,
+         "w": 7.63,
+         "h": 18.62
+        }
+       }
+      },
+      "B": {
+       "count": 5,
+       "first": {
+        "outer": "<b>bold in a callout</b>",
+        "rect": {
+         "x": 400,
+         "y": 1084,
+         "w": 123.97,
+         "h": 22.07
+        }
+       }
+      },
+      "scriptRan": false,
+      "probeStyleApplied": "rgb(218, 218, 218)",
+      "rawTextLeftOver": []
+     },
+     "containers": {
+      "calloutHtml": [
+       {
+        "html": "<div data-callout-metadata=\"\" data-callout-fold=\"\" data-callout=\"note\" class=\"callout\"><div class=\"callout-title\" dir=\"auto\"><div class=\"callout-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"curren",
+        "rect": {
+         "x": 376,
+         "y": 992,
+         "w": 604.43,
+         "h": 142.83
+        }
+       }
+      ],
+      "blockquoteHtml": [
+       {
+        "html": "<blockquote dir=\"auto\">\n<p><b>bold in a blockquote</b></p>\n</blockquote>",
+        "rect": {
+         "x": 376,
+         "y": 1151,
+         "w": 604.43,
+         "h": 24
+        }
+       }
+      ],
+      "tableCellHtml": [
+       {
+        "html": "<td dir=\"ltr\"><b>bold in a cell</b></td>",
+        "rect": {
+         "x": 376,
+         "y": 1237,
+         "w": 114.08,
+         "h": 72.93
+        }
+       },
+       {
+        "html": "<td dir=\"auto\"><img alt=\"in cell\" src=\"app://33b9672c3d31f75271e7a22ed4a674b7cf41/tmp/silica-probe-vault.auhr5C/pic.png?1792942993635\" referrerpolicy=\"no-referrer\"></td>",
+        "rect": {
+         "x": 490,
+         "y": 1237,
+         "w": 136.68,
+         "h": 72.93
+        }
+       }
+      ],
+      "listItemHtml": [
+       {
+        "html": "<li data-line=\"0\" dir=\"auto\"><span class=\"list-bullet\"></span><b>bold in a list item</b></li>",
+        "rect": {
+         "x": 403,
+         "y": 1342,
+         "w": 576.99,
+         "h": 26.39
+        }
+       },
+       {
+        "html": "<li data-line=\"1\" dir=\"auto\"><span class=\"list-bullet\"></span>plain item</li>",
+        "rect": {
+         "x": 403,
+         "y": 1368,
+         "w": 576.99,
+         "h": 26.39
+        }
+       }
+      ],
+      "interruptedParagraph": [
+       "<p dir=\"auto\">A paragraph that is <b>interrupted</b> by inline HTML.</p>"
+      ],
+      "rawBlockInParagraph": [
+       {
+        "tag": "DIV",
+        "cls": "markdown-preview-sizer markdown-preview-section",
+        "outer": "<div class=\"markdown-preview-sizer markdown-preview-section\" style=\"padding-bottom: 361px; min-height: 1427px;\"><div class=\"markdown-preview-pusher\" style=\"width: 1px; height: 0.1px; margin-bottom: 0px;\"></div><div class=\"mod-header mod-ui\""
+       },
+       {
+        "tag": "DIV",
+        "cls": "el-div",
+        "outer": "<div class=\"el-div\"><div>a raw block interrupting it</div>\nand more text.</div>"
+       },
+       {
+        "tag": "DIV",
+        "cls": "",
+        "outer": "<div>a raw block interrupting it</div>"
+       }
+      ]
+     },
+     "bytesUnchanged": true
+    },
+    "s02-anchor-clicks": {
+     "ok": true,
+     "ms": 6964,
+     "armed": "armed",
+     "anchors": [
+      {
+       "id": "anchor-noext",
+       "href": "Other",
+       "cls": "",
+       "dataHref": null,
+       "target": "_blank",
+       "text": "bare basename",
+       "rect": {
+        "x": 376,
+        "y": 372,
+        "w": 116.58,
+        "h": 22.07
+       }
+      },
+      {
+       "id": "anchor-ext",
+       "href": "Other.md",
+       "cls": "",
+       "dataHref": null,
+       "target": "_blank",
+       "text": "with extension",
+       "rect": {
+        "x": 376,
+        "y": 396,
+        "w": 109.69,
+        "h": 22.07
+       }
+      },
+      {
+       "id": "anchor-attachment",
+       "href": "pic.png",
+       "cls": "",
+       "dataHref": null,
+       "target": "_blank",
+       "text": "an attachment",
+       "rect": {
+        "x": 376,
+        "y": 420,
+        "w": 109.69,
+        "h": 22.07
+       }
+      },
+      {
+       "id": "anchor-missing",
+       "href": "No Such Note",
+       "cls": "",
+       "dataHref": null,
+       "target": "_blank",
+       "text": "missing note",
+       "rect": {
+        "x": 376,
+        "y": 444,
+        "w": 96.76,
+        "h": 22.07
+       }
+      },
+      {
+       "id": "anchor-hash",
+       "href": "#Images block",
+       "cls": "",
+       "dataHref": null,
+       "target": "_blank",
+       "text": "in-note hash",
+       "rect": {
+        "x": 376,
+        "y": 468,
+        "w": 94.06,
+        "h": 22.07
+       }
+      },
+      {
+       "id": "anchor-external",
+       "href": "http://127.0.0.1:8731/page.html",
+       "cls": "",
+       "dataHref": null,
+       "target": "_blank",
+       "text": "an external page",
+       "rect": {
+        "x": 376,
+        "y": 492,
+        "w": 126.37,
+        "h": 22.07
+       }
+      }
+     ],
+     "clicked": [
+      {
+       "id": "anchor-noext",
+       "href": "Other",
+       "events": [
+        {
+         "id": "anchor-noext",
+         "href": "Other",
+         "cls": "",
+         "defaultPreventedByObsidian": false,
+         "targetTag": "A"
+        }
+       ],
+       "fileAfter": "Raw HTML.md",
+       "fileBefore": "Raw HTML.md",
+       "scrollBefore": 0,
+       "scrollAfter": 0,
+       "leaves": {
+        "markdown": 1,
+        "types": [
+         "Raw HTML.md"
+        ]
+       },
+       "windows": 1
+      },
+      {
+       "id": "anchor-ext",
+       "href": "Other.md",
+       "events": [
+        {
+         "id": "anchor-ext",
+         "href": "Other.md",
+         "cls": "",
+         "defaultPreventedByObsidian": false,
+         "targetTag": "A"
+        }
+       ],
+       "fileAfter": "Raw HTML.md",
+       "fileBefore": "Raw HTML.md",
+       "scrollBefore": 0,
+       "scrollAfter": 0,
+       "leaves": {
+        "markdown": 1,
+        "types": [
+         "Raw HTML.md"
+        ]
+       },
+       "windows": 1
+      },
+      {
+       "id": "anchor-attachment",
+       "href": "pic.png",
+       "events": [
+        {
+         "id": "anchor-attachment",
+         "href": "pic.png",
+         "cls": "",
+         "defaultPreventedByObsidian": false,
+         "targetTag": "A"
+        }
+       ],
+       "fileAfter": "Raw HTML.md",
+       "fileBefore": "Raw HTML.md",
+       "scrollBefore": 0,
+       "scrollAfter": 0,
+       "leaves": {
+        "markdown": 1,
+        "types": [
+         "Raw HTML.md"
+        ]
+       },
+       "windows": 1
+      },
+      {
+       "id": "anchor-missing",
+       "href": "No Such Note",
+       "events": [
+        {
+         "id": "anchor-missing",
+         "href": "No Such Note",
+         "cls": "",
+         "defaultPreventedByObsidian": false,
+         "targetTag": "A"
+        }
+       ],
+       "fileAfter": "Raw HTML.md",
+       "fileBefore": "Raw HTML.md",
+       "scrollBefore": 0,
+       "scrollAfter": 15.862068176269531,
+       "leaves": {
+        "markdown": 1,
+        "types": [
+         "Raw HTML.md"
+        ]
+       },
+       "windows": 1
+      },
+      {
+       "id": "anchor-hash",
+       "href": "#Images block",
+       "events": [
+        {
+         "id": "anchor-hash",
+         "href": "#Images block",
+         "cls": "",
+         "defaultPreventedByObsidian": false,
+         "targetTag": "A"
+        }
+       ],
+       "fileAfter": "Raw HTML.md",
+       "fileBefore": "Raw HTML.md",
+       "scrollBefore": 15.862068176269531,
+       "scrollAfter": 40,
+       "leaves": {
+        "markdown": 1,
+        "types": [
+         "Raw HTML.md"
+        ]
+       },
+       "windows": 1
+      },
+      {
+       "id": "anchor-external",
+       "href": "http://127.0.0.1:8731/page.html",
+       "events": [
+        {
+         "id": "anchor-external",
+         "href": "http://127.0.0.1:8731/page.html",
+         "cls": "",
+         "defaultPreventedByObsidian": false,
+         "targetTag": "A"
+        }
+       ],
+       "fileAfter": "Raw HTML.md",
+       "fileBefore": "Raw HTML.md",
+       "scrollBefore": 40,
+       "scrollAfter": 64.13793182373047,
+       "leaves": {
+        "markdown": 1,
+        "types": [
+         "Raw HTML.md"
+        ]
+       },
+       "windows": 1
+      }
+     ]
+    },
+    "s03-remote-image-layout": {
+     "ok": true,
+     "ms": 5222,
+     "opened": {
+      "file": "Remote.md",
+      "mode": "preview"
+     },
+     "atOnce": [
+      {
+       "alt": "remote",
+       "src": "http://127.0.0.1:8731/remote.png",
+       "complete": true,
+       "naturalWidth": 120,
+       "naturalHeight": 60,
+       "rect": {
+        "x": 376,
+        "y": 241,
+        "w": 120,
+        "h": 60
+       },
+       "parentCls": "",
+       "parentRect": {
+        "x": 376,
+        "y": 241,
+        "w": 604.43,
+        "h": 66.07
+       },
+       "loading": null,
+       "referrerPolicy": "no-referrer",
+       "style": {
+        "width": "120px",
+        "height": "60px",
+        "display": "inline",
+        "objectFit": "fill"
+       }
+      },
+      {
+       "alt": "slow",
+       "src": "http://127.0.0.1:8731/slow.png",
+       "complete": true,
+       "naturalWidth": 120,
+       "naturalHeight": 60,
+       "rect": {
+        "x": 376,
+        "y": 363,
+        "w": 120,
+        "h": 60
+       },
+       "parentCls": "",
+       "parentRect": {
+        "x": 376,
+        "y": 363,
+        "w": 604.43,
+        "h": 66.07
+       },
+       "loading": null,
+       "referrerPolicy": "no-referrer",
+       "style": {
+        "width": "120px",
+        "height": "60px",
+        "display": "inline",
+        "objectFit": "fill"
+       }
+      },
+      {
+       "alt": "missing",
+       "src": "http://127.0.0.1:8731/missing.png",
+       "complete": true,
+       "naturalWidth": 0,
+       "naturalHeight": 0,
+       "rect": {
+        "x": 376,
+        "y": 445,
+        "w": 74.23,
+        "h": 24
+       },
+       "parentCls": "",
+       "parentRect": {
+        "x": 376,
+        "y": 445,
+        "w": 604.43,
+        "h": 24
+       },
+       "loading": null,
+       "referrerPolicy": "no-referrer",
+       "style": {
+        "width": "74.2349px",
+        "height": "23.9978px",
+        "display": "inline",
+        "objectFit": "fill"
+       }
+      },
+      {
+       "alt": "sized",
+       "src": "http://127.0.0.1:8731/remote.png",
+       "complete": true,
+       "naturalWidth": 120,
+       "naturalHeight": 60,
+       "rect": {
+        "x": 376,
+        "y": 485,
+        "w": 60,
+        "h": 30
+       },
+       "parentCls": "",
+       "parentRect": {
+        "x": 376,
+        "y": 485,
+        "w": 604.43,
+        "h": 36.07
+       },
+       "loading": null,
+       "referrerPolicy": "no-referrer",
+       "style": {
+        "width": "60px",
+        "height": "30px",
+        "display": "inline",
+        "objectFit": "fill"
+       }
+      }
+     ],
+     "afterLoad": {
+      "imgs": [
+       {
+        "alt": "remote",
+        "src": "http://127.0.0.1:8731/remote.png",
+        "complete": true,
+        "naturalWidth": 120,
+        "naturalHeight": 60,
+        "rect": {
+         "x": 376,
+         "y": 241,
+         "w": 120,
+         "h": 60
+        },
+        "parentCls": "",
+        "parentRect": {
+         "x": 376,
+         "y": 241,
+         "w": 604.43,
+         "h": 66.07
+        },
+        "resizeCorner": false
+       },
+       {
+        "alt": "slow",
+        "src": "http://127.0.0.1:8731/slow.png",
+        "complete": true,
+        "naturalWidth": 120,
+        "naturalHeight": 60,
+        "rect": {
+         "x": 376,
+         "y": 363,
+         "w": 120,
+         "h": 60
+        },
+        "parentCls": "",
+        "parentRect": {
+         "x": 376,
+         "y": 363,
+         "w": 604.43,
+         "h": 66.07
+        },
+        "resizeCorner": false
+       },
+       {
+        "alt": "missing",
+        "src": "http://127.0.0.1:8731/missing.png",
+        "complete": true,
+        "naturalWidth": 0,
+        "naturalHeight": 0,
+        "rect": {
+         "x": 376,
+         "y": 445,
+         "w": 74.23,
+         "h": 24
+        },
+        "parentCls": "",
+        "parentRect": {
+         "x": 376,
+         "y": 445,
+         "w": 604.43,
+         "h": 24
+        },
+        "resizeCorner": false
+       },
+       {
+        "alt": "sized",
+        "src": "http://127.0.0.1:8731/remote.png",
+        "complete": true,
+        "naturalWidth": 120,
+        "naturalHeight": 60,
+        "rect": {
+         "x": 376,
+         "y": 485,
+         "w": 60,
+         "h": 30
+        },
+        "parentCls": "",
+        "parentRect": {
+         "x": 376,
+         "y": 485,
+         "w": 604.43,
+         "h": 36.07
+        },
+        "resizeCorner": false
+       }
+      ],
+      "sizerChildren": [
+       {
+        "cls": "markdown-preview-pusher",
+        "tag": "DIV",
+        "text": "",
+        "rect": {
+         "x": 376,
+         "y": 110,
+         "w": 0.99,
+         "h": 0.1
+        }
+       },
+       {
+        "cls": "mod-header mod-ui",
+        "tag": "DIV",
+        "text": "RemotePropertiesAdd property",
+        "rect": {
+         "x": 376,
+         "y": 110,
+         "w": 604.43,
+         "h": 31.06
+        }
+       },
+       {
+        "cls": "el-h1",
+        "tag": "DIV",
+        "text": "Remote images",
+        "rect": {
+         "x": 376,
+         "y": 154,
+         "w": 604.43,
+         "h": 31.06
+        }
+       },
+       {
+        "cls": "el-p",
+        "tag": "DIV",
+        "text": "Before the image.",
+        "rect": {
+         "x": 376,
+         "y": 201,
+         "w": 604.43,
+         "h": 24
+        }
+       },
+       {
+        "cls": "el-p",
+        "tag": "DIV",
+        "text": "",
+        "rect": {
+         "x": 376,
+         "y": 241,
+         "w": 604.43,
+         "h": 66.07
+        }
+       },
+       {
+        "cls": "el-p",
+        "tag": "DIV",
+        "text": "Between the images.",
+        "rect": {
+         "x": 376,
+         "y": 323,
+         "w": 604.43,
+         "h": 24
+        }
+       },
+       {
+        "cls": "el-p",
+        "tag": "DIV",
+        "text": "",
+        "rect": {
+         "x": 376,
+         "y": 363,
+         "w": 604.43,
+         "h": 66.07
+        }
+       },
+       {
+        "cls": "el-p",
+        "tag": "DIV",
+        "text": "",
+        "rect": {
+         "x": 376,
+         "y": 445,
+         "w": 604.43,
+         "h": 24
+        }
+       },
+       {
+        "cls": "el-p",
+        "tag": "DIV",
+        "text": "",
+        "rect": {
+         "x": 376,
+         "y": 485,
+         "w": 604.43,
+         "h": 36.07
+        }
+       },
+       {
+        "cls": "el-p",
+        "tag": "DIV",
+        "text": "After the images.",
+        "rect": {
+         "x": 376,
+         "y": 537,
+         "w": 604.43,
+         "h": 24
+        }
+       },
+       {
+        "cls": "mod-footer mod-ui",
+        "tag": "DIV",
+        "text": "",
+        "rect": {
+         "x": 376,
+         "y": 577,
+         "w": 604.43,
+         "h": 0
+        }
+       }
+      ]
+     },
+     "httpRequests": [
+      {
+       "at": 13463,
+       "method": "GET",
+       "url": "/missing.png",
+       "headers": {
+        "referer": null,
+        "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+       }
+      }
+     ],
+     "bytesUnchanged": true
+    },
+    "s04-broken-image-and-query": {
+     "ok": true,
+     "ms": 2120,
+     "broken": {
+      "src": "http://127.0.0.1:8731/missing.png",
+      "complete": true,
+      "naturalWidth": 0,
+      "rect": {
+       "x": 376,
+       "y": 445,
+       "w": 74.23,
+       "h": 24
+      },
+      "altText": "missing",
+      "style": {
+       "width": "74.2349px",
+       "height": "23.9978px",
+       "minHeight": "0px",
+       "display": "inline",
+       "visibility": "visible"
+      },
+      "parentOuter": "<p dir=\"auto\"><img alt=\"missing\" src=\"http://127.0.0.1:8731/missing.png\" referrerpolicy=\"no-referrer\"></p>"
+     },
+     "localImage": [
+      {
+       "alt": "vault relative",
+       "src": "app://33b9672c3d31f75271e7a22ed4a674b7cf41/tmp/silica-probe-vault.auhr5C/pic.png?1792942993635",
+       "currentSrc": "app://33b9672c3d31f75271e7a22ed4a674b7cf41/tmp/silica-probe-vault.auhr5C/pic.png?1792942993635"
+      },
+      {
+       "alt": "remote",
+       "src": "http://127.0.0.1:8731/remote.png",
+       "currentSrc": "http://127.0.0.1:8731/remote.png"
+      },
+      {
+       "alt": "slow",
+       "src": "http://127.0.0.1:8731/slow.png",
+       "currentSrc": "http://127.0.0.1:8731/slow.png"
+      },
+      {
+       "alt": "404",
+       "src": "http://127.0.0.1:8731/missing.png",
+       "currentSrc": "http://127.0.0.1:8731/missing.png"
+      },
+      {
+       "alt": "sized",
+       "src": "app://33b9672c3d31f75271e7a22ed4a674b7cf41/tmp/silica-probe-vault.auhr5C/pic.png?1792942993635",
+       "currentSrc": "app://33b9672c3d31f75271e7a22ed4a674b7cf41/tmp/silica-probe-vault.auhr5C/pic.png?1792942993635"
+      },
+      {
+       "alt": "in callout",
+       "src": "app://33b9672c3d31f75271e7a22ed4a674b7cf41/tmp/silica-probe-vault.auhr5C/pic.png?1792942993635",
+       "currentSrc": "app://33b9672c3d31f75271e7a22ed4a674b7cf41/tmp/silica-probe-vault.auhr5C/pic.png?1792942993635"
+      }
+     ],
+     "picStat": {
+      "mtimeMs": 1792942993635.2686,
+      "mtime": 1792942993635,
+      "ctimeMs": 1792942993635.2686,
+      "size": 254
+     }
+    }
+   },
+   "order": [
+    "s01-raw-html-dom",
+    "s02-anchor-clicks",
+    "s03-remote-image-layout",
+    "s04-broken-image-and-query"
+   ],
+   "httpLog": [
+    {
+     "at": 118,
+     "method": "GET",
+     "url": "/remote.png",
+     "headers": {
+      "referer": null,
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 120,
+     "method": "GET",
+     "url": "/slow.png",
+     "headers": {
+      "referer": null,
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 120,
+     "method": "GET",
+     "url": "/missing.png",
+     "headers": {
+      "referer": null,
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 643,
+     "method": "GET",
+     "url": "/frame.html",
+     "headers": {
+      "referer": null,
+      "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 643,
+     "method": "GET",
+     "url": "/bg.png",
+     "headers": {
+      "referer": null,
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 648,
+     "method": "GET",
+     "url": "/missing.png",
+     "headers": {
+      "referer": null,
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 13463,
+     "method": "GET",
+     "url": "/missing.png",
+     "headers": {
+      "referer": null,
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 18691,
+     "method": "GET",
+     "url": "/missing.png",
+     "headers": {
+      "referer": null,
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    },
+    {
+     "at": 18706,
+     "method": "GET",
+     "url": "/frame.html",
+     "headers": {
+      "referer": null,
+      "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWeb"
+     }
+    }
+   ],
+   "elapsedMs": 20792,
+   "httpBase": "http://127.0.0.1:8731",
+   "vaultPath": "/tmp/silica-probe-vault.auhr5C",
+   "title": "New tab - silica-probe-vault.auhr5C - Obsidian 1.14.5",
+   "finishedAt": "2026-10-25T15:43:35.654Z"
+  }
+ }
+}

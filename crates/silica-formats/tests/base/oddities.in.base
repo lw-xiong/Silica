@@ -1,0 +1,9 @@
+filters:
+  and:
+    - 'status != "done"'
+  weirdFilterKey: 1
+views:
+  - type: list
+  - type: table
+    name: ''
+    unknownViewKey: kept

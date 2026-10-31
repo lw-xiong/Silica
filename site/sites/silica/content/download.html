@@ -1,0 +1,152 @@
+---
+title: Download
+layout: page
+description: Download Silica 0.3.2 for Linux, Windows or macOS — one archive per platform with a SHA256SUMS file, on a permanent address that always resolves to the newest release. There is no installer: unpack it and run it against a vault. Free software under the MIT license.
+---
+<section class="hero" style="padding-bottom:24px">
+  <span class="badge pre">v0.3.2 · MIT · no installer, no account</span>
+  <h1>Unpack it and point it at a vault.</h1>
+  <p class="lede">
+    Every release builds one archive per platform and a <code>SHA256SUMS</code> file over all of
+    them, published on both forges. There is nothing to install and nothing to configure: the
+    archive holds a single binary, and the binary takes the path to your vault.
+  </p>
+  <div class="btn-row">
+    <a class="btn primary" id="dl-main" data-dl-main
+       href="https://github.com/ragtux/silica/releases/latest/download/silica-linux-x86_64.tar.gz">Download for Linux</a>
+    <a class="btn" href="/releases/">What is in 0.3.2</a>
+    <a class="btn" href="/docs/install/">Installing, in the manual</a>
+  </div>
+  <p class="dim small" style="margin-top:22px">
+    That address has no version in it and always resolves to the newest release; each release
+    also carries the same archives named for their tag. GitHub carries all three platforms, and
+    because the homelab Forgejo runner has only a Linux container,
+    <a href="https://git.ragtux.com/ragtux/silica/releases">git.ragtux.com</a> carries the Linux
+    archive — the same build from the same tag.
+  </p>
+</section>
+
+<section class="band">
+  <h2>Pick your platform</h2>
+  <p class="notice">
+    <strong>Linux is the platform Silica is developed on</strong>, and the one that gets the
+    hours. Since 0.3.1 the Windows and macOS builds are run on real hardware too, each drawing
+    its own platform's window. They still see a fraction of the use Linux does, so if one of
+    them misbehaves an <a href="https://github.com/ragtux/silica/issues">issue</a> is genuinely
+    useful.
+  </p>
+  <div class="dl-grid">
+    <div class="dl" data-platform="linux">
+      <h3>Linux</h3>
+      <p class="os">x86-64 · <code>.tar.gz</code> · about 13 MB</p>
+      <a class="btn primary" href="https://github.com/ragtux/silica/releases/latest/download/silica-linux-x86_64.tar.gz">Download 0.3.2</a>
+      <ul>
+        <li>Needs a Vulkan-capable driver; Wayland and X11 both work</li>
+        <li>The reference machine: NixOS on Wayland with an NVIDIA GPU</li>
+        <li>On NixOS, run it through the repository's <code>shell.nix</code>, which supplies the
+        X11, Wayland and Vulkan libraries GPUI loads at run time</li>
+      </ul>
+    </div>
+    <div class="dl" data-platform="windows">
+      <h3>Windows</h3>
+      <p class="os">x86-64 · <code>.zip</code> · about 9 MB</p>
+      <a class="btn" href="https://github.com/ragtux/silica/releases/latest/download/silica-windows-x86_64.zip">Download 0.3.2</a>
+      <ul>
+        <li>Run on Windows 11: starts, opens a vault and draws the hidden frame there too</li>
+        <li>Not code signed: SmartScreen warns on first launch —
+        <em>More info › Run anyway</em></li>
+      </ul>
+    </div>
+    <div class="dl" data-platform="macos">
+      <h3>macOS</h3>
+      <p class="os">Apple silicon (arm64) · <code>.tar.gz</code> · about 7 MB</p>
+      <a class="btn" href="https://github.com/ragtux/silica/releases/latest/download/silica-macos-aarch64.tar.gz">Download 0.3.2</a>
+      <ul>
+        <li>Run on Apple silicon, where it draws Obsidian's macOS frame and uses the
+        platform's text system; there is no Intel build</li>
+        <li>Not notarized: open it the first time with <em>right-click › Open</em>, or clear the
+        quarantine flag with <code>xattr -d com.apple.quarantine</code></li>
+      </ul>
+    </div>
+  </div>
+  <p class="dim small" style="margin-top:18px">
+    Check what you downloaded against
+    <a href="https://github.com/ragtux/silica/releases/latest/download/SHA256SUMS"><code>SHA256SUMS</code></a> from the same release:
+    <code>sha256sum -c --ignore-missing SHA256SUMS</code> on Linux,
+    <code>shasum -a 256 -c --ignore-missing SHA256SUMS</code> on macOS,
+    <code>Get-FileHash</code> on Windows. It lists both names of every archive, so the check
+    works whichever address you took.
+    <a href="/releases/">Build provenance and the signing key →</a>
+  </p>
+</section>
+
+<section class="band">
+  <h2>Running it</h2>
+  <p class="lede">
+    Silica takes a vault as its argument. A vault is a folder of Markdown files — if Obsidian
+    opens it, Silica opens it, and it does not matter whether the folder has an
+    <code>.obsidian</code> directory in it yet.
+  </p>
+  <figure class="code"><span class="code-lang">shell</span><pre><code>tar xf silica-linux-x86_64.tar.gz
+./silica ~/notes                      # open a vault
+./silica ~/notes --note "Welcome"     # open it on a note
+./silica ~/notes --note "Spec#Parser" # open it scrolled to a heading</code></pre></figure>
+  <p class="dim small">
+    The manual's <a href="/docs/install/">install page</a> covers the command-line flags, and
+    <a href="/docs/open-a-vault/">open a vault</a> covers what happens on first launch.
+  </p>
+</section>
+
+<section class="band">
+  <h2>From source</h2>
+  <p class="lede">
+    The repository builds with a stable toolchain pinned by <code>rust-toolchain.toml</code>.
+    The one thing to know is that <code>gpui</code> is a git dependency pinned to a Zed release
+    commit — the crates.io release is stale and crashes on NVIDIA — so build with
+    <code>--locked</code> and let <code>Cargo.lock</code> decide.
+  </p>
+  <figure class="code"><span class="code-lang">shell</span><pre><code>git clone https://github.com/ragtux/silica
+cd silica
+cargo build --release --locked -p silica    # on NixOS: inside nix-shell
+cargo test --workspace                      # the library suites, including the ratchets
+./target/release/silica ~/notes</code></pre></figure>
+  <div class="grid" style="margin-top:22px">
+    <div class="card">
+      <span class="k">Mirrors</span>
+      <h3>Two forges, one history</h3>
+      <p>The repository lives on <a href="https://github.com/ragtux/silica">GitHub</a> and on
+      <a href="https://git.ragtux.com/ragtux/silica">git.ragtux.com</a>, and a <code>v*</code>
+      tag pushed to both builds a release on both. Either is a fine place to clone from; issues
+      and patches are read on both.</p>
+    </div>
+    <div class="card">
+      <span class="k">License</span>
+      <h3>MIT, the whole thing</h3>
+      <p>Use it, change it, ship something built on it, commercially or not. There is no
+      separate commercial license because there is nothing to buy.
+      <a href="/legal/">The license in plain words →</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <h2>Before you open a vault you care about</h2>
+  <p class="lede">
+    Silica reads a vault well and writes one carefully, but writing is the newer half and this
+    is v0.3.2. Two habits cost nothing and remove the whole risk:
+  </p>
+  <ul>
+    <li><strong>Have a backup.</strong> A copy of the folder, or a git repository in it, or
+    whatever you already use. This is good advice for any editor and better advice for a young
+    one.</li>
+    <li><strong>Try it on a scratch vault first.</strong> Copy a handful of notes into a new
+    folder, edit them in Silica, then open the folder in Obsidian and see that it looks like
+    nothing happened. That is the same check Silica's own round-trip gate makes.</li>
+  </ul>
+  <div class="btn-row" style="margin-top:12px">
+    <a class="btn primary" href="/docs/">Read the manual</a>
+    <a class="btn" href="/releases/">Releases</a>
+    <a class="btn" href="/docs/from-obsidian/">Coming from Obsidian</a>
+    <a class="btn" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+  </div>
+</section>

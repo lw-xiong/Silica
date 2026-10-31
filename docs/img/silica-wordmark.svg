@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="448" viewBox="0 0 1024 448">
+  <!-- Silica wordmark: clean, non-rock logo matching the app brand color -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f27127"/>
+      <stop offset="100%" stop-color="#d95a0f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="448" fill="#1e1e22"/>
+  <text x="512" y="252" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="240" fill="url(#grad)" text-anchor="middle" letter-spacing="-8">Silica</text>
+  <text x="512" y="386" font-family="Inter, system-ui, sans-serif" font-weight="400" font-size="48" fill="#e7e5e2" text-anchor="middle">Your vault, opened natively.</text>
+</svg>

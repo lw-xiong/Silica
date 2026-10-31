@@ -1,0 +1,54 @@
+[package]
+name = "silica"
+description = "Silica: a native Rust/GPUI knowledge base compatible with Obsidian vaults"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+# Windows resources: the icon as resource 1 and a VERSIONINFO block, which is
+# where gpui's window class, the taskbar and Explorer all look. A no-op
+# everywhere else, so it is not behind a target table.
+build = "build.rs"
+
+[[bin]]
+name = "silica"
+path = "src/main.rs"
+
+[dependencies]
+silica-vault.workspace = true
+silica-markdown.workspace = true
+silica-cache.workspace = true
+silica-commands.workspace = true
+silica-control.workspace = true
+silica-formats.workspace = true
+silica-search.workspace = true
+silica-suggest.workspace = true
+silica-templates.workspace = true
+silica-text.workspace = true
+silica-bases.workspace = true
+silica-canvas.workspace = true
+silica-pdf.workspace = true
+silica-math.workspace = true
+anyhow.workspace = true
+async-channel.workspace = true
+indexmap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+rayon.workspace = true
+notify.workspace = true
+regex.workspace = true
+serde_yaml.workspace = true
+chrono.workspace = true
+gpui.workspace = true
+gpui_platform.workspace = true
+# Already in the tree through gpui; a rendered PDF page is handed to gpui as
+# one of its `image` frames.
+image.workspace = true
+
+[build-dependencies]
+embed-resource.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

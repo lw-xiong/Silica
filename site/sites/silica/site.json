@@ -1,0 +1,86 @@
+{
+  "name": "silica",
+  "title": "Silica",
+  "host": "silica.cc",
+  "baseUrl": "/",
+  "description": "Silica is a native knowledge base written in Rust that opens Obsidian vaults unchanged — same folder, same configuration, same Markdown. Free software under the MIT license, and not affiliated with Obsidian.",
+  "footer": "Silica is free software from RAGTUX LLC, under the MIT license. An independent implementation, not affiliated with Obsidian.",
+  "mark": "/assets/logo.svg",
+  "cta": { "text": "Download", "url": "/download/" },
+  "styles": ["/assets/silica.css"],
+  "scripts": ["/assets/platform.js"],
+  "nav": [
+    { "text": "Manual", "url": "/docs/" },
+    { "text": "Releases", "url": "/releases/" },
+    { "text": "Download", "url": "/download/" }
+  ],
+  "footerLinks": [
+    { "text": "Manual", "url": "/docs/" },
+    { "text": "Releases", "url": "/releases/" },
+    { "text": "Download", "url": "/download/" },
+    { "text": "Source", "url": "https://github.com/ragtux/silica" },
+    { "text": "Legal", "url": "/legal/" },
+    { "text": "ragtux.com", "url": "https://ragtux.com/" }
+  ],
+  "notFound": "<p>That address is not part of this site. The <a href=\"/docs/\">manual's contents</a> is a good place to pick the thread back up.</p>",
+  "sidebar": [
+    {
+      "title": "Getting started",
+      "items": [
+        { "text": "Contents", "url": "/docs/" },
+        { "text": "What Silica is", "url": "/docs/what-silica-is/" },
+        { "text": "Install and run", "url": "/docs/install/" },
+        { "text": "Open a vault", "url": "/docs/open-a-vault/" },
+        { "text": "Coming from Obsidian", "url": "/docs/from-obsidian/" }
+      ]
+    },
+    {
+      "title": "Using Silica",
+      "items": [
+        { "text": "The window", "url": "/docs/app/window/" },
+        { "text": "The Files view", "url": "/docs/app/files/" },
+        { "text": "Reading view", "url": "/docs/app/reading-view/" },
+        { "text": "Editing a note", "url": "/docs/app/editing/" },
+        { "text": "Find and replace", "url": "/docs/app/find/" },
+        { "text": "Backlinks and the side panes", "url": "/docs/app/panes/" },
+        { "text": "Search", "url": "/docs/app/search/" },
+        { "text": "Switcher and palette", "url": "/docs/app/switcher/" },
+        { "text": "The graph view", "url": "/docs/app/graph/" },
+        { "text": "Managing notes", "url": "/docs/app/manage/" }
+      ]
+    },
+    {
+      "title": "Writing notes",
+      "items": [
+        { "text": "Basic formatting", "url": "/docs/format/basic/" },
+        { "text": "Internal links", "url": "/docs/format/links/" },
+        { "text": "Embedding files", "url": "/docs/format/embeds/" },
+        { "text": "Callouts", "url": "/docs/format/callouts/" },
+        { "text": "Properties and tags", "url": "/docs/format/properties/" },
+        { "text": "Block ids and footnotes", "url": "/docs/format/blocks/" },
+        { "text": "Tables, code and math", "url": "/docs/format/code-math/" }
+      ]
+    },
+    {
+      "title": "Settings",
+      "items": [
+        { "text": "Settings", "url": "/docs/settings/" },
+        { "text": "Hotkeys", "url": "/docs/hotkeys/" }
+      ]
+    },
+    {
+      "title": "Reference",
+      "items": [
+        { "text": "Search syntax", "url": "/docs/reference/search-syntax/" },
+        { "text": "Commands and hotkeys", "url": "/docs/reference/commands/" },
+        { "text": "Obsidian compatibility", "url": "/docs/reference/compatibility/" },
+        { "text": "What differs from Obsidian", "url": "/docs/reference/differences/" },
+        { "text": "Vault files and formats", "url": "/docs/reference/formats/" },
+        { "text": "How Silica works", "url": "/docs/reference/architecture/" },
+        { "text": "Performance", "url": "/docs/reference/performance/" },
+        { "text": "Troubleshooting", "url": "/docs/reference/troubleshooting/" },
+        { "text": "Glossary", "url": "/docs/reference/glossary/" }
+      ]
+    }
+  ]
+}

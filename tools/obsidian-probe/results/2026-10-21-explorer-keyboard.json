@@ -1,0 +1,2422 @@
+{
+ "explorerKeyboard": {
+  "fixtures": {
+   "startedAt": "2026-10-21T15:37:02.232Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 1
+  },
+  "run": {
+   "startedAt": "2026-10-21T15:37:03.446Z",
+   "steps": {
+    "s01-click-focus": {
+     "ok": true,
+     "ms": 1053,
+     "beforeClick": {
+      "activeFile": "Gamma.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "# GammaBody of Gamma.md."
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha",
+       "beta",
+       "Gamma *"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": null,
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "afterClickFile": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "# AlphaBody of Alpha.md."
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": null,
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "treeProto": {
+      "own": [
+       "activeDom",
+       "focusedItem",
+       "selectedDoms",
+       "prefersCollapsed",
+       "filter",
+       "isAllCollapsed",
+       "requestSaveFolds",
+       "id",
+       "app",
+       "view",
+       "scope",
+       "handleDeleteSelectedItems",
+       "handleCollapseAll",
+       "handleRenameFocusedItem",
+       "containerEl",
+       "getNodeId",
+       "infinityScroll"
+      ],
+      "proto": [
+       "constructor",
+       "selectItem",
+       "onKeyArrowRight",
+       "isItem",
+       "root",
+       "initializeKeyboardNav",
+       "setSearchFilter",
+       "applySearchFilter",
+       "toggleCollapseAll",
+       "setCollapseAll",
+       "onResize",
+       "handleItemSelection",
+       "isKeyboardNavigationEvent",
+       "getSelectedItems",
+       "removeSelection",
+       "clearSelectedDoms",
+       "deselectItem",
+       "onKeyOpen",
+       "onKeyArrowUp",
+       "onKeyEscape",
+       "onKeyArrowDown",
+       "onKeyArrowLeft",
+       "setFocusedItem",
+       "changeFocusedItem",
+       "getFoldKey",
+       "loadFolds",
+       "saveFolds"
+      ]
+     }
+    },
+    "s02-arrows-on-files": {
+     "ok": true,
+     "ms": 4947,
+     "start": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "down1": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "down2": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Gamma"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta",
+       "Gamma F"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Gamma.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "downPastEnd": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Gamma"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta",
+       "Gamma F"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Gamma.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "up1": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "home": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "end": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "pageUp": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "clickActiveRow": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "upFromAlpha": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c F",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "upAgain": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Archive"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c F",
+       "Projects/ c",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Archive",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "upPastStart": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Archive"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c F",
+       "Projects/ c",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Archive",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     }
+    },
+    "s03-enter-space-on-file": {
+     "ok": true,
+     "ms": 3045,
+     "start": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "down": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha *",
+       "beta F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "enter": {
+      "activeFile": "beta.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "# betaBody of beta.md."
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha",
+       "beta * F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "start2": {
+      "activeFile": "beta.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "beta - silica-probe-vault.GfMSmE - Obsid"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha",
+       "beta * F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "space": {
+      "activeFile": "beta.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "beta - silica-probe-vault.GfMSmE - Obsid"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha",
+       "beta * F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "ctrlEnter": {
+      "activeFile": "beta.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [
+       "beta"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "# betaBody of beta.md."
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha",
+       "beta * F",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "beta.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     }
+    },
+    "s04-folders": {
+     "ok": true,
+     "ms": 7236,
+     "start": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "upOntoFolder": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c F",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "rightOnCollapsed": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ F",
+       "Deep/ c",
+       "Budget",
+       "Plan",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "rightOnOpen": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Deep"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/",
+       "Deep/ c F",
+       "Budget",
+       "Plan",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects/Deep",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "downIntoChild": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Budget"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/",
+       "Deep/ c",
+       "Budget F",
+       "Plan",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects/Budget.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "leftOnChild": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c F",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "leftOnOpenFolder": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c F",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "leftOnCollapsed": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c F",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "enterOnFolder": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ F",
+       "Deep/ c",
+       "Budget",
+       "Plan",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "enterOnFolderAgain": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c F",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "spaceOnFolder": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ F",
+       "Deep/ c",
+       "Budget",
+       "Plan",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "spaceOnFolderAgain": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/ c",
+       "Projects/ c F",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "clickFolder": {
+      "before": {
+       "activeFile": "Alpha.md",
+       "activeLeafType": "file-explorer",
+       "focusedRow": [
+        "Alpha"
+       ],
+       "activeElement": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+        "tabindex": null,
+        "inPane": false,
+        "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+       },
+       "rows": [
+        "Archive/ c",
+        "Projects/ c",
+        "Alpha * F",
+        "beta",
+        "Gamma"
+       ],
+       "containerTabindex": null,
+       "viewFocus": {
+        "focusedItem": "Alpha.md",
+        "keys": [
+         "activeDom",
+         "focusedItem",
+         "selectedDoms",
+         "prefersCollapsed",
+         "filter",
+         "isAllCollapsed",
+         "requestSaveFolds",
+         "id",
+         "app",
+         "view",
+         "scope",
+         "handleDeleteSelectedItems",
+         "handleCollapseAll",
+         "handleRenameFocusedItem",
+         "containerEl",
+         "getNodeId",
+         "infinityScroll"
+        ]
+       }
+      },
+      "after": {
+       "activeFile": "Alpha.md",
+       "activeLeafType": "file-explorer",
+       "focusedRow": [],
+       "activeElement": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+        "tabindex": null,
+        "inPane": false,
+        "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+       },
+       "rows": [
+        "Archive/",
+        "old",
+        "Projects/ c",
+        "Alpha *",
+        "beta",
+        "Gamma"
+       ],
+       "containerTabindex": null,
+       "viewFocus": {
+        "focusedItem": null,
+        "keys": [
+         "activeDom",
+         "focusedItem",
+         "selectedDoms",
+         "prefersCollapsed",
+         "filter",
+         "isAllCollapsed",
+         "requestSaveFolds",
+         "id",
+         "app",
+         "view",
+         "scope",
+         "handleDeleteSelectedItems",
+         "handleCollapseAll",
+         "handleRenameFocusedItem",
+         "containerEl",
+         "getNodeId",
+         "infinityScroll"
+        ]
+       }
+      }
+     },
+     "downAfterFolderClick": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "old"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old F",
+       "Projects/ c",
+       "Alpha *",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Archive/old.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "enterOnOld": {
+      "activeFile": "Archive/old.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [
+       "old"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "# oldBody of Archive/old.md."
+      },
+      "rows": [
+       "Archive/",
+       "old * F",
+       "Projects/ c",
+       "Alpha",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Archive/old.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     }
+    },
+    "s05-commands": {
+     "ok": true,
+     "ms": 2423,
+     "editorFocused": {
+      "activeFile": "Projects/Deep/Inner.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [
+       "old"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "# InnerBody of Projects/Deep/Inner.md."
+      },
+      "rows": [
+       "Archive/",
+       "old F",
+       "Projects/ c",
+       "Alpha",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Archive/old.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "afterOpenCommand": {
+      "activeFile": "Projects/Deep/Inner.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "old"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Inner - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old F",
+       "Projects/ c",
+       "Alpha",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Archive/old.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "downAfterOpen": {
+      "activeFile": "Projects/Deep/Inner.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Projects"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Inner - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/ c F",
+       "Alpha",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "afterRevealCommand": {
+      "activeFile": "Projects/Deep/Inner.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Inner"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Inner - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner * F",
+       "Budget",
+       "Plan",
+       "Alpha",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects/Deep/Inner.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "downAfterReveal": {
+      "activeFile": "Projects/Deep/Inner.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Budget"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Inner - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner *",
+       "Budget F",
+       "Plan",
+       "Alpha",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Projects/Budget.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     }
+    },
+    "s06-escape-and-typing": {
+     "ok": true,
+     "ms": 4472,
+     "start": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "typedG": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "escape": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "# AlphaBody of Alpha.md."
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "downAfterEscape": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "AlphaBody of Alpha.md."
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "tab": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "markdown",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "cm-content cm-lineWrapping",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha\tBody of Alpha.md."
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "start2": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "f2": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "DIV",
+       "cls": "tree-item-inner nav-file-title-content",
+       "tabindex": null,
+       "inPane": true,
+       "text": "Alpha"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "f2Escape": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Alpha - silica-probe-vault.GfMSmE - Obsi"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "delete": {
+      "activeFile": "Alpha.md",
+      "activeLeafType": "file-explorer",
+      "focusedRow": [
+       "Alpha"
+      ],
+      "activeElement": {
+       "tag": "BUTTON",
+       "cls": "mod-cta mod-destructive",
+       "tabindex": null,
+       "inPane": false,
+       "text": "Delete"
+      },
+      "rows": [
+       "Archive/",
+       "old",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Alpha * F",
+       "beta",
+       "Gamma"
+      ],
+      "containerTabindex": null,
+      "viewFocus": {
+       "focusedItem": "Alpha.md",
+       "keys": [
+        "activeDom",
+        "focusedItem",
+        "selectedDoms",
+        "prefersCollapsed",
+        "filter",
+        "isAllCollapsed",
+        "requestSaveFolds",
+        "id",
+        "app",
+        "view",
+        "scope",
+        "handleDeleteSelectedItems",
+        "handleCollapseAll",
+        "handleRenameFocusedItem",
+        "containerEl",
+        "getNodeId",
+        "infinityScroll"
+       ]
+      }
+     },
+     "deleteDialog": {
+      "title": "Delete file",
+      "text": "Are you sure you want to delete “Alpha.md”?It will be moved to your system trash.",
+      "buttons": [
+       "Cancel",
+       "Delete"
+      ]
+     }
+    },
+    "s07-row-focus-style": {
+     "ok": true,
+     "ms": 306,
+     "styles": {
+      "focusRow": {
+       "cls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus",
+       "style": {
+        "background-color": "oklch(0.999994 0.0000497986 none / 0.067)",
+        "color": "rgb(218, 218, 218)",
+        "box-shadow": "rgb(85, 85, 85) 0px 0px 0px 2px",
+        "outline": "rgb(218, 218, 218) none 2.75862px"
+       }
+      },
+      "activeRow": {
+       "cls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus",
+       "style": {
+        "background-color": "oklch(0.999994 0.0000497986 none / 0.067)",
+        "color": "rgb(218, 218, 218)",
+        "box-shadow": "rgb(85, 85, 85) 0px 0px 0px 2px",
+        "outline": "rgb(218, 218, 218) none 2.75862px"
+       }
+      },
+      "plain": {
+       "background-color": "rgba(0, 0, 0, 0)",
+       "color": "rgb(179, 179, 179)",
+       "box-shadow": "none",
+       "outline": "rgb(179, 179, 179) none 2.75862px"
+      },
+      "vars": {
+       "focus": "color-mix(in oklch, white 6.7%, transparent)",
+       "hover": "color-mix(in oklch, white 6.7%, transparent)",
+       "selected": "color-mix(in oklch, hsl(258, 88%, 66%) 15%, transparent)",
+       "colorSel": "#dadada",
+       "colorActive": "#dadada"
+      }
+     }
+    }
+   },
+   "order": [
+    "s01-click-focus",
+    "s02-arrows-on-files",
+    "s03-enter-space-on-file",
+    "s04-folders",
+    "s05-commands",
+    "s06-escape-and-typing",
+    "s07-row-focus-style"
+   ],
+   "elapsedMs": 23535,
+   "vaultPath": "/tmp/silica-probe-vault.GfMSmE",
+   "version": {
+    "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.13.7 Chrome/150.0.7871.47 Electron/43.1.0 Safari/537.36",
+    "platform": "Linux x86_64"
+   },
+   "finishedAt": "2026-10-21T15:37:26.980Z"
+  }
+ }
+}

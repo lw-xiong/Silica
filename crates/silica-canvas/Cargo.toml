@@ -1,0 +1,13 @@
+[package]
+name = "silica-canvas"
+description = "The canvas view's model: viewport math, edge geometry, hit testing, snapping, selection and the edit operations with their undo history (no gpui)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+silica-formats.workspace = true
+serde_json.workspace = true

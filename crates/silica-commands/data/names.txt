@@ -1,0 +1,231 @@
+# Command names as Obsidian 1.14.4 shows them in the command palette and the Hotkeys tab,
+# one `id<TAB>name` per line in registration order (observed with every core plugin enabled).
+# Ids in commands.txt that are missing here are not registered on desktop (mobile toolbar, caret
+# movement, clipboard) or were dropped between 1.12.7 and 1.14.4.
+editor:save-file	Save current file
+editor:download-attachments	Download attachments for current file
+editor:follow-link	Follow link under cursor
+editor:open-link-in-new-leaf	Open link under cursor in new tab
+editor:open-link-in-new-window	Open link under cursor in new window
+workspace:toggle-pin	Toggle pin
+editor:open-link-in-new-split	Open link under cursor to the right
+editor:focus-top	Focus on tab group above
+editor:focus-bottom	Focus on tab group below
+editor:focus-left	Focus on tab group to the left
+editor:focus-right	Focus on tab group to the right
+workspace:split-vertical	Split right
+workspace:split-horizontal	Split down
+workspace:toggle-stacked-tabs	Toggle stacked tabs
+workspace:edit-file-title	Rename file
+workspace:copy-path	Copy current file path from vault folder
+workspace:copy-full-path	Copy current file path from system root
+workspace:copy-url	Copy Obsidian URL for current file
+workspace:undo-close-pane	Undo close tab
+workspace:export-pdf	Export to PDF...
+editor:rename-heading	Rename this heading...
+workspace:open-in-new-window	Open current tab in new window
+workspace:move-to-new-window	Move current tab to new window
+workspace:next-tab	Go to next tab
+workspace:goto-tab-1	Go to tab #1
+workspace:goto-tab-2	Go to tab #2
+workspace:goto-tab-3	Go to tab #3
+workspace:goto-tab-4	Go to tab #4
+workspace:goto-tab-5	Go to tab #5
+workspace:goto-tab-6	Go to tab #6
+workspace:goto-tab-7	Go to tab #7
+workspace:goto-tab-8	Go to tab #8
+workspace:goto-last-tab	Go to last tab
+workspace:previous-tab	Go to previous tab
+workspace:new-tab	New tab
+workspace:new-window	New window
+workspace:close	Close current tab
+workspace:close-window	Close window
+workspace:close-others	Close all other tabs
+workspace:close-tab-group	Close this tab group
+workspace:close-others-tab-group	Close others in tab group
+workspace:show-trash	Show trash
+mobile:quick-action	Configure mobile Quick Action
+app:go-back	Navigate back
+app:go-forward	Navigate forward
+app:open-vault	Manage vaults
+app:switch-vault	Change vault...
+app:open-another-vault	Open vault...
+theme:toggle-light-dark	Toggle light/dark mode
+theme:switch	Change theme...
+app:open-settings	Open settings
+app:show-release-notes	Show release notes
+markdown:toggle-preview	Toggle reading view
+markdown:add-metadata-property	Add file property
+markdown:add-alias	Add alias
+markdown:clear-metadata-properties	Clear file properties
+app:delete-file	Delete current file
+app:toggle-ribbon	Toggle ribbon
+editor:toggle-readable-line-length	Toggle readable line length
+editor:toggle-line-numbers	Toggle line numbers
+app:toggle-left-sidebar	Toggle left sidebar
+app:toggle-right-sidebar	Toggle right sidebar
+app:toggle-default-new-pane-mode	Toggle default mode for new tabs
+app:open-help	Open help
+app:reload	Reload app without saving
+app:migrate-frontmatter	Format converter: Frontmatter migration
+app:show-debug-info	Show debug info
+app:increase-font-size	Increase font size
+app:decrease-font-size	Decrease font size
+app:open-sandbox-vault	Open sandbox vault
+app:open-file	Open file from outside the vault...
+window:toggle-always-on-top	Toggle window always on top
+window:zoom-in	Zoom in
+window:zoom-out	Zoom out
+window:reset-zoom	Reset zoom
+file-explorer:new-file	Create new note
+file-explorer:new-file-in-current-tab	Create new note in current tab
+file-explorer:new-file-in-new-pane	Create note to the right
+open-with-default-app:open	Open in default app
+file-explorer:move-file	Move current file to another folder
+file-explorer:duplicate-file	Make a copy of the current file
+open-with-default-app:show	Show in system explorer
+editor:toggle-source	Toggle Live Preview/Source mode
+editor:open-search	Search current file
+editor:open-search-replace	Search & replace in current file
+editor:focus	Focus on last note
+editor:toggle-fold-properties	Toggle fold properties in current file
+editor:toggle-fold	Toggle fold on the current line
+editor:fold-all	Fold all headings and lists
+editor:unfold-all	Unfold all headings and lists
+editor:fold-less	Fold less
+editor:fold-more	Fold more
+editor:insert-wikilink	Add internal link
+editor:insert-embed	Add embed
+editor:insert-link	Insert Markdown link
+editor:insert-tag	Add tag
+editor:set-heading	Toggle heading
+editor:set-heading-0	Remove heading
+editor:set-heading-1	Set as heading 1
+editor:set-heading-2	Set as heading 2
+editor:set-heading-3	Set as heading 3
+editor:set-heading-4	Set as heading 4
+editor:set-heading-5	Set as heading 5
+editor:set-heading-6	Set as heading 6
+editor:toggle-bold	Toggle bold
+editor:toggle-italics	Toggle italic
+editor:toggle-strikethrough	Toggle strikethrough
+editor:toggle-highlight	Toggle highlight
+editor:toggle-highlight-red	Toggle red highlight
+editor:toggle-highlight-orange	Toggle orange highlight
+editor:toggle-highlight-yellow	Toggle yellow highlight
+editor:toggle-highlight-green	Toggle green highlight
+editor:toggle-highlight-blue	Toggle blue highlight
+editor:toggle-highlight-purple	Toggle purple highlight
+editor:toggle-code	Toggle code
+editor:toggle-inline-math	Toggle inline math
+editor:toggle-blockquote	Toggle blockquote
+editor:toggle-comments	Toggle comment
+editor:clear-formatting	Clear formatting
+editor:toggle-bullet-list	Toggle bullet list
+editor:toggle-numbered-list	Toggle numbered list
+editor:toggle-checklist-status	Toggle checkbox status
+editor:cycle-list-checklist	Cycle bullet/checkbox
+editor:insert-callout	Insert callout
+editor:insert-codeblock	Insert code block
+editor:insert-horizontal-rule	Insert horizontal rule
+editor:insert-mathblock	Insert math block
+editor:insert-table	Insert table
+editor:insert-footnote	Insert footnote
+editor:indent-list	Indent list item
+editor:unindent-list	Unindent list item
+editor:swap-line-up	Move line up
+editor:swap-line-down	Move line down
+editor:attach-file	Insert attachment
+editor:delete-paragraph	Delete paragraph
+editor:add-cursor-below	Add cursor below
+editor:add-cursor-above	Add cursor above
+editor:toggle-spellcheck	Toggle spellcheck
+editor:table-row-before	Table: Add row above
+editor:table-row-after	Table: Add row below
+editor:table-row-up	Table: Move row up
+editor:table-row-down	Table: Move row down
+editor:table-row-copy	Table: Duplicate row
+editor:table-row-delete	Table: Delete row
+editor:table-col-before	Table: Add column to the left
+editor:table-col-after	Table: Add column to the right
+editor:table-col-left	Table: Move column left
+editor:table-col-right	Table: Move column right
+editor:table-col-copy	Table: Duplicate column
+editor:table-col-delete	Table: Delete column
+editor:table-col-align-left	Table: Align left
+editor:table-col-align-center	Table: Align center
+editor:table-col-align-right	Table: Align right
+editor:context-menu	Show context menu under cursor
+file-explorer:open	Files: Show file explorer
+file-explorer:reveal-active-file	Files: Reveal current file in navigation
+file-explorer:new-folder	Files: Create new folder
+global-search:open	Search: Search in all files
+switcher:open	Quick switcher: Open quick switcher
+graph:open	Graph view: Open graph view
+graph:open-local	Graph view: Open local graph
+graph:animate	Graph view: Start graph timelapse animation
+backlink:open	Backlinks: Show backlinks
+backlink:open-backlinks	Backlinks: Open backlinks for the current note
+backlink:toggle-backlinks-in-document	Backlinks: Toggle backlinks in document
+canvas:new-file	Canvas: Create new canvas
+canvas:export-as-image	Canvas: Export as image
+canvas:jump-to-group	Canvas: Jump to group
+canvas:convert-to-file	Canvas: Convert to file...
+outgoing-links:open	Outgoing links: Show outgoing links
+outgoing-links:open-for-current	Outgoing links: Open outgoing links for the current file
+tag-pane:open	Tags view: Show tags
+footnotes:open	Footnotes view: Show footnotes
+properties:open	Properties view: Show all properties
+properties:open-local	Properties view: Show file properties
+daily-notes	Daily notes: Open today's daily note
+daily-notes:goto-prev	Daily notes: Open previous daily note
+daily-notes:goto-next	Daily notes: Open next daily note
+insert-template	Templates: Insert template
+insert-current-date	Templates: Insert current date
+insert-current-time	Templates: Insert current time
+note-composer:merge-file	Note composer: Merge current file with another file...
+note-composer:split-file	Note composer: Extract current selection...
+note-composer:extract-heading	Note composer: Extract this heading...
+command-palette:open	Command palette: Open command palette
+bookmarks:open	Bookmarks: Show bookmarks
+bookmarks:bookmark-current-view	Bookmarks: Bookmark...
+bookmarks:bookmark-current-search	Bookmarks: Bookmark current search...
+bookmarks:unbookmark-current-view	Bookmarks: Remove bookmark for the current file
+bookmarks:bookmark-current-section	Bookmarks: Bookmark block under cursor...
+bookmarks:bookmark-current-heading	Bookmarks: Bookmark heading under cursor...
+bookmarks:bookmark-all-tabs	Bookmarks: Bookmark all tabs...
+zk-prefixer	Unique note creator: Create new unique note
+insert-unique-link	Unique note creator: Add unique internal link
+random-note	Random note: Open random note
+outline:open	Outline: Show outline
+outline:open-for-current	Outline: Open outline of the current file
+slides:start	Slides: Start presentation
+audio-recorder:start	Audio recorder: Start recording audio
+audio-recorder:stop	Audio recorder: Stop recording audio
+workspaces:load	Workspaces: Load workspace layout
+workspaces:save	Workspaces: Save layout
+workspaces:save-and-load	Workspaces: Save and load another layout
+workspaces:open-modal	Workspaces: Manage workspace layouts
+file-recovery:open	File recovery: Open local history
+publish:view-changes	Publish: Publish changes...
+publish:publish-file	Publish: Publish current file
+publish:open-in-live-site	Publish: Open in live site
+sync:setup	Sync: Set up Sync
+sync:view-version-history	Sync: Open version history for the current file
+sync:open-sync-view	Sync: Show Sync history
+sync:open-sync-log	Sync: Open activity log
+bases:new-file	Bases: Create new base
+bases:insert	Bases: Insert new base
+bases:copy-table	Bases: Copy table to clipboard
+bases:change-view	Bases: Switch view...
+bases:add-view	Bases: Add view
+bases:add-item	Bases: Add item
+webviewer:open	Web viewer: Open web viewer
+webviewer:open-history	Web viewer: Show history
+webviewer:toggle-reader-mode	Web viewer: Toggle reader mode
+webviewer:focus-address-bar	Web viewer: Focus address bar
+webviewer:zoom-in	Web viewer: Zoom in
+webviewer:zoom-reset	Web viewer: Reset zoom
+webviewer:zoom-out	Web viewer: Zoom out
+webviewer:search	Web viewer: Search the web
+webviewer:save-to-vault	Web viewer: Save to vault

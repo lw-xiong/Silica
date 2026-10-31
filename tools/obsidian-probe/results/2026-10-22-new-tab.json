@@ -1,0 +1,439 @@
+{
+ "newTab": {
+  "fixtures": {
+   "startedAt": "2026-10-22T15:11:50.699Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 0,
+   "fixtures": [
+    ".obsidian",
+    "Alpha.md",
+    "Beta.md",
+    "Delta.md",
+    "Gamma.md"
+   ]
+  },
+  "run": {
+   "startedAt": "2026-10-22T15:11:51.896Z",
+   "steps": {
+    "s01-button": {
+     "ok": true,
+     "ms": 1677,
+     "before": {
+      "headers": [
+       {
+        "title": "Beta",
+        "active": true
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Beta.md",
+        "type": "markdown",
+        "active": true
+       }
+      ],
+      "emptyState": null,
+      "focus": "cm-content cm-lineWrapping"
+     },
+     "after": {
+      "headers": [
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "New tab",
+        "active": true
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Beta.md",
+        "type": "markdown",
+        "active": false
+       }
+      ],
+      "emptyState": {
+       "title": "",
+       "actions": [
+        "New note Ctrl + N",
+        "New base",
+        "New canvas",
+        "Go to file Ctrl + O"
+       ]
+      },
+      "focus": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+     }
+    },
+    "s02-command": {
+     "ok": true,
+     "ms": 1628,
+     "before": {
+      "headers": [
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": true
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Gamma.md",
+        "type": "markdown",
+        "active": false
+       }
+      ],
+      "emptyState": null,
+      "focus": "cm-content cm-lineWrapping"
+     },
+     "after": {
+      "headers": [
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "New tab",
+        "active": true
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Gamma.md",
+        "type": "markdown",
+        "active": false
+       }
+      ],
+      "emptyState": {
+       "title": "",
+       "actions": [
+        "New note Ctrl + N",
+        "New base",
+        "New canvas",
+        "Go to file Ctrl + O"
+       ]
+      },
+      "focus": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+     }
+    },
+    "s03-second-press": {
+     "ok": true,
+     "ms": 2079,
+     "before": {
+      "headers": [
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": true
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Delta.md",
+        "type": "markdown",
+        "active": false
+       }
+      ],
+      "emptyState": null,
+      "focus": "cm-content cm-lineWrapping"
+     },
+     "after": {
+      "headers": [
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "New tab",
+        "active": false
+       },
+       {
+        "title": "New tab",
+        "active": true
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Delta.md",
+        "type": "markdown",
+        "active": false
+       }
+      ],
+      "emptyState": {
+       "title": "",
+       "actions": [
+        "New note Ctrl + N",
+        "New base",
+        "New canvas",
+        "Go to file Ctrl + O"
+       ]
+      },
+      "focus": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+     }
+    },
+    "s04-open-file-in-new-tab": {
+     "ok": true,
+     "ms": 1646,
+     "before": {
+      "headers": [
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": true
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "New tab",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Alpha.md",
+        "type": "markdown",
+        "active": false
+       }
+      ],
+      "emptyState": null,
+      "focus": "cm-content cm-lineWrapping"
+     },
+     "after": {
+      "headers": [
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": true
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       },
+       {
+        "title": "New tab",
+        "active": false
+       },
+       {
+        "title": "Alpha",
+        "active": false
+       },
+       {
+        "title": "Beta",
+        "active": false
+       },
+       {
+        "title": "Gamma",
+        "active": false
+       },
+       {
+        "title": "Delta",
+        "active": false
+       }
+      ],
+      "leaves": [
+       {
+        "file": "Alpha.md",
+        "type": "markdown",
+        "active": false
+       }
+      ],
+      "emptyState": null,
+      "focus": "cm-content cm-lineWrapping"
+     }
+    }
+   },
+   "order": [
+    "s01-button",
+    "s02-command",
+    "s03-second-press",
+    "s04-open-file-in-new-tab"
+   ],
+   "elapsedMs": 7077,
+   "vaultPath": "/tmp/silica-probe-vault.1mSmGD",
+   "finishedAt": "2026-10-22T15:11:58.973Z"
+  }
+ }
+}

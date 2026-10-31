@@ -1,0 +1,1354 @@
+{
+ "explorerDnd": {
+  "fixtures": {
+   "startedAt": "2026-10-25T15:27:39.147Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 1
+  },
+  "run": {
+   "startedAt": "2026-10-25T15:27:40.362Z",
+   "steps": {
+    "s01-f2-inline-rename": {
+     "ok": true,
+     "ms": 1944,
+     "rowsAtStart": [
+      "Deep",
+      "Deep/Sub",
+      "Deep/Sub/Inner.md",
+      "Dest",
+      "Dest/Alpha.md",
+      "Dest/Gamma.md",
+      "Dest/Keep.md",
+      "Inbox",
+      "Inbox/Gamma.md",
+      "Notes",
+      "Notes/Alpha.md",
+      "Notes/Beta.md",
+      "cover.png",
+      "Linker.md",
+      "Root.md"
+     ],
+     "keep": {
+      "path": "Dest/Keep.md",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "Keep",
+      "rect": {
+       "x": 55.67887496948242,
+       "y": 245.6142120361328,
+       "w": 276.3254089355469,
+       "h": 24.8814640045166,
+       "cx": 193.84157943725586,
+       "cy": 258.0549440383911
+      },
+      "draggable": "true"
+     },
+     "focusBeforeF2": {
+      "tag": "DIV",
+      "cls": "cm-content cm-lineWrapping",
+      "inExplorer": false
+     },
+     "editorAfterF2": null
+    },
+    "s02-rename-collision-and-extension": {
+     "ok": true,
+     "ms": 7144,
+     "collision": {
+      "tree": [
+       "cover.png",
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta.md",
+       "Root.md"
+      ],
+      "notices": [],
+      "editor": null,
+      "modal": null
+     },
+     "pngRow": {
+      "path": "cover.png",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "cover",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 407.05816650390625,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 419.49889850616455
+      },
+      "draggable": "true"
+     },
+     "pngEditor": null,
+     "pngAfter": {
+      "tree": [
+       "cover shot.png",
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta.md",
+       "Root.md"
+      ],
+      "notices": [],
+      "linker": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n"
+     }
+    },
+    "s03-folder-rename-and-menu": {
+     "ok": true,
+     "ms": 5118,
+     "deep": {
+      "path": "Deep",
+      "cls": "tree-item-self nav-folder-title is-clickable mod-collapsible",
+      "text": "Deep",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 84.07327270507812,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 96.51400470733643
+      },
+      "draggable": "true"
+     },
+     "folderMenu": [],
+     "folderEditor": null,
+     "afterEscape": {
+      "tree": [
+       "cover shot.png",
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta.md",
+       "Root.md"
+      ],
+      "editor": null
+     }
+    },
+    "s04-drag-a-file-onto-a-folder": {
+     "ok": true,
+     "ms": 6548,
+     "src": {
+      "path": "Root.md",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "Root",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 379.8922119140625,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 392.3329439163208
+      },
+      "draggable": "true"
+     },
+     "dst": {
+      "path": "Dest",
+      "cls": "tree-item-self nav-folder-title is-clickable mod-collapsible",
+      "text": "Dest",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 110.9482650756836,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 123.3889970779419
+      },
+      "draggable": "true"
+     },
+     "linkerBefore": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n",
+     "dragStarted": true,
+     "dragData": {
+      "mimeTypes": [
+       "text/plain",
+       "text/uri-list"
+      ],
+      "items": [
+       {
+        "mimeType": "text/plain",
+        "data": "obsidian://open?vault=silica-probe-vault.koFzuR&file=Root"
+       },
+       {
+        "mimeType": "text/uri-list",
+        "data": "obsidian://open?vault=silica-probe-vault.koFzuR&file=Root"
+       }
+      ]
+     },
+     "classesWhileOver": {
+      "beingDragged": [
+       "Root.md"
+      ],
+      "draggedOver": [
+       "tree-item nav-folder is-being-dragged-over"
+      ]
+     },
+     "afterDrop": {
+      "tree": [
+       "cover shot.png",
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Dest/Root.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta.md"
+      ],
+      "classes": {
+       "beingDragged": [],
+       "draggedOver": []
+      },
+      "notices": [],
+      "linkerImmediately": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n"
+     },
+     "linkerAfter4s": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n"
+    },
+    "s05-drop-with-a-collision": {
+     "ok": true,
+     "ms": 3456,
+     "src": {
+      "path": "Notes/Alpha.md",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "Alpha",
+      "rect": {
+       "x": 55.67887496948242,
+       "y": 299.2672119140625,
+       "w": 276.3254089355469,
+       "h": 24.8814640045166,
+       "cx": 193.84157943725586,
+       "cy": 311.7079439163208
+      },
+      "draggable": "true"
+     },
+     "dst": {
+      "path": "Dest",
+      "cls": "tree-item-self nav-folder-title is-clickable mod-collapsible",
+      "text": "Dest",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 110.9482650756836,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 123.3889970779419
+      },
+      "draggable": "true"
+     },
+     "destAlphaBefore": "# Dest Alpha (a collision)\n",
+     "drop": {
+      "started": true
+     },
+     "after": {
+      "tree": [
+       "cover shot.png",
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha 1.md",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Dest/Root.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Beta.md"
+      ],
+      "notices": [],
+      "modal": {
+       "title": "Update links",
+       "text": "Do you want to update internal links that link to this file?This will affect 1 link in 1 file.",
+       "buttons": [
+        "Always update",
+        "Just once",
+        "Do not update"
+       ]
+      },
+      "destAlpha": "# Dest Alpha (a collision)\n",
+      "notesAlpha": null,
+      "linker": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n"
+     }
+    },
+    "s06-drop-on-a-file-row-then-undo": {
+     "ok": true,
+     "ms": 604,
+     "src": null,
+     "dst": {
+      "path": "Dest/Keep.md",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "Keep",
+      "rect": {
+       "x": 55.67887496948242,
+       "y": 218.5452423095703,
+       "w": 276.3254089355469,
+       "h": 24.8814640045166,
+       "cx": 193.84157943725586,
+       "cy": 230.9859743118286
+      },
+      "draggable": "true"
+     }
+    },
+    "s07-drag-a-folder": {
+     "ok": true,
+     "ms": 5189,
+     "src": {
+      "path": "Deep",
+      "cls": "tree-item-self nav-folder-title is-clickable mod-collapsible",
+      "text": "Deep",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 84.07327270507812,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 96.51400470733643
+      },
+      "draggable": "true"
+     },
+     "dst": {
+      "path": "Dest",
+      "cls": "tree-item-self nav-folder-title is-clickable mod-collapsible",
+      "text": "Dest",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 110.9482650756836,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 123.3889970779419
+      },
+      "draggable": "true"
+     },
+     "drop": {
+      "started": true,
+      "mimeTypes": [
+       "text/plain"
+      ]
+     },
+     "after": {
+      "tree": [
+       "cover shot.png",
+       "Dest/",
+       "Dest/Alpha 1.md",
+       "Dest/Alpha.md",
+       "Dest/Deep/",
+       "Dest/Deep/Sub/",
+       "Dest/Deep/Sub/Inner.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Dest/Root.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Beta.md"
+      ],
+      "notices": []
+     },
+     "ontoDescendant": {
+      "started": true
+     },
+     "afterDescendant": {
+      "tree": [
+       "cover shot.png",
+       "Dest/",
+       "Dest/Alpha 1.md",
+       "Dest/Alpha.md",
+       "Dest/Deep/",
+       "Dest/Deep/Sub/",
+       "Dest/Deep/Sub/Inner.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Dest/Root.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Beta.md"
+      ],
+      "notices": []
+     }
+    },
+    "s08-drop-targets-and-multiselect": {
+     "ok": true,
+     "ms": 3935,
+     "rows": [
+      "Dest",
+      "Dest/Deep",
+      "Dest/Alpha.md",
+      "Dest/Alpha 1.md",
+      "Dest/Gamma.md",
+      "Dest/Keep.md",
+      "Dest/Root.md",
+      "Inbox",
+      "Notes",
+      "Notes/Beta.md",
+      "cover shot.png",
+      "Linker.md"
+     ],
+     "ctrlClick": {
+      "selectedClasses": [
+       "Dest/Gamma.md|tree-item-self nav-file-title tappable is-clickable is-active"
+      ],
+      "viewSelection": []
+     },
+     "shiftClick": [
+      "Dest/Alpha.md",
+      "Dest/Alpha 1.md",
+      "Dest/Gamma.md"
+     ],
+     "hoverTargets": {
+      "folder": {
+       "classes": {
+        "beingDragged": [
+         "Linker.md"
+        ],
+        "draggedOver": [
+         "tree-item nav-folder is-being-dragged-over"
+        ]
+       },
+       "dropZoneClasses": [
+        "tree-item nav-folder is-being-dragged-over|"
+       ]
+      },
+      "belowLastRow": {
+       "classes": {
+        "beingDragged": [
+         "Linker.md"
+        ],
+        "draggedOver": [
+         "nav-files-container node-insert-event is-being-dragged-over"
+        ]
+       },
+       "dropZoneClasses": [
+        "nav-files-container node-insert-event is-being-dragged-over|"
+       ]
+      }
+     },
+     "treeAfterHovers": [
+      "cover shot.png",
+      "Dest/",
+      "Dest/Alpha 1.md",
+      "Dest/Alpha.md",
+      "Dest/Deep/",
+      "Dest/Deep/Sub/",
+      "Dest/Deep/Sub/Inner.md",
+      "Dest/Gamma.md",
+      "Dest/Keep.md",
+      "Dest/Root.md",
+      "Inbox/",
+      "Inbox/Gamma.md",
+      "Linker.md",
+      "Notes/",
+      "Notes/Beta.md"
+     ]
+    },
+    "s09-f2-with-focus-in-the-tree": {
+     "ok": true,
+     "ms": 5800,
+     "focus": {
+      "focusedRows": [
+       "Notes/Beta.md"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+      },
+      "inExplorer": false
+     },
+     "linkerBefore": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n",
+     "editorAfterF2": {
+      "cls": "tree-item-inner nav-file-title-content",
+      "text": "Beta",
+      "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+      "parentPath": "Notes/Beta.md",
+      "selection": "Beta"
+     },
+     "afterSelectAll": {
+      "cls": "tree-item-inner nav-file-title-content",
+      "text": "Beta",
+      "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+      "parentPath": "Notes/Beta.md",
+      "selection": "Beta"
+     },
+     "whileTyping": {
+      "cls": "tree-item-inner nav-file-title-content",
+      "text": "Beta Renamed",
+      "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+      "parentPath": "Notes/Beta.md",
+      "selection": ""
+     },
+     "afterEnter": {
+      "tree": [
+       "cover.png",
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta Renamed.md",
+       "Root.md"
+      ],
+      "editor": null,
+      "notices": [],
+      "modal": null,
+      "linker": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n",
+      "focusAfter": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+      }
+     }
+    },
+    "s10-inline-rename-edge-cases": {
+     "ok": true,
+     "ms": 19528,
+     "collisionFocus": {
+      "focusedRows": [
+       "Dest/Keep.md"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+      },
+      "inExplorer": false
+     },
+     "collisionEditorOpen": true,
+     "collision": {
+      "tree": [
+       "cover.png",
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta Renamed.md",
+       "Root.md"
+      ],
+      "notices": [],
+      "editor": {
+       "cls": "tree-item-inner nav-file-title-content",
+       "text": "Alpha",
+       "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+       "parentPath": "Dest/Keep.md",
+       "selection": ""
+      },
+      "modal": null
+     },
+     "pngFocus": {
+      "path": "cover.png",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "cover",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 407.05816650390625,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 419.49889850616455
+      },
+      "draggable": "true"
+     },
+     "pngFocusState": {
+      "focusedRows": [
+       "cover.png"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+      },
+      "inExplorer": false
+     },
+     "pngEditor": {
+      "cls": "tree-item-inner nav-file-title-content",
+      "text": "cover",
+      "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+      "parentPath": "cover.png",
+      "selection": "cover"
+     },
+     "pngAfter": {
+      "tree": [
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta Renamed.md",
+       "renamed cover.png",
+       "Root.md"
+      ],
+      "notices": [],
+      "linker": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n"
+     },
+     "escapeFocus": {
+      "focusedRows": [
+       "Linker.md"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+      },
+      "inExplorer": false
+     },
+     "escapeEditorOpen": false,
+     "afterEscape": {
+      "tree": [
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta Renamed.md",
+       "renamed cover.png",
+       "Root.md"
+      ],
+      "editor": null
+     },
+     "emptyFocus": {
+      "focusedRows": [
+       "Linker.md"
+      ],
+      "activeElement": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+      },
+      "inExplorer": false
+     },
+     "afterEmptyName": {
+      "tree": [
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Inbox/Gamma.md",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta Renamed.md",
+       "renamed cover.png",
+       "Root.md"
+      ],
+      "notices": [],
+      "editor": {
+       "cls": "tree-item-inner nav-file-title-content",
+       "text": "",
+       "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+       "parentPath": "Linker.md",
+       "selection": ""
+      }
+     }
+    },
+    "s11-folder-inline-rename": {
+     "ok": true,
+     "ms": 4040,
+     "state": {
+      "path": "Notes",
+      "cls": "tree-item-self nav-folder-title is-clickable mod-collapsible",
+      "text": "Notes",
+      "rect": {
+       "x": 55.99137496948242,
+       "y": 326.336181640625,
+       "w": 276.0129089355469,
+       "h": 24.8814640045166,
+       "cx": 193.99782943725586,
+       "cy": 338.7769136428833
+      },
+      "draggable": "true"
+     },
+     "focusAfterClick": {
+      "tag": "BODY",
+      "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+      "inExplorer": false,
+      "focusedRows": []
+     },
+     "editor": null,
+     "menu": [
+      [
+       "New note",
+       "New folder",
+       "New canvas",
+       "New base",
+       "---",
+       "Make a copy",
+       "Move folder to...",
+       "Search in folder",
+       "Bookmark...",
+       "---",
+       "Copy path",
+       "---",
+       "Show in system explorer",
+       "---",
+       "---",
+       "Rename...",
+       "Delete"
+      ]
+     ],
+     "menuRename": {
+      "inlineEditor": {
+       "cls": "tree-item-inner nav-folder-title-content",
+       "text": "Inbox",
+       "parentCls": "tree-item-self nav-folder-title is-clickable mod-collapsible has-focus is-being-renamed",
+       "parentPath": "Inbox",
+       "selection": "Inbox"
+      },
+      "modal": null
+     }
+    },
+    "s12-drop-on-a-file-row-then-undo": {
+     "ok": true,
+     "ms": 5366,
+     "rows": [
+      "Deep",
+      "Deep/Sub",
+      "Deep/Sub/Inner.md",
+      "Dest",
+      "Dest/Alpha.md",
+      "Dest/Gamma.md",
+      "Dest/Keep.md",
+      "Inbox",
+      "Inbox/Gamma.md",
+      "Notes",
+      "Linker.md",
+      "renamed cover.png",
+      "Root.md"
+     ],
+     "src": {
+      "path": "Inbox/Gamma.md",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "Gamma",
+      "rect": {
+       "x": 55.67887496948242,
+       "y": 299.461181640625,
+       "w": 276.3254089355469,
+       "h": 24.8814640045166,
+       "cx": 193.84157943725586,
+       "cy": 311.9019136428833
+      },
+      "draggable": "true"
+     },
+     "dst": {
+      "path": "Dest/Keep.md",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "text": "Keep",
+      "rect": {
+       "x": 55.67887496948242,
+       "y": 245.6142120361328,
+       "w": 276.3254089355469,
+       "h": 24.8814640045166,
+       "cx": 193.84157943725586,
+       "cy": 258.0549440383911
+      },
+      "draggable": "true"
+     },
+     "destGammaBefore": "# Dest Gamma (a collision)\n",
+     "drop": {
+      "started": true,
+      "mimeTypes": [
+       "text/plain",
+       "text/uri-list"
+      ]
+     },
+     "after": {
+      "tree": [
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma 1.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta Renamed.md",
+       "renamed cover.png",
+       "Root.md"
+      ],
+      "notices": [],
+      "destGamma": "# Dest Gamma (a collision)\n",
+      "inboxGamma": null
+     },
+     "afterUndo": {
+      "tree": [
+       "Deep/",
+       "Deep/Sub/",
+       "Deep/Sub/Inner.md",
+       "Dest/",
+       "Dest/Alpha.md",
+       "Dest/Gamma 1.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox/",
+       "Linker.md",
+       "Notes/",
+       "Notes/Alpha.md",
+       "Notes/Beta Renamed.md",
+       "renamed cover.png",
+       "Root.md"
+      ],
+      "notices": []
+     }
+    }
+   },
+   "order": [
+    "s01-f2-inline-rename",
+    "s02-rename-collision-and-extension",
+    "s03-folder-rename-and-menu",
+    "s04-drag-a-file-onto-a-folder",
+    "s05-drop-with-a-collision",
+    "s06-drop-on-a-file-row-then-undo",
+    "s07-drag-a-folder",
+    "s08-drop-targets-and-multiselect",
+    "s09-f2-with-focus-in-the-tree",
+    "s10-inline-rename-edge-cases",
+    "s11-folder-inline-rename",
+    "s12-drop-on-a-file-row-then-undo"
+   ],
+   "elapsedMs": 34613,
+   "vaultPath": "/tmp/silica-probe-vault.koFzuR",
+   "title": "New tab - silica-probe-vault.koFzuR - Obsidian 1.14.5",
+   "config": {
+    "alwaysUpdateLinks": false,
+    "promptDelete": true,
+    "trashOption": "system"
+   },
+   "treeAtStart": [
+    "cover.png",
+    "Deep/",
+    "Deep/Sub/",
+    "Deep/Sub/Inner.md",
+    "Dest/",
+    "Dest/Alpha.md",
+    "Dest/Gamma.md",
+    "Dest/Keep.md",
+    "Inbox/",
+    "Inbox/Gamma.md",
+    "Linker.md",
+    "Notes/",
+    "Notes/Alpha.md",
+    "Notes/Beta.md",
+    "Root.md"
+   ],
+   "treeAtEnd": [
+    "cover shot.png",
+    "Dest/",
+    "Dest/Alpha 1.md",
+    "Dest/Alpha.md",
+    "Dest/Deep/",
+    "Dest/Deep/Sub/",
+    "Dest/Deep/Sub/Inner.md",
+    "Dest/Gamma.md",
+    "Dest/Keep.md",
+    "Dest/Root.md",
+    "Inbox/",
+    "Inbox/Gamma.md",
+    "Linker.md",
+    "Notes/",
+    "Notes/Beta.md"
+   ],
+   "finishedAt": "2026-10-25T15:28:14.975Z",
+   "secondPass": {
+    "startedAt": "2026-10-25T15:30:03.715Z",
+    "steps": {
+     "s09-f2-with-focus-in-the-tree": {
+      "ok": true,
+      "ms": 5800,
+      "focus": {
+       "focusedRows": [
+        "Notes/Beta.md"
+       ],
+       "activeElement": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+       },
+       "inExplorer": false
+      },
+      "linkerBefore": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n",
+      "editorAfterF2": {
+       "cls": "tree-item-inner nav-file-title-content",
+       "text": "Beta",
+       "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+       "parentPath": "Notes/Beta.md",
+       "selection": "Beta"
+      },
+      "afterSelectAll": {
+       "cls": "tree-item-inner nav-file-title-content",
+       "text": "Beta",
+       "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+       "parentPath": "Notes/Beta.md",
+       "selection": "Beta"
+      },
+      "whileTyping": {
+       "cls": "tree-item-inner nav-file-title-content",
+       "text": "Beta Renamed",
+       "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+       "parentPath": "Notes/Beta.md",
+       "selection": ""
+      },
+      "afterEnter": {
+       "tree": [
+        "cover.png",
+        "Deep/",
+        "Deep/Sub/",
+        "Deep/Sub/Inner.md",
+        "Dest/",
+        "Dest/Alpha.md",
+        "Dest/Gamma.md",
+        "Dest/Keep.md",
+        "Inbox/",
+        "Inbox/Gamma.md",
+        "Linker.md",
+        "Notes/",
+        "Notes/Alpha.md",
+        "Notes/Beta Renamed.md",
+        "Root.md"
+       ],
+       "editor": null,
+       "notices": [],
+       "modal": null,
+       "linker": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n",
+       "focusAfter": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+       }
+      }
+     },
+     "s10-inline-rename-edge-cases": {
+      "ok": true,
+      "ms": 19528,
+      "collisionFocus": {
+       "focusedRows": [
+        "Dest/Keep.md"
+       ],
+       "activeElement": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+       },
+       "inExplorer": false
+      },
+      "collisionEditorOpen": true,
+      "collision": {
+       "tree": [
+        "cover.png",
+        "Deep/",
+        "Deep/Sub/",
+        "Deep/Sub/Inner.md",
+        "Dest/",
+        "Dest/Alpha.md",
+        "Dest/Gamma.md",
+        "Dest/Keep.md",
+        "Inbox/",
+        "Inbox/Gamma.md",
+        "Linker.md",
+        "Notes/",
+        "Notes/Alpha.md",
+        "Notes/Beta Renamed.md",
+        "Root.md"
+       ],
+       "notices": [],
+       "editor": {
+        "cls": "tree-item-inner nav-file-title-content",
+        "text": "Alpha",
+        "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+        "parentPath": "Dest/Keep.md",
+        "selection": ""
+       },
+       "modal": null
+      },
+      "pngFocus": {
+       "path": "cover.png",
+       "cls": "tree-item-self nav-file-title tappable is-clickable",
+       "text": "cover",
+       "rect": {
+        "x": 55.99137496948242,
+        "y": 407.05816650390625,
+        "w": 276.0129089355469,
+        "h": 24.8814640045166,
+        "cx": 193.99782943725586,
+        "cy": 419.49889850616455
+       },
+       "draggable": "true"
+      },
+      "pngFocusState": {
+       "focusedRows": [
+        "cover.png"
+       ],
+       "activeElement": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+       },
+       "inExplorer": false
+      },
+      "pngEditor": {
+       "cls": "tree-item-inner nav-file-title-content",
+       "text": "cover",
+       "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+       "parentPath": "cover.png",
+       "selection": "cover"
+      },
+      "pngAfter": {
+       "tree": [
+        "Deep/",
+        "Deep/Sub/",
+        "Deep/Sub/Inner.md",
+        "Dest/",
+        "Dest/Alpha.md",
+        "Dest/Gamma.md",
+        "Dest/Keep.md",
+        "Inbox/",
+        "Inbox/Gamma.md",
+        "Linker.md",
+        "Notes/",
+        "Notes/Alpha.md",
+        "Notes/Beta Renamed.md",
+        "renamed cover.png",
+        "Root.md"
+       ],
+       "notices": [],
+       "linker": "Links: [[Root]], [[Notes/Alpha|alpha]], [Markdown](Root.md), ![[cover.png]]\n"
+      },
+      "escapeFocus": {
+       "focusedRows": [
+        "Linker.md"
+       ],
+       "activeElement": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+       },
+       "inExplorer": false
+      },
+      "escapeEditorOpen": false,
+      "afterEscape": {
+       "tree": [
+        "Deep/",
+        "Deep/Sub/",
+        "Deep/Sub/Inner.md",
+        "Dest/",
+        "Dest/Alpha.md",
+        "Dest/Gamma.md",
+        "Dest/Keep.md",
+        "Inbox/",
+        "Inbox/Gamma.md",
+        "Linker.md",
+        "Notes/",
+        "Notes/Alpha.md",
+        "Notes/Beta Renamed.md",
+        "renamed cover.png",
+        "Root.md"
+       ],
+       "editor": null
+      },
+      "emptyFocus": {
+       "focusedRows": [
+        "Linker.md"
+       ],
+       "activeElement": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused"
+       },
+       "inExplorer": false
+      },
+      "afterEmptyName": {
+       "tree": [
+        "Deep/",
+        "Deep/Sub/",
+        "Deep/Sub/Inner.md",
+        "Dest/",
+        "Dest/Alpha.md",
+        "Dest/Gamma.md",
+        "Dest/Keep.md",
+        "Inbox/",
+        "Inbox/Gamma.md",
+        "Linker.md",
+        "Notes/",
+        "Notes/Alpha.md",
+        "Notes/Beta Renamed.md",
+        "renamed cover.png",
+        "Root.md"
+       ],
+       "notices": [],
+       "editor": {
+        "cls": "tree-item-inner nav-file-title-content",
+        "text": "",
+        "parentCls": "tree-item-self nav-file-title tappable is-clickable is-active has-focus is-being-renamed",
+        "parentPath": "Linker.md",
+        "selection": ""
+       }
+      }
+     },
+     "s11-folder-inline-rename": {
+      "ok": true,
+      "ms": 4040,
+      "state": {
+       "path": "Notes",
+       "cls": "tree-item-self nav-folder-title is-clickable mod-collapsible",
+       "text": "Notes",
+       "rect": {
+        "x": 55.99137496948242,
+        "y": 326.336181640625,
+        "w": 276.0129089355469,
+        "h": 24.8814640045166,
+        "cx": 193.99782943725586,
+        "cy": 338.7769136428833
+       },
+       "draggable": "true"
+      },
+      "focusAfterClick": {
+       "tag": "BODY",
+       "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+       "inExplorer": false,
+       "focusedRows": []
+      },
+      "editor": null,
+      "menu": [
+       [
+        "New note",
+        "New folder",
+        "New canvas",
+        "New base",
+        "---",
+        "Make a copy",
+        "Move folder to...",
+        "Search in folder",
+        "Bookmark...",
+        "---",
+        "Copy path",
+        "---",
+        "Show in system explorer",
+        "---",
+        "---",
+        "Rename...",
+        "Delete"
+       ]
+      ],
+      "menuRename": {
+       "inlineEditor": {
+        "cls": "tree-item-inner nav-folder-title-content",
+        "text": "Inbox",
+        "parentCls": "tree-item-self nav-folder-title is-clickable mod-collapsible has-focus is-being-renamed",
+        "parentPath": "Inbox",
+        "selection": "Inbox"
+       },
+       "modal": null
+      }
+     },
+     "s12-drop-on-a-file-row-then-undo": {
+      "ok": true,
+      "ms": 5366,
+      "rows": [
+       "Deep",
+       "Deep/Sub",
+       "Deep/Sub/Inner.md",
+       "Dest",
+       "Dest/Alpha.md",
+       "Dest/Gamma.md",
+       "Dest/Keep.md",
+       "Inbox",
+       "Inbox/Gamma.md",
+       "Notes",
+       "Linker.md",
+       "renamed cover.png",
+       "Root.md"
+      ],
+      "src": {
+       "path": "Inbox/Gamma.md",
+       "cls": "tree-item-self nav-file-title tappable is-clickable",
+       "text": "Gamma",
+       "rect": {
+        "x": 55.67887496948242,
+        "y": 299.461181640625,
+        "w": 276.3254089355469,
+        "h": 24.8814640045166,
+        "cx": 193.84157943725586,
+        "cy": 311.9019136428833
+       },
+       "draggable": "true"
+      },
+      "dst": {
+       "path": "Dest/Keep.md",
+       "cls": "tree-item-self nav-file-title tappable is-clickable",
+       "text": "Keep",
+       "rect": {
+        "x": 55.67887496948242,
+        "y": 245.6142120361328,
+        "w": 276.3254089355469,
+        "h": 24.8814640045166,
+        "cx": 193.84157943725586,
+        "cy": 258.0549440383911
+       },
+       "draggable": "true"
+      },
+      "destGammaBefore": "# Dest Gamma (a collision)\n",
+      "drop": {
+       "started": true,
+       "mimeTypes": [
+        "text/plain",
+        "text/uri-list"
+       ]
+      },
+      "after": {
+       "tree": [
+        "Deep/",
+        "Deep/Sub/",
+        "Deep/Sub/Inner.md",
+        "Dest/",
+        "Dest/Alpha.md",
+        "Dest/Gamma 1.md",
+        "Dest/Gamma.md",
+        "Dest/Keep.md",
+        "Inbox/",
+        "Linker.md",
+        "Notes/",
+        "Notes/Alpha.md",
+        "Notes/Beta Renamed.md",
+        "renamed cover.png",
+        "Root.md"
+       ],
+       "notices": [],
+       "destGamma": "# Dest Gamma (a collision)\n",
+       "inboxGamma": null
+      },
+      "afterUndo": {
+       "tree": [
+        "Deep/",
+        "Deep/Sub/",
+        "Deep/Sub/Inner.md",
+        "Dest/",
+        "Dest/Alpha.md",
+        "Dest/Gamma 1.md",
+        "Dest/Gamma.md",
+        "Dest/Keep.md",
+        "Inbox/",
+        "Linker.md",
+        "Notes/",
+        "Notes/Alpha.md",
+        "Notes/Beta Renamed.md",
+        "renamed cover.png",
+        "Root.md"
+       ],
+       "notices": []
+      }
+     }
+    },
+    "order": [
+     "s09-f2-with-focus-in-the-tree",
+     "s10-inline-rename-edge-cases",
+     "s11-folder-inline-rename",
+     "s12-drop-on-a-file-row-then-undo"
+    ],
+    "elapsedMs": 35399,
+    "vaultPath": "/tmp/silica-probe-vault.JW9ltS",
+    "title": "New tab - silica-probe-vault.JW9ltS - Obsidian 1.14.5",
+    "config": {
+     "alwaysUpdateLinks": false,
+     "promptDelete": true,
+     "trashOption": "system"
+    },
+    "treeAtStart": [
+     "cover.png",
+     "Deep/",
+     "Deep/Sub/",
+     "Deep/Sub/Inner.md",
+     "Dest/",
+     "Dest/Alpha.md",
+     "Dest/Gamma.md",
+     "Dest/Keep.md",
+     "Inbox/",
+     "Inbox/Gamma.md",
+     "Linker.md",
+     "Notes/",
+     "Notes/Alpha.md",
+     "Notes/Beta.md",
+     "Root.md"
+    ],
+    "treeAtEnd": [
+     "Deep/",
+     "Deep/Sub/",
+     "Deep/Sub/Inner.md",
+     "Dest/",
+     "Dest/Alpha.md",
+     "Dest/Gamma 1.md",
+     "Dest/Gamma.md",
+     "Dest/Keep.md",
+     "Inbox/",
+     "Linker.md",
+     "Notes/",
+     "Notes/Alpha.md",
+     "Notes/Beta Renamed.md",
+     "renamed cover.png",
+     "Root.md"
+    ],
+    "finishedAt": "2026-10-25T15:30:39.114Z"
+   },
+   "note": "s01-s03 are void: F2 was pressed with focus still in the editor, because clicking a row opens the file and hands focus to CodeMirror, so Ctrl+A and the typing went to the note. s09-s12 redo them entering the tree through file-explorer:reveal-active-file. s04-s08 are sound: drags do not depend on keyboard focus."
+  }
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {
+      "id": "only",
+      "type": "text",
+      "text": "Alone",
+      "x": 0,
+      "y": 0,
+      "width": 250,
+      "height": 60
+    }
+  ]
+}

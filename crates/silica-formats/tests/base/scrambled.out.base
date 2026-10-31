@@ -1,0 +1,57 @@
+summaries:
+  customAverage: values.mean().round(3)
+  plainSummary: values.sum()
+unknownTopKey:
+  nested: 1
+filters:
+  and:
+    - status != "done"
+    - file.hasTag("rock")
+    - or:
+        - density > 1
+        - not:
+            - silica < 50
+formulas:
+  ppu: (density / silica).toFixed(2)
+  spaced: type + " "  + file.name
+  hashish: '"#" + status'
+  colonish: 'if(status == "a", "x: y", "z")'
+  bracketish: '[1, 2, 3].join(", ")'
+  longOne: if(status == "todo", "a rather long string that exists only to see whether the emitter folds a line at eighty columns", "no")
+  trailingSpace: 'status + "x" '
+properties:
+  status:
+    unknownPropKey: kept
+    displayName: Status
+  formula.ppu:
+    displayName: Price per unit
+  file.ext:
+    displayName: Extension
+views:
+  - type: table
+    name: My table
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - formula.ppu
+    sort:
+      - property: status
+        direction: DESC
+    limit: 10
+    summaries:
+      formula.ppu: Average
+    unknownViewKey: kept
+    nestedUnknown:
+      deep:
+        - 1
+        - a
+  - type: cards
+    name: Cards
+    order:
+      - file.name
+      - formula.ppu
+newItemFolder: Notes
+newItemTemplate: Templates/Rock.md

@@ -1,0 +1,4480 @@
+{
+ "search": {
+  "fixtures": {
+   "phase": "fixtures",
+   "startedAt": "2026-10-19T05:23:02.567Z",
+   "steps": {
+    "fixtures": {
+     "ok": true,
+     "writeOrder": [
+      "zebra.md",
+      "apple.md",
+      "kiwi.md",
+      "mango.md",
+      "notes/banana.md",
+      "plain.txt",
+      "apple10.md",
+      "_needle.md",
+      "Apple Pie.md",
+      "notes/apple.md",
+      "9 needle.md",
+      "apple2.md"
+     ],
+     "written": {
+      "zebra.md": {
+       "bytes": 49,
+       "content": "zebra needle alpha\nfiller line\nzebra needle beta\n"
+      },
+      "apple.md": {
+       "bytes": 17,
+       "content": "apple needle one\n"
+      },
+      "kiwi.md": {
+       "bytes": 38,
+       "content": "kiwi has Needle with a capital N only\n"
+      },
+      "mango.md": {
+       "bytes": 171,
+       "content": "line before first\nmango needle first\nline after first\n\nmiddle paragraph with no hit at all\n\nmango needle second\nmango needle third on this line\nline after third\nlast line\n"
+      },
+      "notes/banana.md": {
+       "bytes": 32,
+       "content": "banana has a needle in a folder\n"
+      },
+      "plain.txt": {
+       "bytes": 18,
+       "content": "plain text needle\n"
+      },
+      "apple10.md": {
+       "bytes": 17,
+       "content": "apple ten needle\n"
+      },
+      "_needle.md": {
+       "bytes": 23,
+       "content": "underscore file needle\n"
+      },
+      "Apple Pie.md": {
+       "bytes": 17,
+       "content": "apple pie needle\n"
+      },
+      "notes/apple.md": {
+       "bytes": 19,
+       "content": "notes apple needle\n"
+      },
+      "9 needle.md": {
+       "bytes": 12,
+       "content": "nine needle\n"
+      },
+      "apple2.md": {
+       "bytes": 17,
+       "content": "apple two needle\n"
+      }
+     },
+     "mtimesSet": {
+      "zebra.md": {
+       "ms": 1792387322568,
+       "iso": "2026-10-19T05:22:02.568Z"
+      },
+      "apple.md": {
+       "ms": 1704070200000,
+       "iso": "2024-01-01T00:50:00.000Z"
+      },
+      "kiwi.md": {
+       "ms": 1704068400000,
+       "iso": "2024-01-01T00:20:00.000Z"
+      },
+      "mango.md": {
+       "ms": 1792387262568,
+       "iso": "2026-10-19T05:21:02.568Z"
+      },
+      "notes/banana.md": {
+       "ms": 1704067800000,
+       "iso": "2024-01-01T00:10:00.000Z"
+      },
+      "plain.txt": {
+       "ms": 1704069300000,
+       "iso": "2024-01-01T00:35:00.000Z"
+      },
+      "apple10.md": {
+       "ms": 1704067500000,
+       "iso": "2024-01-01T00:05:00.000Z"
+      },
+      "_needle.md": {
+       "ms": 1704070800000,
+       "iso": "2024-01-01T01:00:00.000Z"
+      },
+      "Apple Pie.md": {
+       "ms": 1704069000000,
+       "iso": "2024-01-01T00:30:00.000Z"
+      },
+      "notes/apple.md": {
+       "ms": 1704068700000,
+       "iso": "2024-01-01T00:25:00.000Z"
+      },
+      "9 needle.md": {
+       "ms": 1704068100000,
+       "iso": "2024-01-01T00:15:00.000Z"
+      },
+      "apple2.md": {
+       "ms": 1704069600000,
+       "iso": "2024-01-01T00:40:00.000Z"
+      }
+     },
+     "statAfter": {
+      "zebra.md": {
+       "mtimeMs": 1792387322568,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382566.3271,
+       "size": 49
+      },
+      "apple.md": {
+       "mtimeMs": 1704070200000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382566.3271,
+       "size": 17
+      },
+      "kiwi.md": {
+       "mtimeMs": 1704068400000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.5757,
+       "size": 38
+      },
+      "mango.md": {
+       "mtimeMs": 1792387262568,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.6218,
+       "size": 171
+      },
+      "notes/banana.md": {
+       "mtimeMs": 1704067800000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.667,
+       "size": 32
+      },
+      "plain.txt": {
+       "mtimeMs": 1704069300000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.667,
+       "size": 18
+      },
+      "apple10.md": {
+       "mtimeMs": 1704067500000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.802,
+       "size": 17
+      },
+      "_needle.md": {
+       "mtimeMs": 1704070800000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.864,
+       "size": 23
+      },
+      "Apple Pie.md": {
+       "mtimeMs": 1704069000000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.9065,
+       "size": 17
+      },
+      "notes/apple.md": {
+       "mtimeMs": 1704068700000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.9463,
+       "size": 19
+      },
+      "9 needle.md": {
+       "mtimeMs": 1704068100000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382567.9463,
+       "size": 12
+      },
+      "apple2.md": {
+       "mtimeMs": 1704069600000,
+       "ctimeMs": 1792387382568.0732,
+       "birthtimeMs": 1792387382568.035,
+       "size": 17
+      }
+     },
+     "expectedMtimeOrderNewestFirst": [
+      "zebra.md",
+      "mango.md",
+      "_needle.md",
+      "apple.md",
+      "apple2.md",
+      "plain.txt",
+      "Apple Pie.md",
+      "notes/apple.md",
+      "kiwi.md",
+      "9 needle.md",
+      "notes/banana.md",
+      "apple10.md"
+     ]
+    },
+    "obsidianDirBefore": {
+     "ok": true,
+     "entries": [
+      "app.json"
+     ]
+    }
+   },
+   "order": [],
+   "finishedAt": "2026-10-19T05:23:02.568Z"
+  },
+  "run": {
+   "phase": "run",
+   "startedAt": "2026-10-19T05:23:03.748Z",
+   "steps": {
+    "00-initial-disk": {
+     "ok": true,
+     "ms": 1,
+     "app.json": "{}",
+     "workspace.json": "{\n  \"main\": {\n    \"id\": \"134a7fa828545697\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"6b40d8ef3822e538\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"07404065fc2841cd\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"empty\",\n              \"state\": {},\n              \"icon\": \"lucide-file\",\n              \"title\": \"New tab\"\n            }\n          }\n        ]\n      }\n    ],\n    \"direction\": \"vertical\"\n  },\n  \"left\": {\n    \"id\": \"09d87984e85bf6e9\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"d9ec58fe923f8709\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"e2cb7ef7657b130c\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"file-explorer\",\n              \"state\": {\n                \"sortOrder\": \"alphabetical\",\n                \"autoReveal\": false,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-folder-closed\",\n              \"title\": \"Files\"\n            }\n          },\n          {\n            \"id\": \"9a1b5ac98824f537\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"search\",\n              \"state\": {\n                \"query\": \"\",\n                \"matchingCase\": false,\n                \"explainSearch\": false,\n                \"collapseAll\": false,\n                \"extraContext\": false,\n                \"sortOrder\": \"alphabetical\"\n              },\n              \"icon\": \"lucide-search\",\n              \"title\": \"Search\"\n            }\n          },\n          {\n            \"id\": \"bafc6abe65331b00\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"bookmarks\",\n              \"state\": {\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-bookmark\",\n              \"title\": \"Bookmarks\"\n            }\n          }\n        ]\n      }\n    ],\n    \"direction\": \"horizontal\",\n    \"width\": 300\n  },\n  \"right\": {\n    \"id\": \"748731d8786eb02b\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"38cfd2457bfbba70\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"d628295ee1198d6a\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"backlink\",\n              \"state\": {\n                \"collapseAll\": false,\n                \"extraContext\": false,\n                \"sortOrder\": \"alphabetical\",\n                \"showSearch\": false,\n                \"searchQuery\": \"\",\n                \"backlinkCollapsed\": false,\n                \"unlinkedCollapsed\": true\n              },\n              \"icon\": \"links-coming-in\",\n              \"title\": \"Backlinks\"\n            }\n          },\n          {\n            \"id\": \"264a35c7b2b378fc\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"outgoing-link\",\n              \"state\": {\n                \"linksCollapsed\": false,\n                \"unlinkedCollapsed\": true\n              },\n              \"icon\": \"links-going-out\",\n              \"title\": \"Outgoing links\"\n            }\n          },\n          {\n            \"id\": \"be7e32d3ed35c2d0\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"tag\",\n              \"state\": {\n                \"sortOrder\": \"frequency\",\n                \"useHierarchy\": true,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-tags\",\n              \"title\": \"Tags\"\n            }\n          },\n          {\n            \"id\": \"7f111ddb06c7c357\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"all-properties\",\n              \"state\": {\n                \"sortOrder\": \"frequency\",\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-archive\",\n              \"title\": \"All properties\"\n            }\n          },\n          {\n            \"id\": \"c168183e1d22b3b1\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"outline\",\n              \"state\": {\n                \"followCursor\": false,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-list\",\n              \"title\": \"Outline\"\n            }\n          }\n        ]\n      }\n    ],\n    \"direction\": \"horizontal\",\n    \"width\": 300,\n    \"collapsed\": true\n  },\n  \"left-ribbon\": {\n    \"hiddenItems\": {\n      \"switcher:Open quick switcher\": false,\n      \"graph:Open graph view\": false,\n      \"canvas:Create new canvas\": false,\n      \"daily-notes:Open today's daily note\": false,\n      \"templates:Insert template\": false,\n      \"command-palette:Open command palette\": false,\n      \"bases:Create new base\": false\n    }\n  },\n  \"active\": \"07404065fc2841cd\",\n  \"lastOpenFiles\": []\n}",
+     "obsidianDir": [
+      "app.json",
+      "appearance.json",
+      "core-plugins.json",
+      "workspace.json"
+     ]
+    },
+    "01-open-pane": {
+     "ok": true,
+     "ms": 824,
+     "cmd": true,
+     "leafId": "9a1b5ac98824f537",
+     "inLeftSplit": true,
+     "viewType": "search",
+     "displayText": "Search",
+     "initialState": {
+      "query": "",
+      "matchingCase": false,
+      "explainSearch": false,
+      "collapseAll": false,
+      "extraContext": false,
+      "sortOrder": "alphabetical"
+     },
+     "containerChildren": [
+      "search-row",
+      "search-info-container",
+      "search-params",
+      "search-results-info",
+      "search-result-container mod-global-search node-insert-event"
+     ],
+     "headerParentHtml": "<div class=\"search-row\"><div class=\"search-input-container global-search-input-container\"><input enterkeyhint=\"search\" type=\"search\" spellcheck=\"false\" placeholder=\"Search...\"><div class=\"search-input-clear-button\" aria-label=\"Clear search\"></div><div class=\"input-right-decorator clickable-icon\" aria-label=\"Match case\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon uppercase-lowercase-a\"><path d=\"M10.5 14L4.5 14\"></path><path d=\"M12.5 18L7.5 6\"></path><path d=\"M3 18L7.5 6\"></path><path d=\"M15.9526 10.8322C15.9526 10.8322 16.6259 10 18.3832 10C20.1406 9.99999 20.9986 11.0587 20.9986 11.9682V16.7018C20.9986 17.1624 21.2815 17.7461 21.7151 18\"></path><path d=\"M20.7151 13.5C18.7151 13.5 15.7151 14.2837 15.7151 16C15.7151 17.7163 17.5908 18.2909 18.7151 18C19.5635 17.7804 20.5265 17.3116 20.889 16.6199\"></path></svg></div></div><div class=\"clickable-icon\" aria-label=\"Search settings\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-sliders-horizontal\"><path d=\"M10 5H3\"></path><path d=\"M12 19H3\"></path><path d=\"M14 3v4\"></path><path d=\"M16 17v4\"></path><path d=\"M21 12h-9\"></path><path d=\"M21 19h-5\"></path><path d=\"M21 5h-7\"></path><path d=\"M8 10v4\"></path><path d=\"M8 12H3\"></path></svg></div></div>",
+     "icons": [
+      {
+       "cls": "input-right-decorator clickable-icon",
+       "aria": "Match case",
+       "svg": "svg-icon uppercase-lowercase-a",
+       "text": ""
+      },
+      {
+       "cls": "clickable-icon",
+       "aria": "Search settings",
+       "svg": "svg-icon lucide-sliders-horizontal",
+       "text": ""
+      },
+      {
+       "cls": "clickable-icon search-results-result-count",
+       "aria": null,
+       "svg": "svg-icon lucide-more-horizontal",
+       "text": ""
+      }
+     ],
+     "navHeader": null,
+     "viewOwnKeys": [
+      "_loaded",
+      "_events",
+      "_children",
+      "icon",
+      "navigation",
+      "app",
+      "leaf",
+      "containerEl",
+      "searchContainerEl",
+      "searchInfoEl",
+      "infoEl",
+      "resultCountEl",
+      "matchingCase",
+      "explainSearch",
+      "showParams",
+      "searchQuery",
+      "requestSaveSearch",
+      "dom",
+      "matchingCaseButtonEl",
+      "searchComponent",
+      "filterSectionToggleEl",
+      "collapseResultsToggle",
+      "extraContextToggle",
+      "explainSearchToggle",
+      "searchParamsContainerEl",
+      "sortOrderDropdown",
+      "scope",
+      "queue"
+     ],
+     "domProtoMethods": [
+      "startLoader",
+      "stopLoader",
+      "onChange",
+      "emptyResults",
+      "getResult",
+      "removeResult",
+      "addResult",
+      "toggle",
+      "setCollapseAll",
+      "setExtraContext",
+      "onResize",
+      "getFiles",
+      "getMatchCount",
+      "setFocusedItem",
+      "changeFocusedItem"
+     ],
+     "hasSortDropdown": true,
+     "sortDropdownKeys": [
+      "disabled",
+      "selectEl",
+      "measureEl",
+      "measureOptionEl",
+      "changeCallback"
+     ]
+    },
+    "02-type-needle": {
+     "ok": true,
+     "ms": 807,
+     "clickInput": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0,
+      "cx": 0,
+      "cy": 0,
+      "skipped": "zero rect (hidden)"
+     },
+     "activeBefore": "INPUT.",
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "results": {
+      "rows": [
+       {
+        "title": "_needle",
+        "flair": "1",
+        "path": "_needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "underscore file needle"
+        ]
+       },
+       {
+        "title": "9 needle",
+        "flair": "1",
+        "path": "9 needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "nine needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "notes/apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "notes apple needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple needle one"
+        ]
+       },
+       {
+        "title": "Apple Pie",
+        "flair": "1",
+        "path": "Apple Pie.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple pie needle"
+        ]
+       },
+       {
+        "title": "apple2",
+        "flair": "1",
+        "path": "apple2.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple two needle"
+        ]
+       },
+       {
+        "title": "apple10",
+        "flair": "1",
+        "path": "apple10.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple ten needle"
+        ]
+       },
+       {
+        "title": "banana",
+        "flair": "1",
+        "path": "notes/banana.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "banana has a needle in a folder"
+        ]
+       },
+       {
+        "title": "kiwi",
+        "flair": "1",
+        "path": "kiwi.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "kiwi has Needle with a capital N only"
+        ]
+       },
+       {
+        "title": "mango",
+        "flair": "3",
+        "path": "mango.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 3,
+        "matches": [
+         "mango needle first",
+         "mango needle second",
+         "mango needle third on this line"
+        ]
+       },
+       {
+        "title": "zebra",
+        "flair": "2",
+        "path": "zebra.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 2,
+        "matches": [
+         "zebra needle alpha",
+         "zebra needle beta"
+        ]
+       }
+      ],
+      "vchildren": [
+       "_needle.md",
+       "9 needle.md",
+       "notes/apple.md",
+       "apple.md",
+       "Apple Pie.md",
+       "apple2.md",
+       "apple10.md",
+       "notes/banana.md",
+       "kiwi.md",
+       "mango.md",
+       "zebra.md"
+      ],
+      "count": "16 results",
+      "info": "16 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+      "sortOrder": "alphabetical",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "needle",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "alphabetical"
+      },
+      "resultLookupSize": 11
+     },
+     "firstRowHtml": "<div class=\"tree-item search-result\"><div class=\"tree-item-self search-result-file-title is-clickable\" draggable=\"true\"><div class=\"tree-item-icon collapse-icon\" style=\"\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon right-triangle\"><path d=\"M3 8L12 17L21 8\"></path></svg></div><div class=\"tree-item-inner\"><span>_</span><span class=\"search-result-file-matched-text\">needle</span></div><div class=\"tree-item-flair-outer\"><span class=\"tree-item-flair\">1</span></div></div><div class=\"search-result-file-matches\" style=\"\"><div style=\"width: 1px; height: 0.1px; margin-bottom: 0px;\"></div><div class=\"search-result-file-match tappable\"><span>underscore file </span><span class=\"search-result-file-matched-text\">needle</span><div class=\"search-result-hover-button mod-top\" aria-label=\"Show more context\" data-tooltip-position=\"top\" style=\"display: none;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-chevron-up\"><path d=\"m18 15-6-6-6 6\"></path></svg></div><div class=\"search-result-hover-button mod-bottom\" aria-label=\"Show more context\" style=\"display: none;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-chevron-down\"><path d=\"m6 9 6 6 6-6\"></path></svg></div></div></div></div>",
+     "resultContainerClasses": [
+      "search-results-info",
+      "search-result-container mod-global-search node-insert-event",
+      "search-results-children"
+     ]
+    },
+    "03-settings-section": {
+     "ok": true,
+     "ms": 461,
+     "toggleEl": {
+      "tag": "DIV",
+      "cls": "clickable-icon",
+      "aria": "Search settings",
+      "x": 304.0301513671875,
+      "y": 54.999996185302734,
+      "w": 27.974136352539062,
+      "h": 23.98706817626953,
+      "html": "<div class=\"clickable-icon\" aria-label=\"Search settings\" data-cdp=\"settings-toggle\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-sliders-horizontal\"><path d=\"M10 5H3\"></path><path d=\"M12 19H3\"></path><path d=\"M14 3v4\"></path><path d=\"M16 17v4\"></path><path d=\"M21 12h-9\"></path><path d=\"M21 19h-5\"></path><path d=\"M21 5h-7\"></path><path d=\"M8 10v4\"></path><path d=\"M8 12H3\"></path></svg></div>"
+     },
+     "paramsBefore": {
+      "display": "none",
+      "cls": "search-params",
+      "hidden": false
+     },
+     "click": {
+      "x": 304.0301513671875,
+      "y": 54.999996185302734,
+      "w": 27.974136352539062,
+      "h": 23.98706817626953,
+      "cx": 318.01721954345703,
+      "cy": 66.9935302734375
+     },
+     "params": {
+      "display": "flex",
+      "cls": "search-params",
+      "hidden": false,
+      "controls": [
+       {
+        "name": "Collapse results",
+        "desc": null,
+        "cls": "setting-item mod-toggle",
+        "control": [
+         {
+          "tag": "LABEL",
+          "cls": "checkbox-container",
+          "aria": null,
+          "enabled": false,
+          "value": null,
+          "options": null
+         }
+        ]
+       },
+       {
+        "name": "Show more context",
+        "desc": null,
+        "cls": "setting-item mod-toggle",
+        "control": [
+         {
+          "tag": "LABEL",
+          "cls": "checkbox-container",
+          "aria": null,
+          "enabled": false,
+          "value": null,
+          "options": null
+         }
+        ]
+       },
+       {
+        "name": "Explain search terms",
+        "desc": null,
+        "cls": "setting-item mod-toggle",
+        "control": [
+         {
+          "tag": "LABEL",
+          "cls": "checkbox-container",
+          "aria": null,
+          "enabled": false,
+          "value": null,
+          "options": null
+         }
+        ]
+       }
+      ],
+      "topLevel": [
+       {
+        "cls": "setting-item mod-toggle",
+        "text": "Collapse results"
+       },
+       {
+        "cls": "setting-item mod-toggle",
+        "text": "Show more context"
+       },
+       {
+        "cls": "setting-item mod-toggle",
+        "text": "Explain search terms"
+       }
+      ],
+      "html": "<div class=\"search-params\" style=\"\"><div class=\"setting-item mod-toggle\" tabindex=\"-1\"><div class=\"setting-item-info\"><div class=\"setting-item-name\">Collapse results</div><div class=\"setting-item-description\"></div></div><div class=\"setting-item-control\"><label class=\"checkbox-container\" tabindex=\"0\"><input type=\"checkbox\" tabindex=\"-1\"></label></div></div><div class=\"setting-item mod-toggle\" tabindex=\"-1\"><div class=\"setting-item-info\"><div class=\"setting-item-name\">Show more context</div><div class=\"setting-item-description\"></div></div><div class=\"setting-item-control\"><label class=\"checkbox-container\" tabindex=\"0\"><input type=\"checkbox\" tabindex=\"-1\"></label></div></div><div class=\"setting-item mod-toggle\" tabindex=\"-1\"><div class=\"setting-item-info\"><div class=\"setting-item-name\">Explain search terms</div><div class=\"setting-item-description\"></div></div><div class=\"setting-item-control\"><label class=\"checkbox-container\" tabindex=\"0\"><input type=\"checkbox\" tabindex=\"-1\"></label></div></div></div>"
+     },
+     "matchCaseDecorator": {
+      "cls": "input-right-decorator clickable-icon",
+      "aria": "Match case",
+      "html": "<div class=\"input-right-decorator clickable-icon\" aria-label=\"Match case\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon uppercase-lowercase-a\"><path d=\"M10.5 14L4.5 14\"></path><path d=\"M12.5 18L7.5 6\"></path><path d=\"M3 18L7.5 6\"></path><path d=\"M15"
+     },
+     "toggleElAfter": {
+      "cls": "clickable-icon is-active",
+      "aria": "Search settings"
+     }
+    },
+    "04-sort-dropdown": {
+     "ok": true,
+     "ms": 1,
+     "tag": "SELECT",
+     "how": "v.sortOrderDropdown",
+     "cls": "dropdown",
+     "value": "alphabetical",
+     "selectedIndex": 0,
+     "options": [
+      {
+       "value": "alphabetical",
+       "text": "File name (A to Z)",
+       "selected": true
+      },
+      {
+       "value": "alphabeticalReverse",
+       "text": "File name (Z to A)",
+       "selected": false
+      },
+      {
+       "value": "byModifiedTime",
+       "text": "Modified time (new to old)",
+       "selected": false
+      },
+      {
+       "value": "byModifiedTimeReverse",
+       "text": "Modified time (old to new)",
+       "selected": false
+      },
+      {
+       "value": "byCreatedTime",
+       "text": "Created time (new to old)",
+       "selected": false
+      },
+      {
+       "value": "byCreatedTimeReverse",
+       "text": "Created time (old to new)",
+       "selected": false
+      }
+     ],
+     "settingName": null,
+     "html": "<select class=\"dropdown\" data-cdp=\"sort-dropdown\" style=\"--dropdown-fitted-width: 136px;\"><option value=\"alphabetical\">File name (A to Z)</option><option value=\"alphabeticalReverse\">File name (Z to A)</option><option value=\"byModifiedTime\">Modified time (new to old)</option><option value=\"byModifiedTimeReverse\">Modified time (old to new)</option><option value=\"byCreatedTime\">Created time (new to old)</option><option value=\"byCreatedTimeReverse\">Created time (old to new)</option></select>",
+     "domSortOrder": "alphabetical",
+     "componentKeys": [
+      "disabled",
+      "selectEl",
+      "measureEl",
+      "measureOptionEl",
+      "changeCallback"
+     ],
+     "setSortOrderSrc": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>",
+     "domChangedSrc": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>",
+     "startSearchSrc": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>",
+     "note": "native <select>: options read from its <option> children; the native popup is not in the DOM so it was not opened (see needs_human)"
+    },
+    "05-install-counters": {
+     "ok": true,
+     "ms": 1,
+     "domMethods": [
+      "startLoader",
+      "stopLoader",
+      "onChange",
+      "emptyResults",
+      "getResult",
+      "removeResult",
+      "addResult",
+      "toggle",
+      "setCollapseAll",
+      "setExtraContext",
+      "onResize",
+      "getFiles",
+      "getMatchCount",
+      "setFocusedItem",
+      "changeFocusedItem"
+     ],
+     "skippedOwnDomProps": [],
+     "viewMethods": [
+      "startSearch",
+      "stopSearch",
+      "setSortOrder",
+      "renderSearchInfo",
+      "setQuery"
+     ],
+     "skippedOwnViewProps": []
+    },
+    "05b-collapse-first-row": {
+     "ok": true,
+     "ms": 309,
+     "icon": {
+      "tag": "DIV",
+      "cls": "tree-item-icon collapse-icon",
+      "aria": null,
+      "x": 59.989219665527344,
+      "y": 243.72842407226562,
+      "w": 15.991377830505371,
+      "h": 16.885774612426758,
+      "html": "<div class=\"tree-item-icon collapse-icon\" style=\"\" data-cdp=\"first-collapse\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon right-triangle\"><path d=\"M3 8L12 17L21 8\"></path></svg></div>"
+     },
+     "click": {
+      "x": 59.989219665527344,
+      "y": 243.72842407226562,
+      "w": 15.991377830505371,
+      "h": 16.885774612426758,
+      "cx": 67.98490858078003,
+      "cy": 252.171311378479
+     },
+     "after": [
+      {
+       "t": "_needle",
+       "collapsed": true
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "apple10",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      },
+      {
+       "t": "zebra",
+       "collapsed": false
+      }
+     ],
+     "activeFile": null
+    },
+    "06-sort-alphabetical": {
+     "ok": true,
+     "ms": 1402,
+     "before": {
+      "rows": [
+       {
+        "t": "_needle",
+        "collapsed": true
+       },
+       {
+        "t": "9 needle",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "Apple Pie",
+        "collapsed": false
+       },
+       {
+        "t": "apple2",
+        "collapsed": false
+       },
+       {
+        "t": "apple10",
+        "collapsed": false
+       },
+       {
+        "t": "banana",
+        "collapsed": false
+       },
+       {
+        "t": "kiwi",
+        "collapsed": false
+       },
+       {
+        "t": "mango",
+        "collapsed": false
+       },
+       {
+        "t": "zebra",
+        "collapsed": false
+       }
+      ],
+      "counts": {}
+     },
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "alphabetical",
+      "presses": [],
+      "focused": true,
+      "method": "already-selected (no key pressed)",
+      "after": {
+       "value": "alphabetical",
+       "domSort": "alphabetical",
+       "state": {
+        "query": "needle",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "alphabetical"
+       }
+      }
+     },
+     "countSamples": [
+      {
+       "atMs": 0,
+       "v": "16 results|idle|rows=11"
+      }
+     ],
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "counts": {},
+     "results": {
+      "rows": [
+       {
+        "title": "_needle",
+        "flair": "1",
+        "path": "_needle.md",
+        "collapsed": true,
+        "rowClass": "tree-item search-result is-collapsed",
+        "matchCount": 0,
+        "matches": []
+       },
+       {
+        "title": "9 needle",
+        "flair": "1",
+        "path": "9 needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "nine needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "notes/apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "notes apple needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple needle one"
+        ]
+       },
+       {
+        "title": "Apple Pie",
+        "flair": "1",
+        "path": "Apple Pie.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple pie needle"
+        ]
+       },
+       {
+        "title": "apple2",
+        "flair": "1",
+        "path": "apple2.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple two needle"
+        ]
+       },
+       {
+        "title": "apple10",
+        "flair": "1",
+        "path": "apple10.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple ten needle"
+        ]
+       },
+       {
+        "title": "banana",
+        "flair": "1",
+        "path": "notes/banana.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "banana has a needle in a folder"
+        ]
+       },
+       {
+        "title": "kiwi",
+        "flair": "1",
+        "path": "kiwi.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "kiwi has Needle with a capital N only"
+        ]
+       },
+       {
+        "title": "mango",
+        "flair": "3",
+        "path": "mango.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 3,
+        "matches": [
+         "mango needle first",
+         "mango needle second",
+         "mango needle third on this line"
+        ]
+       },
+       {
+        "title": "zebra",
+        "flair": "2",
+        "path": "zebra.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 2,
+        "matches": [
+         "zebra needle alpha",
+         "zebra needle beta"
+        ]
+       }
+      ],
+      "vchildren": [
+       "_needle.md",
+       "9 needle.md",
+       "notes/apple.md",
+       "apple.md",
+       "Apple Pie.md",
+       "apple2.md",
+       "apple10.md",
+       "notes/banana.md",
+       "kiwi.md",
+       "mango.md",
+       "zebra.md"
+      ],
+      "count": "16 results",
+      "info": "16 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+      "sortOrder": "alphabetical",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "needle",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "alphabetical"
+      },
+      "resultLookupSize": 11
+     },
+     "orderPaths": [
+      "_needle.md",
+      "9 needle.md",
+      "notes/apple.md",
+      "apple.md",
+      "Apple Pie.md",
+      "apple2.md",
+      "apple10.md",
+      "notes/banana.md",
+      "kiwi.md",
+      "mango.md",
+      "zebra.md"
+     ],
+     "orderTitles": [
+      "_needle",
+      "9 needle",
+      "apple",
+      "apple",
+      "Apple Pie",
+      "apple2",
+      "apple10",
+      "banana",
+      "kiwi",
+      "mango",
+      "zebra"
+     ],
+     "collapsedAfter": [
+      {
+       "t": "_needle",
+       "collapsed": true
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "apple10",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      },
+      {
+       "t": "zebra",
+       "collapsed": false
+      }
+     ],
+     "plainTxtPresent": false
+    },
+    "06-sort-alphabeticalReverse": {
+     "ok": true,
+     "ms": 1647,
+     "before": {
+      "rows": [
+       {
+        "t": "_needle",
+        "collapsed": true
+       },
+       {
+        "t": "9 needle",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "Apple Pie",
+        "collapsed": false
+       },
+       {
+        "t": "apple2",
+        "collapsed": false
+       },
+       {
+        "t": "apple10",
+        "collapsed": false
+       },
+       {
+        "t": "banana",
+        "collapsed": false
+       },
+       {
+        "t": "kiwi",
+        "collapsed": false
+       },
+       {
+        "t": "mango",
+        "collapsed": false
+       },
+       {
+        "t": "zebra",
+        "collapsed": false
+       }
+      ],
+      "counts": {}
+     },
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "alphabeticalReverse",
+      "presses": [
+       {
+        "selectedIndex": 0,
+        "value": "alphabetical",
+        "domSort": "alphabetical"
+       }
+      ],
+      "focused": true,
+      "method": "synthetic-change-event (keyboard did not switch: {\"value\":\"alphabetical\",\"domSort\":\"alphabetical\"})",
+      "after": {
+       "value": "alphabeticalReverse",
+       "domSort": "alphabeticalReverse",
+       "state": {
+        "query": "needle",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "alphabeticalReverse"
+       }
+      }
+     },
+     "countSamples": [
+      {
+       "atMs": 0,
+       "v": "16 results|idle|rows=11"
+      }
+     ],
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "counts": {
+      "changeFocusedItem": 1,
+      "setFocusedItem": 1,
+      "view.setSortOrder": 1
+     },
+     "results": {
+      "rows": [
+       {
+        "title": "zebra",
+        "flair": "2",
+        "path": "zebra.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 2,
+        "matches": [
+         "zebra needle alpha",
+         "zebra needle beta"
+        ]
+       },
+       {
+        "title": "mango",
+        "flair": "3",
+        "path": "mango.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 3,
+        "matches": [
+         "mango needle first",
+         "mango needle second",
+         "mango needle third on this line"
+        ]
+       },
+       {
+        "title": "kiwi",
+        "flair": "1",
+        "path": "kiwi.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "kiwi has Needle with a capital N only"
+        ]
+       },
+       {
+        "title": "banana",
+        "flair": "1",
+        "path": "notes/banana.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "banana has a needle in a folder"
+        ]
+       },
+       {
+        "title": "apple10",
+        "flair": "1",
+        "path": "apple10.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple ten needle"
+        ]
+       },
+       {
+        "title": "apple2",
+        "flair": "1",
+        "path": "apple2.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple two needle"
+        ]
+       },
+       {
+        "title": "Apple Pie",
+        "flair": "1",
+        "path": "Apple Pie.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple pie needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "notes/apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "notes apple needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple needle one"
+        ]
+       },
+       {
+        "title": "9 needle",
+        "flair": "1",
+        "path": "9 needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "nine needle"
+        ]
+       },
+       {
+        "title": "_needle",
+        "flair": "1",
+        "path": "_needle.md",
+        "collapsed": true,
+        "rowClass": "tree-item search-result is-collapsed has-focus",
+        "matchCount": 0,
+        "matches": []
+       }
+      ],
+      "vchildren": [
+       "zebra.md",
+       "mango.md",
+       "kiwi.md",
+       "notes/banana.md",
+       "apple10.md",
+       "apple2.md",
+       "Apple Pie.md",
+       "notes/apple.md",
+       "apple.md",
+       "9 needle.md",
+       "_needle.md"
+      ],
+      "count": "16 results",
+      "info": "16 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (Z to A)",
+      "sortOrder": "alphabeticalReverse",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "needle",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "alphabeticalReverse"
+      },
+      "resultLookupSize": 11
+     },
+     "orderPaths": [
+      "zebra.md",
+      "mango.md",
+      "kiwi.md",
+      "notes/banana.md",
+      "apple10.md",
+      "apple2.md",
+      "Apple Pie.md",
+      "notes/apple.md",
+      "apple.md",
+      "9 needle.md",
+      "_needle.md"
+     ],
+     "orderTitles": [
+      "zebra",
+      "mango",
+      "kiwi",
+      "banana",
+      "apple10",
+      "apple2",
+      "Apple Pie",
+      "apple",
+      "apple",
+      "9 needle",
+      "_needle"
+     ],
+     "collapsedAfter": [
+      {
+       "t": "zebra",
+       "collapsed": false
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "apple10",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "_needle",
+       "collapsed": true
+      }
+     ],
+     "plainTxtPresent": false
+    },
+    "06-sort-byModifiedTime": {
+     "ok": true,
+     "ms": 1607,
+     "before": {
+      "rows": [
+       {
+        "t": "zebra",
+        "collapsed": false
+       },
+       {
+        "t": "mango",
+        "collapsed": false
+       },
+       {
+        "t": "kiwi",
+        "collapsed": false
+       },
+       {
+        "t": "banana",
+        "collapsed": false
+       },
+       {
+        "t": "apple10",
+        "collapsed": false
+       },
+       {
+        "t": "apple2",
+        "collapsed": false
+       },
+       {
+        "t": "Apple Pie",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "9 needle",
+        "collapsed": false
+       },
+       {
+        "t": "_needle",
+        "collapsed": true
+       }
+      ],
+      "counts": {
+       "changeFocusedItem": 1,
+       "setFocusedItem": 1,
+       "view.setSortOrder": 1
+      }
+     },
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "byModifiedTime",
+      "presses": [
+       {
+        "selectedIndex": 1,
+        "value": "alphabeticalReverse",
+        "domSort": "alphabeticalReverse"
+       }
+      ],
+      "focused": true,
+      "method": "synthetic-change-event (keyboard did not switch: {\"value\":\"alphabeticalReverse\",\"domSort\":\"alphabeticalReverse\"})",
+      "after": {
+       "value": "byModifiedTime",
+       "domSort": "byModifiedTime",
+       "state": {
+        "query": "needle",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "byModifiedTime"
+       }
+      }
+     },
+     "countSamples": [
+      {
+       "atMs": 1,
+       "v": "16 results|idle|rows=11"
+      }
+     ],
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "counts": {
+      "changeFocusedItem": 1,
+      "view.setSortOrder": 1
+     },
+     "results": {
+      "rows": [
+       {
+        "title": "zebra",
+        "flair": "2",
+        "path": "zebra.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 2,
+        "matches": [
+         "zebra needle alpha",
+         "zebra needle beta"
+        ]
+       },
+       {
+        "title": "mango",
+        "flair": "3",
+        "path": "mango.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 3,
+        "matches": [
+         "mango needle first",
+         "mango needle second",
+         "mango needle third on this line"
+        ]
+       },
+       {
+        "title": "_needle",
+        "flair": "1",
+        "path": "_needle.md",
+        "collapsed": true,
+        "rowClass": "tree-item search-result is-collapsed has-focus",
+        "matchCount": 0,
+        "matches": []
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple needle one"
+        ]
+       },
+       {
+        "title": "apple2",
+        "flair": "1",
+        "path": "apple2.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple two needle"
+        ]
+       },
+       {
+        "title": "Apple Pie",
+        "flair": "1",
+        "path": "Apple Pie.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple pie needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "notes/apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "notes apple needle"
+        ]
+       },
+       {
+        "title": "kiwi",
+        "flair": "1",
+        "path": "kiwi.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "kiwi has Needle with a capital N only"
+        ]
+       },
+       {
+        "title": "9 needle",
+        "flair": "1",
+        "path": "9 needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "nine needle"
+        ]
+       },
+       {
+        "title": "banana",
+        "flair": "1",
+        "path": "notes/banana.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "banana has a needle in a folder"
+        ]
+       },
+       {
+        "title": "apple10",
+        "flair": "1",
+        "path": "apple10.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple ten needle"
+        ]
+       }
+      ],
+      "vchildren": [
+       "zebra.md",
+       "mango.md",
+       "_needle.md",
+       "apple.md",
+       "apple2.md",
+       "Apple Pie.md",
+       "notes/apple.md",
+       "kiwi.md",
+       "9 needle.md",
+       "notes/banana.md",
+       "apple10.md"
+      ],
+      "count": "16 results",
+      "info": "16 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)Modified time (new to old)",
+      "sortOrder": "byModifiedTime",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "needle",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "byModifiedTime"
+      },
+      "resultLookupSize": 11
+     },
+     "orderPaths": [
+      "zebra.md",
+      "mango.md",
+      "_needle.md",
+      "apple.md",
+      "apple2.md",
+      "Apple Pie.md",
+      "notes/apple.md",
+      "kiwi.md",
+      "9 needle.md",
+      "notes/banana.md",
+      "apple10.md"
+     ],
+     "orderTitles": [
+      "zebra",
+      "mango",
+      "_needle",
+      "apple",
+      "apple2",
+      "Apple Pie",
+      "apple",
+      "kiwi",
+      "9 needle",
+      "banana",
+      "apple10"
+     ],
+     "collapsedAfter": [
+      {
+       "t": "zebra",
+       "collapsed": false
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      },
+      {
+       "t": "_needle",
+       "collapsed": true
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "apple10",
+       "collapsed": false
+      }
+     ],
+     "plainTxtPresent": false
+    },
+    "06-sort-byModifiedTimeReverse": {
+     "ok": true,
+     "ms": 1643,
+     "before": {
+      "rows": [
+       {
+        "t": "zebra",
+        "collapsed": false
+       },
+       {
+        "t": "mango",
+        "collapsed": false
+       },
+       {
+        "t": "_needle",
+        "collapsed": true
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "apple2",
+        "collapsed": false
+       },
+       {
+        "t": "Apple Pie",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "kiwi",
+        "collapsed": false
+       },
+       {
+        "t": "9 needle",
+        "collapsed": false
+       },
+       {
+        "t": "banana",
+        "collapsed": false
+       },
+       {
+        "t": "apple10",
+        "collapsed": false
+       }
+      ],
+      "counts": {
+       "changeFocusedItem": 1,
+       "view.setSortOrder": 1
+      }
+     },
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "byModifiedTimeReverse",
+      "presses": [
+       {
+        "selectedIndex": 2,
+        "value": "byModifiedTime",
+        "domSort": "byModifiedTime"
+       }
+      ],
+      "focused": true,
+      "method": "synthetic-change-event (keyboard did not switch: {\"value\":\"byModifiedTime\",\"domSort\":\"byModifiedTime\"})",
+      "after": {
+       "value": "byModifiedTimeReverse",
+       "domSort": "byModifiedTimeReverse",
+       "state": {
+        "query": "needle",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "byModifiedTimeReverse"
+       }
+      }
+     },
+     "countSamples": [
+      {
+       "atMs": 0,
+       "v": "16 results|idle|rows=11"
+      }
+     ],
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "counts": {
+      "changeFocusedItem": 1,
+      "setFocusedItem": 1,
+      "view.setSortOrder": 1
+     },
+     "results": {
+      "rows": [
+       {
+        "title": "apple10",
+        "flair": "1",
+        "path": "apple10.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple ten needle"
+        ]
+       },
+       {
+        "title": "banana",
+        "flair": "1",
+        "path": "notes/banana.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "banana has a needle in a folder"
+        ]
+       },
+       {
+        "title": "9 needle",
+        "flair": "1",
+        "path": "9 needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "nine needle"
+        ]
+       },
+       {
+        "title": "kiwi",
+        "flair": "1",
+        "path": "kiwi.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "kiwi has Needle with a capital N only"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "notes/apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "notes apple needle"
+        ]
+       },
+       {
+        "title": "Apple Pie",
+        "flair": "1",
+        "path": "Apple Pie.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple pie needle"
+        ]
+       },
+       {
+        "title": "apple2",
+        "flair": "1",
+        "path": "apple2.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple two needle"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result has-focus",
+        "matchCount": 1,
+        "matches": [
+         "apple needle one"
+        ]
+       },
+       {
+        "title": "_needle",
+        "flair": "1",
+        "path": "_needle.md",
+        "collapsed": true,
+        "rowClass": "tree-item search-result is-collapsed",
+        "matchCount": 0,
+        "matches": []
+       },
+       {
+        "title": "mango",
+        "flair": "3",
+        "path": "mango.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 3,
+        "matches": [
+         "mango needle first",
+         "mango needle second",
+         "mango needle third on this line"
+        ]
+       },
+       {
+        "title": "zebra",
+        "flair": "2",
+        "path": "zebra.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 2,
+        "matches": [
+         "zebra needle alpha",
+         "zebra needle beta"
+        ]
+       }
+      ],
+      "vchildren": [
+       "apple10.md",
+       "notes/banana.md",
+       "9 needle.md",
+       "kiwi.md",
+       "notes/apple.md",
+       "Apple Pie.md",
+       "apple2.md",
+       "apple.md",
+       "_needle.md",
+       "mango.md",
+       "zebra.md"
+      ],
+      "count": "16 results",
+      "info": "16 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)Modified time (old to new)",
+      "sortOrder": "byModifiedTimeReverse",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "needle",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "byModifiedTimeReverse"
+      },
+      "resultLookupSize": 11
+     },
+     "orderPaths": [
+      "apple10.md",
+      "notes/banana.md",
+      "9 needle.md",
+      "kiwi.md",
+      "notes/apple.md",
+      "Apple Pie.md",
+      "apple2.md",
+      "apple.md",
+      "_needle.md",
+      "mango.md",
+      "zebra.md"
+     ],
+     "orderTitles": [
+      "apple10",
+      "banana",
+      "9 needle",
+      "kiwi",
+      "apple",
+      "Apple Pie",
+      "apple2",
+      "apple",
+      "_needle",
+      "mango",
+      "zebra"
+     ],
+     "collapsedAfter": [
+      {
+       "t": "apple10",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "_needle",
+       "collapsed": true
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      },
+      {
+       "t": "zebra",
+       "collapsed": false
+      }
+     ],
+     "plainTxtPresent": false
+    },
+    "06-sort-byCreatedTime": {
+     "ok": true,
+     "ms": 1643,
+     "before": {
+      "rows": [
+       {
+        "t": "apple10",
+        "collapsed": false
+       },
+       {
+        "t": "banana",
+        "collapsed": false
+       },
+       {
+        "t": "9 needle",
+        "collapsed": false
+       },
+       {
+        "t": "kiwi",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "Apple Pie",
+        "collapsed": false
+       },
+       {
+        "t": "apple2",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "_needle",
+        "collapsed": true
+       },
+       {
+        "t": "mango",
+        "collapsed": false
+       },
+       {
+        "t": "zebra",
+        "collapsed": false
+       }
+      ],
+      "counts": {
+       "changeFocusedItem": 1,
+       "setFocusedItem": 1,
+       "view.setSortOrder": 1
+      }
+     },
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "byCreatedTime",
+      "presses": [
+       {
+        "selectedIndex": 3,
+        "value": "byModifiedTimeReverse",
+        "domSort": "byModifiedTimeReverse"
+       }
+      ],
+      "focused": true,
+      "method": "synthetic-change-event (keyboard did not switch: {\"value\":\"byModifiedTimeReverse\",\"domSort\":\"byModifiedTimeReverse\"})",
+      "after": {
+       "value": "byCreatedTime",
+       "domSort": "byCreatedTime",
+       "state": {
+        "query": "needle",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "byCreatedTime"
+       }
+      }
+     },
+     "countSamples": [
+      {
+       "atMs": 0,
+       "v": "16 results|idle|rows=11"
+      }
+     ],
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "counts": {
+      "changeFocusedItem": 1,
+      "setFocusedItem": 1,
+      "view.setSortOrder": 1
+     },
+     "results": {
+      "rows": [
+       {
+        "title": "apple10",
+        "flair": "1",
+        "path": "apple10.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple ten needle"
+        ]
+       },
+       {
+        "title": "banana",
+        "flair": "1",
+        "path": "notes/banana.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "banana has a needle in a folder"
+        ]
+       },
+       {
+        "title": "9 needle",
+        "flair": "1",
+        "path": "9 needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "nine needle"
+        ]
+       },
+       {
+        "title": "kiwi",
+        "flair": "1",
+        "path": "kiwi.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "kiwi has Needle with a capital N only"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "notes/apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "notes apple needle"
+        ]
+       },
+       {
+        "title": "Apple Pie",
+        "flair": "1",
+        "path": "Apple Pie.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple pie needle"
+        ]
+       },
+       {
+        "title": "apple2",
+        "flair": "1",
+        "path": "apple2.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple two needle"
+        ]
+       },
+       {
+        "title": "_needle",
+        "flair": "1",
+        "path": "_needle.md",
+        "collapsed": true,
+        "rowClass": "tree-item search-result is-collapsed",
+        "matchCount": 0,
+        "matches": []
+       },
+       {
+        "title": "mango",
+        "flair": "3",
+        "path": "mango.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 3,
+        "matches": [
+         "mango needle first",
+         "mango needle second",
+         "mango needle third on this line"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple needle one"
+        ]
+       },
+       {
+        "title": "zebra",
+        "flair": "2",
+        "path": "zebra.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 2,
+        "matches": [
+         "zebra needle alpha",
+         "zebra needle beta"
+        ]
+       }
+      ],
+      "vchildren": [
+       "apple10.md",
+       "notes/banana.md",
+       "9 needle.md",
+       "kiwi.md",
+       "notes/apple.md",
+       "Apple Pie.md",
+       "apple2.md",
+       "_needle.md",
+       "mango.md",
+       "apple.md",
+       "zebra.md"
+      ],
+      "count": "16 results",
+      "info": "16 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)Created time (new to old)",
+      "sortOrder": "byCreatedTime",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "needle",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "byCreatedTime"
+      },
+      "resultLookupSize": 11
+     },
+     "orderPaths": [
+      "apple10.md",
+      "notes/banana.md",
+      "9 needle.md",
+      "kiwi.md",
+      "notes/apple.md",
+      "Apple Pie.md",
+      "apple2.md",
+      "_needle.md",
+      "mango.md",
+      "apple.md",
+      "zebra.md"
+     ],
+     "orderTitles": [
+      "apple10",
+      "banana",
+      "9 needle",
+      "kiwi",
+      "apple",
+      "Apple Pie",
+      "apple2",
+      "_needle",
+      "mango",
+      "apple",
+      "zebra"
+     ],
+     "collapsedAfter": [
+      {
+       "t": "apple10",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "_needle",
+       "collapsed": true
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "zebra",
+       "collapsed": false
+      }
+     ],
+     "plainTxtPresent": false
+    },
+    "06-sort-byCreatedTimeReverse": {
+     "ok": true,
+     "ms": 1644,
+     "before": {
+      "rows": [
+       {
+        "t": "apple10",
+        "collapsed": false
+       },
+       {
+        "t": "banana",
+        "collapsed": false
+       },
+       {
+        "t": "9 needle",
+        "collapsed": false
+       },
+       {
+        "t": "kiwi",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "Apple Pie",
+        "collapsed": false
+       },
+       {
+        "t": "apple2",
+        "collapsed": false
+       },
+       {
+        "t": "_needle",
+        "collapsed": true
+       },
+       {
+        "t": "mango",
+        "collapsed": false
+       },
+       {
+        "t": "apple",
+        "collapsed": false
+       },
+       {
+        "t": "zebra",
+        "collapsed": false
+       }
+      ],
+      "counts": {
+       "changeFocusedItem": 1,
+       "setFocusedItem": 1,
+       "view.setSortOrder": 1
+      }
+     },
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "byCreatedTimeReverse",
+      "presses": [
+       {
+        "selectedIndex": 4,
+        "value": "byCreatedTime",
+        "domSort": "byCreatedTime"
+       }
+      ],
+      "focused": true,
+      "method": "synthetic-change-event (keyboard did not switch: {\"value\":\"byCreatedTime\",\"domSort\":\"byCreatedTime\"})",
+      "after": {
+       "value": "byCreatedTimeReverse",
+       "domSort": "byCreatedTimeReverse",
+       "state": {
+        "query": "needle",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "byCreatedTimeReverse"
+       }
+      }
+     },
+     "countSamples": [
+      {
+       "atMs": 0,
+       "v": "16 results|idle|rows=11"
+      }
+     ],
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "counts": {
+      "changeFocusedItem": 1,
+      "setFocusedItem": 1,
+      "view.setSortOrder": 1
+     },
+     "results": {
+      "rows": [
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple needle one"
+        ]
+       },
+       {
+        "title": "zebra",
+        "flair": "2",
+        "path": "zebra.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result has-focus",
+        "matchCount": 2,
+        "matches": [
+         "zebra needle alpha",
+         "zebra needle beta"
+        ]
+       },
+       {
+        "title": "apple10",
+        "flair": "1",
+        "path": "apple10.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple ten needle"
+        ]
+       },
+       {
+        "title": "banana",
+        "flair": "1",
+        "path": "notes/banana.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "banana has a needle in a folder"
+        ]
+       },
+       {
+        "title": "9 needle",
+        "flair": "1",
+        "path": "9 needle.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "nine needle"
+        ]
+       },
+       {
+        "title": "kiwi",
+        "flair": "1",
+        "path": "kiwi.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "kiwi has Needle with a capital N only"
+        ]
+       },
+       {
+        "title": "apple",
+        "flair": "1",
+        "path": "notes/apple.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "notes apple needle"
+        ]
+       },
+       {
+        "title": "Apple Pie",
+        "flair": "1",
+        "path": "Apple Pie.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple pie needle"
+        ]
+       },
+       {
+        "title": "apple2",
+        "flair": "1",
+        "path": "apple2.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 1,
+        "matches": [
+         "apple two needle"
+        ]
+       },
+       {
+        "title": "_needle",
+        "flair": "1",
+        "path": "_needle.md",
+        "collapsed": true,
+        "rowClass": "tree-item search-result is-collapsed",
+        "matchCount": 0,
+        "matches": []
+       },
+       {
+        "title": "mango",
+        "flair": "3",
+        "path": "mango.md",
+        "collapsed": false,
+        "rowClass": "tree-item search-result",
+        "matchCount": 3,
+        "matches": [
+         "mango needle first",
+         "mango needle second",
+         "mango needle third on this line"
+        ]
+       }
+      ],
+      "vchildren": [
+       "apple.md",
+       "zebra.md",
+       "apple10.md",
+       "notes/banana.md",
+       "9 needle.md",
+       "kiwi.md",
+       "notes/apple.md",
+       "Apple Pie.md",
+       "apple2.md",
+       "_needle.md",
+       "mango.md"
+      ],
+      "count": "16 results",
+      "info": "16 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)Created time (old to new)",
+      "sortOrder": "byCreatedTimeReverse",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "needle",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "byCreatedTimeReverse"
+      },
+      "resultLookupSize": 11
+     },
+     "orderPaths": [
+      "apple.md",
+      "zebra.md",
+      "apple10.md",
+      "notes/banana.md",
+      "9 needle.md",
+      "kiwi.md",
+      "notes/apple.md",
+      "Apple Pie.md",
+      "apple2.md",
+      "_needle.md",
+      "mango.md"
+     ],
+     "orderTitles": [
+      "apple",
+      "zebra",
+      "apple10",
+      "banana",
+      "9 needle",
+      "kiwi",
+      "apple",
+      "Apple Pie",
+      "apple2",
+      "_needle",
+      "mango"
+     ],
+     "collapsedAfter": [
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "zebra",
+       "collapsed": false
+      },
+      {
+       "t": "apple10",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "_needle",
+       "collapsed": true
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      }
+     ],
+     "plainTxtPresent": false
+    },
+    "07-remove-counters": {
+     "ok": true,
+     "ms": 0,
+     "restored": true,
+     "domOwnFns": [
+      "changed"
+     ]
+    },
+    "07b-restore-alphabetical": {
+     "ok": true,
+     "ms": 959,
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "alphabetical",
+      "presses": [
+       {
+        "selectedIndex": 5,
+        "value": "byCreatedTimeReverse",
+        "domSort": "byCreatedTimeReverse"
+       }
+      ],
+      "focused": true,
+      "method": "synthetic-change-event (keyboard did not switch: {\"value\":\"byCreatedTimeReverse\",\"domSort\":\"byCreatedTimeReverse\"})",
+      "after": {
+       "value": "alphabetical",
+       "domSort": "alphabetical",
+       "state": {
+        "query": "needle",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "alphabetical"
+       }
+      }
+     },
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       },
+       {
+        "working": false,
+        "count": "16 results",
+        "rows": 11
+       }
+      ]
+     },
+     "rows": [
+      {
+       "t": "_needle",
+       "collapsed": true
+      },
+      {
+       "t": "9 needle",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "apple",
+       "collapsed": false
+      },
+      {
+       "t": "Apple Pie",
+       "collapsed": false
+      },
+      {
+       "t": "apple2",
+       "collapsed": false
+      },
+      {
+       "t": "apple10",
+       "collapsed": false
+      },
+      {
+       "t": "banana",
+       "collapsed": false
+      },
+      {
+       "t": "kiwi",
+       "collapsed": false
+      },
+      {
+       "t": "mango",
+       "collapsed": false
+      },
+      {
+       "t": "zebra",
+       "collapsed": false
+      }
+     ],
+     "reexpand": {
+      "x": 59.989219665527344,
+      "y": 203.0387725830078,
+      "w": 15.991377830505371,
+      "h": 16.885774612426758,
+      "cx": 67.98490858078003,
+      "cy": 211.4816598892212
+     },
+     "rowsAfter": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ]
+    },
+    "08-result-count-click": {
+     "ok": true,
+     "ms": 827,
+     "el": {
+      "tag": "DIV",
+      "cls": "clickable-icon search-results-result-count",
+      "aria": null,
+      "x": 55.99137496948242,
+      "y": 195.15084838867188,
+      "w": 83.60990905761719,
+      "h": 23.599136352539062,
+      "html": "<div class=\"clickable-icon search-results-result-count\" data-cdp=\"result-count\"><span>16 results</span><div class=\"more-options-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-more-horizontal\"><circle cx=\"12\" cy=\"12\" r=\"1\"></circle><circle cx=\"19\" cy=\"12\" r=\"1\"></circle><circle cx=\"5\" cy=\"12\" r=\"1\"></circle></svg></div></div>"
+     },
+     "menusBefore": 0,
+     "click": {
+      "x": 55.99137496948242,
+      "y": 195.15084838867188,
+      "w": 83.60990905761719,
+      "h": 23.599136352539062,
+      "cx": 97.79632949829102,
+      "cy": 206.9504165649414
+     },
+     "menus": [
+      {
+       "cls": "menu",
+       "items": [
+        {
+         "title": "Copy search results",
+         "section": "action",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-copy"
+        },
+        {
+         "title": "Bookmark...",
+         "section": "action",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-bookmark"
+        }
+       ]
+      }
+     ],
+     "labels": [
+      [
+       "Copy search results",
+       "Bookmark..."
+      ]
+     ],
+     "popups": [
+      {
+       "cls": "menu",
+       "text": "Copy search resultsBookmark..."
+      }
+     ],
+     "onCopyResultsClickSrc": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>",
+     "menusAfterEscape": 0
+    },
+    "09-copy-results": {
+     "ok": true,
+     "ms": 1487,
+     "where": "result-count menu",
+     "sentinel": "CDP-SENTINEL-1792387400084",
+     "itemLabel": "Copy search results",
+     "menuItemsLive": [
+      "Copy search results",
+      "Bookmark..."
+     ],
+     "clickItem": {
+      "x": 106.6810302734375,
+      "y": 215.67886352539062,
+      "w": 158.362060546875,
+      "h": 24.8814640045166,
+      "cx": 185.862060546875,
+      "cy": 228.11959552764893
+     },
+     "clipboardAfterUi": "CDP-SENTINEL-1792387400084",
+     "uiChangedClipboard": false,
+     "viaMethod": true,
+     "methodResult": {
+      "ok": true,
+      "ret": null
+     },
+     "clipboardAfterMethod": "CDP-SENTINEL-1792387400084",
+     "clipboardText": "CDP-SENTINEL-1792387400084",
+     "clipboardJson": "\"CDP-SENTINEL-1792387400084\"",
+     "clipboardLines": [
+      "CDP-SENTINEL-1792387400084"
+     ],
+     "hasCRLF": false,
+     "tabIndented": false,
+     "spaceIndented": false,
+     "originalClipboardRestored": true
+    },
+    "10-menu-file-title": {
+     "ok": true,
+     "ms": 1033,
+     "target": null,
+     "clicked": null,
+     "menusBefore": 0,
+     "menus": [],
+     "labels": [],
+     "menusAfterEscape": 0
+    },
+    "10-menu-match-line": {
+     "ok": true,
+     "ms": 727,
+     "target": null,
+     "clicked": null,
+     "menusBefore": 0,
+     "menus": [],
+     "labels": [],
+     "menusAfterEscape": 0
+    },
+    "10-menu-empty-space": {
+     "ok": true,
+     "ms": 2,
+     "geometry": {
+      "container": {
+       "x": 43.997840881347656,
+       "y": 227.64007568359375,
+       "w": 299.9999694824219,
+       "h": 530.79736328125,
+       "bottom": 758.4374389648438
+      },
+      "lastRow": null,
+      "scrollHeight": 531,
+      "clientHeight": 531
+     },
+     "note": "no empty space below the last result (list fills the container); nothing clicked"
+    },
+    "10-menu-tab-header": {
+     "ok": true,
+     "ms": 735,
+     "target": {
+      "tag": "DIV",
+      "cls": "workspace-tab-header tappable is-active",
+      "aria": "Search",
+      "x": 82.9633560180664,
+      "y": 6.982758045196533,
+      "w": 27.974136352539062,
+      "h": 25.334049224853516,
+      "html": "<div class=\"workspace-tab-header tappable is-active\" draggable=\"true\" aria-label=\"Search\" data-tooltip-delay=\"300\" data-type=\"search\" data-cdp=\"search-tab\"><div class=\"workspace-tab-header-inner\"><div class=\"workspace-tab-header-inner-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-search\"><path d=\"m21 21-4.34-4.34\"></path><circle cx=\"11\" cy=\"11\" r=\"8\"></circle></svg></div><div class=\"workspace-tab-header-inner-title\">Search</div><div"
+     },
+     "clicked": {
+      "x": 82.9633560180664,
+      "y": 6.982758045196533,
+      "w": 27.974136352539062,
+      "h": 25.334049224853516,
+      "cx": 96.95042419433594,
+      "cy": 19.64978265762329
+     },
+     "menusBefore": 0,
+     "menus": [
+      {
+       "cls": "menu",
+       "items": [
+        {
+         "title": "Close",
+         "section": "close",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-x"
+        }
+       ]
+      }
+     ],
+     "labels": [
+      [
+       "Close"
+      ]
+     ],
+     "menusAfterEscape": 0
+    },
+    "10-menu-sidebar-header": {
+     "ok": true,
+     "ms": 729,
+     "target": {
+      "tag": "DIV",
+      "cls": "workspace-tab-header-spacer",
+      "aria": null,
+      "x": 141.90731811523438,
+      "y": 0,
+      "w": 194.09481811523438,
+      "h": 39.310340881347656,
+      "html": "<div class=\"workspace-tab-header-spacer\" data-cdp=\"sidebar-header\"></div>"
+     },
+     "navHeaderInView": null,
+     "clicked": {
+      "x": 141.90731811523438,
+      "y": 0,
+      "w": 194.09481811523438,
+      "h": 39.310340881347656,
+      "cx": 238.95472717285156,
+      "cy": 19.655170440673828
+     },
+     "menusBefore": 0,
+     "menus": [],
+     "labels": [],
+     "menusAfterEscape": 0
+    },
+    "10-menu-files-view-apple": {
+     "ok": true,
+     "ms": 1752,
+     "cmd": true,
+     "target": {
+      "tag": "DIV",
+      "cls": "tree-item-self nav-file-title tappable is-clickable",
+      "aria": null,
+      "x": 55.99137496948242,
+      "y": 164.69825744628906,
+      "w": 276.0129089355469,
+      "h": 24.8814640045166,
+      "html": "<div class=\"tree-item-self nav-file-title tappable is-clickable\" data-path=\"apple.md\" draggable=\"true\" style=\"margin-inline-start: 0px !important; padding-inline-start: 24px !important;\" data-cdp=\"files-apple\"><div class=\"tree-item-inner nav-file-title-content\">apple</div></div>"
+     },
+     "clicked": {
+      "x": 55.99137496948242,
+      "y": 164.69825744628906,
+      "w": 276.0129089355469,
+      "h": 24.8814640045166,
+      "cx": 193.99782943725586,
+      "cy": 177.13898944854736
+     },
+     "menusBefore": 0,
+     "menus": [
+      {
+       "cls": "menu",
+       "items": [
+        {
+         "title": "Open in new tab",
+         "section": "open",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-file-plus"
+        },
+        {
+         "title": "Open to the right",
+         "section": "open",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-separator-vertical"
+        },
+        {
+         "title": "Open in new window",
+         "section": "open",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-picture-in-picture-2"
+        },
+        "---",
+        {
+         "title": "Make a copy",
+         "section": "action",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-files"
+        },
+        {
+         "title": "Move file to...",
+         "section": "action",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-folder-tree"
+        },
+        {
+         "title": "Bookmark...",
+         "section": "action",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-bookmark"
+        },
+        {
+         "title": "Merge entire file with...",
+         "section": "action",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-git-merge"
+        },
+        "---",
+        {
+         "title": "Copy path",
+         "section": null,
+         "cls": "menu-item tappable has-submenu",
+         "icon": "svg-icon lucide-clipboard"
+        },
+        "---",
+        {
+         "title": "Open version history",
+         "section": "view",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-history"
+        },
+        "---",
+        {
+         "title": "Open in default app",
+         "section": "system",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-arrow-up-right"
+        },
+        {
+         "title": "Show in system explorer",
+         "section": "system",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-arrow-up-right"
+        },
+        "---",
+        "---",
+        {
+         "title": "Rename...",
+         "section": "danger",
+         "cls": "menu-item tappable",
+         "icon": "svg-icon lucide-edit-3"
+        },
+        {
+         "title": "Delete",
+         "section": "danger",
+         "cls": "menu-item tappable is-warning",
+         "icon": "svg-icon lucide-trash-2"
+        }
+       ]
+      }
+     ],
+     "labels": [
+      [
+       "Open in new tab",
+       "Open to the right",
+       "Open in new window",
+       "---",
+       "Make a copy",
+       "Move file to...",
+       "Bookmark...",
+       "Merge entire file with...",
+       "---",
+       "Copy path",
+       "---",
+       "Open version history",
+       "---",
+       "Open in default app",
+       "Show in system explorer",
+       "---",
+       "---",
+       "Rename...",
+       "Delete"
+      ]
+     ],
+     "menusAfterEscape": 0,
+     "identicalToSearchFileTitleMenu": false,
+     "searchTitleMenu": null,
+     "filesMenu": [
+      "Open in new tab",
+      "Open to the right",
+      "Open in new window",
+      "---",
+      "Make a copy",
+      "Move file to...",
+      "Bookmark...",
+      "Merge entire file with...",
+      "---",
+      "Copy path",
+      "---",
+      "Open version history",
+      "---",
+      "Open in default app",
+      "Show in system explorer",
+      "---",
+      "---",
+      "Rename...",
+      "Delete"
+     ]
+    },
+    "11-keyboard": {
+     "ok": true,
+     "ms": 5775,
+     "seq": [
+      {
+       "after": "click-input",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowDown#1",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowDown#2",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowDown#3",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowDown#4",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowDown#5",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowUp",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowLeft",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowLeft#2",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowRight",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "ArrowRight#2",
+       "activeEl": {
+        "tag": "INPUT",
+        "cls": "",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "before-ctrl-enter",
+       "activeEl": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      },
+      {
+       "after": "before-shift-enter",
+       "activeEl": {
+        "tag": "BODY",
+        "cls": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header is-focused",
+        "id": ""
+       },
+       "focusedItem": null,
+       "focusEl": {
+        "cls": "clickable-icon is-active",
+        "text": ""
+       },
+       "rowStates": []
+      }
+     ],
+     "clickInput": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0,
+      "cx": 0,
+      "cy": 0,
+      "skipped": "zero rect (hidden)"
+     },
+     "leavesBefore": {
+      "markdownLeaves": [],
+      "activeLeaf": {
+       "id": "9a1b5ac98824f537",
+       "type": "search",
+       "inRoot": false
+      },
+      "activeFile": null,
+      "cursor": null,
+      "allLeafCount": 3,
+      "allLeaves": [
+       {
+        "id": "07404065fc2841cd",
+        "type": "empty",
+        "inRoot": true
+       },
+       {
+        "id": "e2cb7ef7657b130c",
+        "type": "file-explorer",
+        "inRoot": false
+       },
+       {
+        "id": "d628295ee1198d6a",
+        "type": "backlink",
+        "inRoot": false
+       }
+      ]
+     },
+     "afterEnter": {
+      "markdownLeaves": [],
+      "activeLeaf": {
+       "id": "9a1b5ac98824f537",
+       "type": "search",
+       "inRoot": false
+      },
+      "activeFile": null,
+      "cursor": null,
+      "allLeafCount": 3,
+      "allLeaves": [
+       {
+        "id": "07404065fc2841cd",
+        "type": "empty",
+        "inRoot": true
+       },
+       {
+        "id": "e2cb7ef7657b130c",
+        "type": "file-explorer",
+        "inRoot": false
+       },
+       {
+        "id": "d628295ee1198d6a",
+        "type": "backlink",
+        "inRoot": false
+       }
+      ]
+     },
+     "afterCtrlEnter": {
+      "markdownLeaves": [],
+      "activeLeaf": {
+       "id": "9a1b5ac98824f537",
+       "type": "search",
+       "inRoot": false
+      },
+      "activeFile": null,
+      "cursor": null,
+      "allLeafCount": 3,
+      "allLeaves": [
+       {
+        "id": "07404065fc2841cd",
+        "type": "empty",
+        "inRoot": true
+       },
+       {
+        "id": "e2cb7ef7657b130c",
+        "type": "file-explorer",
+        "inRoot": false
+       },
+       {
+        "id": "d628295ee1198d6a",
+        "type": "backlink",
+        "inRoot": false
+       }
+      ]
+     },
+     "afterShiftEnter": {
+      "markdownLeaves": [],
+      "activeLeaf": {
+       "id": "9a1b5ac98824f537",
+       "type": "search",
+       "inRoot": false
+      },
+      "activeFile": null,
+      "cursor": null,
+      "allLeafCount": 3,
+      "allLeaves": [
+       {
+        "id": "07404065fc2841cd",
+        "type": "empty",
+        "inRoot": true
+       },
+       {
+        "id": "e2cb7ef7657b130c",
+        "type": "file-explorer",
+        "inRoot": false
+       },
+       {
+        "id": "d628295ee1198d6a",
+        "type": "backlink",
+        "inRoot": false
+       }
+      ]
+     },
+     "handlerSrc": {
+      "onKeyEnterInFocus": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>",
+      "onKeyArrowLeftInFocus": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>",
+      "onKeyArrowRightInFocus": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>",
+      "onKeyArrowDownInFocus": "<removed: Obsidian's own source \u2014 clean room, see CLAUDE.md>"
+     },
+     "vaultFilesAfter": [
+      "9 needle.md",
+      "Apple Pie.md",
+      "_needle.md",
+      "apple.md",
+      "apple10.md",
+      "apple2.md",
+      "kiwi.md",
+      "mango.md",
+      "notes/apple.md",
+      "notes/banana.md",
+      "plain.txt",
+      "zebra.md"
+     ],
+     "newVaultFiles": [],
+     "floatingWindows": 0
+    },
+    "12-toggles": {
+     "ok": true,
+     "ms": 8342,
+     "toggles": {
+      "0": {
+       "name": "Collapse results",
+       "on": {
+        "x": 294.00860595703125,
+        "y": 93.987060546875,
+        "w": 33.997840881347656,
+        "h": 18.99784278869629,
+        "cx": 311.0075263977051,
+        "cy": 103.48598194122314
+       },
+       "idleOn": {
+        "idle": true,
+        "samples": [
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         }
+        ]
+       },
+       "stateOn": {
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": false,
+         "collapseAll": true,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        },
+        "elCls": "checkbox-container is-enabled",
+        "dom": {
+         "collapseAll": true,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        }
+       },
+       "resultsOn": {
+        "rows": [],
+        "vchildren": [],
+        "count": "0 results",
+        "info": "0 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+        "sortOrder": "alphabetical",
+        "collapseAll": true,
+        "extraContext": false,
+        "working": false,
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": false,
+         "collapseAll": true,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        },
+        "resultLookupSize": 0
+       },
+       "matchHtmlSample": null,
+       "explainEls": [],
+       "rowsCollapsed": [],
+       "off": {
+        "x": 294.00860595703125,
+        "y": 93.987060546875,
+        "w": 33.997840881347656,
+        "h": 18.99784278869629,
+        "cx": 311.0075263977051,
+        "cy": 103.48598194122314
+       },
+       "stateOff": {
+        "query": "",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "alphabetical"
+       },
+       "orderOn": []
+      },
+      "1": {
+       "name": "Show more context",
+       "on": {
+        "x": 294.00860595703125,
+        "y": 128.97628784179688,
+        "w": 33.997840881347656,
+        "h": 18.99784278869629,
+        "cx": 311.0075263977051,
+        "cy": 138.47520923614502
+       },
+       "idleOn": {
+        "idle": true,
+        "samples": [
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         }
+        ]
+       },
+       "stateOn": {
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": false,
+         "collapseAll": false,
+         "extraContext": true,
+         "sortOrder": "alphabetical"
+        },
+        "elCls": "checkbox-container is-enabled",
+        "dom": {
+         "collapseAll": false,
+         "extraContext": true,
+         "sortOrder": "alphabetical"
+        }
+       },
+       "resultsOn": {
+        "rows": [],
+        "vchildren": [],
+        "count": "0 results",
+        "info": "0 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+        "sortOrder": "alphabetical",
+        "collapseAll": false,
+        "extraContext": true,
+        "working": false,
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": false,
+         "collapseAll": false,
+         "extraContext": true,
+         "sortOrder": "alphabetical"
+        },
+        "resultLookupSize": 0
+       },
+       "matchHtmlSample": null,
+       "explainEls": [],
+       "rowsCollapsed": [],
+       "off": {
+        "x": 294.00860595703125,
+        "y": 128.97628784179688,
+        "w": 33.997840881347656,
+        "h": 18.99784278869629,
+        "cx": 311.0075263977051,
+        "cy": 138.47520923614502
+       },
+       "stateOff": {
+        "query": "",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "alphabetical"
+       },
+       "orderOn": []
+      },
+      "2": {
+       "name": "Explain search terms",
+       "on": {
+        "x": 294.00860595703125,
+        "y": 163.9654998779297,
+        "w": 33.997840881347656,
+        "h": 18.99784278869629,
+        "cx": 311.0075263977051,
+        "cy": 173.46442127227783
+       },
+       "idleOn": {
+        "idle": true,
+        "samples": [
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         }
+        ]
+       },
+       "stateOn": {
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": true,
+         "collapseAll": false,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        },
+        "elCls": "checkbox-container is-enabled",
+        "dom": {
+         "collapseAll": false,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        }
+       },
+       "resultsOn": {
+        "rows": [],
+        "vchildren": [],
+        "count": "0 results",
+        "info": "0 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+        "sortOrder": "alphabetical",
+        "collapseAll": false,
+        "extraContext": false,
+        "working": false,
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": true,
+         "collapseAll": false,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        },
+        "resultLookupSize": 0
+       },
+       "matchHtmlSample": null,
+       "explainEls": [],
+       "rowsCollapsed": [],
+       "off": {
+        "x": 294.00860595703125,
+        "y": 209.14869689941406,
+        "w": 33.997840881347656,
+        "h": 18.99784278869629,
+        "cx": 311.0075263977051,
+        "cy": 218.6476182937622
+       },
+       "stateOff": {
+        "query": "",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "alphabetical"
+       },
+       "orderOn": []
+      },
+      "matchcase": {
+       "name": "Match case",
+       "on": {
+        "x": 272.0473937988281,
+        "y": 57.00430679321289,
+        "w": 23.98706817626953,
+        "h": 19.97844696044922,
+        "cx": 284.0409278869629,
+        "cy": 66.9935302734375
+       },
+       "idleOn": {
+        "idle": true,
+        "samples": [
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         }
+        ]
+       },
+       "stateOn": {
+        "state": {
+         "query": "",
+         "matchingCase": true,
+         "explainSearch": false,
+         "collapseAll": false,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        },
+        "elCls": "input-right-decorator clickable-icon is-active",
+        "dom": {
+         "collapseAll": false,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        }
+       },
+       "resultsOn": {
+        "rows": [],
+        "vchildren": [],
+        "count": "0 results",
+        "info": "0 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+        "sortOrder": "alphabetical",
+        "collapseAll": false,
+        "extraContext": false,
+        "working": false,
+        "state": {
+         "query": "",
+         "matchingCase": true,
+         "explainSearch": false,
+         "collapseAll": false,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        },
+        "resultLookupSize": 0
+       },
+       "matchHtmlSample": null,
+       "explainEls": [],
+       "rowsCollapsed": [],
+       "selectAll1": "selected-by-ctrl-a",
+       "idleNeedleCap": {
+        "idle": true,
+        "samples": [
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         },
+         {
+          "working": false,
+          "count": "0 results",
+          "rows": 0
+         }
+        ]
+       },
+       "inputValueNeedleCapital": "",
+       "resultsNeedleCapital": {
+        "rows": [],
+        "vchildren": [],
+        "count": "0 results",
+        "info": "0 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+        "sortOrder": "alphabetical",
+        "collapseAll": false,
+        "extraContext": false,
+        "working": false,
+        "state": {
+         "query": "",
+         "matchingCase": true,
+         "explainSearch": false,
+         "collapseAll": false,
+         "extraContext": false,
+         "sortOrder": "alphabetical"
+        },
+        "resultLookupSize": 0
+       },
+       "orderNeedleCapital": [],
+       "selectAll2": "selected-by-ctrl-a",
+       "inputValueRestored": "",
+       "off": {
+        "x": 272.0473937988281,
+        "y": 57.00430679321289,
+        "w": 23.98706817626953,
+        "h": 19.97844696044922,
+        "cx": 284.0409278869629,
+        "cy": 66.9935302734375
+       },
+       "stateOff": {
+        "query": "",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "alphabetical"
+       },
+       "orderOn": []
+      }
+     },
+     "baseline": {
+      "rows": [],
+      "vchildren": [],
+      "count": "0 results",
+      "info": "0 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)File name (A to Z)",
+      "sortOrder": "alphabetical",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "alphabetical"
+      },
+      "resultLookupSize": 0
+     },
+     "list": [
+      {
+       "idx": 0,
+       "name": "Collapse results",
+       "enabled": false
+      },
+      {
+       "idx": 1,
+       "name": "Show more context",
+       "enabled": false
+      },
+      {
+       "idx": 2,
+       "name": "Explain search terms",
+       "enabled": false
+      },
+      {
+       "idx": "matchcase",
+       "name": "Match case",
+       "enabled": false,
+       "cls": "input-right-decorator clickable-icon"
+      }
+     ]
+    },
+    "13-final-state": {
+     "ok": true,
+     "ms": 1769,
+     "modifiedOption": {
+      "value": "byModifiedTime",
+      "text": "Modified time (new to old)",
+      "selected": false
+     },
+     "select": {
+      "element": "SELECT",
+      "how": "v.sortOrderDropdown",
+      "wanted": "byModifiedTime",
+      "presses": [
+       {
+        "selectedIndex": 0,
+        "value": "alphabetical",
+        "domSort": "alphabetical"
+       }
+      ],
+      "focused": true,
+      "method": "synthetic-change-event (keyboard did not switch: {\"value\":\"alphabetical\",\"domSort\":\"alphabetical\"})",
+      "after": {
+       "value": "byModifiedTime",
+       "domSort": "byModifiedTime",
+       "state": {
+        "query": "",
+        "matchingCase": false,
+        "explainSearch": false,
+        "collapseAll": false,
+        "extraContext": false,
+        "sortOrder": "byModifiedTime"
+       }
+      }
+     },
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "0 results",
+        "rows": 0
+       },
+       {
+        "working": false,
+        "count": "0 results",
+        "rows": 0
+       },
+       {
+        "working": false,
+        "count": "0 results",
+        "rows": 0
+       },
+       {
+        "working": false,
+        "count": "0 results",
+        "rows": 0
+       }
+      ]
+     },
+     "resultsModified": {
+      "rows": [],
+      "vchildren": [],
+      "count": "0 results",
+      "info": "0 resultsFile name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)Modified time (new to old)",
+      "sortOrder": "byModifiedTime",
+      "collapseAll": false,
+      "extraContext": false,
+      "working": false,
+      "state": {
+       "query": "",
+       "matchingCase": false,
+       "explainSearch": false,
+       "collapseAll": false,
+       "extraContext": false,
+       "sortOrder": "byModifiedTime"
+      },
+      "resultLookupSize": 0
+     },
+     "orderModified": [],
+     "turnedOn": [
+      "Show more context",
+      "Explain search terms"
+     ],
+     "stateBeforeQuit": {
+      "query": "",
+      "matchingCase": false,
+      "explainSearch": true,
+      "collapseAll": false,
+      "extraContext": true,
+      "sortOrder": "byModifiedTime"
+     },
+     "localStorage": {
+      "appId": "c78d5b8b1dabb104",
+      "vaultKeys": [
+       "c78d5b8b1dabb104-recent-searches"
+      ],
+      "hits": {
+       "c78d5b8b1dabb104-recent-searches": "[\"needle\"]"
+      },
+      "otherVaultKeyNames": [
+       "5c0r1ac0rpu50001-recent-searches"
+      ]
+     },
+     "inMemoryLayoutSearchLeaf": [
+      {
+       "id": "9a1b5ac98824f537",
+       "type": "leaf",
+       "state": {
+        "type": "search",
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": true,
+         "collapseAll": false,
+         "extraContext": true,
+         "sortOrder": "byModifiedTime"
+        },
+        "icon": "lucide-search",
+        "title": "Search"
+       }
+      }
+     ]
+    },
+    "14-quit": {
+     "ok": true,
+     "ms": 1205,
+     "quit": true,
+     "app.json": "{}",
+     "workspace.json": "{\n  \"main\": {\n    \"id\": \"134a7fa828545697\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"6b40d8ef3822e538\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"07404065fc2841cd\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"empty\",\n              \"state\": {},\n              \"icon\": \"lucide-file\",\n              \"title\": \"New tab\"\n            }\n          }\n        ]\n      }\n    ],\n    \"direction\": \"vertical\"\n  },\n  \"left\": {\n    \"id\": \"09d87984e85bf6e9\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"d9ec58fe923f8709\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"e2cb7ef7657b130c\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"file-explorer\",\n              \"state\": {\n                \"sortOrder\": \"alphabetical\",\n                \"autoReveal\": false,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-folder-closed\",\n              \"title\": \"Files\"\n            }\n          },\n          {\n            \"id\": \"9a1b5ac98824f537\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"search\",\n              \"state\": {\n                \"query\": \"\",\n                \"matchingCase\": false,\n                \"explainSearch\": true,\n                \"collapseAll\": false,\n                \"extraContext\": true,\n                \"sortOrder\": \"byModifiedTime\"\n              },\n              \"icon\": \"lucide-search\",\n              \"title\": \"Search\"\n            }\n          },\n          {\n            \"id\": \"bafc6abe65331b00\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"bookmarks\",\n              \"state\": {\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-bookmark\",\n              \"title\": \"Bookmarks\"\n            }\n          }\n        ],\n        \"currentTab\": 1\n      }\n    ],\n    \"direction\": \"horizontal\",\n    \"width\": 300\n  },\n  \"right\": {\n    \"id\": \"748731d8786eb02b\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"38cfd2457bfbba70\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"d628295ee1198d6a\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"backlink\",\n              \"state\": {\n                \"collapseAll\": false,\n                \"extraContext\": false,\n                \"sortOrder\": \"alphabetical\",\n                \"showSearch\": false,\n                \"searchQuery\": \"\",\n                \"backlinkCollapsed\": false,\n                \"unlinkedCollapsed\": true\n              },\n              \"icon\": \"links-coming-in\",\n              \"title\": \"Backlinks\"\n            }\n          },\n          {\n            \"id\": \"264a35c7b2b378fc\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"outgoing-link\",\n              \"state\": {\n                \"linksCollapsed\": false,\n                \"unlinkedCollapsed\": true\n              },\n              \"icon\": \"links-going-out\",\n              \"title\": \"Outgoing links\"\n            }\n          },\n          {\n            \"id\": \"be7e32d3ed35c2d0\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"tag\",\n              \"state\": {\n                \"sortOrder\": \"frequency\",\n                \"useHierarchy\": true,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-tags\",\n              \"title\": \"Tags\"\n            }\n          },\n          {\n            \"id\": \"7f111ddb06c7c357\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"all-properties\",\n              \"state\": {\n                \"sortOrder\": \"frequency\",\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-archive\",\n              \"title\": \"All properties\"\n            }\n          },\n          {\n            \"id\": \"c168183e1d22b3b1\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"outline\",\n              \"state\": {\n                \"followCursor\": false,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-list\",\n              \"title\": \"Outline\"\n            }\n          }\n        ]\n      }\n    ],\n    \"direction\": \"horizontal\",\n    \"width\": 300,\n    \"collapsed\": true\n  },\n  \"left-ribbon\": {\n    \"hiddenItems\": {\n      \"switcher:Open quick switcher\": false,\n      \"graph:Open graph view\": false,\n      \"canvas:Create new canvas\": false,\n      \"daily-notes:Open today's daily note\": false,\n      \"templates:Insert template\": false,\n      \"command-palette:Open command palette\": false,\n      \"bases:Create new base\": false\n    }\n  },\n  \"active\": \"9a1b5ac98824f537\",\n  \"lastOpenFiles\": []\n}",
+     "obsidianDir": [
+      "app.json",
+      "appearance.json",
+      "core-plugins.json",
+      "global-search.json",
+      "workspace.json"
+     ],
+     "searchLeafState": [
+      {
+       "id": "9a1b5ac98824f537",
+       "type": "leaf",
+       "state": {
+        "type": "search",
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": true,
+         "collapseAll": false,
+         "extraContext": true,
+         "sortOrder": "byModifiedTime"
+        },
+        "icon": "lucide-search",
+        "title": "Search"
+       }
+      }
+     ]
+    }
+   },
+   "order": [
+    "00-initial-disk",
+    "01-open-pane",
+    "02-type-needle",
+    "03-settings-section",
+    "04-sort-dropdown",
+    "05-install-counters",
+    "05b-collapse-first-row",
+    "06-sort-alphabetical",
+    "06-sort-alphabeticalReverse",
+    "06-sort-byModifiedTime",
+    "06-sort-byModifiedTimeReverse",
+    "06-sort-byCreatedTime",
+    "06-sort-byCreatedTimeReverse",
+    "07-remove-counters",
+    "07b-restore-alphabetical",
+    "08-result-count-click",
+    "09-copy-results",
+    "10-menu-file-title",
+    "10-menu-match-line",
+    "10-menu-empty-space",
+    "10-menu-tab-header",
+    "10-menu-sidebar-header",
+    "10-menu-files-view-apple",
+    "11-keyboard",
+    "12-toggles",
+    "13-final-state",
+    "14-quit"
+   ],
+   "vault": "/tmp/claude-1000/-home-ragtux-bstore2-raga-repos-silica/0b1995ff-3e79-4390-907c-fbb7505221a2/scratchpad/vault-search",
+   "finishedAt": "2026-10-19T05:23:43.651Z"
+  },
+  "after_restart": {
+   "phase": "after-restart",
+   "startedAt": "2026-10-19T05:24:00.645Z",
+   "steps": {
+    "20-disk-after-restart": {
+     "ok": true,
+     "ms": 1,
+     "app.json": "{}",
+     "workspace.json": "{\n  \"main\": {\n    \"id\": \"134a7fa828545697\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"6b40d8ef3822e538\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"07404065fc2841cd\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"empty\",\n              \"state\": {},\n              \"icon\": \"lucide-file\",\n              \"title\": \"New tab\"\n            }\n          }\n        ]\n      }\n    ],\n    \"direction\": \"vertical\"\n  },\n  \"left\": {\n    \"id\": \"09d87984e85bf6e9\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"d9ec58fe923f8709\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"e2cb7ef7657b130c\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"file-explorer\",\n              \"state\": {\n                \"sortOrder\": \"alphabetical\",\n                \"autoReveal\": false,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-folder-closed\",\n              \"title\": \"Files\"\n            }\n          },\n          {\n            \"id\": \"9a1b5ac98824f537\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"search\",\n              \"state\": {\n                \"query\": \"\",\n                \"matchingCase\": false,\n                \"explainSearch\": true,\n                \"collapseAll\": false,\n                \"extraContext\": true,\n                \"sortOrder\": \"byModifiedTime\"\n              },\n              \"icon\": \"lucide-search\",\n              \"title\": \"Search\"\n            }\n          },\n          {\n            \"id\": \"bafc6abe65331b00\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"bookmarks\",\n              \"state\": {\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-bookmark\",\n              \"title\": \"Bookmarks\"\n            }\n          }\n        ],\n        \"currentTab\": 1\n      }\n    ],\n    \"direction\": \"horizontal\",\n    \"width\": 300\n  },\n  \"right\": {\n    \"id\": \"748731d8786eb02b\",\n    \"type\": \"split\",\n    \"children\": [\n      {\n        \"id\": \"38cfd2457bfbba70\",\n        \"type\": \"tabs\",\n        \"children\": [\n          {\n            \"id\": \"d628295ee1198d6a\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"backlink\",\n              \"state\": {\n                \"collapseAll\": false,\n                \"extraContext\": false,\n                \"sortOrder\": \"alphabetical\",\n                \"showSearch\": false,\n                \"searchQuery\": \"\",\n                \"backlinkCollapsed\": false,\n                \"unlinkedCollapsed\": true\n              },\n              \"icon\": \"links-coming-in\",\n              \"title\": \"Backlinks\"\n            }\n          },\n          {\n            \"id\": \"264a35c7b2b378fc\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"outgoing-link\",\n              \"state\": {\n                \"linksCollapsed\": false,\n                \"unlinkedCollapsed\": true\n              },\n              \"icon\": \"links-going-out\",\n              \"title\": \"Outgoing links\"\n            }\n          },\n          {\n            \"id\": \"be7e32d3ed35c2d0\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"tag\",\n              \"state\": {\n                \"sortOrder\": \"frequency\",\n                \"useHierarchy\": true,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-tags\",\n              \"title\": \"Tags\"\n            }\n          },\n          {\n            \"id\": \"7f111ddb06c7c357\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"all-properties\",\n              \"state\": {\n                \"sortOrder\": \"frequency\",\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-archive\",\n              \"title\": \"All properties\"\n            }\n          },\n          {\n            \"id\": \"c168183e1d22b3b1\",\n            \"type\": \"leaf\",\n            \"state\": {\n              \"type\": \"outline\",\n              \"state\": {\n                \"followCursor\": false,\n                \"showSearch\": false,\n                \"searchQuery\": \"\"\n              },\n              \"icon\": \"lucide-list\",\n              \"title\": \"Outline\"\n            }\n          }\n        ]\n      }\n    ],\n    \"direction\": \"horizontal\",\n    \"width\": 300,\n    \"collapsed\": true\n  },\n  \"left-ribbon\": {\n    \"hiddenItems\": {\n      \"switcher:Open quick switcher\": false,\n      \"graph:Open graph view\": false,\n      \"canvas:Create new canvas\": false,\n      \"daily-notes:Open today's daily note\": false,\n      \"templates:Insert template\": false,\n      \"command-palette:Open command palette\": false,\n      \"bases:Create new base\": false\n    }\n  },\n  \"active\": \"9a1b5ac98824f537\",\n  \"lastOpenFiles\": []\n}",
+     "searchLeafState": [
+      {
+       "id": "9a1b5ac98824f537",
+       "type": "leaf",
+       "state": {
+        "type": "search",
+        "state": {
+         "query": "",
+         "matchingCase": false,
+         "explainSearch": true,
+         "collapseAll": false,
+         "extraContext": true,
+         "sortOrder": "byModifiedTime"
+        },
+        "icon": "lucide-search",
+        "title": "Search"
+       }
+      }
+     ],
+     "sortKeysInAppJson": [],
+     "sortKeysInWorkspace": [
+      "\"sortOrder\": \"alphabetical\"",
+      "\"sortOrder\": \"byModifiedTime\"",
+      "\"sortOrder\": \"alphabetical\"",
+      "\"sortOrder\": \"frequency\"",
+      "\"sortOrder\": \"frequency\""
+     ]
+    },
+    "21-live-after-restart": {
+     "ok": true,
+     "ms": 1662,
+     "leafPresent": {
+      "id": "9a1b5ac98824f537",
+      "isDeferred": false,
+      "viewType": "search",
+      "state": {
+       "query": "",
+       "matchingCase": false,
+       "explainSearch": true,
+       "collapseAll": false,
+       "extraContext": true,
+       "sortOrder": "byModifiedTime"
+      },
+      "inLeftSplit": true,
+      "hasDom": true
+     },
+     "reveal": true,
+     "live": {
+      "sortHow": "v.sortOrderDropdown",
+      "dropdown": {
+       "tag": "SELECT",
+       "value": "byModifiedTime",
+       "selectedText": "Modified time (new to old)"
+      },
+      "domSortOrder": "byModifiedTime",
+      "collapseAll": false,
+      "extraContext": true,
+      "state": {
+       "query": "",
+       "matchingCase": false,
+       "explainSearch": true,
+       "collapseAll": false,
+       "extraContext": true,
+       "sortOrder": "byModifiedTime"
+      },
+      "inputValue": ""
+     },
+     "idle": {
+      "idle": true,
+      "samples": [
+       {
+        "working": false,
+        "count": "",
+        "rows": 0
+       },
+       {
+        "working": false,
+        "count": "",
+        "rows": 0
+       },
+       {
+        "working": false,
+        "count": "",
+        "rows": 0
+       },
+       {
+        "working": false,
+        "count": "",
+        "rows": 0
+       }
+      ]
+     },
+     "results": {
+      "rows": [],
+      "vchildren": [],
+      "count": "",
+      "info": "File name (A to Z)File name (Z to A)Modified time (new to old)Modified time (old to new)Created time (new to old)Created time (old to new)Modified time (new to old)",
+      "sortOrder": "byModifiedTime",
+      "collapseAll": false,
+      "extraContext": true,
+      "working": false,
+      "state": {
+       "query": "",
+       "matchingCase": false,
+       "explainSearch": true,
+       "collapseAll": false,
+       "extraContext": true,
+       "sortOrder": "byModifiedTime"
+      },
+      "resultLookupSize": 0
+     },
+     "orderAfterRestart": [],
+     "localStorage": {
+      "appId": "c78d5b8b1dabb104",
+      "vaultKeys": [
+       "c78d5b8b1dabb104-recent-searches"
+      ],
+      "hits": {
+       "c78d5b8b1dabb104-recent-searches": "[\"needle\"]"
+      },
+      "otherVaultKeyNames": [
+       "5c0r1ac0rpu50001-recent-searches"
+      ]
+     },
+     "toggleEls": [
+      {
+       "name": "Collapse results",
+       "enabled": false
+      },
+      {
+       "name": "Show more context",
+       "enabled": true
+      },
+      {
+       "name": "Explain search terms",
+       "enabled": true
+      }
+     ]
+    }
+   },
+   "order": [
+    "20-disk-after-restart",
+    "21-live-after-restart"
+   ],
+   "finishedAt": "2026-10-19T05:24:05.366Z"
+  }
+ }
+}

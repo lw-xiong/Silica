@@ -1,0 +1,7 @@
+views:
+  - type: kanban
+    name: Listing
+    order:
+      - file.name
+    markers: number
+    separator: "; "

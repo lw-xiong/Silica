@@ -1,0 +1,181 @@
+# Release builds on the homelab Forgejo runner, triggered by pushing a `v*` tag.
+#
+#   git tag -a v0.1.0 -m "Silica 0.1.0" && git push forgejo v0.1.0
+#
+# The runner has one Linux container (see ci.yml), so this publishes the
+# x86_64 Linux archive only; the GitHub workflow covers Windows and macOS.
+# The release itself is created through the Forgejo API with the token Actions
+# injects for the run, so no secret has to be configured by hand.
+
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: "0"
+
+jobs:
+  release:
+    name: Linux x86_64
+    runs-on: ubuntu-latest
+    # The publish step uses a bash array for the auth header, and `git describe`
+    # needs git in the container rather than checkout's tarball fallback.
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: System libraries for gpui
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            build-essential cmake pkg-config curl jq git \
+            libxcb1-dev libxkbcommon-dev libxkbcommon-x11-dev \
+            libfreetype-dev libfontconfig-dev libwayland-dev libvulkan-dev libgl-dev
+
+      - name: Rust toolchain
+        run: |
+          curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --no-modify-path
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+
+      - name: Cache cargo and target
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: cargo-release-${{ hashFiles('Cargo.lock', 'rust-toolchain.toml') }}
+          restore-keys: |
+            cargo-release-
+            cargo-${{ runner.os }}-
+
+      # The archive is named from the tag and the binary reports the manifest
+      # version, so the two have to agree.
+      - name: Tag matches Cargo.toml
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          manifest=$(sed -n '/^\[workspace\.package\]/,/^\[/p' Cargo.toml \
+            | sed -n 's/^version = "\(.*\)"$/\1/p')
+          echo "tag=$tag manifest=$manifest"
+          test "$tag" = "$manifest"
+
+      # --locked: Cargo.lock pins libc and the gpui revision on purpose (see Cargo.toml).
+      - name: Build
+        run: cargo build --release --locked -p silica
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          name="silica-${GITHUB_REF_NAME}-x86_64-unknown-linux-gnu"
+          mkdir -p "dist/$name"
+          cp target/release/silica README.md LICENSE "dist/$name/"
+          strip "dist/$name/silica" 2>/dev/null || true
+          # A Linux desktop reads the icon out of the icon theme, not out of the
+          # binary, so the archive carries the entry, the hicolor theme and the
+          # installer that puts both under ~/.local/share.
+          cp tools/linux-desktop/install.sh "dist/$name/"
+          cp crates/silica/resources/linux/silica.desktop "dist/$name/"
+          cp -r crates/silica/resources/linux/icons "dist/$name/"
+          tar czf "dist/$name.tar.gz" -C dist "$name"
+          rm -rf "dist/$name"
+          cd dist
+          sha256sum "$name.tar.gz" > SHA256SUMS
+          cat SHA256SUMS
+
+      # A detached GPG signature over SHA256SUMS when the maintainer's key is
+      # in the repository secrets (GPG_SIGNING_KEY, GPG_PASSPHRASE); without
+      # it the release is published unsigned and its notes say so.
+      - name: Sign checksums
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          if [ -z "$GPG_SIGNING_KEY" ]; then
+            echo "no GPG_SIGNING_KEY secret; publishing unsigned"
+            echo "SIGNED=false" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          apt-get install -y --no-install-recommends gnupg >/dev/null
+          export GNUPGHOME=$(mktemp -d)
+          printf '%s' "$GPG_SIGNING_KEY" | gpg --batch --import
+          fpr=$(gpg --batch --list-secret-keys --with-colons | awk -F: '/^fpr/{print $10; exit}')
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
+            --local-user "$fpr" --armor --detach-sign --output dist/SHA256SUMS.asc dist/SHA256SUMS
+          gpg --batch --verify dist/SHA256SUMS.asc dist/SHA256SUMS
+          echo "SIGNED=true" >> "$GITHUB_ENV"
+          echo "FINGERPRINT=$fpr" >> "$GITHUB_ENV"
+
+      - name: Release notes
+        run: |
+          set -euo pipefail
+          tag="$GITHUB_REF_NAME"
+          prev=$(git describe --tags --abbrev=0 "$tag^" 2>/dev/null || true)
+          {
+            if [ -n "$prev" ]; then
+              echo "## Changes since $prev"
+              echo
+              git log --no-merges --reverse --pretty='- %s' "$prev..$tag"
+            else
+              echo "First tagged release."
+            fi
+            echo
+            echo "## Binaries"
+            echo
+            echo "Linux x86_64 only on this forge; the GitHub mirror also publishes Windows and macOS."
+            echo "Verify with \`sha256sum -c SHA256SUMS\`, then run \`silica /path/to/vault\`."
+            if [ "${SIGNED:-false}" = "true" ]; then
+              echo "\`SHA256SUMS.asc\` is a detached GPG signature by key \`$FINGERPRINT\`:"
+              echo "\`gpg --verify SHA256SUMS.asc SHA256SUMS\`."
+            else
+              echo "This release's checksums are not GPG-signed."
+            fi
+          } > notes.md
+          cat notes.md
+
+      # Reuse the release Forgejo may already hold for this tag rather than
+      # failing on the duplicate, then attach every file in dist/.
+      - name: Publish
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          API: ${{ github.server_url }}/api/v1/repos/${{ github.repository }}
+        run: |
+          set -euo pipefail
+          tag="$GITHUB_REF_NAME"
+          case "$tag" in
+            *-*) pre=true ;;
+            *)   pre=false ;;
+          esac
+
+          auth=(-H "Authorization: token $TOKEN")
+          id=$(curl -sS "${auth[@]}" "$API/releases/tags/$tag" | jq -r '.id // empty')
+
+          if [ -z "$id" ]; then
+            id=$(jq -n \
+                  --arg tag "$tag" \
+                  --arg name "Silica ${tag#v}" \
+                  --rawfile body notes.md \
+                  --argjson pre "$pre" \
+                  '{tag_name: $tag, name: $name, body: $body, draft: false, prerelease: $pre}' \
+                | curl -sSf "${auth[@]}" -H "Content-Type: application/json" \
+                    -X POST "$API/releases" --data @- \
+                | jq -r '.id')
+            echo "created release $id"
+          else
+            echo "reusing release $id"
+          fi
+
+          for file in dist/*; do
+            echo "uploading $(basename "$file")"
+            curl -sSf "${auth[@]}" -X POST \
+              "$API/releases/$id/assets?name=$(basename "$file")" \
+              -F "attachment=@$file" >/dev/null
+          done

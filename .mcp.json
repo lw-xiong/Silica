@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "silica": {
+      "command": "target/release/silica-mcp",
+      "env": {
+        "SILICA_MCP_BIN": "nix-shell --run \"target/release/silica {args}\"",
+        "SILICA_MCP_REPO": "."
+      }
+    },
+    "silica-llm": {
+      "command": "target/release/silica-llm-mcp",
+      "env": {
+        "SILICA_LLM_URL": "http://misco.tail.ragtux.com:8080/v1",
+        "SILICA_LLM_MODEL": "qwen3.6-35b-a3b-code"
+      }
+    }
+  }
+}

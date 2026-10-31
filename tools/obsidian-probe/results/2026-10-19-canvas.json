@@ -1,0 +1,341 @@
+{
+ "canvas": {
+  "fixtures": {
+   "startedAt": "2026-10-19T12:39:53.363Z",
+   "steps": {
+    "fixtures": {
+     "ok": true,
+     "ms": 1,
+     "written": {
+      "Formatter.canvas": {
+       "size": 1580,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"meta\": {\n    \"a\": {\n      \"b\": {}\n    }\n  },\n  \"list\": [\n    {\n      \"x\": 1\n    }\n  ],\n  \"flat\": [\n    1,\n    \"two\",\n    null,\n    true,\n    2.5,\n    -3\n  ],\n  \"empties\": {\n    \"e1\": {},\n    \"e2\": []\n  },\n  \"nums\": [\n    1,\n    2\n  ],\n  \"strs\": [\n    \"a\",\n    \"b\"\n  ],\n  \"bools\": [\n    true,\n    false\n  ],\n  \"nulls\": [\n    null\n  ],\n  \"objNull\": {\n    \"a\": null\n  },\n  \"objBool\": {\n    \"a\": true\n  },\n  \"mixed\": [\n    1,\n    \"a\"\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"n1\",\n      \"type\": \"text\",\n      \"text\": \"T\",\n      \"x\": 0,\n      \"y\": 0,\n      \"width\": 100,\n      \"height\": 50,\n      \"e1\": {},\n      \"s\": \"a{b}[c], d\"\n    },\n    {\n      \"id\": \"n2\",\n      \"type\": \"text\",\n      \"text\": \"U\",\n      \"x\": 0,\n      \"y\": 100,\n      \"width\": 100,\n      \"height\": 50,\n      \"e2\": []\n    },\n    {\n      \"id\": \"n3\",\n      \"type\": \"text\",\n      \"text\": \"V\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 100,\n      \"height\": 50,\n      \"n1\": [\n        1,\n        2\n      ],\n      \"n4\": [\n        \"a\",\n        \"b\"\n      ],\n      \"n5\": [\n        true,\n        null\n      ],\n      \"n7\": {\n        \"t\": [\n          \"a\"\n        ]\n      }\n    },\n    {\n      \"id\": \"n4\",\n      \"type\": \"text\",\n      \"text\": \"W\",\n      \"x\": 0,\n      \"y\": 300,\n      \"width\": 100,\n      \"height\": 50,\n      \"n2\": [\n        [\n          1\n        ]\n      ],\n      \"n3\": {\n        \"k\": {\n          \"j\": 1\n        }\n      }\n    },\n    {\n      \"id\": \"n5\",\n      \"type\": \"text\",\n      \"text\": \"X\\nY \\\"q\\\" \\\\ \\t é  \",\n      \"x\": 0.5,\n      \"y\": 0,\n      \"width\": 1000,\n      \"height\": 50\n    }\n  ],\n  \"edges\": []\n}\n"
+      },
+      "NoEdges.canvas": {
+       "size": 165,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"nodes\": [\n    {\n      \"id\": \"only\",\n      \"type\": \"text\",\n      \"text\": \"Alone\",\n      \"x\": 0,\n      \"y\": 0,\n      \"width\": 250,\n      \"height\": 60\n    }\n  ]\n}\n"
+      },
+      "Order.canvas": {
+       "size": 1229,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"nodes\": [\n    {\n      \"id\": \"t1\",\n      \"type\": \"text\",\n      \"text\": \"A\",\n      \"x\": 0,\n      \"y\": 0,\n      \"width\": 100,\n      \"height\": 50\n    },\n    {\n      \"id\": \"g1\",\n      \"type\": \"group\",\n      \"x\": -10,\n      \"y\": -10,\n      \"width\": 400,\n      \"height\": 400,\n      \"label\": \"G1\"\n    },\n    {\n      \"id\": \"t2\",\n      \"type\": \"text\",\n      \"text\": \"B\",\n      \"x\": 0,\n      \"y\": 100,\n      \"width\": 100,\n      \"height\": 50,\n      \"color\": \"2\"\n    },\n    {\n      \"id\": \"g2\",\n      \"type\": \"group\",\n      \"x\": 500,\n      \"y\": 500,\n      \"width\": 100,\n      \"height\": 100\n    },\n    {\n      \"id\": \"t3\",\n      \"type\": \"text\",\n      \"text\": \"C\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 100,\n      \"height\": 50\n    }\n  ],\n  \"edges\": [\n    {\n      \"id\": \"e2\",\n      \"fromNode\": \"t2\",\n      \"fromSide\": \"bottom\",\n      \"toNode\": \"t3\",\n      \"toSide\": \"top\"\n    },\n    {\n      \"id\": \"e1\",\n      \"fromNode\": \"t1\",\n      \"fromSide\": \"bottom\",\n      \"toNode\": \"t2\",\n      \"toSide\": \"top\"\n    },\n    {\n      \"label\": \"all four\",\n      \"color\": \"5\",\n      \"toEnd\": \"none\",\n      \"fromEnd\": \"arrow\",\n      \"id\": \"e3\",\n      \"fromNode\": \"t3\",\n      \"fromSide\": \"right\",\n      \"toNode\": \"t1\",\n      \"toSide\": \"right\"\n    }\n  ]\n}\n"
+      },
+      "Scrambled.canvas": {
+       "size": 1579,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"pluginTop\": {\n    \"k\": 1\n  },\n  \"edges\": [\n    {\n      \"toSide\": \"left\",\n      \"label\": \"leads to\",\n      \"color\": \"2\",\n      \"id\": \"e1\",\n      \"toEnd\": \"arrow\",\n      \"fromEnd\": \"none\",\n      \"toNode\": \"f1\",\n      \"fromSide\": \"right\",\n      \"fromNode\": \"t1\",\n      \"pluginEdge\": true\n    },\n    {\n      \"id\": \"e2\",\n      \"fromNode\": \"l1\",\n      \"toNode\": \"f1\",\n      \"toEnd\": \"none\",\n      \"fromEnd\": \"arrow\",\n      \"fromSide\": \"top\",\n      \"toSide\": \"bottom\"\n    },\n    {\n      \"id\": \"e3\",\n      \"fromNode\": \"f1\",\n      \"toNode\": \"t1\",\n      \"fromSide\": \"bottom\",\n      \"toSide\": \"top\",\n      \"color\": \"#00ff00\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"backgroundStyle\": \"cover\",\n      \"background\": \"pic.png\",\n      \"label\": \"Area\",\n      \"x\": -20,\n      \"y\": -20,\n      \"width\": 900,\n      \"height\": 800,\n      \"type\": \"group\",\n      \"id\": \"g1\",\n      \"color\": \"4\"\n    },\n    {\n      \"color\": \"1\",\n      \"text\": \"Hello\",\n      \"height\": 60,\n      \"width\": 250,\n      \"y\": 0,\n      \"x\": 0,\n      \"type\": \"text\",\n      \"id\": \"t1\",\n      \"pluginNode\": {\n        \"k\": 2\n      }\n    },\n    {\n      \"subpath\": \"#Goals\",\n      \"file\": \"Plan.md\",\n      \"height\": 400,\n      \"width\": 400,\n      \"y\": 0,\n      \"x\": 300,\n      \"type\": \"file\",\n      \"id\": \"f1\",\n      \"color\": \"#ff0000\"\n    },\n    {\n      \"url\": \"https://example.com\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 300,\n      \"height\": 200,\n      \"type\": \"link\",\n      \"id\": \"l1\"\n    },\n    {\n      \"id\": \"g2\",\n      \"type\": \"group\",\n      \"x\": 1000,\n      \"y\": 1000,\n      \"width\": 200,\n      \"height\": 100\n    }\n  ]\n}\n"
+      },
+      "Untouched.canvas": {
+       "size": 1579,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"pluginTop\": {\n    \"k\": 1\n  },\n  \"edges\": [\n    {\n      \"toSide\": \"left\",\n      \"label\": \"leads to\",\n      \"color\": \"2\",\n      \"id\": \"e1\",\n      \"toEnd\": \"arrow\",\n      \"fromEnd\": \"none\",\n      \"toNode\": \"f1\",\n      \"fromSide\": \"right\",\n      \"fromNode\": \"t1\",\n      \"pluginEdge\": true\n    },\n    {\n      \"id\": \"e2\",\n      \"fromNode\": \"l1\",\n      \"toNode\": \"f1\",\n      \"toEnd\": \"none\",\n      \"fromEnd\": \"arrow\",\n      \"fromSide\": \"top\",\n      \"toSide\": \"bottom\"\n    },\n    {\n      \"id\": \"e3\",\n      \"fromNode\": \"f1\",\n      \"toNode\": \"t1\",\n      \"fromSide\": \"bottom\",\n      \"toSide\": \"top\",\n      \"color\": \"#00ff00\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"backgroundStyle\": \"cover\",\n      \"background\": \"pic.png\",\n      \"label\": \"Area\",\n      \"x\": -20,\n      \"y\": -20,\n      \"width\": 900,\n      \"height\": 800,\n      \"type\": \"group\",\n      \"id\": \"g1\",\n      \"color\": \"4\"\n    },\n    {\n      \"color\": \"1\",\n      \"text\": \"Hello\",\n      \"height\": 60,\n      \"width\": 250,\n      \"y\": 0,\n      \"x\": 0,\n      \"type\": \"text\",\n      \"id\": \"t1\",\n      \"pluginNode\": {\n        \"k\": 2\n      }\n    },\n    {\n      \"subpath\": \"#Goals\",\n      \"file\": \"Plan.md\",\n      \"height\": 400,\n      \"width\": 400,\n      \"y\": 0,\n      \"x\": 300,\n      \"type\": \"file\",\n      \"id\": \"f1\",\n      \"color\": \"#ff0000\"\n    },\n    {\n      \"url\": \"https://example.com\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 300,\n      \"height\": 200,\n      \"type\": \"link\",\n      \"id\": \"l1\"\n    },\n    {\n      \"id\": \"g2\",\n      \"type\": \"group\",\n      \"x\": 1000,\n      \"y\": 1000,\n      \"width\": 200,\n      \"height\": 100\n    }\n  ]\n}\n"
+      }
+     },
+     "vaultFiles": [
+      ".obsidian",
+      "Formatter.canvas",
+      "NoEdges.canvas",
+      "Order.canvas",
+      "Plan.md",
+      "Scrambled.canvas",
+      "Untouched.canvas"
+     ]
+    }
+   },
+   "order": [
+    "fixtures"
+   ],
+   "elapsedMs": 2
+  },
+  "run": {
+   "startedAt": "2026-10-19T12:39:54.537Z",
+   "steps": {
+    "00-before": {
+     "ok": true,
+     "ms": 0,
+     "snapshot": {
+      "Formatter.canvas": {
+       "size": 1580,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"meta\": {\n    \"a\": {\n      \"b\": {}\n    }\n  },\n  \"list\": [\n    {\n      \"x\": 1\n    }\n  ],\n  \"flat\": [\n    1,\n    \"two\",\n    null,\n    true,\n    2.5,\n    -3\n  ],\n  \"empties\": {\n    \"e1\": {},\n    \"e2\": []\n  },\n  \"nums\": [\n    1,\n    2\n  ],\n  \"strs\": [\n    \"a\",\n    \"b\"\n  ],\n  \"bools\": [\n    true,\n    false\n  ],\n  \"nulls\": [\n    null\n  ],\n  \"objNull\": {\n    \"a\": null\n  },\n  \"objBool\": {\n    \"a\": true\n  },\n  \"mixed\": [\n    1,\n    \"a\"\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"n1\",\n      \"type\": \"text\",\n      \"text\": \"T\",\n      \"x\": 0,\n      \"y\": 0,\n      \"width\": 100,\n      \"height\": 50,\n      \"e1\": {},\n      \"s\": \"a{b}[c], d\"\n    },\n    {\n      \"id\": \"n2\",\n      \"type\": \"text\",\n      \"text\": \"U\",\n      \"x\": 0,\n      \"y\": 100,\n      \"width\": 100,\n      \"height\": 50,\n      \"e2\": []\n    },\n    {\n      \"id\": \"n3\",\n      \"type\": \"text\",\n      \"text\": \"V\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 100,\n      \"height\": 50,\n      \"n1\": [\n        1,\n        2\n      ],\n      \"n4\": [\n        \"a\",\n        \"b\"\n      ],\n      \"n5\": [\n        true,\n        null\n      ],\n      \"n7\": {\n        \"t\": [\n          \"a\"\n        ]\n      }\n    },\n    {\n      \"id\": \"n4\",\n      \"type\": \"text\",\n      \"text\": \"W\",\n      \"x\": 0,\n      \"y\": 300,\n      \"width\": 100,\n      \"height\": 50,\n      \"n2\": [\n        [\n          1\n        ]\n      ],\n      \"n3\": {\n        \"k\": {\n          \"j\": 1\n        }\n      }\n    },\n    {\n      \"id\": \"n5\",\n      \"type\": \"text\",\n      \"text\": \"X\\nY \\\"q\\\" \\\\ \\t é  \",\n      \"x\": 0.5,\n      \"y\": 0,\n      \"width\": 1000,\n      \"height\": 50\n    }\n  ],\n  \"edges\": []\n}\n"
+      },
+      "NoEdges.canvas": {
+       "size": 165,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"nodes\": [\n    {\n      \"id\": \"only\",\n      \"type\": \"text\",\n      \"text\": \"Alone\",\n      \"x\": 0,\n      \"y\": 0,\n      \"width\": 250,\n      \"height\": 60\n    }\n  ]\n}\n"
+      },
+      "Order.canvas": {
+       "size": 1229,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"nodes\": [\n    {\n      \"id\": \"t1\",\n      \"type\": \"text\",\n      \"text\": \"A\",\n      \"x\": 0,\n      \"y\": 0,\n      \"width\": 100,\n      \"height\": 50\n    },\n    {\n      \"id\": \"g1\",\n      \"type\": \"group\",\n      \"x\": -10,\n      \"y\": -10,\n      \"width\": 400,\n      \"height\": 400,\n      \"label\": \"G1\"\n    },\n    {\n      \"id\": \"t2\",\n      \"type\": \"text\",\n      \"text\": \"B\",\n      \"x\": 0,\n      \"y\": 100,\n      \"width\": 100,\n      \"height\": 50,\n      \"color\": \"2\"\n    },\n    {\n      \"id\": \"g2\",\n      \"type\": \"group\",\n      \"x\": 500,\n      \"y\": 500,\n      \"width\": 100,\n      \"height\": 100\n    },\n    {\n      \"id\": \"t3\",\n      \"type\": \"text\",\n      \"text\": \"C\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 100,\n      \"height\": 50\n    }\n  ],\n  \"edges\": [\n    {\n      \"id\": \"e2\",\n      \"fromNode\": \"t2\",\n      \"fromSide\": \"bottom\",\n      \"toNode\": \"t3\",\n      \"toSide\": \"top\"\n    },\n    {\n      \"id\": \"e1\",\n      \"fromNode\": \"t1\",\n      \"fromSide\": \"bottom\",\n      \"toNode\": \"t2\",\n      \"toSide\": \"top\"\n    },\n    {\n      \"label\": \"all four\",\n      \"color\": \"5\",\n      \"toEnd\": \"none\",\n      \"fromEnd\": \"arrow\",\n      \"id\": \"e3\",\n      \"fromNode\": \"t3\",\n      \"fromSide\": \"right\",\n      \"toNode\": \"t1\",\n      \"toSide\": \"right\"\n    }\n  ]\n}\n"
+      },
+      "Scrambled.canvas": {
+       "size": 1579,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"pluginTop\": {\n    \"k\": 1\n  },\n  \"edges\": [\n    {\n      \"toSide\": \"left\",\n      \"label\": \"leads to\",\n      \"color\": \"2\",\n      \"id\": \"e1\",\n      \"toEnd\": \"arrow\",\n      \"fromEnd\": \"none\",\n      \"toNode\": \"f1\",\n      \"fromSide\": \"right\",\n      \"fromNode\": \"t1\",\n      \"pluginEdge\": true\n    },\n    {\n      \"id\": \"e2\",\n      \"fromNode\": \"l1\",\n      \"toNode\": \"f1\",\n      \"toEnd\": \"none\",\n      \"fromEnd\": \"arrow\",\n      \"fromSide\": \"top\",\n      \"toSide\": \"bottom\"\n    },\n    {\n      \"id\": \"e3\",\n      \"fromNode\": \"f1\",\n      \"toNode\": \"t1\",\n      \"fromSide\": \"bottom\",\n      \"toSide\": \"top\",\n      \"color\": \"#00ff00\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"backgroundStyle\": \"cover\",\n      \"background\": \"pic.png\",\n      \"label\": \"Area\",\n      \"x\": -20,\n      \"y\": -20,\n      \"width\": 900,\n      \"height\": 800,\n      \"type\": \"group\",\n      \"id\": \"g1\",\n      \"color\": \"4\"\n    },\n    {\n      \"color\": \"1\",\n      \"text\": \"Hello\",\n      \"height\": 60,\n      \"width\": 250,\n      \"y\": 0,\n      \"x\": 0,\n      \"type\": \"text\",\n      \"id\": \"t1\",\n      \"pluginNode\": {\n        \"k\": 2\n      }\n    },\n    {\n      \"subpath\": \"#Goals\",\n      \"file\": \"Plan.md\",\n      \"height\": 400,\n      \"width\": 400,\n      \"y\": 0,\n      \"x\": 300,\n      \"type\": \"file\",\n      \"id\": \"f1\",\n      \"color\": \"#ff0000\"\n    },\n    {\n      \"url\": \"https://example.com\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 300,\n      \"height\": 200,\n      \"type\": \"link\",\n      \"id\": \"l1\"\n    },\n    {\n      \"id\": \"g2\",\n      \"type\": \"group\",\n      \"x\": 1000,\n      \"y\": 1000,\n      \"width\": 200,\n      \"height\": 100\n    }\n  ]\n}\n"
+      },
+      "Untouched.canvas": {
+       "size": 1579,
+       "mtimeMs": 1792413593363,
+       "text": "{\n  \"pluginTop\": {\n    \"k\": 1\n  },\n  \"edges\": [\n    {\n      \"toSide\": \"left\",\n      \"label\": \"leads to\",\n      \"color\": \"2\",\n      \"id\": \"e1\",\n      \"toEnd\": \"arrow\",\n      \"fromEnd\": \"none\",\n      \"toNode\": \"f1\",\n      \"fromSide\": \"right\",\n      \"fromNode\": \"t1\",\n      \"pluginEdge\": true\n    },\n    {\n      \"id\": \"e2\",\n      \"fromNode\": \"l1\",\n      \"toNode\": \"f1\",\n      \"toEnd\": \"none\",\n      \"fromEnd\": \"arrow\",\n      \"fromSide\": \"top\",\n      \"toSide\": \"bottom\"\n    },\n    {\n      \"id\": \"e3\",\n      \"fromNode\": \"f1\",\n      \"toNode\": \"t1\",\n      \"fromSide\": \"bottom\",\n      \"toSide\": \"top\",\n      \"color\": \"#00ff00\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"backgroundStyle\": \"cover\",\n      \"background\": \"pic.png\",\n      \"label\": \"Area\",\n      \"x\": -20,\n      \"y\": -20,\n      \"width\": 900,\n      \"height\": 800,\n      \"type\": \"group\",\n      \"id\": \"g1\",\n      \"color\": \"4\"\n    },\n    {\n      \"color\": \"1\",\n      \"text\": \"Hello\",\n      \"height\": 60,\n      \"width\": 250,\n      \"y\": 0,\n      \"x\": 0,\n      \"type\": \"text\",\n      \"id\": \"t1\",\n      \"pluginNode\": {\n        \"k\": 2\n      }\n    },\n    {\n      \"subpath\": \"#Goals\",\n      \"file\": \"Plan.md\",\n      \"height\": 400,\n      \"width\": 400,\n      \"y\": 0,\n      \"x\": 300,\n      \"type\": \"file\",\n      \"id\": \"f1\",\n      \"color\": \"#ff0000\"\n    },\n    {\n      \"url\": \"https://example.com\",\n      \"x\": 0,\n      \"y\": 200,\n      \"width\": 300,\n      \"height\": 200,\n      \"type\": \"link\",\n      \"id\": \"l1\"\n    },\n    {\n      \"id\": \"g2\",\n      \"type\": \"group\",\n      \"x\": 1000,\n      \"y\": 1000,\n      \"width\": 200,\n      \"height\": 100\n    }\n  ]\n}\n"
+      }
+     }
+    },
+    "01-untouched-open": {
+     "ok": true,
+     "ms": 9035,
+     "opened": {
+      "viewType": "canvas",
+      "file": "Untouched.canvas",
+      "nodes": 5,
+      "edges": 3,
+      "nodeEls": 5
+     },
+     "rewrittenOnOpen": false,
+     "rewrittenOnClose": true,
+     "text": "{\n\t\"pluginTop\":{\"k\":1},\n\t\"edges\":[\n\t\t{\"toSide\":\"left\",\"label\":\"leads to\",\"color\":\"2\",\"id\":\"e1\",\"toEnd\":\"arrow\",\"fromEnd\":\"none\",\"toNode\":\"f1\",\"fromSide\":\"right\",\"fromNode\":\"t1\",\"pluginEdge\":true},\n\t\t{\"id\":\"e2\",\"fromNode\":\"l1\",\"toNode\":\"f1\",\"toEnd\":\"none\",\"fromEnd\":\"arrow\",\"fromSide\":\"top\",\"toSide\":\"bottom\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"f1\",\"toNode\":\"t1\",\"fromSide\":\"bottom\",\"toSide\":\"top\",\"color\":\"#00ff00\"}\n\t],\n\t\"nodes\":[\n\t\t{\"backgroundStyle\":\"cover\",\"background\":\"pic.png\",\"label\":\"Area\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"type\":\"group\",\"id\":\"g1\",\"color\":\"4\"},\n\t\t{\n\t\t\t\"color\":\"1\",\n\t\t\t\"text\":\"Hello\",\n\t\t\t\"height\":60,\n\t\t\t\"width\":250,\n\t\t\t\"y\":0,\n\t\t\t\"x\":0,\n\t\t\t\"type\":\"text\",\n\t\t\t\"id\":\"t1\",\n\t\t\t\"pluginNode\":{\"k\":2}\n\t\t},\n\t\t{\"subpath\":\"#Goals\",\"file\":\"Plan.md\",\"height\":400,\"width\":400,\"y\":0,\"x\":300,\"type\":\"file\",\"id\":\"f1\",\"color\":\"#ff0000\"},\n\t\t{\"url\":\"https://example.com\",\"x\":0,\"y\":200,\"width\":300,\"height\":200,\"type\":\"link\",\"id\":\"l1\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":1000,\"y\":1000,\"width\":200,\"height\":100}\n\t]\n}",
+     "stat": {
+      "size": 1015,
+      "mtimeMs": 1792413600116
+     }
+    },
+    "02-scrambled-drag": {
+     "ok": true,
+     "ms": 8504,
+     "opened": {
+      "viewType": "canvas",
+      "file": "Scrambled.canvas",
+      "nodes": 5,
+      "edges": 3,
+      "nodeEls": 5
+     },
+     "nodeRect": {
+      "x": 385.0410461425781,
+      "y": 165.4065399169922,
+      "w": 126.67660522460938,
+      "h": 30.402387619018555,
+      "cx": 448.3793487548828,
+      "cy": 180.60773372650146,
+      "model": {
+       "x": 0,
+       "y": 0
+      }
+     },
+     "modelAfterDrag": {
+      "x": 0,
+      "y": 0
+     },
+     "write": {
+      "changed": true,
+      "waitedMs": 2303
+     },
+     "textAfterDrag": "{\n\t\"pluginTop\":{\"k\":1},\n\t\"edges\":[\n\t\t{\"id\":\"e1\",\"pluginEdge\":true,\"fromNode\":\"t1\",\"fromSide\":\"right\",\"toNode\":\"f1\",\"toSide\":\"left\",\"color\":\"2\",\"label\":\"leads to\"},\n\t\t{\"id\":\"e2\",\"fromNode\":\"l1\",\"fromSide\":\"top\",\"toNode\":\"f1\",\"toSide\":\"bottom\",\"fromEnd\":\"arrow\",\"toEnd\":\"none\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"f1\",\"fromSide\":\"bottom\",\"toNode\":\"t1\",\"toSide\":\"top\",\"color\":\"#00ff00\"},\n\t\t{\"id\":\"7ef5a6ac5cffca99\",\"fromNode\":\"t1\",\"fromSide\":\"top\",\"toNode\":\"f1\",\"toSide\":\"left\"}\n\t],\n\t\"nodes\":[\n\t\t{\"backgroundStyle\":\"cover\",\"type\":\"group\",\"id\":\"g1\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"color\":\"4\",\"label\":\"Area\",\"background\":\"pic.png\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":1000,\"y\":1000,\"width\":200,\"height\":100},\n\t\t{\n\t\t\t\"text\":\"Hello\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"id\":\"t1\",\n\t\t\t\"pluginNode\":{\"k\":2},\n\t\t\t\"x\":0,\n\t\t\t\"y\":0,\n\t\t\t\"width\":250,\n\t\t\t\"height\":60,\n\t\t\t\"color\":\"1\"\n\t\t},\n\t\t{\"subpath\":\"#Goals\",\"file\":\"Plan.md\",\"type\":\"file\",\"id\":\"f1\",\"x\":300,\"y\":0,\"width\":400,\"height\":400,\"color\":\"#ff0000\"},\n\t\t{\"url\":\"https://example.com\",\"type\":\"link\",\"id\":\"l1\",\"x\":0,\"y\":200,\"width\":300,\"height\":200}\n\t]\n}",
+     "changedAgainOnClose": false,
+     "text": "{\n\t\"pluginTop\":{\"k\":1},\n\t\"edges\":[\n\t\t{\"id\":\"e1\",\"pluginEdge\":true,\"fromNode\":\"t1\",\"fromSide\":\"right\",\"toNode\":\"f1\",\"toSide\":\"left\",\"color\":\"2\",\"label\":\"leads to\"},\n\t\t{\"id\":\"e2\",\"fromNode\":\"l1\",\"fromSide\":\"top\",\"toNode\":\"f1\",\"toSide\":\"bottom\",\"fromEnd\":\"arrow\",\"toEnd\":\"none\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"f1\",\"fromSide\":\"bottom\",\"toNode\":\"t1\",\"toSide\":\"top\",\"color\":\"#00ff00\"},\n\t\t{\"id\":\"7ef5a6ac5cffca99\",\"fromNode\":\"t1\",\"fromSide\":\"top\",\"toNode\":\"f1\",\"toSide\":\"left\"}\n\t],\n\t\"nodes\":[\n\t\t{\"backgroundStyle\":\"cover\",\"type\":\"group\",\"id\":\"g1\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"color\":\"4\",\"label\":\"Area\",\"background\":\"pic.png\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":1000,\"y\":1000,\"width\":200,\"height\":100},\n\t\t{\n\t\t\t\"text\":\"Hello\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"id\":\"t1\",\n\t\t\t\"pluginNode\":{\"k\":2},\n\t\t\t\"x\":0,\n\t\t\t\"y\":0,\n\t\t\t\"width\":250,\n\t\t\t\"height\":60,\n\t\t\t\"color\":\"1\"\n\t\t},\n\t\t{\"subpath\":\"#Goals\",\"file\":\"Plan.md\",\"type\":\"file\",\"id\":\"f1\",\"x\":300,\"y\":0,\"width\":400,\"height\":400,\"color\":\"#ff0000\"},\n\t\t{\"url\":\"https://example.com\",\"type\":\"link\",\"id\":\"l1\",\"x\":0,\"y\":200,\"width\":300,\"height\":200}\n\t]\n}",
+     "stat": {
+      "size": 1074,
+      "mtimeMs": 1792413607807
+     }
+    },
+    "03-no-edges-drag": {
+     "ok": true,
+     "ms": 12836,
+     "opened": {
+      "viewType": "canvas",
+      "file": "NoEdges.canvas",
+      "nodes": 1,
+      "edges": 0,
+      "nodeEls": 1
+     },
+     "dragWrite": {
+      "changed": false,
+      "waitedMs": 4000
+     },
+     "moved": {
+      "x": 40,
+      "y": 30
+     },
+     "write": {
+      "changed": true,
+      "waitedMs": 2802
+     },
+     "textAfterDrag": "{\n\t\"nodes\":[\n\t\t{\"id\":\"only\",\"type\":\"text\",\"text\":\"Alone\",\"x\":40,\"y\":30,\"width\":250,\"height\":60}\n\t],\n\t\"edges\":[\n\t\t{\"id\":\"e37fb57204c4107d\",\"fromNode\":\"only\",\"fromSide\":\"top\",\"toNode\":\"f772428526c489f6\",\"toSide\":\"bottom\"}\n\t]\n}",
+     "text": "{\n\t\"nodes\":[\n\t\t{\"id\":\"only\",\"type\":\"text\",\"text\":\"Alone\",\"x\":40,\"y\":30,\"width\":250,\"height\":60}\n\t],\n\t\"edges\":[\n\t\t{\"id\":\"e37fb57204c4107d\",\"fromNode\":\"only\",\"fromSide\":\"top\",\"toNode\":\"f772428526c489f6\",\"toSide\":\"bottom\"}\n\t]\n}"
+    },
+    "04-new-canvas": {
+     "ok": true,
+     "ms": 7074,
+     "ran": true,
+     "created": [
+      "Untitled.canvas"
+     ],
+     "text": "",
+     "afterNode": "{\n\t\"nodes\":[\n\t\t{\"id\":\"d143806d1e8b9dd4\",\"x\":10,\"y\":20,\"width\":250,\"height\":60,\"type\":\"text\",\"text\":\"Typed\"}\n\t],\n\t\"edges\":[]\n}"
+    },
+    "06-formatter-open-close": {
+     "ok": true,
+     "ms": 7021,
+     "opened": {
+      "viewType": "canvas",
+      "file": "Formatter.canvas",
+      "nodes": 5,
+      "edges": 0,
+      "nodeEls": 5
+     },
+     "rewrittenOnOpen": false,
+     "text": "{\n\t\"meta\":{\n\t\t\"a\":{\n\t\t\t\"b\":{}\n\t\t}\n\t},\n\t\"list\":[\n\t\t{\"x\":1}\n\t],\n\t\"flat\":[\n\t\t1,\n\t\t\"two\",\n\t\tnull,\n\t\ttrue,\n\t\t2.5,\n\t\t-3\n\t],\n\t\"empties\":{\n\t\t\"e1\":{},\n\t\t\"e2\":[]\n\t},\n\t\"nums\":[1,2],\n\t\"strs\":[\"a\",\"b\"],\n\t\"bools\":[true,false],\n\t\"nulls\":[\n\t\tnull\n\t],\n\t\"objNull\":{\n\t\t\"a\":null\n\t},\n\t\"objBool\":{\"a\":true},\n\t\"mixed\":[1,\"a\"],\n\t\"nodes\":[\n\t\t{\n\t\t\t\"id\":\"n1\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"T\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":0,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"e1\":{},\n\t\t\t\"s\":\"a{b}[c], d\"\n\t\t},\n\t\t{\n\t\t\t\"id\":\"n2\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"U\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":100,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"e2\":[]\n\t\t},\n\t\t{\n\t\t\t\"id\":\"n3\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"V\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":200,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"n1\":[1,2],\n\t\t\t\"n4\":[\"a\",\"b\"],\n\t\t\t\"n5\":[\n\t\t\t\ttrue,\n\t\t\t\tnull\n\t\t\t],\n\t\t\t\"n7\":{\n\t\t\t\t\"t\":[\"a\"]\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"id\":\"n4\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"W\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":300,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"n2\":[\n\t\t\t\t[1]\n\t\t\t],\n\t\t\t\"n3\":{\n\t\t\t\t\"k\":{\"j\":1}\n\t\t\t}\n\t\t},\n\t\t{\"id\":\"n5\",\"type\":\"text\",\"text\":\"X\\nY \\\"q\\\" \\\\ \\t é  \",\"x\":0.5,\"y\":0,\"width\":1000,\"height\":50}\n\t],\n\t\"edges\":[]\n}"
+    },
+    "07-order-edit": {
+     "ok": true,
+     "ms": 7823,
+     "opened": {
+      "viewType": "canvas",
+      "file": "Order.canvas",
+      "nodes": 5,
+      "edges": 3,
+      "nodeEls": 5
+     },
+     "modelOrder": [
+      "t1",
+      "g1",
+      "t2",
+      "g2",
+      "t3"
+     ],
+     "moved": {
+      "x": 10,
+      "y": 210
+     },
+     "write": {
+      "changed": true,
+      "waitedMs": 2803
+     },
+     "textAfterEdit": "{\n\t\"nodes\":[\n\t\t{\"id\":\"g1\",\"type\":\"group\",\"x\":-10,\"y\":-10,\"width\":400,\"height\":400,\"label\":\"G1\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":500,\"y\":500,\"width\":100,\"height\":100},\n\t\t{\"id\":\"t1\",\"type\":\"text\",\"text\":\"A\",\"x\":0,\"y\":0,\"width\":100,\"height\":50},\n\t\t{\"id\":\"t2\",\"type\":\"text\",\"text\":\"B\",\"x\":0,\"y\":100,\"width\":100,\"height\":50,\"color\":\"2\"},\n\t\t{\"id\":\"t3\",\"type\":\"text\",\"text\":\"C\",\"x\":10,\"y\":210,\"width\":100,\"height\":50}\n\t],\n\t\"edges\":[\n\t\t{\"id\":\"e2\",\"fromNode\":\"t2\",\"fromSide\":\"bottom\",\"toNode\":\"t3\",\"toSide\":\"top\"},\n\t\t{\"id\":\"e1\",\"fromNode\":\"t1\",\"fromSide\":\"bottom\",\"toNode\":\"t2\",\"toSide\":\"top\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"t3\",\"fromSide\":\"right\",\"toNode\":\"t1\",\"toSide\":\"right\",\"fromEnd\":\"arrow\",\"toEnd\":\"none\",\"color\":\"5\",\"label\":\"all four\"}\n\t]\n}",
+     "text": "{\n\t\"nodes\":[\n\t\t{\"id\":\"g1\",\"type\":\"group\",\"x\":-10,\"y\":-10,\"width\":400,\"height\":400,\"label\":\"G1\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":500,\"y\":500,\"width\":100,\"height\":100},\n\t\t{\"id\":\"t1\",\"type\":\"text\",\"text\":\"A\",\"x\":0,\"y\":0,\"width\":100,\"height\":50},\n\t\t{\"id\":\"t2\",\"type\":\"text\",\"text\":\"B\",\"x\":0,\"y\":100,\"width\":100,\"height\":50,\"color\":\"2\"},\n\t\t{\"id\":\"t3\",\"type\":\"text\",\"text\":\"C\",\"x\":10,\"y\":210,\"width\":100,\"height\":50}\n\t],\n\t\"edges\":[\n\t\t{\"id\":\"e2\",\"fromNode\":\"t2\",\"fromSide\":\"bottom\",\"toNode\":\"t3\",\"toSide\":\"top\"},\n\t\t{\"id\":\"e1\",\"fromNode\":\"t1\",\"fromSide\":\"bottom\",\"toNode\":\"t2\",\"toSide\":\"top\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"t3\",\"fromSide\":\"right\",\"toNode\":\"t1\",\"toSide\":\"right\",\"fromEnd\":\"arrow\",\"toEnd\":\"none\",\"color\":\"5\",\"label\":\"all four\"}\n\t]\n}"
+    },
+    "08-api-created-nodes": {
+     "ok": true,
+     "ms": 9320,
+     "created": "Untitled 1.canvas",
+     "api": {
+      "text": "ec6b827235143095",
+      "file": "a58c9deb305943aa",
+      "link": "98d36267336fbd1d",
+      "group": "f83dfd9109625aca",
+      "groupPlain": "a710e1fd7024a972",
+      "colorText": "716ed934c420f719",
+      "methods": [
+       "createPlaceholder",
+       "getData",
+       "getSelectionData",
+       "setData",
+       "importData",
+       "requestSave",
+       "addNode",
+       "addEdge",
+       "removeEdge",
+       "getEdgesForNode",
+       "getIntersectingEdges",
+       "createTextNode",
+       "createFileNode",
+       "createFileNodes",
+       "createLinkNode",
+       "createGroupNode",
+       "cloneData"
+      ],
+      "nodeMethods": [
+       "constructor",
+       "getData",
+       "setData",
+       "setText",
+       "initialize",
+       "render",
+       "showMenu",
+       "convertToFile",
+       "constructor",
+       "initialize",
+       "blur",
+       "focus",
+       "destroy",
+       "unloadChild",
+       "startEditing",
+       "isEditable",
+       "onClick",
+       "onResizeDblclick",
+       "moveAndResize",
+       "render"
+      ],
+      "getData": "{\"nodes\":[{\"id\":\"ec6b827235143095\",\"x\":0,\"y\":0,\"width\":250,\"height\":60,\"type\":\"text\",\"text\":\"T\"},{\"id\":\"a58c9deb305943aa\",\"x\":300,\"y\":0,\"width\":400,\"height\":400,\"type\":\"file\",\"file\":\"Plan.md\",\"subpath\":\"#Goals\"},{\"id\":\"98d36267336fbd1d\",\"x\":0,\"y\":200,\"width\":300,\"height\":200,\"type\":\"link\",\"url\":\"https://example.com\"},{\"id\":\"f83dfd9109625aca\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"type\":\"group\",\"label\":\"Area\"},{\"id\":\"a710e1fd7024a972\",\"x\":1000,\"y\":1000,\"width\":100,\"height\":100,\"type\":\"group\",\"label\":\"Untitled group\"},{\"id\":\"716ed934c420f719\",\"x\":0,\"y\":400,\"width\":250,\"height\":60,\"color\":\"3\",\"type\":\"text\",\"text\":\"Colored\"}],\"edges\":[]}"
+     },
+     "write": {
+      "changed": true,
+      "waitedMs": 2805
+     },
+     "text": "{\n\t\"nodes\":[\n\t\t{\"id\":\"ec6b827235143095\",\"x\":0,\"y\":0,\"width\":250,\"height\":60,\"type\":\"text\",\"text\":\"T\"},\n\t\t{\"id\":\"a58c9deb305943aa\",\"x\":300,\"y\":0,\"width\":400,\"height\":400,\"type\":\"file\",\"file\":\"Plan.md\",\"subpath\":\"#Goals\"},\n\t\t{\"id\":\"98d36267336fbd1d\",\"x\":0,\"y\":200,\"width\":300,\"height\":200,\"type\":\"link\",\"url\":\"https://example.com\"},\n\t\t{\"id\":\"f83dfd9109625aca\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"type\":\"group\",\"label\":\"Area\"},\n\t\t{\"id\":\"a710e1fd7024a972\",\"x\":1000,\"y\":1000,\"width\":100,\"height\":100,\"type\":\"group\",\"label\":\"Untitled group\"},\n\t\t{\"id\":\"716ed934c420f719\",\"x\":0,\"y\":400,\"width\":250,\"height\":60,\"color\":\"3\",\"type\":\"text\",\"text\":\"Colored\"}\n\t],\n\t\"edges\":[]\n}",
+     "textAfterClose": "{\n\t\"nodes\":[\n\t\t{\"id\":\"ec6b827235143095\",\"x\":0,\"y\":0,\"width\":250,\"height\":60,\"type\":\"text\",\"text\":\"T\"},\n\t\t{\"id\":\"a58c9deb305943aa\",\"x\":300,\"y\":0,\"width\":400,\"height\":400,\"type\":\"file\",\"file\":\"Plan.md\",\"subpath\":\"#Goals\"},\n\t\t{\"id\":\"98d36267336fbd1d\",\"x\":0,\"y\":200,\"width\":300,\"height\":200,\"type\":\"link\",\"url\":\"https://example.com\"},\n\t\t{\"id\":\"f83dfd9109625aca\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"type\":\"group\",\"label\":\"Area\"},\n\t\t{\"id\":\"a710e1fd7024a972\",\"x\":1000,\"y\":1000,\"width\":100,\"height\":100,\"type\":\"group\",\"label\":\"Untitled group\"},\n\t\t{\"id\":\"716ed934c420f719\",\"x\":0,\"y\":400,\"width\":250,\"height\":60,\"color\":\"3\",\"type\":\"text\",\"text\":\"Colored\"}\n\t],\n\t\"edges\":[]\n}"
+    },
+    "05-after": {
+     "ok": true,
+     "ms": 0,
+     "snapshot": {
+      "Formatter.canvas": {
+       "size": 1066,
+       "mtimeMs": 1792413635555,
+       "text": "{\n\t\"meta\":{\n\t\t\"a\":{\n\t\t\t\"b\":{}\n\t\t}\n\t},\n\t\"list\":[\n\t\t{\"x\":1}\n\t],\n\t\"flat\":[\n\t\t1,\n\t\t\"two\",\n\t\tnull,\n\t\ttrue,\n\t\t2.5,\n\t\t-3\n\t],\n\t\"empties\":{\n\t\t\"e1\":{},\n\t\t\"e2\":[]\n\t},\n\t\"nums\":[1,2],\n\t\"strs\":[\"a\",\"b\"],\n\t\"bools\":[true,false],\n\t\"nulls\":[\n\t\tnull\n\t],\n\t\"objNull\":{\n\t\t\"a\":null\n\t},\n\t\"objBool\":{\"a\":true},\n\t\"mixed\":[1,\"a\"],\n\t\"nodes\":[\n\t\t{\n\t\t\t\"id\":\"n1\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"T\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":0,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"e1\":{},\n\t\t\t\"s\":\"a{b}[c], d\"\n\t\t},\n\t\t{\n\t\t\t\"id\":\"n2\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"U\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":100,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"e2\":[]\n\t\t},\n\t\t{\n\t\t\t\"id\":\"n3\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"V\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":200,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"n1\":[1,2],\n\t\t\t\"n4\":[\"a\",\"b\"],\n\t\t\t\"n5\":[\n\t\t\t\ttrue,\n\t\t\t\tnull\n\t\t\t],\n\t\t\t\"n7\":{\n\t\t\t\t\"t\":[\"a\"]\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"id\":\"n4\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"text\":\"W\",\n\t\t\t\"x\":0,\n\t\t\t\"y\":300,\n\t\t\t\"width\":100,\n\t\t\t\"height\":50,\n\t\t\t\"n2\":[\n\t\t\t\t[1]\n\t\t\t],\n\t\t\t\"n3\":{\n\t\t\t\t\"k\":{\"j\":1}\n\t\t\t}\n\t\t},\n\t\t{\"id\":\"n5\",\"type\":\"text\",\"text\":\"X\\nY \\\"q\\\" \\\\ \\t é  \",\"x\":0.5,\"y\":0,\"width\":1000,\"height\":50}\n\t],\n\t\"edges\":[]\n}"
+      },
+      "NoEdges.canvas": {
+       "size": 224,
+       "mtimeMs": 1792413620648,
+       "text": "{\n\t\"nodes\":[\n\t\t{\"id\":\"only\",\"type\":\"text\",\"text\":\"Alone\",\"x\":40,\"y\":30,\"width\":250,\"height\":60}\n\t],\n\t\"edges\":[\n\t\t{\"id\":\"e37fb57204c4107d\",\"fromNode\":\"only\",\"fromSide\":\"top\",\"toNode\":\"f772428526c489f6\",\"toSide\":\"bottom\"}\n\t]\n}"
+      },
+      "Order.canvas": {
+       "size": 735,
+       "mtimeMs": 1792413642569,
+       "text": "{\n\t\"nodes\":[\n\t\t{\"id\":\"g1\",\"type\":\"group\",\"x\":-10,\"y\":-10,\"width\":400,\"height\":400,\"label\":\"G1\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":500,\"y\":500,\"width\":100,\"height\":100},\n\t\t{\"id\":\"t1\",\"type\":\"text\",\"text\":\"A\",\"x\":0,\"y\":0,\"width\":100,\"height\":50},\n\t\t{\"id\":\"t2\",\"type\":\"text\",\"text\":\"B\",\"x\":0,\"y\":100,\"width\":100,\"height\":50,\"color\":\"2\"},\n\t\t{\"id\":\"t3\",\"type\":\"text\",\"text\":\"C\",\"x\":10,\"y\":210,\"width\":100,\"height\":50}\n\t],\n\t\"edges\":[\n\t\t{\"id\":\"e2\",\"fromNode\":\"t2\",\"fromSide\":\"bottom\",\"toNode\":\"t3\",\"toSide\":\"top\"},\n\t\t{\"id\":\"e1\",\"fromNode\":\"t1\",\"fromSide\":\"bottom\",\"toNode\":\"t2\",\"toSide\":\"top\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"t3\",\"fromSide\":\"right\",\"toNode\":\"t1\",\"toSide\":\"right\",\"fromEnd\":\"arrow\",\"toEnd\":\"none\",\"color\":\"5\",\"label\":\"all four\"}\n\t]\n}"
+      },
+      "Scrambled.canvas": {
+       "size": 1074,
+       "mtimeMs": 1792413607807,
+       "text": "{\n\t\"pluginTop\":{\"k\":1},\n\t\"edges\":[\n\t\t{\"id\":\"e1\",\"pluginEdge\":true,\"fromNode\":\"t1\",\"fromSide\":\"right\",\"toNode\":\"f1\",\"toSide\":\"left\",\"color\":\"2\",\"label\":\"leads to\"},\n\t\t{\"id\":\"e2\",\"fromNode\":\"l1\",\"fromSide\":\"top\",\"toNode\":\"f1\",\"toSide\":\"bottom\",\"fromEnd\":\"arrow\",\"toEnd\":\"none\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"f1\",\"fromSide\":\"bottom\",\"toNode\":\"t1\",\"toSide\":\"top\",\"color\":\"#00ff00\"},\n\t\t{\"id\":\"7ef5a6ac5cffca99\",\"fromNode\":\"t1\",\"fromSide\":\"top\",\"toNode\":\"f1\",\"toSide\":\"left\"}\n\t],\n\t\"nodes\":[\n\t\t{\"backgroundStyle\":\"cover\",\"type\":\"group\",\"id\":\"g1\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"color\":\"4\",\"label\":\"Area\",\"background\":\"pic.png\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":1000,\"y\":1000,\"width\":200,\"height\":100},\n\t\t{\n\t\t\t\"text\":\"Hello\",\n\t\t\t\"type\":\"text\",\n\t\t\t\"id\":\"t1\",\n\t\t\t\"pluginNode\":{\"k\":2},\n\t\t\t\"x\":0,\n\t\t\t\"y\":0,\n\t\t\t\"width\":250,\n\t\t\t\"height\":60,\n\t\t\t\"color\":\"1\"\n\t\t},\n\t\t{\"subpath\":\"#Goals\",\"file\":\"Plan.md\",\"type\":\"file\",\"id\":\"f1\",\"x\":300,\"y\":0,\"width\":400,\"height\":400,\"color\":\"#ff0000\"},\n\t\t{\"url\":\"https://example.com\",\"type\":\"link\",\"id\":\"l1\",\"x\":0,\"y\":200,\"width\":300,\"height\":200}\n\t]\n}"
+      },
+      "Untitled 1.canvas": {
+       "size": 669,
+       "mtimeMs": 1792413651884,
+       "text": "{\n\t\"nodes\":[\n\t\t{\"id\":\"ec6b827235143095\",\"x\":0,\"y\":0,\"width\":250,\"height\":60,\"type\":\"text\",\"text\":\"T\"},\n\t\t{\"id\":\"a58c9deb305943aa\",\"x\":300,\"y\":0,\"width\":400,\"height\":400,\"type\":\"file\",\"file\":\"Plan.md\",\"subpath\":\"#Goals\"},\n\t\t{\"id\":\"98d36267336fbd1d\",\"x\":0,\"y\":200,\"width\":300,\"height\":200,\"type\":\"link\",\"url\":\"https://example.com\"},\n\t\t{\"id\":\"f83dfd9109625aca\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"type\":\"group\",\"label\":\"Area\"},\n\t\t{\"id\":\"a710e1fd7024a972\",\"x\":1000,\"y\":1000,\"width\":100,\"height\":100,\"type\":\"group\",\"label\":\"Untitled group\"},\n\t\t{\"id\":\"716ed934c420f719\",\"x\":0,\"y\":400,\"width\":250,\"height\":60,\"color\":\"3\",\"type\":\"text\",\"text\":\"Colored\"}\n\t],\n\t\"edges\":[]\n}"
+      },
+      "Untitled.canvas": {
+       "size": 125,
+       "mtimeMs": 1792413629964,
+       "text": "{\n\t\"nodes\":[\n\t\t{\"id\":\"d143806d1e8b9dd4\",\"x\":10,\"y\":20,\"width\":250,\"height\":60,\"type\":\"text\",\"text\":\"Typed\"}\n\t],\n\t\"edges\":[]\n}"
+      },
+      "Untouched.canvas": {
+       "size": 1015,
+       "mtimeMs": 1792413600116,
+       "text": "{\n\t\"pluginTop\":{\"k\":1},\n\t\"edges\":[\n\t\t{\"toSide\":\"left\",\"label\":\"leads to\",\"color\":\"2\",\"id\":\"e1\",\"toEnd\":\"arrow\",\"fromEnd\":\"none\",\"toNode\":\"f1\",\"fromSide\":\"right\",\"fromNode\":\"t1\",\"pluginEdge\":true},\n\t\t{\"id\":\"e2\",\"fromNode\":\"l1\",\"toNode\":\"f1\",\"toEnd\":\"none\",\"fromEnd\":\"arrow\",\"fromSide\":\"top\",\"toSide\":\"bottom\"},\n\t\t{\"id\":\"e3\",\"fromNode\":\"f1\",\"toNode\":\"t1\",\"fromSide\":\"bottom\",\"toSide\":\"top\",\"color\":\"#00ff00\"}\n\t],\n\t\"nodes\":[\n\t\t{\"backgroundStyle\":\"cover\",\"background\":\"pic.png\",\"label\":\"Area\",\"x\":-20,\"y\":-20,\"width\":900,\"height\":800,\"type\":\"group\",\"id\":\"g1\",\"color\":\"4\"},\n\t\t{\n\t\t\t\"color\":\"1\",\n\t\t\t\"text\":\"Hello\",\n\t\t\t\"height\":60,\n\t\t\t\"width\":250,\n\t\t\t\"y\":0,\n\t\t\t\"x\":0,\n\t\t\t\"type\":\"text\",\n\t\t\t\"id\":\"t1\",\n\t\t\t\"pluginNode\":{\"k\":2}\n\t\t},\n\t\t{\"subpath\":\"#Goals\",\"file\":\"Plan.md\",\"height\":400,\"width\":400,\"y\":0,\"x\":300,\"type\":\"file\",\"id\":\"f1\",\"color\":\"#ff0000\"},\n\t\t{\"url\":\"https://example.com\",\"x\":0,\"y\":200,\"width\":300,\"height\":200,\"type\":\"link\",\"id\":\"l1\"},\n\t\t{\"id\":\"g2\",\"type\":\"group\",\"x\":1000,\"y\":1000,\"width\":200,\"height\":100}\n\t]\n}"
+      }
+     },
+     "untouchedStillOriginal": false
+    }
+   },
+   "order": [
+    "00-before",
+    "01-untouched-open",
+    "02-scrambled-drag",
+    "03-no-edges-drag",
+    "04-new-canvas",
+    "06-formatter-open-close",
+    "07-order-edit",
+    "08-api-created-nodes",
+    "05-after"
+   ],
+   "elapsedMs": 61664,
+   "vault": "/tmp/silica-probe-vault.KB1qcj",
+   "version": {
+    "title": "New tab - silica-probe-vault.KB1qcj - Obsidian 1.14.4",
+    "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.13.7 Chrome/150.0.7871.47 Electron/43.1.0 Safari/537.36"
+   }
+  }
+ }
+}

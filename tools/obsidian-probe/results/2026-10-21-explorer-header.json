@@ -1,0 +1,3632 @@
+{
+ "explorerHeader": {
+  "fixtures": {
+   "startedAt": "2026-10-21T15:04:15.844Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 301,
+   "wrote": [
+    "Alpha.md",
+    "Archive/",
+    "Archive/old.md",
+    "Empty/",
+    "Gamma.md",
+    "Projects/",
+    "Projects/Budget.md",
+    "Projects/Deep/",
+    "Projects/Deep/Inner.md",
+    "Projects/Plan.md",
+    "beta.md",
+    "cover.png",
+    "n10.md",
+    "n2.md"
+   ],
+   "stats": {
+    "Alpha.md": {
+     "birth": 1792595055844.9136,
+     "mtime": 1792566255845
+    },
+    "beta.md": {
+     "birth": 1792595055873.9133,
+     "mtime": 1792584255845
+    },
+    "Gamma.md": {
+     "birth": 1792595055903.9133,
+     "mtime": 1792577055845
+    },
+    "n2.md": {
+     "birth": 1792595055933.9133,
+     "mtime": 1792591455845
+    },
+    "n10.md": {
+     "birth": 1792595055963.9133,
+     "mtime": 1792559055845
+    },
+    "Projects/Plan.md": {
+     "birth": 1792595055993.913,
+     "mtime": 1792587855845
+    },
+    "Projects/Deep/Inner.md": {
+     "birth": 1792595056023.913,
+     "mtime": 1792580655845
+    },
+    "Archive/old.md": {
+     "birth": 1792595056053.913,
+     "mtime": 1792562655845
+    },
+    "Projects/Budget.md": {
+     "birth": 1792595056083.913,
+     "mtime": 1792569855845
+    },
+    "cover.png": {
+     "birth": 1792595056113.9128,
+     "mtime": 1792573455845
+    }
+   }
+  },
+  "run": {
+   "startedAt": "2026-10-21T15:04:17.381Z",
+   "steps": {
+    "s01-header": {
+     "ok": true,
+     "ms": 806,
+     "initial": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Expand all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-up-down",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      },
+      "navHeader": {
+       "header": {
+        "rect": {
+         "x": 43.997840881347656,
+         "y": 39.999996185302734,
+         "w": 299.9999694824219,
+         "h": 39.97844696044922
+        },
+        "style": {
+         "height": "39.9784px",
+         "padding": "8px",
+         "display": "block",
+         "gap": "normal",
+         "border-bottom": "0px none rgb(218, 218, 218)"
+        }
+       },
+       "buttons": {
+        "rect": {
+         "x": 51.9935302734375,
+         "y": 47.99568557739258,
+         "w": 284.00860595703125,
+         "h": 23.98706817626953
+        },
+        "style": {
+         "display": "flex",
+         "gap": "2px",
+         "padding": "0px",
+         "justify-content": "center",
+         "flex-wrap": "wrap"
+        }
+       }
+      }
+     },
+     "layout": {
+      "explorerLeaf": {
+       "type": "file-explorer",
+       "state": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "icon": "lucide-folder-closed",
+       "title": "Files"
+      },
+      "appJson": "{}"
+     }
+    },
+    "s02-expand-all": {
+     "ok": true,
+     "ms": 2041,
+     "before": [
+      {
+       "name": "Archive",
+       "folder": true,
+       "depth": 0,
+       "collapsed": true,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-folder is-collapsed",
+       "visible": true
+      },
+      {
+       "name": "Empty",
+       "folder": true,
+       "depth": 0,
+       "collapsed": true,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-folder is-collapsed",
+       "visible": true
+      },
+      {
+       "name": "Projects",
+       "folder": true,
+       "depth": 0,
+       "collapsed": true,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-folder is-collapsed",
+       "visible": true
+      },
+      {
+       "name": "Alpha",
+       "folder": false,
+       "depth": 0,
+       "collapsed": false,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-file",
+       "visible": true
+      },
+      {
+       "name": "beta",
+       "folder": false,
+       "depth": 0,
+       "collapsed": false,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-file",
+       "visible": true
+      },
+      {
+       "name": "cover",
+       "folder": false,
+       "depth": 0,
+       "collapsed": false,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-file",
+       "visible": true
+      },
+      {
+       "name": "Gamma",
+       "folder": false,
+       "depth": 0,
+       "collapsed": false,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-file",
+       "visible": true
+      },
+      {
+       "name": "n2",
+       "folder": false,
+       "depth": 0,
+       "collapsed": false,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-file",
+       "visible": true
+      },
+      {
+       "name": "n10",
+       "folder": false,
+       "depth": 0,
+       "collapsed": false,
+       "active": false,
+       "renaming": false,
+       "cls": "tree-item nav-file",
+       "visible": true
+      }
+     ],
+     "afterExpand": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "old",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "afterSecondPress": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Expand all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-up-down",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "afterOneFolderOpen": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "afterPressWithOneOpen": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Expand all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-up-down",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "afterPressAgain": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "old",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "layout": {
+      "explorerLeaf": {
+       "type": "file-explorer",
+       "state": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "icon": "lucide-folder-closed",
+       "title": "Files"
+      },
+      "appJson": "{}"
+     }
+    },
+    "s03-sort-menu": {
+     "ok": true,
+     "ms": 13869,
+     "menu": [
+      [
+       "File name (A to Z)",
+       "File name (Z to A)",
+       "---",
+       "Modified time (new to old)",
+       "Modified time (old to new)",
+       "---",
+       "Created time (new to old)",
+       "Created time (old to new)"
+      ]
+     ],
+     "menuDom": {
+      "html": "<div class=\"menu mod-no-icon\" style=\"left: 196px; top: 61px;\"><div class=\"menu-grabber\"></div><div class=\"menu-scroll\"><div class=\"menu-group\"><div class=\"menu-item tappable mod-checked\"><div class=\"menu-item-icon\"></div><div class=\"menu-item-title\">File name (A to Z)</div><div class=\"menu-item-icon mod-checked\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-check\"><path d=\"M20 6 9 17l-5-5\"></path></svg></div></div><div class=\"menu-item tappable\"><div class=\"menu-item-icon\"></div><div class=\"menu-item-title\">File name (Z to A)</div></div></div><div class=\"menu-separator\"></div><div class=\"menu-group\"><div class=\"menu-item tappable\"><div class=\"menu-item-icon\"></div><div class=\"menu-item-title\">Modified time (new to old)</div></div><div class=\"menu-item tappable\"><div class=\"menu-item-icon\"></div><div class=\"menu-item-title\">Modified time (old to new)</div></div></div><div class=\"menu-separator\"></div><div class=\"menu-group\"><div class=\"menu-item tappable\"><div class=\"menu-item-icon\"></div><div class=\"menu-item-title\">Created time (new to old)</div></div><div class=\"menu-item tappable\"><div class=\"menu-item-icon\"></div><div class=\"menu-item-title\">Created time (old to new)</div></div></div></div></div>",
+      "items": [
+       {
+        "title": "File name (A to Z)",
+        "cls": "menu-item tappable mod-checked",
+        "icon": "svg-icon lucide-check",
+        "checked": true
+       },
+       {
+        "title": "File name (Z to A)",
+        "cls": "menu-item tappable",
+        "icon": null,
+        "checked": false
+       },
+       {
+        "title": "Modified time (new to old)",
+        "cls": "menu-item tappable",
+        "icon": null,
+        "checked": false
+       },
+       {
+        "title": "Modified time (old to new)",
+        "cls": "menu-item tappable",
+        "icon": null,
+        "checked": false
+       },
+       {
+        "title": "Created time (new to old)",
+        "cls": "menu-item tappable",
+        "icon": null,
+        "checked": false
+       },
+       {
+        "title": "Created time (old to new)",
+        "cls": "menu-item tappable",
+        "icon": null,
+        "checked": false
+       }
+      ]
+     },
+     "orders": [
+      {
+       "label": "File name (A to Z)",
+       "rows": [
+        "Archive/",
+        "old",
+        "Empty/",
+        "Projects/",
+        "Deep/",
+        "Inner",
+        "Budget",
+        "Plan",
+        "Alpha",
+        "beta",
+        "cover",
+        "Gamma",
+        "n2",
+        "n10"
+       ],
+       "state": {
+        "view": {
+         "sortOrder": "alphabetical",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "sortOrderField": "alphabetical",
+        "autoRevealField": "undefined"
+       },
+       "explorerLeaf": {
+        "type": "file-explorer",
+        "state": {
+         "sortOrder": "alphabetical",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "icon": "lucide-folder-closed",
+        "title": "Files"
+       },
+       "appJson": "{}",
+       "checkedNow": [
+        "File name (A to Z)"
+       ]
+      },
+      {
+       "label": "File name (Z to A)",
+       "rows": [
+        "Archive/",
+        "old",
+        "Empty/",
+        "Projects/",
+        "Deep/",
+        "Inner",
+        "Plan",
+        "Budget",
+        "n10",
+        "n2",
+        "Gamma",
+        "cover",
+        "beta",
+        "Alpha"
+       ],
+       "state": {
+        "view": {
+         "sortOrder": "alphabeticalReverse",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "sortOrderField": "alphabeticalReverse",
+        "autoRevealField": "undefined"
+       },
+       "explorerLeaf": {
+        "type": "file-explorer",
+        "state": {
+         "sortOrder": "alphabeticalReverse",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "icon": "lucide-folder-closed",
+        "title": "Files"
+       },
+       "appJson": "{}",
+       "checkedNow": [
+        "File name (Z to A)"
+       ]
+      },
+      {
+       "label": "Modified time (new to old)",
+       "rows": [
+        "Archive/",
+        "old",
+        "Empty/",
+        "Projects/",
+        "Deep/",
+        "Inner",
+        "Plan",
+        "Budget",
+        "n2",
+        "beta",
+        "Gamma",
+        "cover",
+        "Alpha",
+        "n10"
+       ],
+       "state": {
+        "view": {
+         "sortOrder": "byModifiedTime",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "sortOrderField": "byModifiedTime",
+        "autoRevealField": "undefined"
+       },
+       "explorerLeaf": {
+        "type": "file-explorer",
+        "state": {
+         "sortOrder": "byModifiedTime",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "icon": "lucide-folder-closed",
+        "title": "Files"
+       },
+       "appJson": "{}",
+       "checkedNow": [
+        "Modified time (new to old)"
+       ]
+      },
+      {
+       "label": "Modified time (old to new)",
+       "rows": [
+        "Archive/",
+        "old",
+        "Empty/",
+        "Projects/",
+        "Deep/",
+        "Inner",
+        "Budget",
+        "Plan",
+        "n10",
+        "Alpha",
+        "cover",
+        "Gamma",
+        "beta",
+        "n2"
+       ],
+       "state": {
+        "view": {
+         "sortOrder": "byModifiedTimeReverse",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "sortOrderField": "byModifiedTimeReverse",
+        "autoRevealField": "undefined"
+       },
+       "explorerLeaf": {
+        "type": "file-explorer",
+        "state": {
+         "sortOrder": "byModifiedTimeReverse",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "icon": "lucide-folder-closed",
+        "title": "Files"
+       },
+       "appJson": "{}",
+       "checkedNow": [
+        "Modified time (old to new)"
+       ]
+      },
+      {
+       "label": "Created time (new to old)",
+       "rows": [
+        "Archive/",
+        "old",
+        "Empty/",
+        "Projects/",
+        "Deep/",
+        "Inner",
+        "Budget",
+        "Plan",
+        "cover",
+        "n10",
+        "n2",
+        "Gamma",
+        "beta",
+        "Alpha"
+       ],
+       "state": {
+        "view": {
+         "sortOrder": "byCreatedTime",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "sortOrderField": "byCreatedTime",
+        "autoRevealField": "undefined"
+       },
+       "explorerLeaf": {
+        "type": "file-explorer",
+        "state": {
+         "sortOrder": "byCreatedTime",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "icon": "lucide-folder-closed",
+        "title": "Files"
+       },
+       "appJson": "{}",
+       "checkedNow": [
+        "Created time (new to old)"
+       ]
+      },
+      {
+       "label": "Created time (old to new)",
+       "rows": [
+        "Archive/",
+        "old",
+        "Empty/",
+        "Projects/",
+        "Deep/",
+        "Inner",
+        "Plan",
+        "Budget",
+        "Alpha",
+        "beta",
+        "Gamma",
+        "n2",
+        "n10",
+        "cover"
+       ],
+       "state": {
+        "view": {
+         "sortOrder": "byCreatedTimeReverse",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "sortOrderField": "byCreatedTimeReverse",
+        "autoRevealField": "undefined"
+       },
+       "explorerLeaf": {
+        "type": "file-explorer",
+        "state": {
+         "sortOrder": "byCreatedTimeReverse",
+         "autoReveal": false,
+         "showSearch": false,
+         "searchQuery": ""
+        },
+        "icon": "lucide-folder-closed",
+        "title": "Files"
+       },
+       "appJson": "{}",
+       "checkedNow": [
+        "Created time (old to new)"
+       ]
+      }
+     ]
+    },
+    "s04-auto-reveal": {
+     "ok": true,
+     "ms": 3806,
+     "initialButton": {
+      "aria": "Auto-reveal current file",
+      "cls": "clickable-icon nav-action-button",
+      "icon": "svg-icon lucide-gallery-vertical",
+      "rect": {
+       "x": 209.9784393310547,
+       "y": 47.99568557739258,
+       "w": 27.974136352539062,
+       "h": 23.98706817626953
+      }
+     },
+     "initialState": {
+      "view": {
+       "sortOrder": "alphabetical",
+       "autoReveal": false,
+       "showSearch": false,
+       "searchQuery": ""
+      },
+      "sortOrderField": "alphabetical",
+      "autoRevealField": "undefined"
+     },
+     "openedWithInitial": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Expand all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-up-down",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      },
+      "activeFile": "Projects/Deep/Inner.md"
+     },
+     "afterRevealCommand": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": true,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "afterToggle": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button is-active",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": true,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": true,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "layoutAfterToggle": {
+      "explorerLeaf": {
+       "type": "file-explorer",
+       "state": {
+        "sortOrder": "alphabetical",
+        "autoReveal": true,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "icon": "lucide-folder-closed",
+       "title": "Files"
+      },
+      "appJson": "{}"
+     },
+     "openedWithToggled": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button is-active",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "old",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": true,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": true,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      },
+      "activeFile": "Archive/old.md"
+     },
+     "afterToggleBack": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "old",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": true,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      }
+     },
+     "layoutAfterToggleBack": {
+      "explorerLeaf": {
+       "type": "file-explorer",
+       "state": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "icon": "lucide-folder-closed",
+       "title": "Files"
+      },
+      "appJson": "{}"
+     }
+    },
+    "s05-new-note": {
+     "ok": true,
+     "ms": 3355,
+     "config": {
+      "newFileLocation": "root",
+      "newFileFolderPath": "/"
+     },
+     "created": [
+      "Untitled.md"
+     ],
+     "after": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "old",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Untitled",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": true,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      },
+      "activeFile": "Untitled.md",
+      "activeViewType": "markdown",
+      "leaves": 2,
+      "focused": "inline-title DIV",
+      "inlineTitle": "Plan",
+      "titleFocused": true
+     },
+     "createdInCurrent": [
+      "Projects/Untitled.md"
+     ],
+     "afterCurrent": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "old",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Untitled",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": true,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Untitled",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      },
+      "activeFile": "Projects/Untitled.md"
+     }
+    },
+    "s06-new-folder": {
+     "ok": true,
+     "ms": 3393,
+     "created": [
+      "Untitled/"
+     ],
+     "after": {
+      "header": [
+       {
+        "aria": "New note",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-edit",
+        "rect": {
+         "x": 120.07542419433594,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "New folder",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-folder-plus",
+        "rect": {
+         "x": 150.0430908203125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Change sort order",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-sort-asc",
+        "rect": {
+         "x": 180.01075744628906,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Auto-reveal current file",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-gallery-vertical",
+        "rect": {
+         "x": 209.9784393310547,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Collapse all",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-chevrons-down-up",
+        "rect": {
+         "x": 239.94610595703125,
+         "y": 47.99568557739258,
+         "w": 27.974136352539062,
+         "h": 23.98706817626953
+        }
+       },
+       {
+        "aria": "Show search filter",
+        "cls": "clickable-icon nav-action-button",
+        "icon": "svg-icon lucide-search",
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0
+        }
+       }
+      ],
+      "rows": [
+       {
+        "name": "Archive",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "old",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Empty",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Projects",
+        "folder": true,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Deep",
+        "folder": true,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-folder",
+        "visible": true
+       },
+       {
+        "name": "Inner",
+        "folder": false,
+        "depth": 2,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Budget",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Plan",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": true,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Untitled",
+        "folder": false,
+        "depth": 1,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Untitled",
+        "folder": true,
+        "depth": 0,
+        "collapsed": true,
+        "active": false,
+        "renaming": true,
+        "cls": "tree-item nav-folder is-collapsed",
+        "visible": true
+       },
+       {
+        "name": "Alpha",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "beta",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "cover",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Gamma",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n2",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "n10",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       },
+       {
+        "name": "Untitled",
+        "folder": false,
+        "depth": 0,
+        "collapsed": false,
+        "active": false,
+        "renaming": false,
+        "cls": "tree-item nav-file",
+        "visible": true
+       }
+      ],
+      "state": {
+       "view": {
+        "sortOrder": "alphabetical",
+        "autoReveal": false,
+        "showSearch": false,
+        "searchQuery": ""
+       },
+       "sortOrderField": "alphabetical",
+       "autoRevealField": "undefined"
+      },
+      "focused": "tree-item-inner nav-folder-title-content DIV",
+      "editing": {
+       "text": "Untitled",
+       "editable": "true"
+      }
+     },
+     "afterRename": {
+      "files": [
+       "Fresh/"
+      ],
+      "rows": [
+       "Archive/",
+       "old",
+       "Empty/",
+       "Fresh/",
+       "Projects/",
+       "Deep/",
+       "Inner",
+       "Budget",
+       "Plan",
+       "Untitled",
+       "Alpha",
+       "beta",
+       "cover",
+       "Gamma",
+       "n2",
+       "n10",
+       "Untitled"
+      ]
+     },
+     "createdSecond": [
+      "Untitled/"
+     ],
+     "afterEscape": [
+      "Untitled/"
+     ]
+    },
+    "s07-tooltips": {
+     "ok": true,
+     "ms": 1203,
+     "tooltip": {
+      "text": "New note",
+      "cls": "tooltip",
+      "rect": {
+       "x": 92.84481811523438,
+       "y": 79.97843933105469,
+       "w": 82.43534088134766,
+       "h": 32.86637878417969
+      }
+     }
+    }
+   },
+   "order": [
+    "s01-header",
+    "s02-expand-all",
+    "s03-sort-menu",
+    "s04-auto-reveal",
+    "s05-new-note",
+    "s06-new-folder",
+    "s07-tooltips"
+   ],
+   "elapsedMs": 28528,
+   "vaultPath": "/tmp/silica-probe-vault.OIvsSw",
+   "version": {
+    "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.13.7 Chrome/150.0.7871.47 Electron/43.1.0 Safari/537.36",
+    "platform": "Linux x86_64"
+   },
+   "finishedAt": "2026-10-21T15:04:45.909Z"
+  }
+ }
+}

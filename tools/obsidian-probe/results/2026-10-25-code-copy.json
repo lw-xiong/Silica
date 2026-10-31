@@ -1,0 +1,1553 @@
+{
+ "codeCopy": {
+  "fixtures": {
+   "startedAt": "2026-10-25T15:18:14.445Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 1
+  },
+  "run": {
+   "startedAt": "2026-10-25T15:18:15.661Z",
+   "steps": {
+    "s01-reading-view-every-shape": {
+     "ok": true,
+     "ms": 10725,
+     "opened": {
+      "file": "Code.md",
+      "mode": {
+       "mode": "preview",
+       "source": false
+      }
+     },
+     "pres": [
+      {
+       "preClass": "language-js",
+       "codeClass": "language-js is-loaded",
+       "domText": "const CASE_LANG = 1;\n",
+       "domTextLength": 21,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 241.1529998779297,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 265.1454544067383
+       }
+      },
+      {
+       "preClass": "",
+       "codeClass": "",
+       "domText": "no info string\n",
+       "domTextLength": 15,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 305.1293029785156,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 329.1217575073242
+       }
+      },
+      {
+       "preClass": "language-python",
+       "codeClass": "language-python is-loaded",
+       "domText": "print(\"tilde fence\")\n",
+       "domTextLength": 21,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 369.1055908203125,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 393.0980453491211
+       }
+      },
+      {
+       "preClass": "language-silica-made-up",
+       "codeClass": "language-silica-made-up is-loaded",
+       "domText": "unregistered info\n",
+       "domTextLength": 18,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 433.0818786621094,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 457.07433319091797
+       }
+      },
+      {
+       "preClass": "",
+       "codeClass": "",
+       "domText": "",
+       "domTextLength": 0,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 497.05816650390625,
+        "w": 604.4288330078125,
+        "h": 37.99568557739258,
+        "cx": 678.2057800292969,
+        "cy": 516.0560092926025
+       }
+      },
+      {
+       "preClass": "",
+       "codeClass": "",
+       "domText": "four space indented\nsecond line\n",
+       "domTextLength": 32,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 551.0452270507812,
+        "w": 604.4288330078125,
+        "h": 71.98274993896484,
+        "cx": 678.2057800292969,
+        "cy": 587.0366020202637
+       }
+      },
+      {
+       "preClass": "language-js",
+       "codeClass": "language-js is-loaded",
+       "domText": "const IN_CALLOUT = 2;\n",
+       "domTextLength": 22,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 399.98919677734375,
+        "y": 687.8016967773438,
+        "w": 568.4374389648438,
+        "h": 47.98490905761719,
+        "cx": 684.2079162597656,
+        "cy": 711.7941513061523
+       }
+      },
+      {
+       "preClass": "",
+       "codeClass": "",
+       "domText": "in a blockquote\n",
+       "domTextLength": 16,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 401.3684997558594,
+        "y": 779.7628784179688,
+        "w": 579.0516967773438,
+        "h": 47.98490905761719,
+        "cx": 690.8943481445312,
+        "cy": 803.7553329467773
+       }
+      }
+     ],
+     "copies": [
+      {
+       "index": 0,
+       "preClass": "language-js",
+       "domText": "const CASE_LANG = 1;\n",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 241.1529998779297,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 265.1454544067383
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 247.14437866210938,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 261.1314468383789
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-0",
+       "after": "const CASE_LANG = 1;",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      },
+      {
+       "index": 1,
+       "preClass": "",
+       "domText": "no info string\n",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 305.1293029785156,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 329.1217575073242
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 311.12066650390625,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 325.1077346801758
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-1",
+       "after": "no info string",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      },
+      {
+       "index": 2,
+       "preClass": "language-python",
+       "domText": "print(\"tilde fence\")\n",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 369.1055908203125,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 393.0980453491211
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 375.0969543457031,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 389.08402252197266
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-2",
+       "after": "print(\"tilde fence\")",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      },
+      {
+       "index": 3,
+       "preClass": "language-silica-made-up",
+       "domText": "unregistered info\n",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 415.1508483886719,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 439.14330291748047
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 421.1422119140625,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 435.12928009033203
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-3",
+       "after": "unregistered info",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      },
+      {
+       "index": 4,
+       "preClass": "",
+       "domText": "",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 419.8167724609375,
+        "w": 604.4288330078125,
+        "h": 37.99568557739258,
+        "cx": 678.2057800292969,
+        "cy": 438.8146152496338
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 425.80816650390625,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 439.7952346801758
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-4",
+       "after": "<redacted: the host clipboard, not written by Obsidian>",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      },
+      {
+       "index": 5,
+       "preClass": "",
+       "domText": "four space indented\nsecond line\n",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 402.7693786621094,
+        "w": 604.4288330078125,
+        "h": 71.98274993896484,
+        "cx": 678.2057800292969,
+        "cy": 438.7607536315918
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 408.7607421875,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 422.74781036376953
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-5",
+       "after": "four space indented\nsecond line",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      },
+      {
+       "index": 6,
+       "preClass": "language-js",
+       "domText": "const IN_CALLOUT = 2;\n",
+       "preRect": {
+        "x": 399.98919677734375,
+        "y": 414.6982421875,
+        "w": 568.4374389648438,
+        "h": 47.98490905761719,
+        "cx": 684.2079162597656,
+        "cy": 438.6906967163086
+       },
+       "btn": {
+        "rect": {
+         "x": 930.4525146484375,
+         "y": 420.68963623046875,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 946.4438924789429,
+         "cy": 434.6767044067383
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-6",
+       "after": "const IN_CALLOUT = 2;",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      },
+      {
+       "index": 7,
+       "preClass": "",
+       "domText": "in a blockquote\n",
+       "preRect": {
+        "x": 401.3684997558594,
+        "y": 414.935302734375,
+        "w": 579.0516967773438,
+        "h": 47.98490905761719,
+        "cx": 690.8943481445312,
+        "cy": 438.9277572631836
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 420.92669677734375,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 434.9137649536133
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "SENTINEL-7",
+       "after": "in a blockquote",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      }
+     ]
+    },
+    "s02-trailing-newlines-and-unicode": {
+     "ok": true,
+     "ms": 9671,
+     "trailing": {
+      "disk": "```\ntab\tindented  \n\n\n```\n",
+      "diskBytes": 25,
+      "pres": [
+       {
+        "preClass": "",
+        "codeClass": "",
+        "domText": "tab\tindented  \n\n\n",
+        "domTextLength": 17,
+        "hasButton": true,
+        "buttonRect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0,
+         "cx": 0,
+         "cy": 0
+        },
+        "buttonDisplay": "none",
+        "preDisplay": "block",
+        "preRect": {
+         "x": 375.9913635253906,
+         "y": 154.11636352539062,
+         "w": 604.4288330078125,
+         "h": 95.98059844970703,
+         "cx": 678.2057800292969,
+         "cy": 202.10666275024414
+        }
+       }
+      ],
+      "copies": [
+       {
+        "index": 0,
+        "preRect": {
+         "x": 375.9913635253906,
+         "y": 154.11636352539062,
+         "w": 604.4288330078125,
+         "h": 95.98059844970703,
+         "cx": 678.2057800292969,
+         "cy": 202.10666275024414
+        },
+        "btn": {
+         "rect": {
+          "x": 942.446044921875,
+          "y": 160.1077423095703,
+          "w": 31.982755661010742,
+          "h": 27.974136352539062,
+          "cx": 958.4374227523804,
+          "cy": 174.09481048583984
+         },
+         "display": "flex",
+         "svg": "svg-icon lucide-copy",
+         "style": {
+          "padding": "6px 8px",
+          "margin": "6px",
+          "borderRadius": "5px",
+          "color": "rgb(179, 179, 179)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "fontSize": "12px",
+          "position": "absolute",
+          "top": "0px",
+          "insetInlineEnd": "0px"
+         }
+        },
+        "before": "S-trailing-0",
+        "after": "tab\tindented  \n\n",
+        "changed": true,
+        "icon": {
+         "svg": "svg-icon lucide-check",
+         "cls": "copy-code-button",
+         "text": "",
+         "notice": false
+        }
+       }
+      ],
+      "copiedCodes": [
+       [
+        116,
+        97,
+        98,
+        9,
+        105,
+        110,
+        100,
+        101,
+        110,
+        116,
+        101,
+        100,
+        32,
+        32,
+        10,
+        10
+       ]
+      ]
+     },
+     "unicode": {
+      "disk": "```txt\ncaf\u00e9 \u2014 na\u00efve \u200b zero width \u2764\ufe0f\n&amp; &lt;b&gt; entity text\n```\n",
+      "diskBytes": 78,
+      "pres": [
+       {
+        "preClass": "language-txt",
+        "codeClass": "language-txt is-loaded",
+        "domText": "caf\u00e9 \u2014 na\u00efve \u200b zero width \u2764\ufe0f\n&amp; &lt;b&gt; entity text\n",
+        "domTextLength": 57,
+        "hasButton": true,
+        "buttonRect": {
+         "x": 942.446044921875,
+         "y": 160.1077423095703,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 174.09481048583984
+        },
+        "buttonDisplay": "flex",
+        "preDisplay": "block",
+        "preRect": {
+         "x": 375.9913635253906,
+         "y": 154.11636352539062,
+         "w": 604.4288330078125,
+         "h": 71.98274993896484,
+         "cx": 678.2057800292969,
+         "cy": 190.10773849487305
+        }
+       }
+      ],
+      "copies": [
+       {
+        "index": 0,
+        "preRect": {
+         "x": 375.9913635253906,
+         "y": 154.11636352539062,
+         "w": 604.4288330078125,
+         "h": 71.98274993896484,
+         "cx": 678.2057800292969,
+         "cy": 190.10773849487305
+        },
+        "btn": {
+         "rect": {
+          "x": 942.446044921875,
+          "y": 160.1077423095703,
+          "w": 31.982755661010742,
+          "h": 27.974136352539062,
+          "cx": 958.4374227523804,
+          "cy": 174.09481048583984
+         },
+         "display": "flex",
+         "svg": "svg-icon lucide-copy",
+         "style": {
+          "padding": "6px 8px",
+          "margin": "6px",
+          "borderRadius": "5px",
+          "color": "rgb(179, 179, 179)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "fontSize": "12px",
+          "position": "absolute",
+          "top": "0px",
+          "insetInlineEnd": "0px"
+         }
+        },
+        "before": "S-unicode-0",
+        "after": "caf\u00e9 \u2014 na\u00efve \u200b zero width \u2764\ufe0f\n&amp; &lt;b&gt; entity text",
+        "changed": true,
+        "icon": {
+         "svg": "svg-icon lucide-check",
+         "cls": "copy-code-button",
+         "text": "",
+         "notice": false
+        }
+       }
+      ],
+      "copiedCodes": [
+       [
+        99,
+        97,
+        102,
+        233,
+        32,
+        8212,
+        32,
+        110,
+        97,
+        239,
+        118,
+        101,
+        32,
+        8203,
+        32,
+        122,
+        101,
+        114,
+        111,
+        32,
+        119,
+        105,
+        100,
+        116,
+        104,
+        32,
+        10084,
+        65039,
+        10,
+        38,
+        97,
+        109,
+        112,
+        59,
+        32,
+        38,
+        108,
+        116,
+        59,
+        98,
+        38,
+        103,
+        116,
+        59,
+        32,
+        101,
+        110,
+        116,
+        105,
+        116,
+        121,
+        32,
+        116,
+        101,
+        120,
+        116
+       ]
+      ]
+     },
+     "crlf": {
+      "disk": "```txt\r\nCRLF line one\r\nCRLF line two\r\n```\r\n",
+      "diskBytes": 43,
+      "pres": [
+       {
+        "preClass": "language-txt",
+        "codeClass": "language-txt is-loaded",
+        "domText": "CRLF line one\nCRLF line two\n",
+        "domTextLength": 28,
+        "hasButton": true,
+        "buttonRect": {
+         "x": 942.446044921875,
+         "y": 160.1077423095703,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 174.09481048583984
+        },
+        "buttonDisplay": "flex",
+        "preDisplay": "block",
+        "preRect": {
+         "x": 375.9913635253906,
+         "y": 154.11636352539062,
+         "w": 604.4288330078125,
+         "h": 71.98274993896484,
+         "cx": 678.2057800292969,
+         "cy": 190.10773849487305
+        }
+       }
+      ],
+      "copies": [
+       {
+        "index": 0,
+        "preRect": {
+         "x": 375.9913635253906,
+         "y": 154.11636352539062,
+         "w": 604.4288330078125,
+         "h": 71.98274993896484,
+         "cx": 678.2057800292969,
+         "cy": 190.10773849487305
+        },
+        "btn": {
+         "rect": {
+          "x": 942.446044921875,
+          "y": 160.1077423095703,
+          "w": 31.982755661010742,
+          "h": 27.974136352539062,
+          "cx": 958.4374227523804,
+          "cy": 174.09481048583984
+         },
+         "display": "flex",
+         "svg": "svg-icon lucide-copy",
+         "style": {
+          "padding": "6px 8px",
+          "margin": "6px",
+          "borderRadius": "5px",
+          "color": "rgb(179, 179, 179)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "fontSize": "12px",
+          "position": "absolute",
+          "top": "0px",
+          "insetInlineEnd": "0px"
+         }
+        },
+        "before": "S-crlf-0",
+        "after": "CRLF line one\nCRLF line two",
+        "changed": true,
+        "icon": {
+         "svg": "svg-icon lucide-check",
+         "cls": "copy-code-button",
+         "text": "",
+         "notice": false
+        }
+       }
+      ],
+      "copiedCodes": [
+       [
+        67,
+        82,
+        76,
+        70,
+        32,
+        108,
+        105,
+        110,
+        101,
+        32,
+        111,
+        110,
+        101,
+        10,
+        67,
+        82,
+        76,
+        70,
+        32,
+        108,
+        105,
+        110,
+        101,
+        32,
+        116,
+        119,
+        111
+       ]
+      ]
+     }
+    },
+    "s03-icon-revert-delay": {
+     "ok": true,
+     "ms": 5977,
+     "samples": [
+      {
+       "t": 0,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 100,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 200,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 300,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 400,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 500,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 600,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 700,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 800,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 900,
+       "svg": "svg-icon lucide-check"
+      },
+      {
+       "t": 1000,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1100,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1200,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1300,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1400,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1500,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1600,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1700,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1800,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 1900,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2000,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2100,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2200,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2300,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2400,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2500,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2600,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2700,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2800,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 2900,
+       "svg": "svg-icon lucide-copy"
+      },
+      {
+       "t": 3000,
+       "svg": "svg-icon lucide-copy"
+      }
+     ],
+     "revertedAt": {
+      "firstCheckAt": 0,
+      "backToCopyAt": 1000
+     }
+    },
+    "s04-keyboard-reaches-the-button": {
+     "ok": true,
+     "ms": 4383,
+     "focusWalk": [
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon",
+       "display": "flex"
+      },
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon",
+       "display": "flex"
+      },
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon view-action",
+       "display": "flex"
+      },
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon view-action",
+       "display": "flex"
+      },
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon",
+       "display": "flex"
+      },
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon",
+       "display": "flex"
+      },
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon view-action",
+       "display": "flex"
+      },
+      {
+       "tag": "BUTTON",
+       "cls": "clickable-icon view-action",
+       "display": "flex"
+      }
+     ],
+     "reachedButtonAfterTabs": null
+    },
+    "s05-editor-flair": {
+     "ok": true,
+     "ms": 7124,
+     "flairs": [
+      {
+       "text": "JavaScript",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "JavaScript",
+       "lineClass": "cm-line cm-active HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 903.5128784179688,
+        "y": 160.01075744628906,
+        "w": 70.91594696044922,
+        "h": 26.002153396606445,
+        "cx": 938.9708518981934,
+        "cy": 173.01183414459229
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      },
+      {
+       "text": "Python",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "Python",
+       "lineClass": "cm-line HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 918.6529541015625,
+        "y": 246.9827423095703,
+        "w": 55.77585983276367,
+        "h": 26.002153396606445,
+        "cx": 946.5408840179443,
+        "cy": 259.98381900787354
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      },
+      {
+       "text": "Rust",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "Rust",
+       "lineClass": "cm-line HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 933.4805297851562,
+        "y": 333.9547119140625,
+        "w": 40.948272705078125,
+        "h": 26.002153396606445,
+        "cx": 953.9546661376953,
+        "cy": 346.9557886123657
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      },
+      {
+       "text": "TypeScript",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "TypeScript",
+       "lineClass": "cm-line HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 899.6550903320312,
+        "y": 420.92669677734375,
+        "w": 74.7737045288086,
+        "h": 26.002153396606445,
+        "cx": 937.0419425964355,
+        "cy": 433.927773475647
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      },
+      {
+       "text": "C",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "C",
+       "lineClass": "cm-line HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 950.8512573242188,
+        "y": 507.898681640625,
+        "w": 23.577585220336914,
+        "h": 26.002153396606445,
+        "cx": 962.6400499343872,
+        "cy": 520.8997583389282
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      },
+      {
+       "text": "YAML",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "YAML",
+       "lineClass": "cm-line HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 927.5322875976562,
+        "y": 594.8706665039062,
+        "w": 46.896549224853516,
+        "h": 26.002153396606445,
+        "cx": 950.980562210083,
+        "cy": 607.8717432022095
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      },
+      {
+       "text": "silica-made-up",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "silica-made-up",
+       "lineClass": "cm-line HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 870.3016357421875,
+        "y": 681.8426513671875,
+        "w": 104.12715148925781,
+        "h": 26.002153396606445,
+        "cx": 922.3652114868164,
+        "cy": 694.8437280654907
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      },
+      {
+       "text": "",
+       "ariaLabel": "Copy",
+       "contentEditable": "false",
+       "lineText": "",
+       "lineClass": "cm-line HyperMD-codeblock HyperMD-codeblock-begin HyperMD-codeblock-begin-bg HyperMD-codeblock-bg",
+       "rect": {
+        "x": 942.446044921875,
+        "y": 768.8145751953125,
+        "w": 31.982755661010742,
+        "h": 28.89008331298828,
+        "cx": 958.4374227523804,
+        "cy": 783.2596168518066
+       },
+       "tag": "SPAN",
+       "cls": "code-block-flair"
+      }
+     ],
+     "clicked": {
+      "flair": {
+       "rect": {
+        "x": 903.5128784179688,
+        "y": 160.01075744628906,
+        "w": 70.91594696044922,
+        "h": 26.002153396606445,
+        "cx": 938.9708518981934,
+        "cy": 173.01183414459229
+       },
+       "text": "JavaScript"
+      },
+      "hovered": {
+       "backgroundColor": "oklch(0.999994 0.0000497986 none / 0.067)",
+       "cursor": "default",
+       "color": "rgb(179, 179, 179)",
+       "text": "JavaScript"
+      },
+      "clipboard": "js fence",
+      "copied": true,
+      "editorValue": "```js\njs fence\n```\n\n```python\npy fence\n```\n\n```rust\nrs fence\n```\n\n```ts\nts fence",
+      "notice": "Copied to your clipboard",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      }
+     },
+     "counts": {
+      "live": {
+       "mode": {
+        "mode": "source",
+        "source": false
+       },
+       "editorPres": 0,
+       "editorButtons": 0,
+       "flairs": 7,
+       "readingPres": 8
+      },
+      "source": {
+       "mode": {
+        "mode": "source",
+        "source": true
+       },
+       "editorPres": 0,
+       "editorButtons": 0,
+       "flairs": 0,
+       "readingPres": 8
+      }
+     }
+    },
+    "s06-embedded-code-block": {
+     "ok": true,
+     "ms": 3275,
+     "dom": {
+      "embeds": [],
+      "pres": [
+       {
+        "preClass": "language-js",
+        "codeClass": "language-js is-loaded",
+        "domText": "const EMBEDDED = 3;\n",
+        "domTextLength": 20,
+        "hasButton": true,
+        "buttonRect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0,
+         "cx": 0,
+         "cy": 0
+        },
+        "buttonDisplay": "none",
+        "preDisplay": "block",
+        "preRect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0,
+         "cx": 0,
+         "cy": 0
+        }
+       }
+      ]
+     },
+     "copies": [
+      {
+       "index": 0,
+       "preRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "btn": {
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0,
+         "cx": 0,
+         "cy": 0
+        },
+        "display": "none",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "skipped": "button still not painted"
+      }
+     ]
+    },
+    "s07-frontmatter-pre-reachable": {
+     "ok": true,
+     "ms": 4933,
+     "pres": [
+      {
+       "preClass": "frontmatter language-yaml",
+       "codeClass": "language-yaml is-loaded",
+       "domText": "title: Code Copy Probe\ntags:\n  - probe",
+       "domTextLength": 38,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "none",
+       "preRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       }
+      },
+      {
+       "preClass": "language-js",
+       "codeClass": "language-js is-loaded",
+       "domText": "const AFTER_FM = 1;\n",
+       "domTextLength": 20,
+       "hasButton": true,
+       "buttonRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "buttonDisplay": "none",
+       "preDisplay": "block",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 334.24566650390625,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 358.23812103271484
+       }
+      }
+     ],
+     "frontmatterPre": {
+      "preClass": "frontmatter language-yaml",
+      "codeClass": "language-yaml is-loaded",
+      "domText": "title: Code Copy Probe\ntags:\n  - probe",
+      "domTextLength": 38,
+      "hasButton": true,
+      "buttonRect": {
+       "x": 0,
+       "y": 0,
+       "w": 0,
+       "h": 0,
+       "cx": 0,
+       "cy": 0
+      },
+      "buttonDisplay": "none",
+      "preDisplay": "none",
+      "preRect": {
+       "x": 0,
+       "y": 0,
+       "w": 0,
+       "h": 0,
+       "cx": 0,
+       "cy": 0
+      }
+     },
+     "copies": [
+      {
+       "index": 0,
+       "preClass": "frontmatter language-yaml",
+       "preRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "cx": 0,
+        "cy": 0
+       },
+       "btn": {
+        "rect": {
+         "x": 0,
+         "y": 0,
+         "w": 0,
+         "h": 0,
+         "cx": 0,
+         "cy": 0
+        },
+        "display": "none",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "skipped": "button still not painted"
+      },
+      {
+       "index": 1,
+       "preClass": "language-js",
+       "preRect": {
+        "x": 375.9913635253906,
+        "y": 334.24566650390625,
+        "w": 604.4288330078125,
+        "h": 47.98490905761719,
+        "cx": 678.2057800292969,
+        "cy": 358.23812103271484
+       },
+       "btn": {
+        "rect": {
+         "x": 942.446044921875,
+         "y": 340.237060546875,
+         "w": 31.982755661010742,
+         "h": 27.974136352539062,
+         "cx": 958.4374227523804,
+         "cy": 354.22412872314453
+        },
+        "display": "flex",
+        "svg": "svg-icon lucide-copy",
+        "style": {
+         "padding": "6px 8px",
+         "margin": "6px",
+         "borderRadius": "5px",
+         "color": "rgb(179, 179, 179)",
+         "backgroundColor": "rgba(0, 0, 0, 0)",
+         "fontSize": "12px",
+         "position": "absolute",
+         "top": "0px",
+         "insetInlineEnd": "0px"
+        }
+       },
+       "before": "FM-1",
+       "after": "const AFTER_FM = 1;",
+       "changed": true,
+       "icon": {
+        "svg": "svg-icon lucide-check",
+        "cls": "copy-code-button",
+        "text": "",
+        "notice": false
+       }
+      }
+     ]
+    }
+   },
+   "order": [
+    "s01-reading-view-every-shape",
+    "s02-trailing-newlines-and-unicode",
+    "s03-icon-revert-delay",
+    "s04-keyboard-reaches-the-button",
+    "s05-editor-flair",
+    "s06-embedded-code-block",
+    "s07-frontmatter-pre-reachable"
+   ],
+   "elapsedMs": 46138,
+   "vaultPath": "/tmp/silica-probe-vault.SRpk7b",
+   "title": "New tab - silica-probe-vault.SRpk7b - Obsidian 1.14.5",
+   "finishedAt": "2026-10-25T15:19:01.799Z",
+   "note": "The empty-fence button wrote nothing, so its clipboard read-back returned the host session clipboard rather than Obsidian output; that one value is redacted. Every other read-back is Obsidian writing over a sentinel this probe had put there."
+  }
+ }
+}

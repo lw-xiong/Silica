@@ -1,0 +1,9113 @@
+{
+ "editingCommands": {
+  "fixtures": {
+   "startedAt": "2026-10-25T14:37:29.213Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 3
+  },
+  "run": {
+   "startedAt": "2026-10-25T14:37:30.415Z",
+   "steps": {
+    "s00-context": {
+     "ok": true,
+     "ms": 1918,
+     "opened": {
+      "mode": {
+       "mode": "source",
+       "source": false
+      },
+      "leaves": 1,
+      "file": "Probe.md"
+     },
+     "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.13.7 Chrome/150.0.7871.47 Electron/43.1.0 Safari/537.36",
+     "versions": {
+      "apiVersion": "undefined",
+      "appVersion": "undefined",
+      "keys": []
+     },
+     "mode": {
+      "mode": "source",
+      "source": false
+     },
+     "config": {
+      "autoPairBrackets": true,
+      "autoPairMarkdown": true,
+      "tabSize": 4,
+      "useTab": true,
+      "livePreview": true,
+      "defaultViewMode": "source",
+      "smartIndentList": true,
+      "foldHeading": true,
+      "foldIndent": true,
+      "showLineNumber": false,
+      "strictLineBreaks": false,
+      "readableLineLength": true,
+      "vimMode": false,
+      "spellcheck": true
+     },
+     "commands": {
+      "editor:set-heading": {
+       "present": true,
+       "name": "Toggle heading",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:set-heading-0": {
+       "present": true,
+       "name": "Remove heading",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:cycle-list-checklist": {
+       "present": true,
+       "name": "Cycle bullet/checkbox",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-checklist-status": {
+       "present": true,
+       "name": "Toggle checkbox status",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": [
+        "Mod+l"
+       ],
+       "customHotkeys": null
+      },
+      "editor:insert-callout": {
+       "present": true,
+       "name": "Insert callout",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-codeblock": {
+       "present": true,
+       "name": "Insert code block",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-horizontal-rule": {
+       "present": true,
+       "name": "Insert horizontal rule",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-footnote": {
+       "present": true,
+       "name": "Insert footnote",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-mathblock": {
+       "present": true,
+       "name": "Insert math block",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-tag": {
+       "present": true,
+       "name": "Add tag",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-table": {
+       "present": true,
+       "name": "Insert table",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-embed": {
+       "present": true,
+       "name": "Add embed",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:insert-link": {
+       "present": true,
+       "name": "Insert Markdown link",
+       "kind": "editorCallback",
+       "defaultHotkeys": [
+        "Mod+K"
+       ],
+       "customHotkeys": null
+      },
+      "editor:insert-wikilink": {
+       "present": true,
+       "name": "Add internal link",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:clear-formatting": {
+       "present": true,
+       "name": "Clear formatting",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-highlight": {
+       "present": true,
+       "name": "Toggle highlight",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-highlight-red": {
+       "present": true,
+       "name": "Toggle red highlight",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-highlight-orange": {
+       "present": true,
+       "name": "Toggle orange highlight",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-highlight-yellow": {
+       "present": true,
+       "name": "Toggle yellow highlight",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-highlight-green": {
+       "present": true,
+       "name": "Toggle green highlight",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-highlight-blue": {
+       "present": true,
+       "name": "Toggle blue highlight",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-highlight-purple": {
+       "present": true,
+       "name": "Toggle purple highlight",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:swap-line-up": {
+       "present": true,
+       "name": "Move line up",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:swap-line-down": {
+       "present": true,
+       "name": "Move line down",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:indent-list": {
+       "present": true,
+       "name": "Indent list item",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:unindent-list": {
+       "present": true,
+       "name": "Unindent list item",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-code": {
+       "present": true,
+       "name": "Toggle code",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-inline-math": {
+       "present": true,
+       "name": "Toggle inline math",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-comments": {
+       "present": true,
+       "name": "Toggle comment",
+       "kind": "editorCallback",
+       "defaultHotkeys": [
+        "Mod+/"
+       ],
+       "customHotkeys": null
+      },
+      "editor:toggle-bold": {
+       "present": true,
+       "name": "Toggle bold",
+       "kind": "editorCallback",
+       "defaultHotkeys": [
+        "Mod+B"
+       ],
+       "customHotkeys": null
+      },
+      "editor:toggle-italics": {
+       "present": true,
+       "name": "Toggle italic",
+       "kind": "editorCallback",
+       "defaultHotkeys": [
+        "Mod+I"
+       ],
+       "customHotkeys": null
+      },
+      "editor:toggle-strikethrough": {
+       "present": true,
+       "name": "Toggle strikethrough",
+       "kind": "editorCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-bullet-list": {
+       "present": true,
+       "name": "Toggle bullet list",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-numbered-list": {
+       "present": true,
+       "name": "Toggle numbered list",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      },
+      "editor:toggle-blockquote": {
+       "present": true,
+       "name": "Toggle blockquote",
+       "kind": "editorCheckCallback",
+       "defaultHotkeys": null,
+       "customHotkeys": null
+      }
+     },
+     "diskControl": {
+      "editor": "controlXX line\n\nsecond\n",
+      "disk": "controlXX line\n\nsecond\n",
+      "diskBytes": [
+       99,
+       111,
+       110,
+       116,
+       114,
+       111,
+       108,
+       88,
+       88,
+       32,
+       108,
+       105,
+       110,
+       101,
+       10,
+       10,
+       115,
+       101,
+       99,
+       111,
+       110,
+       100,
+       10
+      ]
+     }
+    },
+    "s01-set-heading-bare": {
+     "ok": true,
+     "ms": 10105,
+     "once": [
+      {
+       "in": "plain text",
+       "caret": {
+        "line": 0,
+        "ch": 3
+       },
+       "out": "plain text",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "plain text",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 3
+       }
+      },
+      {
+       "in": "# one",
+       "caret": {
+        "line": 0,
+        "ch": 3
+       },
+       "out": "# one",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "# one",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 3
+       }
+      },
+      {
+       "in": "## two",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "out": "## two",
+       "cursor": {
+        "line": 0,
+        "ch": 4
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "## two",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 4
+       }
+      },
+      {
+       "in": "### three",
+       "caret": {
+        "line": 0,
+        "ch": 5
+       },
+       "out": "### three",
+       "cursor": {
+        "line": 0,
+        "ch": 5
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "### three",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 5
+       }
+      },
+      {
+       "in": "###### six",
+       "caret": {
+        "line": 0,
+        "ch": 8
+       },
+       "out": "###### six",
+       "cursor": {
+        "line": 0,
+        "ch": 8
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "###### six",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 8
+       }
+      },
+      {
+       "in": "> quoted text",
+       "caret": {
+        "line": 0,
+        "ch": 5
+       },
+       "out": "> quoted text",
+       "cursor": {
+        "line": 0,
+        "ch": 5
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "> quoted text",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 5
+       }
+      },
+      {
+       "in": "> # quoted h1",
+       "caret": {
+        "line": 0,
+        "ch": 7
+       },
+       "out": "> # quoted h1",
+       "cursor": {
+        "line": 0,
+        "ch": 7
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "> # quoted h1",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 7
+       }
+      },
+      {
+       "in": "- bullet text",
+       "caret": {
+        "line": 0,
+        "ch": 5
+       },
+       "out": "- bullet text",
+       "cursor": {
+        "line": 0,
+        "ch": 5
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "- bullet text",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 5
+       }
+      },
+      {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "out": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 0
+       }
+      }
+     ],
+     "withSelection": {
+      "in": "plain text",
+      "caret": [
+       {
+        "line": 0,
+        "ch": 0
+       },
+       {
+        "line": 0,
+        "ch": 5
+       }
+      ],
+      "out": "plain text",
+      "cursor": {
+       "line": 0,
+       "ch": 5
+      },
+      "sel": "plain",
+      "ran": true,
+      "seedOk": true,
+      "directPath": "editorCallback",
+      "directValue": "plain text",
+      "directChanged": false,
+      "directCursor": {
+       "line": 0,
+       "ch": 5
+      }
+     },
+     "multiLine": {
+      "in": "one\ntwo",
+      "caret": [
+       {
+        "line": 0,
+        "ch": 0
+       },
+       {
+        "line": 1,
+        "ch": 3
+       }
+      ],
+      "out": "one\ntwo",
+      "cursor": {
+       "line": 1,
+       "ch": 3
+      },
+      "sel": "one\ntwo",
+      "ran": true,
+      "seedOk": true,
+      "directPath": "editorCallback",
+      "directValue": "one\ntwo",
+      "directChanged": false,
+      "directCursor": {
+       "line": 1,
+       "ch": 3
+      }
+     },
+     "sourceMode": {
+      "in": "plain text",
+      "caret": {
+       "line": 0,
+       "ch": 3
+      },
+      "out": "plain text",
+      "cursor": {
+       "line": 0,
+       "ch": 3
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true,
+      "directPath": "editorCallback",
+      "directValue": "plain text",
+      "directChanged": false,
+      "directCursor": {
+       "line": 0,
+       "ch": 3
+      }
+     },
+     "afterSetHeading2": {
+      "before": {
+       "value": "plain text",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "from": {
+        "line": 0,
+        "ch": 3
+       },
+       "to": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "## plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "cmd": "editor:set-heading-2",
+        "ran": true
+       },
+       {
+        "value": "## plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "## plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "## plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       }
+      ]
+     },
+     "cycleFromPlain": {
+      "before": {
+       "value": "plain text",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "from": {
+        "line": 0,
+        "ch": 3
+       },
+       "to": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       }
+      ]
+     },
+     "cycleFromH1": {
+      "before": {
+       "value": "# one",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "from": {
+        "line": 0,
+        "ch": 3
+       },
+       "to": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       },
+       {
+        "value": "# one",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "cmd": "editor:set-heading",
+        "ran": true
+       }
+      ]
+     },
+     "setHeading0": {
+      "in": "# one",
+      "caret": {
+       "line": 0,
+       "ch": 3
+      },
+      "out": "one",
+      "cursor": {
+       "line": 0,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "setHeading3": {
+      "in": "plain text",
+      "caret": {
+       "line": 0,
+       "ch": 3
+      },
+      "out": "### plain text",
+      "cursor": {
+       "line": 0,
+       "ch": 7
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "boundHotkey": [
+      {
+       "modifiers": [
+        "Alt"
+       ],
+       "key": "H"
+      }
+     ],
+     "afterAltH": {
+      "value": "plain text",
+      "cursor": {
+       "line": 0,
+       "ch": 3
+      },
+      "from": {
+       "line": 0,
+       "ch": 3
+      },
+      "to": {
+       "line": 0,
+       "ch": 3
+      },
+      "sel": ""
+     }
+    },
+    "s02-cycle-list-checklist": {
+     "ok": true,
+     "ms": 14209,
+     "cycles": {
+      "plain text": {
+       "before": {
+        "value": "plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 3
+        },
+        "to": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- plain text",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 5
+         },
+         "to": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] plain text",
+         "cursor": {
+          "line": 0,
+          "ch": 9
+         },
+         "from": {
+          "line": 0,
+          "ch": 9
+         },
+         "to": {
+          "line": 0,
+          "ch": 9
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] plain text",
+         "cursor": {
+          "line": 0,
+          "ch": 9
+         },
+         "from": {
+          "line": 0,
+          "ch": 9
+         },
+         "to": {
+          "line": 0,
+          "ch": 9
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- plain text",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 5
+         },
+         "to": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] plain text",
+         "cursor": {
+          "line": 0,
+          "ch": 9
+         },
+         "from": {
+          "line": 0,
+          "ch": 9
+         },
+         "to": {
+          "line": 0,
+          "ch": 9
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] plain text",
+         "cursor": {
+          "line": 0,
+          "ch": 9
+         },
+         "from": {
+          "line": 0,
+          "ch": 9
+         },
+         "to": {
+          "line": 0,
+          "ch": 9
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- plain text",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 5
+         },
+         "to": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "- bullet": {
+       "before": {
+        "value": "- bullet",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "from": {
+         "line": 0,
+         "ch": 4
+        },
+        "to": {
+         "line": 0,
+         "ch": 4
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] bullet",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] bullet",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- bullet",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] bullet",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] bullet",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- bullet",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] bullet",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "* star": {
+       "before": {
+        "value": "* star",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "from": {
+         "line": 0,
+         "ch": 4
+        },
+        "to": {
+         "line": 0,
+         "ch": 4
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "* [ ] star",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "* [x] star",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "* star",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "* [ ] star",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "* [x] star",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "* star",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "* [ ] star",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "- [ ] open": {
+       "before": {
+        "value": "- [ ] open",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "from": {
+         "line": 0,
+         "ch": 8
+        },
+        "to": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [x] open",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- open",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] open",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] open",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- open",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] open",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] open",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "- [x] done": {
+       "before": {
+        "value": "- [x] done",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "from": {
+         "line": 0,
+         "ch": 8
+        },
+        "to": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- done",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] done",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] done",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- done",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] done",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] done",
+         "cursor": {
+          "line": 0,
+          "ch": 8
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 8
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- done",
+         "cursor": {
+          "line": 0,
+          "ch": 4
+         },
+         "from": {
+          "line": 0,
+          "ch": 4
+         },
+         "to": {
+          "line": 0,
+          "ch": 4
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "- [?] q": {
+       "before": {
+        "value": "- [?] q",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 7
+        },
+        "to": {
+         "line": 0,
+         "ch": 7
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- q",
+         "cursor": {
+          "line": 0,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 3
+         },
+         "to": {
+          "line": 0,
+          "ch": 3
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] q",
+         "cursor": {
+          "line": 0,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 7
+         },
+         "to": {
+          "line": 0,
+          "ch": 7
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] q",
+         "cursor": {
+          "line": 0,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 7
+         },
+         "to": {
+          "line": 0,
+          "ch": 7
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- q",
+         "cursor": {
+          "line": 0,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 3
+         },
+         "to": {
+          "line": 0,
+          "ch": 3
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] q",
+         "cursor": {
+          "line": 0,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 7
+         },
+         "to": {
+          "line": 0,
+          "ch": 7
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] q",
+         "cursor": {
+          "line": 0,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 7
+         },
+         "to": {
+          "line": 0,
+          "ch": 7
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- q",
+         "cursor": {
+          "line": 0,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 3
+         },
+         "to": {
+          "line": 0,
+          "ch": 3
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "1. ordered": {
+       "before": {
+        "value": "1. ordered",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "1. [ ] ordered",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 10
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "1. [x] ordered",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 10
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "1. ordered",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "1. [ ] ordered",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 10
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "1. [x] ordered",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 10
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "1. ordered",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "1. [ ] ordered",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 10
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "> quoted": {
+       "before": {
+        "value": "> quoted",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "from": {
+         "line": 0,
+         "ch": 5
+        },
+        "to": {
+         "line": 0,
+         "ch": 5
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "> - quoted",
+         "cursor": {
+          "line": 0,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 7
+         },
+         "to": {
+          "line": 0,
+          "ch": 7
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "> - [ ] quoted",
+         "cursor": {
+          "line": 0,
+          "ch": 11
+         },
+         "from": {
+          "line": 0,
+          "ch": 11
+         },
+         "to": {
+          "line": 0,
+          "ch": 11
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "> - [x] quoted",
+         "cursor": {
+          "line": 0,
+          "ch": 11
+         },
+         "from": {
+          "line": 0,
+          "ch": 11
+         },
+         "to": {
+          "line": 0,
+          "ch": 11
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "> - quoted",
+         "cursor": {
+          "line": 0,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 7
+         },
+         "to": {
+          "line": 0,
+          "ch": 7
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "> - [ ] quoted",
+         "cursor": {
+          "line": 0,
+          "ch": 11
+         },
+         "from": {
+          "line": 0,
+          "ch": 11
+         },
+         "to": {
+          "line": 0,
+          "ch": 11
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "> - [x] quoted",
+         "cursor": {
+          "line": 0,
+          "ch": 11
+         },
+         "from": {
+          "line": 0,
+          "ch": 11
+         },
+         "to": {
+          "line": 0,
+          "ch": 11
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "> - quoted",
+         "cursor": {
+          "line": 0,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 7
+         },
+         "to": {
+          "line": 0,
+          "ch": 7
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "(empty)": {
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 0,
+         "ch": 0
+        },
+        "sel": "",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- ",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] ",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] ",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- ",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] ",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] ",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- ",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      }
+     },
+     "inOrderedList": {
+      "before": {
+       "value": "1. one\n2. two\n3. three",
+       "cursor": {
+        "line": 1,
+        "ch": 5
+       },
+       "from": {
+        "line": 1,
+        "ch": 5
+       },
+       "to": {
+        "line": 1,
+        "ch": 5
+       },
+       "sel": "",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "1. one\n2. [ ] two\n3. three",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "1. one\n2. [x] two\n3. three",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "1. one\n2. two\n3. three",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "from": {
+         "line": 1,
+         "ch": 5
+        },
+        "to": {
+         "line": 1,
+         "ch": 5
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "1. one\n2. [ ] two\n3. three",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "1. one\n2. [x] two\n3. three",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "1. one\n2. two\n3. three",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "from": {
+         "line": 1,
+         "ch": 5
+        },
+        "to": {
+         "line": 1,
+         "ch": 5
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "1. one\n2. [ ] two\n3. three",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       }
+      ]
+     },
+     "nested": {
+      "before": {
+       "value": "- one\n\t- two",
+       "cursor": {
+        "line": 1,
+        "ch": 5
+       },
+       "from": {
+        "line": 1,
+        "ch": 5
+       },
+       "to": {
+        "line": 1,
+        "ch": 5
+       },
+       "sel": "",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "- one\n\t- [ ] two",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- one\n\t- [x] two",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- one\n\t- two",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "from": {
+         "line": 1,
+         "ch": 5
+        },
+        "to": {
+         "line": 1,
+         "ch": 5
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- one\n\t- [ ] two",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- one\n\t- [x] two",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "from": {
+         "line": 1,
+         "ch": 9
+        },
+        "to": {
+         "line": 1,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       }
+      ]
+     },
+     "multiLineSel": {
+      "before": {
+       "value": "one\n- two\n- [ ] three",
+       "cursor": {
+        "line": 2,
+        "ch": 11
+       },
+       "from": {
+        "line": 0,
+        "ch": 0
+       },
+       "to": {
+        "line": 2,
+        "ch": 11
+       },
+       "sel": "one\n- two\n- [ ] three",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "- one\n- two\n- three",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 2
+        },
+        "to": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one\n- two\n- three",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- [ ] one\n- [ ] two\n- [ ] three",
+        "cursor": {
+         "line": 2,
+         "ch": 11
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 2,
+         "ch": 11
+        },
+        "sel": "one\n- [ ] two\n- [ ] three",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- [x] one\n- [x] two\n- [x] three",
+        "cursor": {
+         "line": 2,
+         "ch": 11
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 2,
+         "ch": 11
+        },
+        "sel": "one\n- [x] two\n- [x] three",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- one\n- two\n- three",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 2
+        },
+        "to": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one\n- two\n- three",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- [ ] one\n- [ ] two\n- [ ] three",
+        "cursor": {
+         "line": 2,
+         "ch": 11
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 2,
+         "ch": 11
+        },
+        "sel": "one\n- [ ] two\n- [ ] three",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       }
+      ]
+     },
+     "blankInSel": {
+      "before": {
+       "value": "- one\n\n- [x] two",
+       "cursor": {
+        "line": 2,
+        "ch": 9
+       },
+       "from": {
+        "line": 0,
+        "ch": 0
+       },
+       "to": {
+        "line": 2,
+        "ch": 9
+       },
+       "sel": "- one\n\n- [x] two",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "- [ ] one\n\n- two",
+        "cursor": {
+         "line": 2,
+         "ch": 5
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 2,
+         "ch": 5
+        },
+        "sel": "- [ ] one\n\n- two",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- one\n\n- [ ] two",
+        "cursor": {
+         "line": 2,
+         "ch": 9
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 2,
+         "ch": 9
+        },
+        "sel": "- one\n\n- [ ] two",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- [ ] one\n\n- two",
+        "cursor": {
+         "line": 2,
+         "ch": 5
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 2,
+         "ch": 5
+        },
+        "sel": "- [ ] one\n\n- two",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       },
+       {
+        "value": "- one\n\n- [ ] two",
+        "cursor": {
+         "line": 2,
+         "ch": 9
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 2,
+         "ch": 9
+        },
+        "sel": "- one\n\n- [ ] two",
+        "cmd": "editor:cycle-list-checklist",
+        "ran": true
+       }
+      ]
+     }
+    },
+    "s03-toggle-checklist-status": {
+     "ok": true,
+     "ms": 10014,
+     "single": [
+      {
+       "in": "plain text",
+       "caret": {
+        "line": 0,
+        "ch": 3
+       },
+       "out": "- [ ] plain text",
+       "cursor": {
+        "line": 0,
+        "ch": 9
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "- bullet",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "out": "- [ ] bullet",
+       "cursor": {
+        "line": 0,
+        "ch": 8
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "1. ordered",
+       "caret": {
+        "line": 0,
+        "ch": 6
+       },
+       "out": "1. [ ] ordered",
+       "cursor": {
+        "line": 0,
+        "ch": 10
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "- [ ] open",
+       "caret": {
+        "line": 0,
+        "ch": 8
+       },
+       "out": "- [x] open",
+       "cursor": {
+        "line": 0,
+        "ch": 8
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "- [x] done",
+       "caret": {
+        "line": 0,
+        "ch": 8
+       },
+       "out": "- [ ] done",
+       "cursor": {
+        "line": 0,
+        "ch": 8
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "- [?] q",
+       "caret": {
+        "line": 0,
+        "ch": 7
+       },
+       "out": "- [ ] q",
+       "cursor": {
+        "line": 0,
+        "ch": 7
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "- [-] dash",
+       "caret": {
+        "line": 0,
+        "ch": 8
+       },
+       "out": "- [ ] dash",
+       "cursor": {
+        "line": 0,
+        "ch": 8
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "> quoted",
+       "caret": {
+        "line": 0,
+        "ch": 5
+       },
+       "out": "> - [ ] quoted",
+       "cursor": {
+        "line": 0,
+        "ch": 11
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "# heading",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "out": "- [ ] # heading",
+       "cursor": {
+        "line": 0,
+        "ch": 10
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "out": "- [ ] ",
+       "cursor": {
+        "line": 0,
+        "ch": 6
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      {
+       "in": "    indented",
+       "caret": {
+        "line": 0,
+        "ch": 8
+       },
+       "out": "    - [ ] indented",
+       "cursor": {
+        "line": 0,
+        "ch": 14
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      }
+     ],
+     "twice": {
+      "before": {
+       "value": "plain text",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "from": {
+        "line": 0,
+        "ch": 3
+       },
+       "to": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "",
+       "seedOk": true
+      },
+      "steps": [
+       {
+        "value": "- [ ] plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "from": {
+         "line": 0,
+         "ch": 9
+        },
+        "to": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:toggle-checklist-status",
+        "ran": true
+       },
+       {
+        "value": "- [x] plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "from": {
+         "line": 0,
+         "ch": 9
+        },
+        "to": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:toggle-checklist-status",
+        "ran": true
+       },
+       {
+        "value": "- [ ] plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "from": {
+         "line": 0,
+         "ch": 9
+        },
+        "to": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:toggle-checklist-status",
+        "ran": true
+       },
+       {
+        "value": "- [x] plain text",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "from": {
+         "line": 0,
+         "ch": 9
+        },
+        "to": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "",
+        "cmd": "editor:toggle-checklist-status",
+        "ran": true
+       }
+      ]
+     },
+     "selections": {
+      "all-unchecked": {
+       "before": {
+        "value": "- [ ] a\n- [ ] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "- [ ] a\n- [ ] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "all-checked": {
+       "before": {
+        "value": "- [x] a\n- [x] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "- [x] a\n- [x] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "mixed-statuses": {
+       "before": {
+        "value": "- [ ] a\n- [x] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "- [ ] a\n- [x] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "no-checkboxes": {
+       "before": {
+        "value": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 3
+        },
+        "sel": "- a\n- b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "one-has-one-not": {
+       "before": {
+        "value": "- [ ] a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 3
+        },
+        "sel": "- [ ] a\n- b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- [ ] a\n- b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "one-not-one-has": {
+       "before": {
+        "value": "- a\n- [x] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "- a\n- [x] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- [ ] a\n- b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- [ ] a\n- b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "plain-lines": {
+       "before": {
+        "value": "a\nb",
+        "cursor": {
+         "line": 1,
+         "ch": 1
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 1
+        },
+        "sel": "a\nb",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "with-blank-line": {
+       "before": {
+        "value": "- [ ] a\n\n- [x] b",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "- [ ] a\n\n- [x] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [x] a\n\n- [x] b",
+         "cursor": {
+          "line": 2,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 7
+         },
+         "sel": "- [x] a\n\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n\n- [ ] b",
+         "cursor": {
+          "line": 2,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n\n- [ ] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n\n- [x] b",
+         "cursor": {
+          "line": 2,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 7
+         },
+         "sel": "- [x] a\n\n- [x] b",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      },
+      "mixed-four": {
+       "before": {
+        "value": "- [ ] a\n- [x] b\n- c\nplain d",
+        "cursor": {
+         "line": 3,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 3,
+         "ch": 7
+        },
+        "sel": "- [ ] a\n- [x] b\n- c\nplain d",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- a\n- b\n- [ ] c\n- [ ] plain d",
+         "cursor": {
+          "line": 3,
+          "ch": 13
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 3,
+          "ch": 13
+         },
+         "sel": "- a\n- b\n- [ ] c\n- [ ] plain d",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b\n- c\n- plain d",
+         "cursor": {
+          "line": 3,
+          "ch": 9
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 3,
+          "ch": 9
+         },
+         "sel": "- [ ] a\n- [ ] b\n- c\n- plain d",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b\n- [ ] c\n- [ ] plain d",
+         "cursor": {
+          "line": 3,
+          "ch": 13
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 3,
+          "ch": 13
+         },
+         "sel": "- a\n- b\n- [ ] c\n- [ ] plain d",
+         "cmd": "editor:toggle-checklist-status",
+         "ran": true
+        }
+       ]
+      }
+     },
+     "realModL": {
+      "value": "- [ ] plain text",
+      "cursor": {
+       "line": 0,
+       "ch": 9
+      },
+      "from": {
+       "line": 0,
+       "ch": 9
+      },
+      "to": {
+       "line": 0,
+       "ch": 9
+      },
+      "sel": ""
+     }
+    },
+    "s04-insert-blocks": {
+     "ok": true,
+     "ms": 23266,
+     "cases": {
+      "editor:insert-callout": {
+       "blank-line-middle": {
+        "in": "before\n\nafter",
+        "caret": {
+         "line": 1,
+         "ch": 0
+        },
+        "out": "before\n\n> [!NOTE] Title\n> Contents\n\nafter",
+        "cursor": {
+         "line": 2,
+         "ch": 8
+        },
+        "sel": "NOTE",
+        "ran": true,
+        "seedOk": true
+       },
+       "empty-document": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "out": "\n> [!NOTE] Title\n> Contents\n",
+        "cursor": {
+         "line": 1,
+         "ch": 8
+        },
+        "sel": "NOTE",
+        "ran": true,
+        "seedOk": true
+       },
+       "mid-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 5
+        },
+        "out": "> [!NOTE]\n> hello world",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "NOTE",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 11
+        },
+        "out": "> [!NOTE]\n> hello world",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "NOTE",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-file-no-newline": {
+        "in": "first\nlast line",
+        "caret": {
+         "line": 1,
+         "ch": 9
+        },
+        "out": "first\n\n> [!NOTE]\n> last line",
+        "cursor": {
+         "line": 2,
+         "ch": 8
+        },
+        "sel": "NOTE",
+        "ran": true,
+        "seedOk": true
+       },
+       "selection": {
+        "in": "alpha beta",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 0,
+          "ch": 5
+         }
+        ],
+        "out": "> [!NOTE]\n> alpha beta",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "NOTE",
+        "ran": true,
+        "seedOk": true
+       },
+       "in-list": {
+        "in": "- item one",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "out": "> [!NOTE]\n> - item one",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "NOTE",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:insert-codeblock": {
+       "blank-line-middle": {
+        "in": "before\n\nafter",
+        "caret": {
+         "line": 1,
+         "ch": 0
+        },
+        "out": "before\n```\n\n```\nafter",
+        "cursor": {
+         "line": 2,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "empty-document": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "out": "```\n\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "mid-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 5
+        },
+        "out": "```\nhello world\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 11
+        },
+        "out": "```\nhello world\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 11
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-file-no-newline": {
+        "in": "first\nlast line",
+        "caret": {
+         "line": 1,
+         "ch": 9
+        },
+        "out": "first\n```\nlast line\n```",
+        "cursor": {
+         "line": 2,
+         "ch": 9
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "selection": {
+        "in": "alpha beta",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 0,
+          "ch": 5
+         }
+        ],
+        "out": "```\nalpha beta\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "sel": "alpha",
+        "ran": true,
+        "seedOk": true
+       },
+       "in-list": {
+        "in": "- item one",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "out": "```\n- item one\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 10
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:insert-horizontal-rule": {
+       "blank-line-middle": {
+        "in": "before\n\nafter",
+        "caret": {
+         "line": 1,
+         "ch": 0
+        },
+        "out": "before\n\n---\n\nafter",
+        "cursor": {
+         "line": 3,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "empty-document": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "out": "\n---\n",
+        "cursor": {
+         "line": 2,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "mid-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 5
+        },
+        "out": "hello\n\n---\n world",
+        "cursor": {
+         "line": 3,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 11
+        },
+        "out": "hello world\n\n---\n",
+        "cursor": {
+         "line": 3,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-file-no-newline": {
+        "in": "first\nlast line",
+        "caret": {
+         "line": 1,
+         "ch": 9
+        },
+        "out": "first\nlast line\n\n---\n",
+        "cursor": {
+         "line": 4,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "selection": {
+        "in": "alpha beta",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 0,
+          "ch": 5
+         }
+        ],
+        "out": "\n---\n beta",
+        "cursor": {
+         "line": 2,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "in-list": {
+        "in": "- item one",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "out": "- item one\n\n---\n",
+        "cursor": {
+         "line": 3,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:insert-mathblock": {
+       "blank-line-middle": {
+        "in": "before\n\nafter",
+        "caret": {
+         "line": 1,
+         "ch": 0
+        },
+        "out": "before\n$$\n\n$$\nafter",
+        "cursor": {
+         "line": 2,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "empty-document": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "out": "$$\n\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 0
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "mid-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 5
+        },
+        "out": "$$\nhello world\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 11
+        },
+        "out": "$$\nhello world\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 11
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-file-no-newline": {
+        "in": "first\nlast line",
+        "caret": {
+         "line": 1,
+         "ch": 9
+        },
+        "out": "first\n$$\nlast line\n$$",
+        "cursor": {
+         "line": 2,
+         "ch": 9
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "selection": {
+        "in": "alpha beta",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 0,
+          "ch": 5
+         }
+        ],
+        "out": "$$\nalpha beta\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "sel": "alpha",
+        "ran": true,
+        "seedOk": true
+       },
+       "in-list": {
+        "in": "- item one",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "out": "$$\n- item one\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 10
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:insert-tag": {
+       "blank-line-middle": {
+        "in": "before\n\nafter",
+        "caret": {
+         "line": 1,
+         "ch": 0
+        },
+        "out": "before\n#\nafter",
+        "cursor": {
+         "line": 1,
+         "ch": 1
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "empty-document": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "out": "#",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "mid-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 5
+        },
+        "out": "hello# world",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-paragraph": {
+        "in": "hello world",
+        "caret": {
+         "line": 0,
+         "ch": 11
+        },
+        "out": "hello world#",
+        "cursor": {
+         "line": 0,
+         "ch": 12
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "end-of-file-no-newline": {
+        "in": "first\nlast line",
+        "caret": {
+         "line": 1,
+         "ch": 9
+        },
+        "out": "first\nlast line#",
+        "cursor": {
+         "line": 1,
+         "ch": 10
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "selection": {
+        "in": "alpha beta",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 0,
+          "ch": 5
+         }
+        ],
+        "out": "#alpha beta",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       },
+       "in-list": {
+        "in": "- item one",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "out": "- item one#",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      }
+     },
+     "footnotes": {
+      "blank-line-middle": {
+       "in": "before\n\nafter",
+       "caret": {
+        "line": 1,
+        "ch": 0
+       },
+       "out": "before\n[^1]\nafter\n\n[^1]: \n",
+       "cursor": {
+        "line": 1,
+        "ch": 4
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "empty-document": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "out": "[^1]\n\n[^1]: \n",
+       "cursor": {
+        "line": 0,
+        "ch": 4
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "mid-paragraph": {
+       "in": "hello world",
+       "caret": {
+        "line": 0,
+        "ch": 5
+       },
+       "out": "hello[^1] world\n\n[^1]: \n",
+       "cursor": {
+        "line": 0,
+        "ch": 9
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "end-of-paragraph": {
+       "in": "hello world",
+       "caret": {
+        "line": 0,
+        "ch": 11
+       },
+       "out": "hello world[^1]\n\n[^1]: \n",
+       "cursor": {
+        "line": 0,
+        "ch": 15
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "end-of-file-no-newline": {
+       "in": "first\nlast line",
+       "caret": {
+        "line": 1,
+        "ch": 9
+       },
+       "out": "first\nlast line[^1]\n\n[^1]: \n",
+       "cursor": {
+        "line": 1,
+        "ch": 13
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "selection": {
+       "in": "alpha beta",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 5
+        }
+       ],
+       "out": "[^1]alpha beta\n\n[^1]: \n",
+       "cursor": {
+        "line": 0,
+        "ch": 4
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "in-list": {
+       "in": "- item one",
+       "caret": {
+        "line": 0,
+        "ch": 10
+       },
+       "out": "- item one[^1]\n\n[^1]: \n",
+       "cursor": {
+        "line": 0,
+        "ch": 14
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      }
+     }
+    },
+    "s05-highlight-colours": {
+     "ok": true,
+     "ms": 12154,
+     "colours": {
+      "red": {
+       "overWord": {
+        "in": "plain word here",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 6
+         },
+         {
+          "line": 0,
+          "ch": 10
+         }
+        ],
+        "out": "plain ==\ud83d\udd34word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 14
+        },
+        "sel": "word",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "plain word here",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "word",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "plain ==\ud83d\udd34word== here",
+          "cursor": {
+           "line": 0,
+           "ch": 14
+          },
+          "from": {
+           "line": 0,
+           "ch": 10
+          },
+          "to": {
+           "line": 0,
+           "ch": 14
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-red",
+          "ran": true
+         },
+         {
+          "value": "plain word here",
+          "cursor": {
+           "line": 0,
+           "ch": 10
+          },
+          "from": {
+           "line": 0,
+           "ch": 6
+          },
+          "to": {
+           "line": 0,
+           "ch": 10
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-red",
+          "ran": true
+         }
+        ]
+       },
+       "atCaret": {
+        "in": "plain word here",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "out": "plain ==\ud83d\udd34word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "orange": {
+       "overWord": {
+        "in": "plain word here",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 6
+         },
+         {
+          "line": 0,
+          "ch": 10
+         }
+        ],
+        "out": "plain ==\ud83d\udfe0word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 14
+        },
+        "sel": "word",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "plain word here",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "word",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "plain ==\ud83d\udfe0word== here",
+          "cursor": {
+           "line": 0,
+           "ch": 14
+          },
+          "from": {
+           "line": 0,
+           "ch": 10
+          },
+          "to": {
+           "line": 0,
+           "ch": 14
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-orange",
+          "ran": true
+         },
+         {
+          "value": "plain word here",
+          "cursor": {
+           "line": 0,
+           "ch": 10
+          },
+          "from": {
+           "line": 0,
+           "ch": 6
+          },
+          "to": {
+           "line": 0,
+           "ch": 10
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-orange",
+          "ran": true
+         }
+        ]
+       },
+       "atCaret": {
+        "in": "plain word here",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "out": "plain ==\ud83d\udfe0word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "yellow": {
+       "overWord": {
+        "in": "plain word here",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 6
+         },
+         {
+          "line": 0,
+          "ch": 10
+         }
+        ],
+        "out": "plain ==\ud83d\udfe1word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 14
+        },
+        "sel": "word",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "plain word here",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "word",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "plain ==\ud83d\udfe1word== here",
+          "cursor": {
+           "line": 0,
+           "ch": 14
+          },
+          "from": {
+           "line": 0,
+           "ch": 10
+          },
+          "to": {
+           "line": 0,
+           "ch": 14
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-yellow",
+          "ran": true
+         },
+         {
+          "value": "plain word here",
+          "cursor": {
+           "line": 0,
+           "ch": 10
+          },
+          "from": {
+           "line": 0,
+           "ch": 6
+          },
+          "to": {
+           "line": 0,
+           "ch": 10
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-yellow",
+          "ran": true
+         }
+        ]
+       },
+       "atCaret": {
+        "in": "plain word here",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "out": "plain ==\ud83d\udfe1word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "green": {
+       "overWord": {
+        "in": "plain word here",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 6
+         },
+         {
+          "line": 0,
+          "ch": 10
+         }
+        ],
+        "out": "plain ==\ud83d\udfe2word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 14
+        },
+        "sel": "word",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "plain word here",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "word",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "plain ==\ud83d\udfe2word== here",
+          "cursor": {
+           "line": 0,
+           "ch": 14
+          },
+          "from": {
+           "line": 0,
+           "ch": 10
+          },
+          "to": {
+           "line": 0,
+           "ch": 14
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-green",
+          "ran": true
+         },
+         {
+          "value": "plain word here",
+          "cursor": {
+           "line": 0,
+           "ch": 10
+          },
+          "from": {
+           "line": 0,
+           "ch": 6
+          },
+          "to": {
+           "line": 0,
+           "ch": 10
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-green",
+          "ran": true
+         }
+        ]
+       },
+       "atCaret": {
+        "in": "plain word here",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "out": "plain ==\ud83d\udfe2word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "blue": {
+       "overWord": {
+        "in": "plain word here",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 6
+         },
+         {
+          "line": 0,
+          "ch": 10
+         }
+        ],
+        "out": "plain ==\ud83d\udd35word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 14
+        },
+        "sel": "word",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "plain word here",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "word",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "plain ==\ud83d\udd35word== here",
+          "cursor": {
+           "line": 0,
+           "ch": 14
+          },
+          "from": {
+           "line": 0,
+           "ch": 10
+          },
+          "to": {
+           "line": 0,
+           "ch": 14
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-blue",
+          "ran": true
+         },
+         {
+          "value": "plain word here",
+          "cursor": {
+           "line": 0,
+           "ch": 10
+          },
+          "from": {
+           "line": 0,
+           "ch": 6
+          },
+          "to": {
+           "line": 0,
+           "ch": 10
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-blue",
+          "ran": true
+         }
+        ]
+       },
+       "atCaret": {
+        "in": "plain word here",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "out": "plain ==\ud83d\udd35word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "purple": {
+       "overWord": {
+        "in": "plain word here",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 6
+         },
+         {
+          "line": 0,
+          "ch": 10
+         }
+        ],
+        "out": "plain ==\ud83d\udfe3word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 14
+        },
+        "sel": "word",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "plain word here",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "word",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "plain ==\ud83d\udfe3word== here",
+          "cursor": {
+           "line": 0,
+           "ch": 14
+          },
+          "from": {
+           "line": 0,
+           "ch": 10
+          },
+          "to": {
+           "line": 0,
+           "ch": 14
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-purple",
+          "ran": true
+         },
+         {
+          "value": "plain word here",
+          "cursor": {
+           "line": 0,
+           "ch": 10
+          },
+          "from": {
+           "line": 0,
+           "ch": 6
+          },
+          "to": {
+           "line": 0,
+           "ch": 10
+          },
+          "sel": "word",
+          "cmd": "editor:toggle-highlight-purple",
+          "ran": true
+         }
+        ]
+       },
+       "atCaret": {
+        "in": "plain word here",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "out": "plain ==\ud83d\udfe3word== here",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      }
+     },
+     "bareHighlight": {
+      "overWord": {
+       "in": "plain word here",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 6
+        },
+        {
+         "line": 0,
+         "ch": 10
+        }
+       ],
+       "out": "plain ==word== here",
+       "cursor": {
+        "line": 0,
+        "ch": 12
+       },
+       "sel": "word",
+       "ran": true,
+       "seedOk": true
+      },
+      "atCaret": {
+       "in": "plain word here",
+       "caret": {
+        "line": 0,
+        "ch": 6
+       },
+       "out": "plain ==word== here",
+       "cursor": {
+        "line": 0,
+        "ch": 6
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "twice": {
+       "before": {
+        "value": "plain word here",
+        "cursor": {
+         "line": 0,
+         "ch": 10
+        },
+        "from": {
+         "line": 0,
+         "ch": 6
+        },
+        "to": {
+         "line": 0,
+         "ch": 10
+        },
+        "sel": "word",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "plain ==word== here",
+         "cursor": {
+          "line": 0,
+          "ch": 12
+         },
+         "from": {
+          "line": 0,
+          "ch": 8
+         },
+         "to": {
+          "line": 0,
+          "ch": 12
+         },
+         "sel": "word",
+         "cmd": "editor:toggle-highlight",
+         "ran": true
+        },
+        {
+         "value": "plain word here",
+         "cursor": {
+          "line": 0,
+          "ch": 10
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 0,
+          "ch": 10
+         },
+         "sel": "word",
+         "cmd": "editor:toggle-highlight",
+         "ran": true
+        }
+       ]
+      }
+     },
+     "colourOverPlain": {
+      "in": "a ==word== b",
+      "caret": [
+       {
+        "line": 0,
+        "ch": 4
+       },
+       {
+        "line": 0,
+        "ch": 8
+       }
+      ],
+      "out": "a ==\ud83d\udfe2word== b",
+      "cursor": {
+       "line": 0,
+       "ch": 10
+      },
+      "sel": "==\ud83d\udfe2word",
+      "ran": true,
+      "seedOk": true
+     },
+     "colourOverPlainWhole": {
+      "in": "a ==word== b",
+      "caret": [
+       {
+        "line": 0,
+        "ch": 2
+       },
+       {
+        "line": 0,
+        "ch": 10
+       }
+      ],
+      "out": "a ==\ud83d\udfe2word== b",
+      "cursor": {
+       "line": 0,
+       "ch": 10
+      },
+      "sel": "==\ud83d\udfe2word",
+      "ran": true,
+      "seedOk": true
+     },
+     "colourOverColour": {
+      "first": {
+       "value": "plain ==\ud83d\udd34word== here",
+       "cursor": {
+        "line": 0,
+        "ch": 14
+       },
+       "from": {
+        "line": 0,
+        "ch": 10
+       },
+       "to": {
+        "line": 0,
+        "ch": 14
+       },
+       "sel": "word"
+      },
+      "second": {
+       "value": "plain ==\ud83d\udd35word== here",
+       "cursor": {
+        "line": 0,
+        "ch": 14
+       },
+       "from": {
+        "line": 0,
+        "ch": 10
+       },
+       "to": {
+        "line": 0,
+        "ch": 14
+       },
+       "sel": "word"
+      }
+     },
+     "colourMultiLine": {
+      "in": "one\ntwo\nthree",
+      "caret": [
+       {
+        "line": 0,
+        "ch": 0
+       },
+       {
+        "line": 2,
+        "ch": 5
+       }
+      ],
+      "out": "==\ud83d\udfe1one==\n==\ud83d\udfe1two==\n==\ud83d\udfe1three==",
+      "cursor": {
+       "line": 2,
+       "ch": 9
+      },
+      "sel": "one==\n==\ud83d\udfe1two==\n==\ud83d\udfe1three",
+      "ran": true,
+      "seedOk": true
+     },
+     "renderedColour": {
+      "src": "plain ==\ud83d\udd34word== here",
+      "html": "<div class=\"markdown-preview-sizer markdown-preview-section\" style=\"padding-bottom: 361px; min-height: 83px;\"><div class=\"markdown-preview-pusher\" style=\"width: 1px; height: 0.1px; margin-bottom: 0px;\"></div><div class=\"mod-header mod-ui\"><div class=\"inline-title\" contenteditable=\"true\" spellcheck=\"true\" autocapitalize=\"on\" tabindex=\"-1\" enterkeyhint=\"done\">Probe</div><div class=\"metadata-container\" tabindex=\"-1\" data-property-count=\"0\"><div class=\"metadata-error-container\" style=\"display: none;\"></div><div class=\"metadata-properties-heading\" tabindex=\"0\"><div class=\"collapse-indicator collaps",
+      "marks": [
+       {
+        "html": "<mark data-highlight=\"red\">word</mark>",
+        "text": "word",
+        "style": {
+         "background": "oklch(0.659737 0.216875 23.8105 / 0.3)",
+         "color": "rgb(218, 218, 218)"
+        }
+       }
+      ]
+     }
+    },
+    "s06-clear-formatting": {
+     "ok": true,
+     "ms": 5321,
+     "clear": {
+      "bold-italic-nested": {
+       "in": "**bold _italic_ text**",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 22
+        }
+       ],
+       "out": "bold italic text",
+       "cursor": {
+        "line": 0,
+        "ch": 16
+       },
+       "sel": "bold italic text",
+       "ran": true,
+       "seedOk": true
+      },
+      "inner-word-only": {
+       "in": "**bold _italic_ text**",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 7
+        },
+        {
+         "line": 0,
+         "ch": 15
+        }
+       ],
+       "out": "**bold italic text**",
+       "cursor": {
+        "line": 0,
+        "ch": 13
+       },
+       "sel": "italic",
+       "ran": true,
+       "seedOk": true
+      },
+      "two-markers": {
+       "in": "**==both==** tail",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 12
+        }
+       ],
+       "out": "both tail",
+       "cursor": {
+        "line": 0,
+        "ch": 4
+       },
+       "sel": "both",
+       "ran": true,
+       "seedOk": true
+      },
+      "strike-and-code": {
+       "in": "~~gone~~ and `code`",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 19
+        }
+       ],
+       "out": "gone and code",
+       "cursor": {
+        "line": 0,
+        "ch": 13
+       },
+       "sel": "gone and code",
+       "ran": true,
+       "seedOk": true
+      },
+      "heading-line": {
+       "in": "## Heading text",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 15
+        }
+       ],
+       "out": "Heading text",
+       "cursor": {
+        "line": 0,
+        "ch": 12
+       },
+       "sel": "Heading text",
+       "ran": true,
+       "seedOk": true
+      },
+      "heading-caret": {
+       "in": "## Heading text",
+       "caret": {
+        "line": 0,
+        "ch": 6
+       },
+       "out": "## Heading text",
+       "cursor": {
+        "line": 0,
+        "ch": 6
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCheckCallback:undefined",
+       "directValue": "## Heading text",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 6
+       }
+      },
+      "quote-line": {
+       "in": "> quoted text",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 13
+        }
+       ],
+       "out": "quoted text",
+       "cursor": {
+        "line": 0,
+        "ch": 11
+       },
+       "sel": "quoted text",
+       "ran": true,
+       "seedOk": true
+      },
+      "bullet-line": {
+       "in": "- **bold** item",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 15
+        }
+       ],
+       "out": "bold item",
+       "cursor": {
+        "line": 0,
+        "ch": 9
+       },
+       "sel": "bold item",
+       "ran": true,
+       "seedOk": true
+      },
+      "link": {
+       "in": "see [[Other|alias]] end",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 23
+        }
+       ],
+       "out": "see [[Other|alias]] end",
+       "cursor": {
+        "line": 0,
+        "ch": 23
+       },
+       "sel": "see [[Other|alias]] end",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCheckCallback:true",
+       "directValue": "see [[Other|alias]] end",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 23
+       }
+      },
+      "caret-no-selection": {
+       "in": "**bold** text",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "out": "**bold** text",
+       "cursor": {
+        "line": 0,
+        "ch": 4
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCheckCallback:undefined",
+       "directValue": "**bold** text",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 4
+       }
+      },
+      "caret-inside-bold": {
+       "in": "**bold** text",
+       "caret": {
+        "line": 0,
+        "ch": 5
+       },
+       "out": "**bold** text",
+       "cursor": {
+        "line": 0,
+        "ch": 5
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCheckCallback:undefined",
+       "directValue": "**bold** text",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 5
+       }
+      },
+      "multi-line": {
+       "in": "**one**\n_two_\n==three==",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 9
+        }
+       ],
+       "out": "one\ntwo\nthree",
+       "cursor": {
+        "line": 2,
+        "ch": 5
+       },
+       "sel": "one\ntwo\nthree",
+       "ran": true,
+       "seedOk": true
+      },
+      "math-and-tag": {
+       "in": "$x^2$ #tag",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 10
+        }
+       ],
+       "out": "x^2 tag",
+       "cursor": {
+        "line": 0,
+        "ch": 7
+       },
+       "sel": "x^2 tag",
+       "ran": true,
+       "seedOk": true
+      },
+      "plain-text": {
+       "in": "nothing to clear",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 16
+        }
+       ],
+       "out": "nothing to clear",
+       "cursor": {
+        "line": 0,
+        "ch": 16
+       },
+       "sel": "nothing to clear",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCheckCallback:true",
+       "directValue": "nothing to clear",
+       "directChanged": false,
+       "directCursor": {
+        "line": 0,
+        "ch": 16
+       }
+      },
+      "partial-marker": {
+       "in": "a **bold** b",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 4
+        },
+        {
+         "line": 0,
+         "ch": 8
+        }
+       ],
+       "out": "a bold b",
+       "cursor": {
+        "line": 0,
+        "ch": 6
+       },
+       "sel": "bold",
+       "ran": true,
+       "seedOk": true
+      }
+     }
+    },
+    "s07-move-line": {
+     "ok": true,
+     "ms": 3013,
+     "defaults": {
+      "count": 41,
+      "withDefaults": {
+       "editor:save-file": [
+        "Mod+S"
+       ],
+       "editor:follow-link": [
+        "Alt+Enter"
+       ],
+       "editor:open-link-in-new-leaf": [
+        "Mod+Enter"
+       ],
+       "editor:open-link-in-new-window": [
+        "Mod+Alt+Shift+Enter"
+       ],
+       "editor:open-link-in-new-split": [
+        "Mod+Alt+Enter"
+       ],
+       "workspace:edit-file-title": [
+        "F2"
+       ],
+       "workspace:undo-close-pane": [
+        "Mod+Shift+T"
+       ],
+       "workspace:next-tab": [
+        "Ctrl+Tab",
+        "Ctrl+PageDown"
+       ],
+       "workspace:goto-tab-1": [
+        "Mod+1"
+       ],
+       "workspace:goto-tab-2": [
+        "Mod+2"
+       ],
+       "workspace:goto-tab-3": [
+        "Mod+3"
+       ],
+       "workspace:goto-tab-4": [
+        "Mod+4"
+       ],
+       "workspace:goto-tab-5": [
+        "Mod+5"
+       ],
+       "workspace:goto-tab-6": [
+        "Mod+6"
+       ],
+       "workspace:goto-tab-7": [
+        "Mod+7"
+       ],
+       "workspace:goto-tab-8": [
+        "Mod+8"
+       ],
+       "workspace:goto-last-tab": [
+        "Mod+9"
+       ],
+       "workspace:previous-tab": [
+        "Ctrl+Shift+Tab",
+        "Ctrl+PageUp"
+       ],
+       "workspace:new-tab": [
+        "Mod+T"
+       ],
+       "workspace:close": [
+        "Mod+W"
+       ],
+       "workspace:close-window": [
+        "Mod+Shift+W"
+       ],
+       "app:go-back": [
+        "Mod+Alt+ArrowLeft"
+       ],
+       "app:go-forward": [
+        "Mod+Alt+ArrowRight"
+       ],
+       "app:open-settings": [
+        "Mod+,"
+       ],
+       "markdown:toggle-preview": [
+        "Mod+E"
+       ],
+       "markdown:add-metadata-property": [
+        "Mod+;"
+       ],
+       "app:open-help": [
+        "F1"
+       ],
+       "file-explorer:new-file": [
+        "Mod+N"
+       ],
+       "file-explorer:new-file-in-new-pane": [
+        "Mod+Shift+N"
+       ],
+       "editor:open-search": [
+        "Mod+F"
+       ],
+       "editor:open-search-replace": [
+        "Mod+H"
+       ],
+       "editor:insert-link": [
+        "Mod+K"
+       ],
+       "editor:toggle-bold": [
+        "Mod+B"
+       ],
+       "editor:toggle-italics": [
+        "Mod+I"
+       ],
+       "editor:toggle-comments": [
+        "Mod+/"
+       ],
+       "editor:toggle-checklist-status": [
+        "Mod+l"
+       ],
+       "editor:delete-paragraph": [
+        "Mod+D"
+       ],
+       "global-search:open": [
+        "Mod+Shift+F"
+       ],
+       "switcher:open": [
+        "Mod+O"
+       ],
+       "graph:open": [
+        "Mod+G"
+       ],
+       "command-palette:open": [
+        "Mod+P"
+       ]
+      },
+      "swapUp": null,
+      "swapDown": null
+     },
+     "commandUp": {
+      "in": "one\ntwo\nthree",
+      "caret": {
+       "line": 1,
+       "ch": 1
+      },
+      "out": "two\none\nthree",
+      "cursor": {
+       "line": 0,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "commandDown": {
+      "in": "one\ntwo\nthree",
+      "caret": {
+       "line": 1,
+       "ch": 1
+      },
+      "out": "one\nthree\ntwo",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "commandUpOnFirst": {
+      "in": "one\ntwo",
+      "caret": {
+       "line": 0,
+       "ch": 1
+      },
+      "out": "one\ntwo",
+      "cursor": {
+       "line": 0,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true,
+      "directPath": "editorCallback",
+      "directValue": "one\ntwo",
+      "directChanged": false,
+      "directCursor": {
+       "line": 0,
+       "ch": 1
+      }
+     },
+     "commandDownOnLast": {
+      "in": "one\ntwo",
+      "caret": {
+       "line": 1,
+       "ch": 1
+      },
+      "out": "one\ntwo",
+      "cursor": {
+       "line": 1,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true,
+      "directPath": "editorCallback",
+      "directValue": "one\ntwo",
+      "directChanged": false,
+      "directCursor": {
+       "line": 1,
+       "ch": 1
+      }
+     },
+     "commandUpSelection": {
+      "in": "one\ntwo\nthree",
+      "caret": [
+       {
+        "line": 1,
+        "ch": 0
+       },
+       {
+        "line": 2,
+        "ch": 5
+       }
+      ],
+      "out": "two\nthree\none",
+      "cursor": {
+       "line": 1,
+       "ch": 5
+      },
+      "sel": "two\nthree",
+      "ran": true,
+      "seedOk": true
+     },
+     "altArrowUp": {
+      "value": "one\ntwo\nthree",
+      "cursor": {
+       "line": 1,
+       "ch": 1
+      },
+      "from": {
+       "line": 1,
+       "ch": 1
+      },
+      "to": {
+       "line": 1,
+       "ch": 1
+      },
+      "sel": ""
+     },
+     "altArrowDown": {
+      "value": "one\ntwo\nthree",
+      "cursor": {
+       "line": 1,
+       "ch": 1
+      },
+      "from": {
+       "line": 1,
+       "ch": 1
+      },
+      "to": {
+       "line": 1,
+       "ch": 1
+      },
+      "sel": ""
+     }
+    },
+    "s08-toggles-multiline": {
+     "ok": true,
+     "ms": 26813,
+     "threeLines": {
+      "editor:toggle-code": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "`one`\n`two`\n`three`",
+        "cursor": {
+         "line": 2,
+         "ch": 6
+        },
+        "sel": "one`\n`two`\n`three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "o`ne`\n`two`\n`th`ree",
+        "cursor": {
+         "line": 2,
+         "ch": 3
+        },
+        "sel": "ne`\n`two`\n`th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "`one`\n`two`\n`three`",
+          "cursor": {
+           "line": 2,
+           "ch": 6
+          },
+          "from": {
+           "line": 0,
+           "ch": 1
+          },
+          "to": {
+           "line": 2,
+           "ch": 6
+          },
+          "sel": "one`\n`two`\n`three",
+          "cmd": "editor:toggle-code",
+          "ran": true
+         },
+         {
+          "value": "one\n`two`\n`three`",
+          "cursor": {
+           "line": 0,
+           "ch": 3
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 0,
+           "ch": 3
+          },
+          "sel": "one",
+          "cmd": "editor:toggle-code",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "one `two` three",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "`one`\n\n`three`",
+        "cursor": {
+         "line": 2,
+         "ch": 6
+        },
+        "sel": "one`\n\n`three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "one `two`",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-inline-math": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "$one$\n$two$\n$three$",
+        "cursor": {
+         "line": 2,
+         "ch": 6
+        },
+        "sel": "one$\n$two$\n$three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "o$ne$\n$two$\n$th$ree",
+        "cursor": {
+         "line": 2,
+         "ch": 3
+        },
+        "sel": "ne$\n$two$\n$th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "$one$\n$two$\n$three$",
+          "cursor": {
+           "line": 2,
+           "ch": 6
+          },
+          "from": {
+           "line": 0,
+           "ch": 1
+          },
+          "to": {
+           "line": 2,
+           "ch": 6
+          },
+          "sel": "one$\n$two$\n$three",
+          "cmd": "editor:toggle-inline-math",
+          "ran": true
+         },
+         {
+          "value": "one\n$two$\n$three$",
+          "cursor": {
+           "line": 0,
+           "ch": 3
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 0,
+           "ch": 3
+          },
+          "sel": "one",
+          "cmd": "editor:toggle-inline-math",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "one $two$ three",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "$one$\n\n$three$",
+        "cursor": {
+         "line": 2,
+         "ch": 6
+        },
+        "sel": "one$\n\n$three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "one $two$",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-comments": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "%%one\ntwo\nthree%%",
+        "cursor": {
+         "line": 2,
+         "ch": 5
+        },
+        "sel": "one\ntwo\nthree",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "o%%ne\ntwo\nth%%ree",
+        "cursor": {
+         "line": 2,
+         "ch": 2
+        },
+        "sel": "ne\ntwo\nth",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "%%one\ntwo\nthree%%",
+          "cursor": {
+           "line": 2,
+           "ch": 5
+          },
+          "from": {
+           "line": 0,
+           "ch": 2
+          },
+          "to": {
+           "line": 2,
+           "ch": 5
+          },
+          "sel": "one\ntwo\nthree",
+          "cmd": "editor:toggle-comments",
+          "ran": true
+         },
+         {
+          "value": "one\ntwo\nthree",
+          "cursor": {
+           "line": 2,
+           "ch": 5
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 2,
+           "ch": 5
+          },
+          "sel": "one\ntwo\nthree",
+          "cmd": "editor:toggle-comments",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "one %%two%% three",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "%%one\n\nthree%%",
+        "cursor": {
+         "line": 2,
+         "ch": 5
+        },
+        "sel": "one\n\nthree",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "one %%two%%",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-bold": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "**one**\n**two**\n**three**",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one**\n**two**\n**three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "o**ne**\n**two**\n**th**ree",
+        "cursor": {
+         "line": 2,
+         "ch": 4
+        },
+        "sel": "ne**\n**two**\n**th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "**one**\n**two**\n**three**",
+          "cursor": {
+           "line": 2,
+           "ch": 7
+          },
+          "from": {
+           "line": 0,
+           "ch": 2
+          },
+          "to": {
+           "line": 2,
+           "ch": 7
+          },
+          "sel": "one**\n**two**\n**three",
+          "cmd": "editor:toggle-bold",
+          "ran": true
+         },
+         {
+          "value": "one\n**two**\n**three**",
+          "cursor": {
+           "line": 0,
+           "ch": 3
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 0,
+           "ch": 3
+          },
+          "sel": "one",
+          "cmd": "editor:toggle-bold",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "one **two** three",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "**one**\n\n**three**",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one**\n\n**three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "one **two**",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-italics": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "*one*\n*two*\n*three*",
+        "cursor": {
+         "line": 2,
+         "ch": 6
+        },
+        "sel": "one*\n*two*\n*three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "o*ne*\n*two*\n*th*ree",
+        "cursor": {
+         "line": 2,
+         "ch": 3
+        },
+        "sel": "ne*\n*two*\n*th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "*one*\n*two*\n*three*",
+          "cursor": {
+           "line": 2,
+           "ch": 6
+          },
+          "from": {
+           "line": 0,
+           "ch": 1
+          },
+          "to": {
+           "line": 2,
+           "ch": 6
+          },
+          "sel": "one*\n*two*\n*three",
+          "cmd": "editor:toggle-italics",
+          "ran": true
+         },
+         {
+          "value": "one\n*two*\n*three*",
+          "cursor": {
+           "line": 0,
+           "ch": 3
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 0,
+           "ch": 3
+          },
+          "sel": "one",
+          "cmd": "editor:toggle-italics",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "one *two* three",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "*one*\n\n*three*",
+        "cursor": {
+         "line": 2,
+         "ch": 6
+        },
+        "sel": "one*\n\n*three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "one *two*",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-strikethrough": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "~~one~~\n~~two~~\n~~three~~",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one~~\n~~two~~\n~~three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "o~~ne~~\n~~two~~\n~~th~~ree",
+        "cursor": {
+         "line": 2,
+         "ch": 4
+        },
+        "sel": "ne~~\n~~two~~\n~~th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "~~one~~\n~~two~~\n~~three~~",
+          "cursor": {
+           "line": 2,
+           "ch": 7
+          },
+          "from": {
+           "line": 0,
+           "ch": 2
+          },
+          "to": {
+           "line": 2,
+           "ch": 7
+          },
+          "sel": "one~~\n~~two~~\n~~three",
+          "cmd": "editor:toggle-strikethrough",
+          "ran": true
+         },
+         {
+          "value": "one\n~~two~~\n~~three~~",
+          "cursor": {
+           "line": 0,
+           "ch": 3
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 0,
+           "ch": 3
+          },
+          "sel": "one",
+          "cmd": "editor:toggle-strikethrough",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "one ~~two~~ three",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "~~one~~\n\n~~three~~",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one~~\n\n~~three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "one ~~two~~",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-bullet-list": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "- one\n- two\n- three",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one\n- two\n- three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "- one\n- two\n- three",
+        "cursor": {
+         "line": 2,
+         "ch": 4
+        },
+        "sel": "ne\n- two\n- th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "- one\n- two\n- three",
+          "cursor": {
+           "line": 2,
+           "ch": 7
+          },
+          "from": {
+           "line": 0,
+           "ch": 2
+          },
+          "to": {
+           "line": 2,
+           "ch": 7
+          },
+          "sel": "one\n- two\n- three",
+          "cmd": "editor:toggle-bullet-list",
+          "ran": true
+         },
+         {
+          "value": "one\ntwo\nthree",
+          "cursor": {
+           "line": 2,
+           "ch": 5
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 2,
+           "ch": 5
+          },
+          "sel": "one\ntwo\nthree",
+          "cmd": "editor:toggle-bullet-list",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "- one two three",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "- one\n\n- three",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one\n\n- three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "- one two",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-numbered-list": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "1. one\n2. two\n3. three",
+        "cursor": {
+         "line": 2,
+         "ch": 8
+        },
+        "sel": "one\n2. two\n3. three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "1. one\n2. two\n3. three",
+        "cursor": {
+         "line": 2,
+         "ch": 5
+        },
+        "sel": "ne\n2. two\n3. th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "1. one\n2. two\n3. three",
+          "cursor": {
+           "line": 2,
+           "ch": 8
+          },
+          "from": {
+           "line": 0,
+           "ch": 3
+          },
+          "to": {
+           "line": 2,
+           "ch": 8
+          },
+          "sel": "one\n2. two\n3. three",
+          "cmd": "editor:toggle-numbered-list",
+          "ran": true
+         },
+         {
+          "value": "one\ntwo\nthree",
+          "cursor": {
+           "line": 2,
+           "ch": 5
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 2,
+           "ch": 5
+          },
+          "sel": "one\ntwo\nthree",
+          "cmd": "editor:toggle-numbered-list",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "1. one two three",
+        "cursor": {
+         "line": 0,
+         "ch": 10
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "1. one\n\n2. three",
+        "cursor": {
+         "line": 2,
+         "ch": 8
+        },
+        "sel": "one\n\n2. three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "1. one two",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      },
+      "editor:toggle-blockquote": {
+       "wholeSelection": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "> one\n> two\n> three",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one\n> two\n> three",
+        "ran": true,
+        "seedOk": true
+       },
+       "partialEnds": {
+        "in": "one\ntwo\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 1
+         },
+         {
+          "line": 2,
+          "ch": 2
+         }
+        ],
+        "out": "> one\n> two\n> three",
+        "cursor": {
+         "line": 2,
+         "ch": 4
+        },
+        "sel": "ne\n> two\n> th",
+        "ran": true,
+        "seedOk": true
+       },
+       "twice": {
+        "before": {
+         "value": "one\ntwo\nthree",
+         "cursor": {
+          "line": 2,
+          "ch": 5
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 5
+         },
+         "sel": "one\ntwo\nthree",
+         "seedOk": true
+        },
+        "steps": [
+         {
+          "value": "> one\n> two\n> three",
+          "cursor": {
+           "line": 2,
+           "ch": 7
+          },
+          "from": {
+           "line": 0,
+           "ch": 2
+          },
+          "to": {
+           "line": 2,
+           "ch": 7
+          },
+          "sel": "one\n> two\n> three",
+          "cmd": "editor:toggle-blockquote",
+          "ran": true
+         },
+         {
+          "value": "one\ntwo\nthree",
+          "cursor": {
+           "line": 2,
+           "ch": 5
+          },
+          "from": {
+           "line": 0,
+           "ch": 0
+          },
+          "to": {
+           "line": 2,
+           "ch": 5
+          },
+          "sel": "one\ntwo\nthree",
+          "cmd": "editor:toggle-blockquote",
+          "ran": true
+         }
+        ]
+       },
+       "singleWord": {
+        "in": "one two three",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 4
+         },
+         {
+          "line": 0,
+          "ch": 7
+         }
+        ],
+        "out": "> one two three",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "two",
+        "ran": true,
+        "seedOk": true
+       },
+       "withBlankLine": {
+        "in": "one\n\nthree",
+        "caret": [
+         {
+          "line": 0,
+          "ch": 0
+         },
+         {
+          "line": 2,
+          "ch": 5
+         }
+        ],
+        "out": "> one\n> \n> three",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "one\n> \n> three",
+        "ran": true,
+        "seedOk": true
+       },
+       "caretOnly": {
+        "in": "one two",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "out": "> one two",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "ran": true,
+        "seedOk": true
+       }
+      }
+     },
+     "mixed": {
+      "bulletSomeHave": {
+       "in": "- one\ntwo\n- three",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 7
+        }
+       ],
+       "out": "- one\n- two\n- three",
+       "cursor": {
+        "line": 2,
+        "ch": 7
+       },
+       "sel": "- one\n- two\n- three",
+       "ran": true,
+       "seedOk": true
+      },
+      "bulletAllHave": {
+       "in": "- one\n- two\n- three",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 7
+        }
+       ],
+       "out": "one\ntwo\nthree",
+       "cursor": {
+        "line": 2,
+        "ch": 5
+       },
+       "sel": "one\ntwo\nthree",
+       "ran": true,
+       "seedOk": true
+      },
+      "quoteSomeHave": {
+       "in": "> one\ntwo\n> three",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 7
+        }
+       ],
+       "out": "> one\n> two\n> three",
+       "cursor": {
+        "line": 2,
+        "ch": 7
+       },
+       "sel": "> one\n> two\n> three",
+       "ran": true,
+       "seedOk": true
+      },
+      "quoteAllHave": {
+       "in": "> one\n> two",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 1,
+         "ch": 5
+        }
+       ],
+       "out": "one\ntwo",
+       "cursor": {
+        "line": 1,
+        "ch": 3
+       },
+       "sel": "one\ntwo",
+       "ran": true,
+       "seedOk": true
+      },
+      "numberedSomeHave": {
+       "in": "1. one\ntwo\n3. three",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 8
+        }
+       ],
+       "out": "1. one\n2. two\n3. three",
+       "cursor": {
+        "line": 2,
+        "ch": 8
+       },
+       "sel": "1. one\n2. two\n3. three",
+       "ran": true,
+       "seedOk": false
+      },
+      "numberedAllHave": {
+       "in": "1. one\n2. two",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 1,
+         "ch": 6
+        }
+       ],
+       "out": "one\ntwo",
+       "cursor": {
+        "line": 1,
+        "ch": 3
+       },
+       "sel": "one\ntwo",
+       "ran": true,
+       "seedOk": true
+      },
+      "numberedFromPlain": {
+       "in": "a\nb\nc\nd",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 3,
+         "ch": 1
+        }
+       ],
+       "out": "1. a\n2. b\n3. c\n4. d",
+       "cursor": {
+        "line": 3,
+        "ch": 4
+       },
+       "sel": "a\n2. b\n3. c\n4. d",
+       "ran": true,
+       "seedOk": true
+      },
+      "numberedAfterExisting": {
+       "in": "1. one\na\nb",
+       "caret": [
+        {
+         "line": 1,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 1
+        }
+       ],
+       "out": "1. one\n2. a\n3. b",
+       "cursor": {
+        "line": 2,
+        "ch": 4
+       },
+       "sel": "a\n3. b",
+       "ran": true,
+       "seedOk": true
+      },
+      "bulletIndented": {
+       "in": "- one\n\t- two\nthree",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 5
+        }
+       ],
+       "out": "- one\n\t- two\n- three",
+       "cursor": {
+        "line": 2,
+        "ch": 7
+       },
+       "sel": "- one\n\t- two\n- three",
+       "ran": true,
+       "seedOk": true
+      },
+      "bulletBlankBetween": {
+       "in": "one\n\nthree",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 5
+        }
+       ],
+       "out": "- one\n\n- three",
+       "cursor": {
+        "line": 2,
+        "ch": 7
+       },
+       "sel": "one\n\n- three",
+       "ran": true,
+       "seedOk": true
+      },
+      "numberedBlankBetween": {
+       "in": "one\n\nthree",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 5
+        }
+       ],
+       "out": "1. one\n\n2. three",
+       "cursor": {
+        "line": 2,
+        "ch": 8
+       },
+       "sel": "one\n\n2. three",
+       "ran": true,
+       "seedOk": true
+      },
+      "quoteBlankBetween": {
+       "in": "one\n\nthree",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 5
+        }
+       ],
+       "out": "> one\n> \n> three",
+       "cursor": {
+        "line": 2,
+        "ch": 7
+       },
+       "sel": "one\n> \n> three",
+       "ran": true,
+       "seedOk": true
+      },
+      "commentsOnExisting": {
+       "in": "%%one%%",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 7
+        }
+       ],
+       "out": "one",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "one",
+       "ran": true,
+       "seedOk": true
+      },
+      "commentsMultiExisting": {
+       "in": "%%\none\ntwo\n%%",
+       "caret": [
+        {
+         "line": 1,
+         "ch": 0
+        },
+        {
+         "line": 2,
+         "ch": 3
+        }
+       ],
+       "out": "\none\ntwo\n",
+       "cursor": {
+        "line": 2,
+        "ch": 3
+       },
+       "sel": "one\ntwo",
+       "ran": true,
+       "seedOk": true
+      },
+      "codeOnExisting": {
+       "in": "`one`",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 5
+        }
+       ],
+       "out": "one",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": "one",
+       "ran": true,
+       "seedOk": true
+      },
+      "mathOnExisting": {
+       "in": "$x$",
+       "caret": [
+        {
+         "line": 0,
+         "ch": 0
+        },
+        {
+         "line": 0,
+         "ch": 3
+        }
+       ],
+       "out": "x",
+       "cursor": {
+        "line": 0,
+        "ch": 1
+       },
+       "sel": "x",
+       "ran": true,
+       "seedOk": true
+      }
+     }
+    },
+    "s09-insert-table-non-blank": {
+     "ok": true,
+     "ms": 3403,
+     "blankControl": {
+      "in": "before\n\nafter",
+      "caret": {
+       "line": 1,
+       "ch": 0
+      },
+      "out": "before\n\n|     |     |\n| --- | --- |\n|     |     |\n\nafter",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "emptyDocument": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "out": "\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 1,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "endOfParagraph": {
+      "in": "hello world",
+      "caret": {
+       "line": 0,
+       "ch": 11
+      },
+      "out": "hello world\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "midParagraph": {
+      "in": "hello world",
+      "caret": {
+       "line": 0,
+       "ch": 5
+      },
+      "out": "hello world\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "startOfParagraph": {
+      "in": "hello world",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "out": "hello world\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "endOfFileAfterText": {
+      "in": "para one\n\npara two",
+      "caret": {
+       "line": 2,
+       "ch": 8
+      },
+      "out": "para one\n\npara two\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 4,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "inList": {
+      "in": "- item",
+      "caret": {
+       "line": 0,
+       "ch": 6
+      },
+      "out": "- item\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "inQuote": {
+      "in": "> quoted",
+      "caret": {
+       "line": 0,
+       "ch": 8
+      },
+      "out": "> quoted\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "withSelection": {
+      "in": "alpha beta",
+      "caret": [
+       {
+        "line": 0,
+        "ch": 0
+       },
+       {
+        "line": 0,
+        "ch": 5
+       }
+      ],
+      "out": "alpha beta\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     },
+     "sourceMode": {
+      "in": "hello world",
+      "caret": {
+       "line": 0,
+       "ch": 11
+      },
+      "out": "hello world\n\n|     |     |\n| --- | --- |\n|     |     |\n",
+      "cursor": {
+       "line": 2,
+       "ch": 1
+      },
+      "sel": "",
+      "ran": true,
+      "seedOk": true
+     }
+    },
+    "s10-hotkeys-tab": {
+     "ok": true,
+     "ms": 1530,
+     "hotkeyTab": [
+      {
+       "name": "Move line down",
+       "keys": [
+        "Blank"
+       ]
+      },
+      {
+       "name": "Move line up",
+       "keys": [
+        "Blank"
+       ]
+      }
+     ]
+    },
+    "s11-followups": {
+     "ok": true,
+     "ms": 16873,
+     "leaves": {
+      "markdown": 1,
+      "activeType": "markdown",
+      "file": "Probe.md"
+     },
+     "ctrlB": {
+      "value": "one **two** three",
+      "cursor": {
+       "line": 0,
+       "ch": 9
+      },
+      "from": {
+       "line": 0,
+       "ch": 6
+      },
+      "to": {
+       "line": 0,
+       "ch": 9
+      },
+      "sel": "two"
+     },
+     "execBold": {
+      "in": "one two three",
+      "caret": [
+       {
+        "line": 0,
+        "ch": 4
+       },
+       {
+        "line": 0,
+        "ch": 7
+       }
+      ],
+      "out": "one **two** three",
+      "cursor": {
+       "line": 0,
+       "ch": 9
+      },
+      "sel": "two",
+      "ran": true,
+      "seedOk": true
+     },
+     "cycleSelections": {
+      "all-plain": {
+       "before": {
+        "value": "a\nb",
+        "cursor": {
+         "line": 1,
+         "ch": 1
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 1
+        },
+        "sel": "a\nb",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [x] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "all-bullets": {
+       "before": {
+        "value": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 3
+        },
+        "sel": "- a\n- b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "all-unchecked": {
+       "before": {
+        "value": "- [ ] a\n- [ ] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "- [ ] a\n- [ ] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "all-checked": {
+       "before": {
+        "value": "- [x] a\n- [x] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "- [x] a\n- [x] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [ ] a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- [x] a\n- [x] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "bullet-and-unchecked": {
+       "before": {
+        "value": "- a\n- [ ] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "- a\n- [ ] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- [ ] a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "- [ ] a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "- a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "plain-and-bullet": {
+       "before": {
+        "value": "a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 3
+        },
+        "sel": "a\n- b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [x] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "plain-and-unchecked": {
+       "before": {
+        "value": "a\n- [ ] b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 1,
+         "ch": 7
+        },
+        "sel": "a\n- [ ] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b",
+         "cursor": {
+          "line": 1,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 1,
+          "ch": 7
+         },
+         "sel": "a\n- [x] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b",
+         "cursor": {
+          "line": 1,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 1,
+          "ch": 3
+         },
+         "sel": "a\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "all-three-states": {
+       "before": {
+        "value": "a\n- b\n- [ ] c",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "a\n- b\n- [ ] c",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- a\n- b\n- c",
+         "cursor": {
+          "line": 2,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 2,
+          "ch": 3
+         },
+         "sel": "a\n- b\n- c",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n- [ ] b\n- [ ] c",
+         "cursor": {
+          "line": 2,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 2,
+          "ch": 7
+         },
+         "sel": "a\n- [ ] b\n- [ ] c",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [x] a\n- [x] b\n- [x] c",
+         "cursor": {
+          "line": 2,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 6
+         },
+         "to": {
+          "line": 2,
+          "ch": 7
+         },
+         "sel": "a\n- [x] b\n- [x] c",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n- b\n- c",
+         "cursor": {
+          "line": 2,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 2
+         },
+         "to": {
+          "line": 2,
+          "ch": 3
+         },
+         "sel": "a\n- b\n- c",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      },
+      "with-blank-line": {
+       "before": {
+        "value": "- a\n\n- [x] b",
+        "cursor": {
+         "line": 2,
+         "ch": 7
+        },
+        "from": {
+         "line": 0,
+         "ch": 0
+        },
+        "to": {
+         "line": 2,
+         "ch": 7
+        },
+        "sel": "- a\n\n- [x] b",
+        "seedOk": true
+       },
+       "steps": [
+        {
+         "value": "- [ ] a\n\n- b",
+         "cursor": {
+          "line": 2,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 3
+         },
+         "sel": "- [ ] a\n\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n\n- [ ] b",
+         "cursor": {
+          "line": 2,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 7
+         },
+         "sel": "- a\n\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- [ ] a\n\n- b",
+         "cursor": {
+          "line": 2,
+          "ch": 3
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 3
+         },
+         "sel": "- [ ] a\n\n- b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        },
+        {
+         "value": "- a\n\n- [ ] b",
+         "cursor": {
+          "line": 2,
+          "ch": 7
+         },
+         "from": {
+          "line": 0,
+          "ch": 0
+         },
+         "to": {
+          "line": 2,
+          "ch": 7
+         },
+         "sel": "- a\n\n- [ ] b",
+         "cmd": "editor:cycle-list-checklist",
+         "ran": true
+        }
+       ]
+      }
+     },
+     "footnoteNumbering": {
+      "noneYet": {
+       "in": "body text\n",
+       "caret": {
+        "line": 0,
+        "ch": 9
+       },
+       "out": "body text[^1]\n\n[^1]: \n",
+       "cursor": {
+        "line": 0,
+        "ch": 13
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "oneExisting": {
+       "in": "body[^1] text\n\n[^1]: one\n",
+       "caret": {
+        "line": 0,
+        "ch": 13
+       },
+       "out": "body[^1] text\n\n[^1]: [^2]one\n\t\n\t[^2]: \n\t\n",
+       "cursor": {
+        "line": 0,
+        "ch": 13
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "twoExisting": {
+       "in": "a[^1] b[^2] c\n\n[^1]: one\n[^2]: two\n",
+       "caret": {
+        "line": 0,
+        "ch": 13
+       },
+       "out": "a[^1] b[^2] c\n\n[^1]: one\n[^2]: [^3]two\n\t\n\t[^3]: \n\t\n",
+       "cursor": {
+        "line": 0,
+        "ch": 13
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      },
+      "namedExisting": {
+       "in": "a[^note] b\n\n[^note]: named\n",
+       "caret": {
+        "line": 0,
+        "ch": 10
+       },
+       "out": "a[^note] b\n\n[^note]: named\n",
+       "cursor": {
+        "line": 0,
+        "ch": 10
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "a[^note] b[^1]\n\n[^note]: named\n\n[^1]: \n",
+       "directChanged": true,
+       "directCursor": {
+        "line": 0,
+        "ch": 14
+       }
+      },
+      "gapExisting": {
+       "in": "a[^2] b\n\n[^2]: two\n",
+       "caret": {
+        "line": 0,
+        "ch": 7
+       },
+       "out": "a[^2] b\n\n[^2]: two\n",
+       "cursor": {
+        "line": 0,
+        "ch": 7
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "a[^2] b[^3]\n\n[^2]: two\n\n[^3]: \n",
+       "directChanged": true,
+       "directCursor": {
+        "line": 0,
+        "ch": 11
+       }
+      },
+      "midDocument": {
+       "in": "# Head\n\npara one\n\npara two\n",
+       "caret": {
+        "line": 2,
+        "ch": 8
+       },
+       "out": "# Head\n\npara one\n\npara two\n",
+       "cursor": {
+        "line": 2,
+        "ch": 8
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true,
+       "directPath": "editorCallback",
+       "directValue": "# Head\n\npara one[^1]\n\npara two\n\n[^1]: \n",
+       "directChanged": true,
+       "directCursor": {
+        "line": 2,
+        "ch": 12
+       }
+      },
+      "beforeExistingRef": {
+       "in": "a[^1] b\n\n[^1]: one\n",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "out": "a[^1] b\n\n[^1]: [^2]one\n\t\n\t[^2]: \n\t\n",
+       "cursor": {
+        "line": 0,
+        "ch": 1
+       },
+       "sel": "",
+       "ran": true,
+       "seedOk": true
+      }
+     }
+    }
+   },
+   "order": [
+    "s00-context",
+    "s01-set-heading-bare",
+    "s02-cycle-list-checklist",
+    "s03-toggle-checklist-status",
+    "s04-insert-blocks",
+    "s05-highlight-colours",
+    "s06-clear-formatting",
+    "s07-move-line",
+    "s08-toggles-multiline",
+    "s09-insert-table-non-blank",
+    "s10-hotkeys-tab",
+    "s11-followups"
+   ],
+   "elapsedMs": 128680,
+   "vaultPath": "/tmp/silica-probe-vault.q8fr5L",
+   "finishedAt": "2026-10-25T14:39:39.094Z"
+  }
+ },
+ "footnoteInsert": {
+  "note": "one case per Obsidian launch; fixtures written to disk before launch, bytes read back from disk",
+  "cases": {
+   "gap-starts-at-2": {
+    "untouched": true,
+    "ran": true,
+    "caretBefore": {
+     "line": 0,
+     "ch": 7
+    },
+    "value": "a[^2] b[^3]\n\n[^2]: two\n\n[^3]: \n",
+    "cursor": {
+     "line": 0,
+     "ch": 11
+    },
+    "disk": "a[^2] b[^3]\n\n[^2]: two\n\n[^3]: \n",
+    "in": "a[^2] b\n\n[^2]: two\n"
+   },
+   "in-list-item": {
+    "untouched": true,
+    "ran": true,
+    "caretBefore": {
+     "line": 0,
+     "ch": 10
+    },
+    "value": "- item one[^1]\n- item two\n\n[^1]: \n",
+    "cursor": {
+     "line": 0,
+     "ch": 14
+    },
+    "disk": "- item one[^1]\n- item two\n\n[^1]: \n",
+    "in": "- item one\n- item two\n"
+   },
+   "mid-document": {
+    "untouched": true,
+    "ran": true,
+    "caretBefore": {
+     "line": 2,
+     "ch": 8
+    },
+    "value": "# Head\n\npara one[^1]\n\npara two\n\n[^1]: \n",
+    "cursor": {
+     "line": 2,
+     "ch": 12
+    },
+    "disk": "# Head\n\npara one[^1]\n\npara two\n\n[^1]: \n",
+    "in": "# Head\n\npara one\n\npara two\n"
+   },
+   "named-only": {
+    "untouched": true,
+    "ran": true,
+    "caretBefore": {
+     "line": 0,
+     "ch": 10
+    },
+    "value": "a[^note] b[^1]\n\n[^note]: named\n\n[^1]: \n",
+    "cursor": {
+     "line": 0,
+     "ch": 14
+    },
+    "disk": "a[^note] b[^1]\n\n[^note]: named\n\n[^1]: \n",
+    "in": "a[^note] b\n\n[^note]: named\n"
+   },
+   "one-numeric": {
+    "untouched": true,
+    "ran": true,
+    "caretBefore": {
+     "line": 0,
+     "ch": 13
+    },
+    "value": "body[^1] text[^2]\n\n[^1]: one\n\n[^2]: \n",
+    "cursor": {
+     "line": 0,
+     "ch": 17
+    },
+    "disk": "body[^1] text[^2]\n\n[^1]: one\n\n[^2]: \n",
+    "in": "body[^1] text\n\n[^1]: one\n"
+   },
+   "two-numeric": {
+    "untouched": true,
+    "ran": true,
+    "caretBefore": {
+     "line": 0,
+     "ch": 13
+    },
+    "value": "a[^1] b[^2] c[^3]\n\n[^1]: one\n[^2]: two\n\n[^3]: \n",
+    "cursor": {
+     "line": 0,
+     "ch": 17
+    },
+    "disk": "a[^1] b[^2] c[^3]\n\n[^1]: one\n[^2]: two\n\n[^3]: \n",
+    "in": "a[^1] b[^2] c\n\n[^1]: one\n[^2]: two\n"
+   }
+  }
+ },
+ "reopenDiagnostic": {
+  "vault": "/tmp/silica-probe-vault.wMdiBd",
+  "rows": [
+   {
+    "file": "A.md",
+    "how": "openLinkText",
+    "ran": true,
+    "before": "one two three\n",
+    "after": "one **two** three\n",
+    "changed": true,
+    "stateBefore": {
+     "markdownLeaves": 1,
+     "activeLeafIsIt": true,
+     "activeLeafType": "markdown",
+     "activeEditorIsIt": true,
+     "activeEditorHasEditor": true,
+     "activeEditorFile": "A.md",
+     "viewFile": "A.md",
+     "viewMode": "source",
+     "activeElementTag": "DIV",
+     "activeElementCls": "cm-content cm-lineWrapping",
+     "editorHasFocus": true
+    }
+   },
+   {
+    "file": "B.md",
+    "how": "openFile",
+    "ran": true,
+    "before": "one two three\n",
+    "after": "one **two** three\n",
+    "changed": true,
+    "stateBefore": {
+     "markdownLeaves": 1,
+     "activeLeafIsIt": true,
+     "activeLeafType": "markdown",
+     "activeEditorIsIt": true,
+     "activeEditorHasEditor": true,
+     "activeEditorFile": "B.md",
+     "viewFile": "B.md",
+     "viewMode": "source",
+     "activeElementTag": "DIV",
+     "activeElementCls": "cm-content cm-lineWrapping",
+     "editorHasFocus": true
+    }
+   },
+   {
+    "file": "C.md",
+    "how": "openFile+setActive",
+    "ran": true,
+    "before": "one two three\n",
+    "after": "one **two** three\n",
+    "changed": true,
+    "stateBefore": {
+     "markdownLeaves": 1,
+     "activeLeafIsIt": true,
+     "activeLeafType": "markdown",
+     "activeEditorIsIt": true,
+     "activeEditorHasEditor": true,
+     "activeEditorFile": "C.md",
+     "viewFile": "C.md",
+     "viewMode": "source",
+     "activeElementTag": "DIV",
+     "activeElementCls": "cm-content cm-lineWrapping",
+     "editorHasFocus": true
+    }
+   },
+   {
+    "file": "D.md",
+    "how": "openFile+setActive+setMode",
+    "ran": true,
+    "before": "one two three\n",
+    "after": "one **two** three\n",
+    "changed": true,
+    "stateBefore": {
+     "markdownLeaves": 1,
+     "activeLeafIsIt": true,
+     "activeLeafType": "markdown",
+     "activeEditorIsIt": true,
+     "activeEditorHasEditor": true,
+     "activeEditorFile": "D.md",
+     "viewFile": "D.md",
+     "viewMode": "source",
+     "activeElementTag": "DIV",
+     "activeElementCls": "cm-content cm-lineWrapping",
+     "editorHasFocus": true
+    }
+   },
+   {
+    "file": "E.md",
+    "how": "openFile+focusEditor",
+    "ran": true,
+    "before": "one two three\n",
+    "after": "one **two** three\n",
+    "changed": true,
+    "stateBefore": {
+     "markdownLeaves": 1,
+     "activeLeafIsIt": true,
+     "activeLeafType": "markdown",
+     "activeEditorIsIt": true,
+     "activeEditorHasEditor": true,
+     "activeEditorFile": "E.md",
+     "viewFile": "E.md",
+     "viewMode": "source",
+     "activeElementTag": "DIV",
+     "activeElementCls": "cm-content cm-lineWrapping",
+     "editorHasFocus": true
+    }
+   },
+   {
+    "file": "E.md",
+    "how": "no-reopen (control)",
+    "ran": true,
+    "before": "one **two** three\n",
+    "after": "one two three\n",
+    "changed": true,
+    "stateBefore": {
+     "markdownLeaves": 1,
+     "activeLeafIsIt": true,
+     "activeLeafType": "markdown",
+     "activeEditorIsIt": true,
+     "activeEditorHasEditor": true,
+     "activeEditorFile": "E.md",
+     "viewFile": "E.md",
+     "viewMode": "source",
+     "activeElementTag": "DIV",
+     "activeElementCls": "cm-content cm-lineWrapping",
+     "editorHasFocus": true
+    }
+   }
+  ]
+ }
+}

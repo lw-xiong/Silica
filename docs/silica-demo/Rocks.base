@@ -1,0 +1,60 @@
+filters:
+  and:
+    - type == "rock"
+formulas:
+  dre: (density / 2.8 * 100).round()
+properties:
+  note.silica:
+    displayName: Silica %
+  note.vesicularity:
+    displayName: Vesicles %
+  formula.dre:
+    displayName: "% of DRE"
+views:
+  - type: table
+    name: All rocks
+    order:
+      - file.name
+      - note.composition
+      - note.silica
+      - note.density
+      - formula.dre
+    sort:
+      - property: note.density
+        direction: DESC
+  - type: table
+    name: Vesicular
+    filters:
+      and:
+        - density < 1.5
+    order:
+      - file.name
+      - note.density
+      - note.vesicularity
+    sort:
+      - property: note.vesicularity
+        direction: DESC
+  - type: cards
+    name: Gallery
+    order:
+      - file.name
+      - note.composition
+      - note.density
+    sort:
+      - property: note.density
+        direction: DESC
+    image: note.cover
+    cardSize: 260
+    imageAspectRatio: 1.25
+  - type: list
+    name: Index
+    order:
+      - file.name
+      - note.composition
+      - note.silica
+    sort:
+      - property: file.name
+        direction: ASC
+    markers: bullet
+    separator: " — "
+newItemFolder: Rocks

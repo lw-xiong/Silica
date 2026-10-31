@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  The template tools/macos-app/bundle.sh fills in; @VERSION@ comes from the workspace manifest,
+  which the release workflow has already checked against the tag.
+
+  CFBundleIconFile is the whole point of the bundle: a bare Mach-O executable has nowhere to
+  carry an icon, so the Finder and the Dock draw the generic one until the binary moves inside
+  Silica.app next to Resources/silica.icns.
+-->
+<plist version="1.0">
+<dict>
+  <key>CFBundleName</key>
+  <string>Silica</string>
+  <key>CFBundleDisplayName</key>
+  <string>Silica</string>
+  <key>CFBundleIdentifier</key>
+  <string>cc.silica.Silica</string>
+  <key>CFBundleExecutable</key>
+  <string>silica</string>
+  <key>CFBundleIconFile</key>
+  <string>silica</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleShortVersionString</key>
+  <string>@VERSION@</string>
+  <key>CFBundleVersion</key>
+  <string>@VERSION@</string>
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.productivity</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>11.0</string>
+  <key>NSHighResolutionCapable</key>
+  <true/>
+  <key>NSHumanReadableCopyright</key>
+  <string>MIT licensed</string>
+  <!-- The hidden frame draws its own title bar, and the window is the app's whole surface. -->
+  <key>NSSupportsAutomaticGraphicsSwitching</key>
+  <true/>
+</dict>
+</plist>

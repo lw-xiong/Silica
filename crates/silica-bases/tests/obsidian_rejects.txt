@@ -1,0 +1,32 @@
+"a\qb"
+"unterminated
++1
+0x10
+1_000
+1e3
+2 ** 3
+2 ^ 3
+`backtick`
+a !== b
+a & b
+a === b
+a ? b : c
+a ?? b
+a ?? b + c
+a ?? b ?? c
+a and b
+a contains b
+a in b
+a or b
+a | b
+a.b = c
+density +
+listish.filter((x) => x != "beta")
+listish.filter(item => item != "beta")
+listish.filter(value => value != "beta")
+listish.filter(x => x != "beta")
+not a
+nums.map(x => x * 2)
+nums.reduce((a, b) => a + b)
+nums.reduce(acc, value => acc + value)
+{}

@@ -1,0 +1,277 @@
+!(a && b)	(! ((a && b)))
+!a && b	((! a) && b)
+!a == b	((! a) == b)
+!a.b	(! a.b)
+!flag	(! flag)
+""	""
+"1 minute"	"1 minute"
+"1 month"	"1 month"
+"1 week"	"1 week"
+"1 year"	"1 year"
+"10" > "9"	("10" > "9")
+"1M"	"1M"
+"1d"	"1d"
+"1h"	"1h"
+"1m"	"1m"
+"1s"	"1s"
+"1w"	"1w"
+"1y"	"1y"
+"3" == 3	("3" == 3)
+"3" > 2	("3" > 2)
+"a" + 1	("a" + 1)
+"a'b"	"a'b"
+"a\"b"	"a\"b"
+"a\\b"	"a\\b"
+"a\nb"	"a\nb"
+"a\tb"	"a\tb"
+"a\u00e9b"	"aéb"
+"abc"	"abc"
+"abc" > 1	("abc" > 1)
+"abc".LOWER()	"abc".LOWER()
+"abc".Lower()	"abc".Lower()
+"abc".lower()	"abc".lower()
+"café"	"café"
+''	""
+'a"b'	"a\"b"
+'a\'b'	"a'b"
+'abc'	"abc"
+(1 + 2) * 3	(((1 + 2)) * 3)
+(now() - when).days()	((now() - when)).days()
+(now() - when).years()	((now() - when)).years()
+- 1 * 2	(-1 * 2)
+-(1 + 2)	(- ((1 + 2)))
+-1	-1
+-1 + 2	(-1 + 2)
+-1 / 0	(-1 / 0)
+-a.b	(- a.b)
+.5	0.5
+0 / 0	(0 / 0)
+0.1 + 0.2	(0.1 + 0.2)
+01	1
+1	1
+1 % 0	(1 % 0)
+1 % 2 * 3	((1 % 2) * 3)
+1 * 2 + 3	((1 * 2) + 3)
+1 + 2 * 3	(1 + (2 * 3))
+1 + 2 + 3	((1 + 2) + 3)
+1 + 2 - 3	((1 + 2) - 3)
+1 + true	(1 + true)
+1 - 2 + 3	((1 - 2) + 3)
+1 - 2 - 3	((1 - 2) - 3)
+1 / 0	(1 / 0)
+1 / 2 / 3	((1 / 2) / 3)
+1.	1
+1.5	1.5
+10 > 9	(10 > 9)
+12.3.TOFIXED(1)	12.3.TOFIXED(1)
+12.3.toFixed(1)	12.3.toFixed(1)
+2 * 3 % 4	((2 * 3) % 4)
+2 * 3 / 4	((2 * 3) / 4)
+2 > "3"	(2 > "3")
+DENSITY	DENSITY
+Density	Density
+Infinity	Infinity
+NOW()	NOW()
+NaN	NaN
+NoSuchFunction()	NoSuchFunction()
+Now()	Now()
+STATUS	STATUS
+[1, 2]	[1, 2]
+[1, 2][0]	[1, 2][0]
+[1,2].SUM()	[1, 2].SUM()
+[1,2].sum()	[1, 2].sum()
+[]	[]
+a != b != c	((a != b) != c)
+a && b && c	((a && b) && c)
+a && b == c || d	((a && (b == c)) || d)
+a && b || c	((a && b) || c)
+a + b * c - d / e	((a + (b * c)) - (d / e))
+a + b > c + d	((a + b) > (c + d))
+a + b.c()	(a + b.c())
+a < b < c	((a < b) < c)
+a == b && c == d	((a == b) && (c == d))
+a == b == c	((a == b) == c)
+a > b + c	(a > (b + c))
+a > b == c	((a > b) == c)
+a >= b <= c	((a >= b) <= c)
+a || b && c	(a || (b && c))
+a || b || c	((a || b) || c)
+a.b().c()	a.b().c()
+a.b(c).d	a.b(c).d
+a.b.c	a.b.c
+a.b.c()	a.b.c()
+a.b[0]	a.b[0]
+a["k"]	a["k"]
+a[0]	a[0]
+a[0].b	a[0].b
+a[b + 1]	a[(b + 1)]
+abs(-1)	abs(-1)
+aliases	aliases
+average(1, 2)	average(1, 2)
+big * big	(big * big)
+ceil(1.5)	ceil(1.5)
+choice(true, 1, 2)	choice(true, 1, 2)
+concat("a", "b")	concat("a", "b")
+contains("abc", "b")	contains("abc", "b")
+date("2026-01-02")	date("2026-01-02")
+date("2026-01-02") - date("2026-01-01")	(date("2026-01-02") - date("2026-01-01"))
+date("2026-01-02T03:04:05")	date("2026-01-02T03:04:05")
+date("not a date")	date("not a date")
+date(when)	date(when)
+density	density
+density + silica	(density + silica)
+density.toFixed(3)	density.toFixed(3)
+duration("-1d")	duration("-1d")
+duration("1 week")	duration("1 week")
+duration("1M")	duration("1M")
+duration("1d")	duration("1d")
+duration("1h")	duration("1h")
+duration("1m")	duration("1m")
+duration("1s")	duration("1s")
+duration("1w")	duration("1w")
+duration("1y 2M 3d")	duration("1y 2M 3d")
+duration("1y")	duration("1y")
+duration(1, "week")	duration(1, "week")
+empty	empty
+empty == null	(empty == null)
+empty()	empty()
+empty.length	empty.length
+false	false
+false + 1	(false + 1)
+file	file
+file("Silica.md")	file("Silica.md")
+file.NAME	file.NAME
+file.Name	file.Name
+file.asLink()	file.asLink()
+file.backlinks	file.backlinks
+file.basename	file.basename
+file.ctime	file.ctime
+file.embeds	file.embeds
+file.ext	file.ext
+file.file	file.file
+file.folder	file.folder
+file.hasTag("#rock")	file.hasTag("#rock")
+file.hasTag("Rock")	file.hasTag("Rock")
+file.hasTag("rock")	file.hasTag("rock")
+file.links	file.links
+file.mtime	file.mtime
+file.name	file.name
+file.path	file.path
+file.properties	file.properties
+file.properties.STATUS	file.properties.STATUS
+file.properties.status	file.properties.status
+file.size	file.size
+file.tags	file.tags
+flag	flag
+flag && off	(flag && off)
+flag || off	(flag || off)
+floor(1.5)	floor(1.5)
+formula.nosuch	formula.nosuch
+formula.ppu	formula.ppu
+icon("rock")	icon("rock")
+if(true, 1)	if(true, 1)
+if(true, 1, 2)	if(true, 1, 2)
+image("pic.png")	image("pic.png")
+join("a", "b")	join("a", "b")
+link("Pumice")	link("Pumice")
+link("Pumice", "alias")	link("Pumice", "alias")
+linkish	linkish
+linkish.asFile()	linkish.asFile()
+linkish.asFile().name	linkish.asFile().name
+list("a")	list("a")
+list(1, 2)	list(1, 2)
+listish	listish
+listish.contains("ALPHA")	listish.contains("ALPHA")
+listish.contains("alpha")	listish.contains("alpha")
+listish.filter("value != 'beta'")	listish.filter("value != 'beta'")
+listish.filter(v, v != "beta")	listish.filter(v, (v != "beta"))
+listish.filter(value != "beta")	listish.filter((value != "beta"))
+listish.filter(value)	listish.filter(value)
+listish.join("|")	listish.join("|")
+listish.length	listish.length
+listish.unique()	listish.unique()
+listish[0]	listish[0]
+max(1, 2)	max(1, 2)
+min(1, 2)	min(1, 2)
+negative.abs()	negative.abs()
+nosuchfunction(1)	nosuchfunction(1)
+nosuchprop	nosuchprop
+nosuchprop && 1	(nosuchprop && 1)
+nosuchprop + 1	(nosuchprop + 1)
+nosuchprop == ""	(nosuchprop == "")
+nosuchprop == 0	(nosuchprop == 0)
+nosuchprop == null	(nosuchprop == null)
+nosuchprop > 1	(nosuchprop > 1)
+nosuchprop || 1	(nosuchprop || 1)
+nosuchprop.length	nosuchprop.length
+nosuchprop.nosuch.deeper	nosuchprop.nosuch.deeper
+nosuchprop.toFixed(2)	nosuchprop.toFixed(2)
+notEmpty(1)	notEmpty(1)
+note	note
+note.density	note.density
+note.nosuch	note.nosuch
+note.status	note.status
+now()	now()
+now() + "1 day"	(now() + "1 day")
+now() - "1 day"	(now() - "1 day")
+now() - "1 week"	(now() - "1 week")
+now() - when	(now() - when)
+now().date()	now().date()
+now().format("YYYY-MM-DD")	now().format("YYYY-MM-DD")
+now().time()	now().time()
+null	null
+number("42")	number("42")
+numish + 1	(numish + 1)
+numish > 41	(numish > 41)
+nums.every(value > 0)	nums.every((value > 0))
+nums.filter(index > 0)	nums.filter((index > 0))
+nums.find(value > 1)	nums.find((value > 1))
+nums.flatMap(value)	nums.flatMap(value)
+nums.indexOf(1)	nums.indexOf(1)
+nums.map(index)	nums.map(index)
+nums.map(item * 2)	nums.map((item * 2))
+nums.map(value * 2)	nums.map((value * 2))
+nums.map(value)	nums.map(value)
+nums.map(value, index)	nums.map(value, index)
+nums.reduce(acc + value)	nums.reduce((acc + value))
+nums.reduce(value + 1)	nums.reduce((value + 1))
+nums.reduce(value, 0)	nums.reduce(value, 0)
+nums.some(value > 2)	nums.some((value > 2))
+nums.sort(value)	nums.sort(value)
+object()	object()
+off == null	(off == null)
+random()	random()
+regexp("a")	regexp("a")
+round(1.5)	round(1.5)
+stamp	stamp
+stamp > when	(stamp > when)
+status	status
+string(42)	string(42)
+sum(1, 2)	sum(1, 2)
+tags	tags
+this	this
+this.a	this.a
+this.density	this.density
+this.file	this.file
+this.file.name	this.file.name
+this.file.path	this.file.path
+this.formula	this.formula
+this.note	this.note
+this.status	this.status
+today()	today()
+true	true
+true + 1	(true + 1)
+true == 1	(true == 1)
+type(1)	type(1)
+undefined	undefined
+when	when
+when + "1 month"	(when + "1 month")
+when - "1M"	(when - "1M")
+when - "1m"	(when - "1m")
+when - "2026-01-01"	(when - "2026-01-01")
+when == "2026-01-02"	(when == "2026-01-02")
+when > "2026-01-01"	(when > "2026-01-01")
+when.YEAR	when.YEAR
+when.format("YYYY")	when.format("YYYY")
+when.year	when.year
+zeroish == null	(zeroish == null)

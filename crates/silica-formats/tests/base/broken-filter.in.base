@@ -1,0 +1,6 @@
+filters:
+  and:
+    - 'status !!! "done"'
+views:
+  - type: table
+    name: BF

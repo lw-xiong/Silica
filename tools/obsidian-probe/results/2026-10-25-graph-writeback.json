@@ -1,0 +1,2089 @@
+{
+ "graphWriteback": {
+  "fixtures": {
+   "startedAt": "2026-10-25T15:33:28.511Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 1
+  },
+  "run": {
+   "startedAt": "2026-10-25T15:33:29.705Z",
+   "steps": {
+    "s01-open-and-expand-every-section": {
+     "ok": true,
+     "ms": 4728,
+     "opened": {
+      "type": "graph",
+      "scale": 1,
+      "nodes": 6
+     },
+     "graphJsonAfterOpen": {
+      "collapse-filter": true,
+      "search": "",
+      "showTags": false,
+      "showAttachments": false,
+      "hideUnresolved": false,
+      "showOrphans": true,
+      "collapse-color-groups": true,
+      "colorGroups": [],
+      "collapse-display": true,
+      "showArrow": false,
+      "textFadeMultiplier": 0,
+      "nodeSizeMultiplier": 1,
+      "lineSizeMultiplier": 1,
+      "collapse-forces": true,
+      "centerStrength": 0.518713248970312,
+      "repelStrength": 10,
+      "linkStrength": 1,
+      "linkDistance": 250,
+      "scale": 1,
+      "close": false
+     },
+     "controlsCollapsed": [
+      {
+       "title": "Filters",
+       "collapsed": true,
+       "cls": "tree-item graph-control-section mod-filter is-collapsed",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 96.70258331298828,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 109.14331531524658
+       },
+       "rows": []
+      },
+      {
+       "title": "Groups",
+       "collapsed": true,
+       "cls": "tree-item graph-control-section mod-color-groups is-collapsed",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 136.24998474121094,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 148.69071674346924
+       },
+       "rows": []
+      },
+      {
+       "title": "Display",
+       "collapsed": true,
+       "cls": "tree-item graph-control-section mod-display is-collapsed",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 175.7974090576172,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 188.2381410598755
+       },
+       "rows": []
+      },
+      {
+       "title": "Forces",
+       "collapsed": true,
+       "cls": "tree-item graph-control-section mod-forces is-collapsed",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 215.34481811523438,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 227.78555011749268
+       },
+       "rows": []
+      }
+     ],
+     "expanded": [
+      {
+       "title": "Filters",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-filter",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 96.70258331298828,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 109.14331531524658
+       },
+       "rows": [
+        {
+         "name": "",
+         "kind": "text",
+         "value": {
+          "value": "",
+          "placeholder": "Search files..."
+         }
+        },
+        {
+         "name": "Tags",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 179.5474090576172,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 189.04633045196533
+          }
+         }
+        },
+        {
+         "name": "Attachments",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 214.52584838867188,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 224.02476978302002
+          }
+         }
+        },
+        {
+         "name": "Existing files only",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 249.50428771972656,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 259.0032091140747
+          }
+         }
+        },
+        {
+         "name": "Orphans",
+         "kind": "toggle",
+         "value": {
+          "on": true,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 284.48272705078125,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 293.9816484451294
+          }
+         }
+        }
+       ]
+      },
+      {
+       "title": "Groups",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-color-groups",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 330.14007568359375,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 342.58080768585205
+       },
+       "rows": []
+      },
+      {
+       "title": "Display",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-display",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 417.68316650390625,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 430.12389850616455
+       },
+       "rows": [
+        {
+         "name": "Arrows",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 454.5473937988281,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 464.04631519317627
+          }
+         }
+        },
+        {
+         "name": "Text fade threshold",
+         "kind": "slider",
+         "value": {
+          "value": "0",
+          "min": "-3",
+          "max": "3",
+          "step": "0.1",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 536.8426513671875,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 538.8415735960007
+          }
+         }
+        },
+        {
+         "name": "Node size",
+         "kind": "slider",
+         "value": {
+          "value": "1",
+          "min": "0.1",
+          "max": "5",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 610.5818481445312,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 612.5807703733444
+          }
+         }
+        },
+        {
+         "name": "Link thickness",
+         "kind": "slider",
+         "value": {
+          "value": "1",
+          "min": "0.1",
+          "max": "5",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 684.321044921875,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 686.3199671506882
+          }
+         }
+        },
+        {
+         "name": "",
+         "kind": "button",
+         "value": {
+          "text": "Animate",
+          "rect": {
+           "x": 924.321044921875,
+           "y": 710.7434692382812,
+           "w": 75.14008331298828,
+           "h": 29.999998092651367,
+           "cx": 961.8910865783691,
+           "cy": 725.7434682846069
+          }
+         }
+        }
+       ]
+      },
+      {
+       "title": "Forces",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-forces",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 767.4029541015625,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 779.8436861038208
+       },
+       "rows": [
+        {
+         "name": "Center force",
+         "kind": "slider",
+         "value": {
+          "value": "0.518713248970312",
+          "min": "0",
+          "max": "1",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 851.583984375,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 853.5829066038132
+          }
+         }
+        },
+        {
+         "name": "Repel force",
+         "kind": "slider",
+         "value": {
+          "value": "10",
+          "min": "0",
+          "max": "20",
+          "step": "any",
+          "rect": {
+           "x": 828.0387573242188,
+           "y": 925.3232421875,
+           "w": 169.42886352539062,
+           "h": 3.9978444576263428,
+           "cx": 912.7531890869141,
+           "cy": 927.3221644163132
+          }
+         }
+        },
+        {
+         "name": "Link force",
+         "kind": "slider",
+         "value": {
+          "value": "1",
+          "min": "0",
+          "max": "1",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 999.0624389648438,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 1001.0613611936569
+          }
+         }
+        },
+        {
+         "name": "Link distance",
+         "kind": "slider",
+         "value": {
+          "value": "250",
+          "min": "30",
+          "max": "500",
+          "step": "1",
+          "rect": {
+           "x": 817.122802734375,
+           "y": 1072.8016357421875,
+           "w": 180.34481811523438,
+           "h": 3.9978444576263428,
+           "cx": 907.2952117919922,
+           "cy": 1074.8005579710007
+          }
+         }
+        }
+       ]
+      }
+     ],
+     "graphJsonAfterExpanding": {
+      "collapse-filter": false,
+      "search": "",
+      "showTags": false,
+      "showAttachments": false,
+      "hideUnresolved": false,
+      "showOrphans": true,
+      "collapse-color-groups": false,
+      "colorGroups": [],
+      "collapse-display": false,
+      "showArrow": false,
+      "textFadeMultiplier": 0,
+      "nodeSizeMultiplier": 1,
+      "lineSizeMultiplier": 1,
+      "collapse-forces": false,
+      "centerStrength": 0.518713248970312,
+      "repelStrength": 10,
+      "linkStrength": 1,
+      "linkDistance": 250,
+      "scale": 1,
+      "close": false
+     },
+     "controlsNow": [
+      {
+       "title": "Filters",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-filter",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 96.70258331298828,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 109.14331531524658
+       },
+       "rows": [
+        {
+         "name": "",
+         "kind": "text",
+         "value": {
+          "value": "",
+          "placeholder": "Search files..."
+         }
+        },
+        {
+         "name": "Tags",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 179.5474090576172,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 189.04633045196533
+          }
+         }
+        },
+        {
+         "name": "Attachments",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 214.52584838867188,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 224.02476978302002
+          }
+         }
+        },
+        {
+         "name": "Existing files only",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 249.50428771972656,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 259.0032091140747
+          }
+         }
+        },
+        {
+         "name": "Orphans",
+         "kind": "toggle",
+         "value": {
+          "on": true,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 284.48272705078125,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 293.9816484451294
+          }
+         }
+        }
+       ]
+      },
+      {
+       "title": "Groups",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-color-groups",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 330.14007568359375,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 342.58080768585205
+       },
+       "rows": []
+      },
+      {
+       "title": "Display",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-display",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 417.68316650390625,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 430.12389850616455
+       },
+       "rows": [
+        {
+         "name": "Arrows",
+         "kind": "toggle",
+         "value": {
+          "on": false,
+          "rect": {
+           "x": 965.4633178710938,
+           "y": 454.5473937988281,
+           "w": 33.997840881347656,
+           "h": 18.99784278869629,
+           "cx": 982.4622383117676,
+           "cy": 464.04631519317627
+          }
+         }
+        },
+        {
+         "name": "Text fade threshold",
+         "kind": "slider",
+         "value": {
+          "value": "0",
+          "min": "-3",
+          "max": "3",
+          "step": "0.1",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 536.8426513671875,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 538.8415735960007
+          }
+         }
+        },
+        {
+         "name": "Node size",
+         "kind": "slider",
+         "value": {
+          "value": "1",
+          "min": "0.1",
+          "max": "5",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 610.5818481445312,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 612.5807703733444
+          }
+         }
+        },
+        {
+         "name": "Link thickness",
+         "kind": "slider",
+         "value": {
+          "value": "1",
+          "min": "0.1",
+          "max": "5",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 684.321044921875,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 686.3199671506882
+          }
+         }
+        },
+        {
+         "name": "",
+         "kind": "button",
+         "value": {
+          "text": "Animate",
+          "rect": {
+           "x": 924.321044921875,
+           "y": 710.7434692382812,
+           "w": 75.14008331298828,
+           "h": 29.999998092651367,
+           "cx": 961.8910865783691,
+           "cy": 725.7434682846069
+          }
+         }
+        }
+       ]
+      },
+      {
+       "title": "Forces",
+       "collapsed": false,
+       "cls": "tree-item graph-control-section mod-forces",
+       "rect": {
+        "x": 784.8275146484375,
+        "y": 767.4029541015625,
+        "w": 214.63360595703125,
+        "h": 24.8814640045166,
+        "cx": 892.1443176269531,
+        "cy": 779.8436861038208
+       },
+       "rows": [
+        {
+         "name": "Center force",
+         "kind": "slider",
+         "value": {
+          "value": "0.518713248970312",
+          "min": "0",
+          "max": "1",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 851.583984375,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 853.5829066038132
+          }
+         }
+        },
+        {
+         "name": "Repel force",
+         "kind": "slider",
+         "value": {
+          "value": "10",
+          "min": "0",
+          "max": "20",
+          "step": "any",
+          "rect": {
+           "x": 828.0387573242188,
+           "y": 925.3232421875,
+           "w": 169.42886352539062,
+           "h": 3.9978444576263428,
+           "cx": 912.7531890869141,
+           "cy": 927.3221644163132
+          }
+         }
+        },
+        {
+         "name": "Link force",
+         "kind": "slider",
+         "value": {
+          "value": "1",
+          "min": "0",
+          "max": "1",
+          "step": "any",
+          "rect": {
+           "x": 820.6033935546875,
+           "y": 999.0624389648438,
+           "w": 176.8642120361328,
+           "h": 3.9978444576263428,
+           "cx": 909.0354995727539,
+           "cy": 1001.0613611936569
+          }
+         }
+        },
+        {
+         "name": "Link distance",
+         "kind": "slider",
+         "value": {
+          "value": "250",
+          "min": "30",
+          "max": "500",
+          "step": "1",
+          "rect": {
+           "x": 817.122802734375,
+           "y": 1072.8016357421875,
+           "w": 180.34481811523438,
+           "h": 3.9978444576263428,
+           "cx": 907.2952117919922,
+           "cy": 1074.8005579710007
+          }
+         }
+        }
+       ]
+      }
+     ]
+    },
+    "s02-filter-checkboxes": {
+     "ok": true,
+     "ms": 2057,
+     "rows": [
+      {
+       "section": "Filters",
+       "name": "Tags",
+       "changedAfterMs": 100,
+       "diff": {
+        "showTags": {
+         "from": false,
+         "to": true
+        }
+       },
+       "viewOptions": null
+      },
+      {
+       "section": "Filters",
+       "name": "Attachments",
+       "changedAfterMs": 100,
+       "diff": {
+        "showAttachments": {
+         "from": false,
+         "to": true
+        }
+       },
+       "viewOptions": null
+      },
+      {
+       "section": "Filters",
+       "name": "Existing files only",
+       "changedAfterMs": 100,
+       "diff": {
+        "hideUnresolved": {
+         "from": false,
+         "to": true
+        }
+       },
+       "viewOptions": null
+      },
+      {
+       "section": "Filters",
+       "name": "Orphans",
+       "changedAfterMs": 100,
+       "diff": {
+        "showOrphans": {
+         "from": true,
+         "to": false
+        }
+       },
+       "viewOptions": null
+      },
+      {
+       "section": "Display",
+       "name": "Arrows",
+       "changedAfterMs": 100,
+       "diff": {
+        "showArrow": {
+         "from": false,
+         "to": true
+        }
+       },
+       "viewOptions": null
+      }
+     ],
+     "toggleRows": [
+      {
+       "section": "Filters",
+       "name": "Tags",
+       "on": false
+      },
+      {
+       "section": "Filters",
+       "name": "Attachments",
+       "on": false
+      },
+      {
+       "section": "Filters",
+       "name": "Existing files only",
+       "on": false
+      },
+      {
+       "section": "Filters",
+       "name": "Orphans",
+       "on": true
+      },
+      {
+       "section": "Display",
+       "name": "Arrows",
+       "on": false
+      }
+     ]
+    },
+    "s03-sliders": {
+     "ok": true,
+     "ms": 29981,
+     "rows": [
+      {
+       "section": "Display",
+       "name": "Text fade threshold",
+       "changedAfterMs": 101,
+       "diff": {
+        "textFadeMultiplier": {
+         "from": 0,
+         "to": -1.8
+        }
+       },
+       "newValue": "-1.8"
+      },
+      {
+       "section": "Display",
+       "name": "Node size",
+       "changedAfterMs": 100,
+       "diff": {
+        "nodeSizeMultiplier": {
+         "from": 1,
+         "to": 1.19180628094689
+        }
+       },
+       "newValue": "1.19180628094689"
+      },
+      {
+       "section": "Display",
+       "name": "Link thickness",
+       "changedAfterMs": 100,
+       "diff": {
+        "lineSizeMultiplier": {
+         "from": 1,
+         "to": 1.19180628094689
+        }
+       },
+       "newValue": "1.19180628094689"
+      },
+      {
+       "section": "Forces",
+       "name": "Center force",
+       "changedAfterMs": null,
+       "diff": {},
+       "newValue": "0.518713248970312"
+      },
+      {
+       "section": "Forces",
+       "name": "Repel force",
+       "changedAfterMs": null,
+       "diff": {},
+       "newValue": "10"
+      },
+      {
+       "section": "Forces",
+       "name": "Link force",
+       "changedAfterMs": null,
+       "diff": {},
+       "newValue": "1"
+      },
+      {
+       "section": "Forces",
+       "name": "Link distance",
+       "changedAfterMs": null,
+       "diff": {},
+       "newValue": "250"
+      }
+     ],
+     "sliderRows": [
+      {
+       "section": "Display",
+       "name": "Text fade threshold",
+       "value": "0",
+       "min": "-3",
+       "max": "3",
+       "step": "0.1"
+      },
+      {
+       "section": "Display",
+       "name": "Node size",
+       "value": "1",
+       "min": "0.1",
+       "max": "5",
+       "step": "any"
+      },
+      {
+       "section": "Display",
+       "name": "Link thickness",
+       "value": "1",
+       "min": "0.1",
+       "max": "5",
+       "step": "any"
+      },
+      {
+       "section": "Forces",
+       "name": "Center force",
+       "value": "0.518713248970312",
+       "min": "0",
+       "max": "1",
+       "step": "any"
+      },
+      {
+       "section": "Forces",
+       "name": "Repel force",
+       "value": "10",
+       "min": "0",
+       "max": "20",
+       "step": "any"
+      },
+      {
+       "section": "Forces",
+       "name": "Link force",
+       "value": "1",
+       "min": "0",
+       "max": "1",
+       "step": "any"
+      },
+      {
+       "section": "Forces",
+       "name": "Link distance",
+       "value": "250",
+       "min": "30",
+       "max": "500",
+       "step": "1"
+      }
+     ]
+    },
+    "s04-search-box-and-buttons": {
+     "ok": true,
+     "ms": 3388,
+     "textRows": [
+      {
+       "section": "Filters",
+       "name": "",
+       "value": {
+        "value": "",
+        "placeholder": "Search files..."
+       }
+      }
+     ],
+     "inputRect": {
+      "x": 784.8275146484375,
+      "y": 133.56680297851562,
+      "w": 214.63360595703125,
+      "h": 29.999998092651367,
+      "cx": 892.1443176269531,
+      "cy": 148.5668020248413
+     },
+     "afterTyping": {
+      "changedAfterMs": 401,
+      "graphJson": {
+       "collapse-filter": false,
+       "search": "alpha",
+       "showTags": true,
+       "showAttachments": true,
+       "hideUnresolved": true,
+       "showOrphans": false,
+       "collapse-color-groups": false,
+       "colorGroups": [],
+       "collapse-display": false,
+       "showArrow": true,
+       "textFadeMultiplier": -1.8,
+       "nodeSizeMultiplier": 1.19180628094689,
+       "lineSizeMultiplier": 1.19180628094689,
+       "collapse-forces": false,
+       "centerStrength": 0.518713248970312,
+       "repelStrength": 10,
+       "linkStrength": 1,
+       "linkDistance": 250,
+       "scale": 1,
+       "close": false
+      }
+     },
+     "afterClearing": {
+      "collapse-filter": false,
+      "search": "",
+      "showTags": true,
+      "showAttachments": true,
+      "hideUnresolved": true,
+      "showOrphans": false,
+      "collapse-color-groups": false,
+      "colorGroups": [],
+      "collapse-display": false,
+      "showArrow": true,
+      "textFadeMultiplier": -1.8,
+      "nodeSizeMultiplier": 1.19180628094689,
+      "lineSizeMultiplier": 1.19180628094689,
+      "collapse-forces": false,
+      "centerStrength": 0.518713248970312,
+      "repelStrength": 10,
+      "linkStrength": 1,
+      "linkDistance": 250,
+      "scale": 1,
+      "close": false
+     },
+     "buttonRows": [
+      {
+       "section": "Display",
+       "name": "",
+       "text": "Animate"
+      }
+     ]
+    },
+    "s05-collapse-again-and-zoom": {
+     "ok": true,
+     "ms": 14421,
+     "recollapse": {
+      "title": "Filters",
+      "changedAfterMs": 300,
+      "collapsedNow": true,
+      "graphJson": {
+       "collapse-filter": true,
+       "search": "",
+       "showTags": true,
+       "showAttachments": true,
+       "hideUnresolved": true,
+       "showOrphans": false,
+       "collapse-color-groups": false,
+       "colorGroups": [],
+       "collapse-display": false,
+       "showArrow": true,
+       "textFadeMultiplier": -1.8,
+       "nodeSizeMultiplier": 1.19180628094689,
+       "lineSizeMultiplier": 1.19180628094689,
+       "collapse-forces": false,
+       "centerStrength": 0.518713248970312,
+       "repelStrength": 10,
+       "linkStrength": 1,
+       "linkDistance": 250,
+       "scale": 1,
+       "close": false
+      }
+     },
+     "canvas": {
+      "x": 343.9978332519531,
+      "y": 78.02801513671875,
+      "w": 680.1400146484375,
+      "h": 721.971923828125,
+      "cx": 684.0678405761719,
+      "cy": 439.01397705078125
+     },
+     "zoomIn": [
+      {
+       "scale": 6.9189210171168405,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 7.927244723325685,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 7.927244723325685,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 7.927244723325685,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 7.927244723325685,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      }
+     ],
+     "scaleAfterZoomIn": {
+      "scale": 7.927244723325685,
+      "panX": 493.0000162124634,
+      "panY": 523.4500172138214
+     },
+     "graphJsonAfterZoomIn": {
+      "changedAfterMs": 602,
+      "scale": 8
+     },
+     "zoomOut": [
+      {
+       "scale": 0.3634427332811387,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 0.014181094140494285,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 0.00788982619284521,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 0.00788982619284521,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      {
+       "scale": 0.00788982619284521,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      }
+     ],
+     "scaleAfterZoomOut": {
+      "scale": 0.00788982619284521,
+      "panX": 493.0000162124634,
+      "panY": 523.4500172138214
+     },
+     "graphJsonAfterZoomOut": {
+      "collapse-filter": true,
+      "search": "",
+      "showTags": true,
+      "showAttachments": true,
+      "hideUnresolved": true,
+      "showOrphans": false,
+      "collapse-color-groups": false,
+      "colorGroups": [],
+      "collapse-display": false,
+      "showArrow": true,
+      "textFadeMultiplier": -1.8,
+      "nodeSizeMultiplier": 1.19180628094689,
+      "lineSizeMultiplier": 1.19180628094689,
+      "collapse-forces": false,
+      "centerStrength": 0.518713248970312,
+      "repelStrength": 10,
+      "linkStrength": 1,
+      "linkDistance": 250,
+      "scale": 0.0078125,
+      "close": false
+     },
+     "afterPan": {
+      "engine": {
+       "scale": 0.00788982619284521,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      "graphJson": {
+       "collapse-filter": true,
+       "search": "",
+       "showTags": true,
+       "showAttachments": true,
+       "hideUnresolved": true,
+       "showOrphans": false,
+       "collapse-color-groups": false,
+       "colorGroups": [],
+       "collapse-display": false,
+       "showArrow": true,
+       "textFadeMultiplier": -1.8,
+       "nodeSizeMultiplier": 1.19180628094689,
+       "lineSizeMultiplier": 1.19180628094689,
+       "collapse-forces": false,
+       "centerStrength": 0.518713248970312,
+       "repelStrength": 10,
+       "linkStrength": 1,
+       "linkDistance": 250,
+       "scale": 0.0078125,
+       "close": false
+      }
+     },
+     "afterReopen": {
+      "got": {
+       "type": "graph",
+       "scale": 0.007880468919882087,
+       "nodes": 8
+      },
+      "engine": {
+       "scale": 0.007880468919882087,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      }
+     }
+    },
+    "s06-unknown-key-and-external-change": {
+     "ok": true,
+     "ms": 8472,
+     "unknownKeyStillThere": null,
+     "graphJsonNow": {
+      "collapse-filter": true,
+      "search": "",
+      "showTags": true,
+      "showAttachments": true,
+      "hideUnresolved": true,
+      "showOrphans": false,
+      "collapse-color-groups": false,
+      "colorGroups": [],
+      "collapse-display": false,
+      "showArrow": true,
+      "textFadeMultiplier": -1.8,
+      "nodeSizeMultiplier": 1.19180628094689,
+      "lineSizeMultiplier": 1.19180628094689,
+      "collapse-forces": false,
+      "centerStrength": 0.518713248970312,
+      "repelStrength": 10,
+      "linkStrength": 1,
+      "linkDistance": 250,
+      "scale": 0.0078125,
+      "close": false
+     },
+     "afterExternalWrite": {
+      "viewOptions": null,
+      "engine": {
+       "scale": 0.007880468919882087,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      },
+      "fileNow": {
+       "collapse-filter": true,
+       "search": "",
+       "showTags": true,
+       "showAttachments": true,
+       "hideUnresolved": true,
+       "showOrphans": false,
+       "collapse-color-groups": false,
+       "colorGroups": [],
+       "collapse-display": false,
+       "showArrow": true,
+       "textFadeMultiplier": -1.8,
+       "nodeSizeMultiplier": 1.19180628094689,
+       "lineSizeMultiplier": 1.19180628094689,
+       "collapse-forces": false,
+       "centerStrength": 0.518713248970312,
+       "repelStrength": 10,
+       "linkStrength": 1,
+       "linkDistance": 250,
+       "scale": 3,
+       "close": false,
+       "silicaUnknownKey": "rewritten from outside"
+      }
+     },
+     "afterReopenFollowingExternalWrite": {
+      "got": {
+       "type": "graph",
+       "scale": 2.9707637232512476,
+       "nodes": 8
+      },
+      "options": null,
+      "engine": {
+       "scale": 2.9707637232512476,
+       "panX": 493.0000162124634,
+       "panY": 523.4500172138214
+      }
+     },
+     "fileAfterReopen": {
+      "collapse-filter": true,
+      "search": "",
+      "showTags": true,
+      "showAttachments": true,
+      "hideUnresolved": true,
+      "showOrphans": false,
+      "collapse-color-groups": false,
+      "colorGroups": [],
+      "collapse-display": false,
+      "showArrow": true,
+      "textFadeMultiplier": -1.8,
+      "nodeSizeMultiplier": 1.19180628094689,
+      "lineSizeMultiplier": 1.19180628094689,
+      "collapse-forces": false,
+      "centerStrength": 0.518713248970312,
+      "repelStrength": 10,
+      "linkStrength": 1,
+      "linkDistance": 250,
+      "scale": 3,
+      "close": false
+     }
+    },
+    "s07-local-graph-options": {
+     "ok": true,
+     "ms": 12896,
+     "workspaceBefore": {
+      "main": {
+       "id": "cf5e2ef0b8df0116",
+       "type": "split",
+       "children": [
+        {
+         "id": "4628d7a9086ae988",
+         "type": "tabs",
+         "children": [
+          {
+           "id": "2608bc74527e404f",
+           "type": "leaf",
+           "state": {
+            "type": "graph",
+            "state": {},
+            "icon": "lucide-git-fork",
+            "title": "Graph view"
+           }
+          }
+         ]
+        }
+       ],
+       "direction": "vertical"
+      },
+      "left": {
+       "id": "d2bc21ff2d3c7d6e",
+       "type": "split",
+       "children": [
+        {
+         "id": "dab48e69b4f679f9",
+         "type": "tabs",
+         "children": [
+          {
+           "id": "84bae4a95b6b8c9b",
+           "type": "leaf",
+           "state": {
+            "type": "file-explorer",
+            "state": {
+             "sortOrder": "alphabetical",
+             "autoReveal": false,
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-folder-closed",
+            "title": "Files"
+           }
+          },
+          {
+           "id": "923e5349a9ab25a8",
+           "type": "leaf",
+           "state": {
+            "type": "search",
+            "state": {
+             "query": "",
+             "matchingCase": false,
+             "explainSearch": false,
+             "collapseAll": false,
+             "extraContext": false,
+             "sortOrder": "alphabetical"
+            },
+            "icon": "lucide-search",
+            "title": "Search"
+           }
+          },
+          {
+           "id": "4a47df44827c1da3",
+           "type": "leaf",
+           "state": {
+            "type": "bookmarks",
+            "state": {
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-bookmark",
+            "title": "Bookmarks"
+           }
+          }
+         ]
+        }
+       ],
+       "direction": "horizontal",
+       "width": 300
+      },
+      "right": {
+       "id": "9148b6e74a8650de",
+       "type": "split",
+       "children": [
+        {
+         "id": "6182d8e90d598022",
+         "type": "tabs",
+         "children": [
+          {
+           "id": "930d34db8f9401c6",
+           "type": "leaf",
+           "state": {
+            "type": "backlink",
+            "state": {
+             "collapseAll": false,
+             "extraContext": false,
+             "sortOrder": "alphabetical",
+             "showSearch": false,
+             "searchQuery": "",
+             "backlinkCollapsed": false,
+             "unlinkedCollapsed": true
+            },
+            "icon": "links-coming-in",
+            "title": "Backlinks"
+           }
+          },
+          {
+           "id": "6709ca13039d6916",
+           "type": "leaf",
+           "state": {
+            "type": "outgoing-link",
+            "state": {
+             "linksCollapsed": false,
+             "unlinkedCollapsed": true
+            },
+            "icon": "links-going-out",
+            "title": "Outgoing links"
+           }
+          },
+          {
+           "id": "3049763be194acb4",
+           "type": "leaf",
+           "state": {
+            "type": "tag",
+            "state": {
+             "sortOrder": "frequency",
+             "useHierarchy": true,
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-tags",
+            "title": "Tags"
+           }
+          },
+          {
+           "id": "b08ce2ed53933610",
+           "type": "leaf",
+           "state": {
+            "type": "all-properties",
+            "state": {
+             "sortOrder": "frequency",
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-archive",
+            "title": "All properties"
+           }
+          },
+          {
+           "id": "409df9031464fc8f",
+           "type": "leaf",
+           "state": {
+            "type": "outline",
+            "state": {
+             "followCursor": false,
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-list",
+            "title": "Outline"
+           }
+          }
+         ]
+        }
+       ],
+       "direction": "horizontal",
+       "width": 300,
+       "collapsed": true
+      },
+      "left-ribbon": {
+       "hiddenItems": {
+        "switcher:Open quick switcher": false,
+        "graph:Open graph view": false,
+        "canvas:Create new canvas": false,
+        "daily-notes:Open today's daily note": false,
+        "templates:Insert template": false,
+        "command-palette:Open command palette": false,
+        "bases:Create new base": false
+       }
+      },
+      "active": "2608bc74527e404f",
+      "lastOpenFiles": []
+     },
+     "graphJsonBefore": {
+      "collapse-filter": true,
+      "search": "",
+      "showTags": true,
+      "showAttachments": true,
+      "hideUnresolved": true,
+      "showOrphans": false,
+      "collapse-color-groups": false,
+      "colorGroups": [],
+      "collapse-display": false,
+      "showArrow": true,
+      "textFadeMultiplier": -1.8,
+      "nodeSizeMultiplier": 1.19180628094689,
+      "lineSizeMultiplier": 1.19180628094689,
+      "collapse-forces": false,
+      "centerStrength": 0.518713248970312,
+      "repelStrength": 10,
+      "linkStrength": 1,
+      "linkDistance": 250,
+      "scale": 3,
+      "close": false
+     },
+     "opened": {
+      "state": {
+       "type": "localgraph",
+       "state": {
+        "file": "Hub.md",
+        "options": {
+         "collapse-filter": true,
+         "search": "",
+         "localJumps": 1,
+         "localBacklinks": true,
+         "localForelinks": true,
+         "localInterlinks": false,
+         "showTags": false,
+         "showAttachments": false,
+         "hideUnresolved": false,
+         "collapse-color-groups": true,
+         "colorGroups": [],
+         "collapse-display": true,
+         "showArrow": false,
+         "textFadeMultiplier": 0,
+         "nodeSizeMultiplier": 1,
+         "lineSizeMultiplier": 1,
+         "collapse-forces": true,
+         "centerStrength": 0.518713248970312,
+         "repelStrength": 10,
+         "linkStrength": 1,
+         "linkDistance": 250,
+         "scale": 1,
+         "close": false
+        }
+       },
+       "icon": "lucide-git-fork",
+       "title": "Graph of Hub"
+      },
+      "scale": 1
+     },
+     "localControls": [
+      {
+       "name": "",
+       "kind": "text",
+       "rect": null,
+       "on": null
+      },
+      {
+       "name": "Depth",
+       "kind": "slider",
+       "rect": {
+        "cx": 899.8598251342773,
+        "cy": 228.86313426494598
+       },
+       "on": null
+      },
+      {
+       "name": "Incoming links",
+       "kind": "toggle",
+       "rect": {
+        "cx": 982.4622383117676,
+        "cy": 262.78554248809814
+       },
+       "on": true
+      },
+      {
+       "name": "Outgoing links",
+       "kind": "toggle",
+       "rect": {
+        "cx": 982.4622383117676,
+        "cy": 297.7639970779419
+       },
+       "on": true
+      },
+      {
+       "name": "Neighbor links",
+       "kind": "toggle",
+       "rect": {
+        "cx": 982.4622383117676,
+        "cy": 332.7424211502075
+       },
+       "on": false
+      },
+      {
+       "name": "Tags",
+       "kind": "toggle",
+       "rect": {
+        "cx": 982.4622383117676,
+        "cy": 367.72087574005127
+       },
+       "on": false
+      },
+      {
+       "name": "Attachments",
+       "kind": "toggle",
+       "rect": {
+        "cx": 982.4622383117676,
+        "cy": 402.699330329895
+       },
+       "on": false
+      },
+      {
+       "name": "Existing files only",
+       "kind": "toggle",
+       "rect": {
+        "cx": 982.4622383117676,
+        "cy": 437.67778491973877
+       },
+       "on": false
+      },
+      {
+       "name": "Arrows",
+       "kind": "toggle",
+       "rect": {
+        "cx": 982.4622383117676,
+        "cy": 607.7423906326294
+       },
+       "on": false
+      },
+      {
+       "name": "Text fade threshold",
+       "kind": "slider",
+       "rect": {
+        "cx": 909.0354995727539,
+        "cy": 682.5376795530319
+       },
+       "on": null
+      },
+      {
+       "name": "Node size",
+       "kind": "slider",
+       "rect": {
+        "cx": 909.0354995727539,
+        "cy": 756.2768763303757
+       },
+       "on": null
+      },
+      {
+       "name": "Link thickness",
+       "kind": "slider",
+       "rect": {
+        "cx": 909.0354995727539,
+        "cy": 830.0161341428757
+       },
+       "on": null
+      },
+      {
+       "name": "Center force",
+       "kind": "slider",
+       "rect": {
+        "cx": 909.0354995727539,
+        "cy": 951.2984217405319
+       },
+       "on": null
+      },
+      {
+       "name": "Repel force",
+       "kind": "slider",
+       "rect": {
+        "cx": 912.7531890869141,
+        "cy": 1025.0376185178757
+       },
+       "on": null
+      },
+      {
+       "name": "Link force",
+       "kind": "slider",
+       "rect": {
+        "cx": 909.0354995727539,
+        "cy": 1098.7768763303757
+       },
+       "on": null
+      },
+      {
+       "name": "Link distance",
+       "kind": "slider",
+       "rect": {
+        "cx": 907.2952117919922,
+        "cy": 1172.5161341428757
+       },
+       "on": null
+      }
+     ],
+     "afterLocalToggle": {
+      "name": "Incoming links",
+      "graphJsonChangedAfterMs": null,
+      "graphJson": {
+       "collapse-filter": true,
+       "search": "",
+       "showTags": true,
+       "showAttachments": true,
+       "hideUnresolved": true,
+       "showOrphans": false,
+       "collapse-color-groups": false,
+       "colorGroups": [],
+       "collapse-display": false,
+       "showArrow": true,
+       "textFadeMultiplier": -1.8,
+       "nodeSizeMultiplier": 1.19180628094689,
+       "lineSizeMultiplier": 1.19180628094689,
+       "collapse-forces": false,
+       "centerStrength": 0.518713248970312,
+       "repelStrength": 10,
+       "linkStrength": 1,
+       "linkDistance": 250,
+       "scale": 3,
+       "close": false
+      },
+      "leafState": {
+       "type": "localgraph",
+       "state": {
+        "file": "Hub.md",
+        "options": {
+         "collapse-filter": false,
+         "search": "",
+         "localJumps": 1,
+         "localBacklinks": false,
+         "localForelinks": true,
+         "localInterlinks": false,
+         "showTags": false,
+         "showAttachments": false,
+         "hideUnresolved": false,
+         "collapse-color-groups": false,
+         "colorGroups": [],
+         "collapse-display": false,
+         "showArrow": false,
+         "textFadeMultiplier": 0,
+         "nodeSizeMultiplier": 1,
+         "lineSizeMultiplier": 1,
+         "collapse-forces": false,
+         "centerStrength": 0.518713248970312,
+         "repelStrength": 10,
+         "linkStrength": 1,
+         "linkDistance": 250,
+         "scale": 1,
+         "close": false
+        }
+       },
+       "icon": "lucide-git-fork",
+       "title": "Graph of Hub"
+      }
+     },
+     "workspaceAfter": {
+      "main": {
+       "id": "cf5e2ef0b8df0116",
+       "type": "split",
+       "children": [
+        {
+         "id": "7fee26b53e9ecd5f",
+         "type": "tabs",
+         "children": [
+          {
+           "id": "9fa4b8ffdc186d61",
+           "type": "leaf",
+           "state": {
+            "type": "markdown",
+            "state": {
+             "file": "Hub.md",
+             "mode": "source",
+             "source": false
+            },
+            "icon": "lucide-file",
+            "title": "Hub"
+           },
+           "group": "f9b9843030c5868c"
+          }
+         ]
+        },
+        {
+         "id": "0a1469ce512e48e4",
+         "type": "tabs",
+         "children": [
+          {
+           "id": "898c1216a3400da9",
+           "type": "leaf",
+           "state": {
+            "type": "localgraph",
+            "state": {
+             "file": "Hub.md",
+             "options": {
+              "collapse-filter": false,
+              "search": "",
+              "localJumps": 1,
+              "localBacklinks": false,
+              "localForelinks": true,
+              "localInterlinks": false,
+              "showTags": false,
+              "showAttachments": false,
+              "hideUnresolved": false,
+              "collapse-color-groups": false,
+              "colorGroups": [],
+              "collapse-display": false,
+              "showArrow": false,
+              "textFadeMultiplier": 0,
+              "nodeSizeMultiplier": 1,
+              "lineSizeMultiplier": 1,
+              "collapse-forces": false,
+              "centerStrength": 0.518713248970312,
+              "repelStrength": 10,
+              "linkStrength": 1,
+              "linkDistance": 250,
+              "scale": 1,
+              "close": false
+             }
+            },
+            "icon": "lucide-git-fork",
+            "title": "Graph of Hub"
+           },
+           "group": "f9b9843030c5868c"
+          }
+         ]
+        }
+       ],
+       "direction": "vertical"
+      },
+      "left": {
+       "id": "d2bc21ff2d3c7d6e",
+       "type": "split",
+       "children": [
+        {
+         "id": "dab48e69b4f679f9",
+         "type": "tabs",
+         "children": [
+          {
+           "id": "84bae4a95b6b8c9b",
+           "type": "leaf",
+           "state": {
+            "type": "file-explorer",
+            "state": {
+             "sortOrder": "alphabetical",
+             "autoReveal": false,
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-folder-closed",
+            "title": "Files"
+           }
+          },
+          {
+           "id": "923e5349a9ab25a8",
+           "type": "leaf",
+           "state": {
+            "type": "search",
+            "state": {
+             "query": "",
+             "matchingCase": false,
+             "explainSearch": false,
+             "collapseAll": false,
+             "extraContext": false,
+             "sortOrder": "alphabetical"
+            },
+            "icon": "lucide-search",
+            "title": "Search"
+           }
+          },
+          {
+           "id": "4a47df44827c1da3",
+           "type": "leaf",
+           "state": {
+            "type": "bookmarks",
+            "state": {
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-bookmark",
+            "title": "Bookmarks"
+           }
+          }
+         ]
+        }
+       ],
+       "direction": "horizontal",
+       "width": 300
+      },
+      "right": {
+       "id": "9148b6e74a8650de",
+       "type": "split",
+       "children": [
+        {
+         "id": "6182d8e90d598022",
+         "type": "tabs",
+         "children": [
+          {
+           "id": "930d34db8f9401c6",
+           "type": "leaf",
+           "state": {
+            "type": "backlink",
+            "state": {
+             "file": "Hub.md",
+             "collapseAll": false,
+             "extraContext": false,
+             "sortOrder": "alphabetical",
+             "showSearch": false,
+             "searchQuery": "",
+             "backlinkCollapsed": false,
+             "unlinkedCollapsed": true
+            },
+            "icon": "links-coming-in",
+            "title": "Backlinks"
+           }
+          },
+          {
+           "id": "6709ca13039d6916",
+           "type": "leaf",
+           "state": {
+            "type": "outgoing-link",
+            "state": {
+             "file": "Hub.md",
+             "linksCollapsed": false,
+             "unlinkedCollapsed": true
+            },
+            "icon": "links-going-out",
+            "title": "Outgoing links"
+           }
+          },
+          {
+           "id": "3049763be194acb4",
+           "type": "leaf",
+           "state": {
+            "type": "tag",
+            "state": {
+             "sortOrder": "frequency",
+             "useHierarchy": true,
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-tags",
+            "title": "Tags"
+           }
+          },
+          {
+           "id": "b08ce2ed53933610",
+           "type": "leaf",
+           "state": {
+            "type": "all-properties",
+            "state": {
+             "sortOrder": "frequency",
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-archive",
+            "title": "All properties"
+           }
+          },
+          {
+           "id": "409df9031464fc8f",
+           "type": "leaf",
+           "state": {
+            "type": "outline",
+            "state": {
+             "file": "Hub.md",
+             "followCursor": false,
+             "showSearch": false,
+             "searchQuery": ""
+            },
+            "icon": "lucide-list",
+            "title": "Outline"
+           }
+          }
+         ]
+        }
+       ],
+       "direction": "horizontal",
+       "width": 300,
+       "collapsed": true
+      },
+      "left-ribbon": {
+       "hiddenItems": {
+        "switcher:Open quick switcher": false,
+        "graph:Open graph view": false,
+        "canvas:Create new canvas": false,
+        "daily-notes:Open today's daily note": false,
+        "templates:Insert template": false,
+        "command-palette:Open command palette": false,
+        "bases:Create new base": false
+       }
+      },
+      "active": "898c1216a3400da9",
+      "lastOpenFiles": []
+     },
+     "localOptionsInWorkspace": {
+      "mentionsLocalgraph": true,
+      "mentionsLocalJumps": true
+     }
+    },
+    "s08-forces-sliders-scrolled-into-view": {
+     "ok": true,
+     "ms": 10962,
+     "opened": {
+      "type": "graph",
+      "scale": 1,
+      "nodes": 6
+     },
+     "rows": [
+      {
+       "name": "Center force",
+       "min": "0",
+       "max": "1",
+       "step": "any",
+       "from": "0.518713248970312",
+       "changedAfterMs": 101,
+       "diff": {
+        "centerStrength": {
+         "from": 0.518713248970312,
+         "to": 0.16611273146578
+        }
+       }
+      },
+      {
+       "name": "Repel force",
+       "min": "0",
+       "max": "20",
+       "step": "any",
+       "from": "10",
+       "changedAfterMs": 100,
+       "diff": {
+        "repelStrength": {
+         "from": 10,
+         "to": 16.7679499039351
+        }
+       }
+      },
+      {
+       "name": "Link force",
+       "min": "0",
+       "max": "1",
+       "step": "any",
+       "from": "1",
+       "changedAfterMs": 100,
+       "diff": {
+        "linkStrength": {
+         "from": 1,
+         "to": 0.16611273146578
+        }
+       }
+      },
+      {
+       "name": "Link distance",
+       "min": "30",
+       "max": "500",
+       "step": "1",
+       "from": "250",
+       "changedAfterMs": 101,
+       "diff": {
+        "linkDistance": {
+         "from": 250,
+         "to": 420
+        }
+       }
+      },
+      {
+       "name": "Text fade threshold",
+       "min": "-3",
+       "max": "3",
+       "step": "0.1",
+       "from": "0",
+       "changedAfterMs": 101,
+       "diff": {
+        "textFadeMultiplier": {
+         "from": 0,
+         "to": 2
+        }
+       }
+      }
+     ]
+    }
+   },
+   "order": [
+    "s01-open-and-expand-every-section",
+    "s02-filter-checkboxes",
+    "s03-sliders",
+    "s04-search-box-and-buttons",
+    "s05-collapse-again-and-zoom",
+    "s06-unknown-key-and-external-change",
+    "s07-local-graph-options",
+    "s08-forces-sliders-scrolled-into-view"
+   ],
+   "elapsedMs": 75995,
+   "vaultPath": "/tmp/silica-probe-vault.NhCC6j",
+   "title": "New tab - silica-probe-vault.NhCC6j - Obsidian 1.14.5",
+   "graphJsonAtStart": {
+    "collapse-filter": true,
+    "search": "",
+    "showTags": false,
+    "showAttachments": false,
+    "hideUnresolved": false,
+    "showOrphans": true,
+    "collapse-color-groups": true,
+    "colorGroups": [],
+    "collapse-display": true,
+    "showArrow": false,
+    "textFadeMultiplier": 0,
+    "nodeSizeMultiplier": 1,
+    "lineSizeMultiplier": 1,
+    "collapse-forces": true,
+    "centerStrength": 0.518713248970312,
+    "repelStrength": 10,
+    "linkStrength": 1,
+    "linkDistance": 250,
+    "scale": 1,
+    "close": false,
+    "silicaUnknownKey": "please keep me"
+   },
+   "graphJsonAtEnd": {
+    "collapse-filter": true,
+    "search": "",
+    "showTags": true,
+    "showAttachments": true,
+    "hideUnresolved": true,
+    "showOrphans": false,
+    "collapse-color-groups": false,
+    "colorGroups": [],
+    "collapse-display": false,
+    "showArrow": true,
+    "textFadeMultiplier": -1.8,
+    "nodeSizeMultiplier": 1.19180628094689,
+    "lineSizeMultiplier": 1.19180628094689,
+    "collapse-forces": false,
+    "centerStrength": 0.518713248970312,
+    "repelStrength": 10,
+    "linkStrength": 1,
+    "linkDistance": 250,
+    "scale": 3,
+    "close": false
+   },
+   "finishedAt": "2026-10-25T15:34:45.700Z",
+   "note": "s03's four Forces rows read as 'no write' only because the sliders sat at y 851-1072 in an 800 px window and the drag hit nothing; s08 re-runs them scrolled into view."
+  }
+ }
+}

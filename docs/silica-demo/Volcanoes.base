@@ -1,0 +1,39 @@
+filters:
+  and:
+    - type == "volcano"
+properties:
+  note.height_m:
+    displayName: Height (m)
+views:
+  - type: table
+    name: By status
+    groupBy:
+      property: note.status
+      direction: ASC
+    order:
+      - file.name
+      - note.landform
+      - note.height_m
+      - note.erupted
+    sort:
+      - property: note.height_m
+        direction: DESC
+  - type: table
+    name: Tallest
+    order:
+      - file.name
+      - note.height_m
+    sort:
+      - property: note.height_m
+        direction: DESC
+    limit: 3
+  - type: kanban
+    name: Board
+    groupBy:
+      property: note.status
+      direction: ASC
+    order:
+      - file.name
+      - note.landform
+      - note.height_m
+    columnWidth: 300

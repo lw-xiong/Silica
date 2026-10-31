@@ -1,0 +1,15 @@
+[package]
+name = "silica-cache"
+description = "Metadata cache: per-file CachedMetadata and vault-wide link resolution"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+silica-markdown.workspace = true
+silica-formats.workspace = true
+serde.workspace = true
+serde_yaml.workspace = true

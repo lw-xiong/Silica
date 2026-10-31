@@ -1,0 +1,529 @@
+{
+ "vaultPath": "/tmp/silica-probe-vault.4zuPpo",
+ "byTab": {
+  "interface": [
+   "Show tab title bar",
+   "Show ribbon",
+   "Ribbon menu configuration",
+   "Advanced",
+   "Zoom level",
+   "Native menus",
+   "Window frame style",
+   "Open settings in new window"
+  ]
+ },
+ "first": {
+  "ownerIsMain": false,
+  "items": [
+   {
+    "name": "Show tab title bar",
+    "desc": "Display the header at the top of every tab.",
+    "heading": false,
+    "control": {
+     "toggle": true
+    }
+   },
+   {
+    "name": "Show ribbon",
+    "desc": "Display vertical toolbar on the side of the window.",
+    "heading": false,
+    "control": {
+     "toggle": true
+    }
+   },
+   {
+    "name": "Ribbon menu configuration",
+    "desc": "Configure what commands appear in the ribbon menu.",
+    "heading": false,
+    "control": null
+   },
+   {
+    "name": "Advanced",
+    "desc": "",
+    "heading": true,
+    "control": null
+   },
+   {
+    "name": "Zoom level",
+    "desc": "Controls the overall zoom level of the app.",
+    "heading": false,
+    "control": {
+     "input": "0",
+     "type": "range"
+    }
+   },
+   {
+    "name": "Native menus",
+    "desc": "Menus throughout the app will match the operating system. They will not be affected by your theme.",
+    "heading": false,
+    "control": {
+     "toggle": false
+    }
+   },
+   {
+    "name": "Window frame style",
+    "desc": "Determines the styling of the title bar of Obsidian windows. Requires a full restart to take effect.",
+    "heading": false,
+    "control": {
+     "select": "hidden",
+     "options": [
+      {
+       "v": "hidden",
+       "t": "Hidden (default)"
+      },
+      {
+       "v": "custom",
+       "t": "Obsidian frame"
+      },
+      {
+       "v": "native",
+       "t": "Native frame"
+      }
+     ]
+    }
+   },
+   {
+    "name": "Open settings in new window",
+    "desc": "Open settings in its own window instead of embedded in the app.",
+    "heading": false,
+    "control": {
+     "toggle": true
+    }
+   }
+  ]
+ },
+ "frame": {
+  "name": "Window frame style",
+  "desc": "Determines the styling of the title bar of Obsidian windows. Requires a full restart to take effect.",
+  "heading": false,
+  "control": {
+   "select": "hidden",
+   "options": [
+    {
+     "v": "hidden",
+     "t": "Hidden (default)"
+    },
+    {
+     "v": "custom",
+     "t": "Obsidian frame"
+    },
+    {
+     "v": "native",
+     "t": "Native frame"
+    }
+   ]
+  }
+ },
+ "appearanceBefore": "{}",
+ "tries": [
+  {
+   "option": {
+    "v": "hidden",
+    "t": "Hidden (default)"
+   },
+   "appearanceJson": "{}",
+   "bodyClass": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header",
+   "notices": [],
+   "titlebar": {
+    "bar": {
+     "x": 0,
+     "y": 0,
+     "w": 1024.1378173828125,
+     "h": 38.997840881347656
+    },
+    "barStyle": {
+     "height": "38.9978px",
+     "bg": "rgba(0, 0, 0, 0)",
+     "display": "flex"
+    },
+    "text": "New tab - silica-probe-vault.4zuPpo - Obsidian 1.14.4",
+    "textStyle": {
+     "fontSize": "13px",
+     "weight": "700",
+     "color": "rgb(179, 179, 179)",
+     "opacity": "0.85"
+    },
+    "buttons": [
+     {
+      "cls": "titlebar-button mod-logo",
+      "aria": null,
+      "rect": {
+       "x": 0,
+       "y": 0,
+       "w": 0,
+       "h": 0
+      }
+     },
+     {
+      "cls": "titlebar-button mod-minimize",
+      "aria": "Minimize",
+      "rect": {
+       "x": 892.208984375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-maximize",
+      "aria": "Maximize",
+      "rect": {
+       "x": 936.185302734375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-close",
+      "aria": "Close window",
+      "rect": {
+       "x": 980.1615600585938,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     }
+    ],
+    "rootHeader": {
+     "x": 343.9978332519531,
+     "y": 0,
+     "w": 680.1400146484375,
+     "h": 39.999996185302734
+    },
+    "rootHeaderPadding": "0px 134px 0px 8px",
+    "leftToggle": {
+     "x": 0,
+     "y": 0,
+     "w": 43.997840881347656,
+     "h": 38.997840881347656
+    },
+    "rightToggle": {
+     "x": 854.1702270507812,
+     "y": 0,
+     "w": 35.969825744628906,
+     "h": 38.997840881347656
+    },
+    "frameLeft": "0px",
+    "frameRight": "calc(126px - 0px)",
+    "ribbon": null,
+    "leftHeader": {
+     "x": 43.997840881347656,
+     "y": 0,
+     "w": 299.9999694824219,
+     "h": 39.999996185302734
+    },
+    "win": {
+     "w": 1024,
+     "h": 800
+    }
+   },
+   "configKeys": [],
+   "getConfig": []
+  },
+  {
+   "option": {
+    "v": "custom",
+    "t": "Obsidian frame"
+   },
+   "appearanceJson": "{}",
+   "bodyClass": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header",
+   "notices": [],
+   "titlebar": {
+    "bar": {
+     "x": 0,
+     "y": 0,
+     "w": 1024.1378173828125,
+     "h": 38.997840881347656
+    },
+    "barStyle": {
+     "height": "38.9978px",
+     "bg": "rgba(0, 0, 0, 0)",
+     "display": "flex"
+    },
+    "text": "New tab - silica-probe-vault.4zuPpo - Obsidian 1.14.4",
+    "textStyle": {
+     "fontSize": "13px",
+     "weight": "700",
+     "color": "rgb(179, 179, 179)",
+     "opacity": "0.85"
+    },
+    "buttons": [
+     {
+      "cls": "titlebar-button mod-logo",
+      "aria": null,
+      "rect": {
+       "x": 0,
+       "y": 0,
+       "w": 0,
+       "h": 0
+      }
+     },
+     {
+      "cls": "titlebar-button mod-minimize",
+      "aria": "Minimize",
+      "rect": {
+       "x": 892.208984375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-maximize",
+      "aria": "Maximize",
+      "rect": {
+       "x": 936.185302734375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-close",
+      "aria": "Close window",
+      "rect": {
+       "x": 980.1615600585938,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     }
+    ],
+    "rootHeader": {
+     "x": 343.9978332519531,
+     "y": 0,
+     "w": 680.1400146484375,
+     "h": 39.999996185302734
+    },
+    "rootHeaderPadding": "0px 134px 0px 8px",
+    "leftToggle": {
+     "x": 0,
+     "y": 0,
+     "w": 43.997840881347656,
+     "h": 38.997840881347656
+    },
+    "rightToggle": {
+     "x": 854.1702270507812,
+     "y": 0,
+     "w": 35.969825744628906,
+     "h": 38.997840881347656
+    },
+    "frameLeft": "0px",
+    "frameRight": "calc(126px - 0px)",
+    "ribbon": null,
+    "leftHeader": {
+     "x": 43.997840881347656,
+     "y": 0,
+     "w": 299.9999694824219,
+     "h": 39.999996185302734
+    },
+    "win": {
+     "w": 1024,
+     "h": 800
+    }
+   },
+   "configKeys": [],
+   "getConfig": []
+  },
+  {
+   "option": {
+    "v": "native",
+    "t": "Native frame"
+   },
+   "appearanceJson": "{}",
+   "bodyClass": "theme-dark mod-linux is-frameless is-hidden-frameless obsidian-app styled-scrollbars show-inline-title is-floating-nav auto-full-screen show-ribbon show-view-header",
+   "notices": [],
+   "titlebar": {
+    "bar": {
+     "x": 0,
+     "y": 0,
+     "w": 1024.1378173828125,
+     "h": 38.997840881347656
+    },
+    "barStyle": {
+     "height": "38.9978px",
+     "bg": "rgba(0, 0, 0, 0)",
+     "display": "flex"
+    },
+    "text": "New tab - silica-probe-vault.4zuPpo - Obsidian 1.14.4",
+    "textStyle": {
+     "fontSize": "13px",
+     "weight": "700",
+     "color": "rgb(179, 179, 179)",
+     "opacity": "0.85"
+    },
+    "buttons": [
+     {
+      "cls": "titlebar-button mod-logo",
+      "aria": null,
+      "rect": {
+       "x": 0,
+       "y": 0,
+       "w": 0,
+       "h": 0
+      }
+     },
+     {
+      "cls": "titlebar-button mod-minimize",
+      "aria": "Minimize",
+      "rect": {
+       "x": 892.208984375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-maximize",
+      "aria": "Maximize",
+      "rect": {
+       "x": 936.185302734375,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     },
+     {
+      "cls": "titlebar-button mod-close",
+      "aria": "Close window",
+      "rect": {
+       "x": 980.1615600585938,
+       "y": 0,
+       "w": 43.97629165649414,
+       "h": 38.997840881347656
+      }
+     }
+    ],
+    "rootHeader": {
+     "x": 343.9978332519531,
+     "y": 0,
+     "w": 680.1400146484375,
+     "h": 39.999996185302734
+    },
+    "rootHeaderPadding": "0px 134px 0px 8px",
+    "leftToggle": {
+     "x": 0,
+     "y": 0,
+     "w": 43.997840881347656,
+     "h": 38.997840881347656
+    },
+    "rightToggle": {
+     "x": 854.1702270507812,
+     "y": 0,
+     "w": 35.969825744628906,
+     "h": 38.997840881347656
+    },
+    "frameLeft": "0px",
+    "frameRight": "calc(126px - 0px)",
+    "ribbon": null,
+    "leftHeader": {
+     "x": 43.997840881347656,
+     "y": 0,
+     "w": 299.9999694824219,
+     "h": 39.999996185302734
+    },
+    "win": {
+     "w": 1024,
+     "h": 800
+    }
+   },
+   "configKeys": [],
+   "getConfig": []
+  }
+ ],
+ "titlebarHidden": {
+  "bar": {
+   "x": 0,
+   "y": 0,
+   "w": 1024.1378173828125,
+   "h": 38.997840881347656
+  },
+  "barStyle": {
+   "height": "38.9978px",
+   "bg": "rgba(0, 0, 0, 0)",
+   "display": "flex"
+  },
+  "text": "New tab - silica-probe-vault.4zuPpo - Obsidian 1.14.4",
+  "textStyle": {
+   "fontSize": "13px",
+   "weight": "700",
+   "color": "rgb(179, 179, 179)",
+   "opacity": "0.85"
+  },
+  "buttons": [
+   {
+    "cls": "titlebar-button mod-logo",
+    "aria": null,
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "cls": "titlebar-button mod-minimize",
+    "aria": "Minimize",
+    "rect": {
+     "x": 892.208984375,
+     "y": 0,
+     "w": 43.97629165649414,
+     "h": 38.997840881347656
+    }
+   },
+   {
+    "cls": "titlebar-button mod-maximize",
+    "aria": "Maximize",
+    "rect": {
+     "x": 936.185302734375,
+     "y": 0,
+     "w": 43.97629165649414,
+     "h": 38.997840881347656
+    }
+   },
+   {
+    "cls": "titlebar-button mod-close",
+    "aria": "Close window",
+    "rect": {
+     "x": 980.1615600585938,
+     "y": 0,
+     "w": 43.97629165649414,
+     "h": 38.997840881347656
+    }
+   }
+  ],
+  "rootHeader": {
+   "x": 343.9978332519531,
+   "y": 0,
+   "w": 680.1400146484375,
+   "h": 39.999996185302734
+  },
+  "rootHeaderPadding": "0px 134px 0px 8px",
+  "leftToggle": {
+   "x": 0,
+   "y": 0,
+   "w": 43.997840881347656,
+   "h": 38.997840881347656
+  },
+  "rightToggle": {
+   "x": 854.1702270507812,
+   "y": 0,
+   "w": 35.969825744628906,
+   "h": 38.997840881347656
+  },
+  "frameLeft": "0px",
+  "frameRight": "calc(126px - 0px)",
+  "ribbon": null,
+  "leftHeader": {
+   "x": 43.997840881347656,
+   "y": 0,
+   "w": 299.9999694824219,
+   "h": 39.999996185302734
+  },
+  "win": {
+   "w": 1024,
+   "h": 800
+  }
+ }
+}

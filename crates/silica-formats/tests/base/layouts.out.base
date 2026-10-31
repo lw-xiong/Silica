@@ -1,0 +1,16 @@
+views:
+  - type: list
+    name: Listing
+    order:
+      - file.name
+      - status
+    markers: number
+    separator: ", Probed"
+  - type: kanban
+    name: Board
+    order:
+      - file.name
+    columnWidth: 430
+    image: note.aliases
+    imageFit: contain
+    imageAspectRatio: 2

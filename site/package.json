@@ -1,0 +1,15 @@
+{
+  "name": "silica-site",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The static site behind silica.cc.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs silica",
+    "serve": "node build.mjs silica --serve",
+    "watch": "node build.mjs silica --serve --watch"
+  },
+  "dependencies": {
+    "marked": "^18.0.0"
+  }
+}

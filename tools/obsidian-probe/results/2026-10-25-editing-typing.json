@@ -1,0 +1,5116 @@
+{
+ "editingTyping": {
+  "fixtures": {
+   "startedAt": "2026-10-25T14:45:45.589Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 1
+  },
+  "run": {
+   "startedAt": "2026-10-25T14:45:46.796Z",
+   "steps": {
+    "s00-context": {
+     "ok": true,
+     "ms": 1292,
+     "opened": {
+      "mode": "source",
+      "source": false
+     },
+     "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) obsidian/1.13.7 Chrome/150.0.7871.47 Electron/43.1.0 Safari/537.36",
+     "config": {
+      "autoPairBrackets": true,
+      "autoPairMarkdown": true,
+      "tabSize": 4,
+      "useTab": true,
+      "livePreview": true,
+      "smartIndentList": true
+     },
+     "typingControl": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "key": "x",
+      "out": "x",
+      "cursor": {
+       "line": 0,
+       "ch": 1
+      },
+      "seedOk": true
+     }
+    },
+    "s01-skip-over-each-closer": {
+     "ok": true,
+     "ms": 18632,
+     "fromEmpty": {
+      "(": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "()",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "("
+        },
+        {
+         "value": "()",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": ")"
+        }
+       ]
+      },
+      "[": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "[]",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "["
+        },
+        {
+         "value": "[]",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": "]"
+        }
+       ]
+      },
+      "{": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "{}",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "{"
+        },
+        {
+         "value": "{}",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": "}"
+        }
+       ]
+      },
+      "\"": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "\"\"",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "\""
+        },
+        {
+         "value": "\"\"",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": "\""
+        }
+       ]
+      },
+      "'": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "''",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "'"
+        },
+        {
+         "value": "''",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": "'"
+        }
+       ]
+      },
+      "`": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "``",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "`"
+        },
+        {
+         "value": "``",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": "`"
+        }
+       ]
+      },
+      "*": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "**",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "*"
+        },
+        {
+         "value": "**",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": "*"
+        }
+       ]
+      },
+      "_": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "__",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "_"
+        },
+        {
+         "value": "__",
+         "cursor": {
+          "line": 0,
+          "ch": 2
+         },
+         "sel": "",
+         "key": "_"
+        }
+       ]
+      }
+     },
+     "afterSpace": {
+      "(": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say ()",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "("
+        },
+        {
+         "value": "say ()",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": ")"
+        }
+       ]
+      },
+      "[": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say []",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "["
+        },
+        {
+         "value": "say []",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "]"
+        }
+       ]
+      },
+      "{": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say {}",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "{"
+        },
+        {
+         "value": "say {}",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "}"
+        }
+       ]
+      },
+      "\"": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say \"\"",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "\""
+        },
+        {
+         "value": "say \"\"",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "\""
+        }
+       ]
+      },
+      "'": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say ''",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "'"
+        },
+        {
+         "value": "say ''",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "'"
+        }
+       ]
+      },
+      "`": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say ``",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "`"
+        },
+        {
+         "value": "say ``",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "`"
+        }
+       ]
+      },
+      "*": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say **",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "*"
+        },
+        {
+         "value": "say **",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "*"
+        }
+       ]
+      },
+      "_": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say __",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "_"
+        },
+        {
+         "value": "say __",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "_"
+        }
+       ]
+      }
+     },
+     "planted": {
+      "()": {
+       "in": "x)",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": ")",
+       "out": "x))",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      },
+      "[]": {
+       "in": "x]",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "]",
+       "out": "x]]",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      },
+      "{}": {
+       "in": "x}",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "}",
+       "out": "x}}",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      },
+      "\"\"": {
+       "in": "x\"",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "\"",
+       "out": "x\"\"",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      },
+      "''": {
+       "in": "x'",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "'",
+       "out": "x''",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      },
+      "``": {
+       "in": "x`",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "`",
+       "out": "x``",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      },
+      "**": {
+       "in": "x*",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "*",
+       "out": "x**",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      },
+      "__": {
+       "in": "x_",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "_",
+       "out": "x__",
+       "cursor": {
+        "line": 0,
+        "ch": 2
+       },
+       "seedOk": true
+      }
+     }
+    },
+    "s02-markdown-rule-halves": {
+     "ok": true,
+     "ms": 32517,
+     "cases": {
+      "space-before-eol-ahead": {
+       "*": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say **",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "say __",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "say \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "space-before-space-ahead": {
+       "*": {
+        "in": "say  word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say ** word",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "say  word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "say __ word",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "say  word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "say `` word",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "say  word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "say \"\" word",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "say  word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say () word",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "space-before-word-ahead": {
+       "*": {
+        "in": "say x",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say *x",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "say x",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "say _x",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "say x",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "say `x",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "say x",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "say \"x",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "say x",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say (x",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "space-before-punct-ahead": {
+       "*": {
+        "in": "say .",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say *.",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "say .",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "say _.",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "say .",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "say `.",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "say .",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "say \".",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "say .",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say (.",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "space-before-space-then-eol": {
+       "*": {
+        "in": "say  ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say ** ",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "say  ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "say __ ",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "say  ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "say `` ",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "say  ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "say \"\" ",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "say  ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say () ",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "doc-start-eol-ahead": {
+       "*": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "*",
+        "out": "**",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "_",
+        "out": "__",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "`",
+        "out": "``",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "\"",
+        "out": "\"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "(",
+        "out": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       }
+      },
+      "doc-start-word-ahead": {
+       "*": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "*",
+        "out": "*word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "_",
+        "out": "_word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "`",
+        "out": "`word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "\"",
+        "out": "\"word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "(",
+        "out": "(word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       }
+      },
+      "after-punct-eol-ahead": {
+       "*": {
+        "in": "say.",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say.*",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "say.",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "say._",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "say.",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "say.`",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "say.",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "say.\"",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "say.",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say.()",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "after-tab-eol-ahead": {
+       "*": {
+        "in": "\tx ",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "*",
+        "out": "\tx **",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "_": {
+        "in": "\tx ",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "_",
+        "out": "\tx __",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "\tx ",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "`",
+        "out": "\tx ``",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "\tx ",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "\"",
+        "out": "\tx \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "(": {
+        "in": "\tx ",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "(",
+        "out": "\tx ()",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       }
+      }
+     }
+    },
+    "s03-word-boundary-for-the-rest": {
+     "ok": true,
+     "ms": 26921,
+     "cases": {
+      "before-word": {
+       "_": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "_",
+        "out": "_word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "~": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "~",
+        "out": "~word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "=": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "=",
+        "out": "=word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "$": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "$",
+        "out": "$word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "%": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "%",
+        "out": "%word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       },
+       "<": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 0
+        },
+        "key": "<",
+        "out": "<word",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "seedOk": true
+       }
+      },
+      "inside-word": {
+       "_": {
+        "in": "dont",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "_",
+        "out": "don_t",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "~": {
+        "in": "dont",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "~",
+        "out": "don~t",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "=": {
+        "in": "dont",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "=",
+        "out": "don=t",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "$": {
+        "in": "dont",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "$",
+        "out": "don$t",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "%": {
+        "in": "dont",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "%",
+        "out": "don%t",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "<": {
+        "in": "dont",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "<",
+        "out": "don<t",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       }
+      },
+      "after-word-eol": {
+       "_": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "word_",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "~": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "~",
+        "out": "word~",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "=": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "=",
+        "out": "word=",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "$": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "$",
+        "out": "word$",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "%": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "%",
+        "out": "word%",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "<": {
+        "in": "word",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "<",
+        "out": "word<",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "after-space-eol": {
+       "_": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "_",
+        "out": "say __",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "~": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "~",
+        "out": "say ~",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "=": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "=",
+        "out": "say =",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "$": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "$",
+        "out": "say $",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "%": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "%",
+        "out": "say %",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "<": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "<",
+        "out": "say <",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "before-closer": {
+       "_": {
+        "in": "()",
+        "caret": {
+         "line": 0,
+         "ch": 1
+        },
+        "key": "_",
+        "out": "(_)",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "seedOk": true
+       },
+       "~": {
+        "in": "()",
+        "caret": {
+         "line": 0,
+         "ch": 1
+        },
+        "key": "~",
+        "out": "(~)",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "seedOk": true
+       },
+       "=": {
+        "in": "()",
+        "caret": {
+         "line": 0,
+         "ch": 1
+        },
+        "key": "=",
+        "out": "(=)",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "seedOk": true
+       },
+       "$": {
+        "in": "()",
+        "caret": {
+         "line": 0,
+         "ch": 1
+        },
+        "key": "$",
+        "out": "($)",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "seedOk": true
+       },
+       "%": {
+        "in": "()",
+        "caret": {
+         "line": 0,
+         "ch": 1
+        },
+        "key": "%",
+        "out": "(%)",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "seedOk": true
+       },
+       "<": {
+        "in": "()",
+        "caret": {
+         "line": 0,
+         "ch": 1
+        },
+        "key": "<",
+        "out": "(<)",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "seedOk": true
+       }
+      }
+     },
+     "doubled": {
+      "~": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say ~",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "~"
+        },
+        {
+         "value": "say ~~",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "~"
+        }
+       ]
+      },
+      "=": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say =",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "="
+        },
+        {
+         "value": "say ==",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "="
+        }
+       ]
+      },
+      "$": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say $",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "$"
+        },
+        {
+         "value": "say $$",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "$"
+        }
+       ]
+      },
+      "%": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say %",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "%"
+        },
+        {
+         "value": "say %%",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "%"
+        }
+       ]
+      },
+      "<": {
+       "in": "say ",
+       "caret": {
+        "line": 0,
+        "ch": 4
+       },
+       "seedOk": true,
+       "before": {
+        "value": "say ",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        }
+       },
+       "after": [
+        {
+         "value": "say <",
+         "cursor": {
+          "line": 0,
+          "ch": 5
+         },
+         "sel": "",
+         "key": "<"
+        },
+        {
+         "value": "say <<",
+         "cursor": {
+          "line": 0,
+          "ch": 6
+         },
+         "sel": "",
+         "key": "<"
+        }
+       ]
+      }
+     }
+    },
+    "s04-suppression-by-context": {
+     "ok": true,
+     "ms": 44475,
+     "live": {
+      "plain-control": {
+       "(": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say **",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "say \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "inline-code-closed": {
+       "(": {
+        "in": "x `say ` tail",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "(",
+        "out": "x `say `() tail",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "x `say ` tail",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "*",
+        "out": "x `say `* tail",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "x `say ` tail",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "`",
+        "out": "x `say `` tail",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "x `say ` tail",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "\"",
+        "out": "x `say `\" tail",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       }
+      },
+      "inline-code-at-eol": {
+       "(": {
+        "in": "x `say `",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "(",
+        "out": "x `say (`",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "x `say `",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "*",
+        "out": "x `say `*",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "x `say `",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "`",
+        "out": "x `say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "x `say `",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "\"",
+        "out": "x `say `\"",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       }
+      },
+      "blockquote": {
+       "(": {
+        "in": "> say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "(",
+        "out": "> say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "> say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "*",
+        "out": "> say **",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "> say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "`",
+        "out": "> say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "> say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "\"",
+        "out": "> say \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       }
+      },
+      "nested-blockquote": {
+       "(": {
+        "in": "> > say ",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "(",
+        "out": "> > say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "> > say ",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "*",
+        "out": "> > say **",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "> > say ",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "`",
+        "out": "> > say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "> > say ",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "\"",
+        "out": "> > say \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       }
+      },
+      "fence-body": {
+       "(": {
+        "in": "```js\nsay \n```",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "```js\nsay ()\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "```js\nsay \n```",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "```js\nsay **\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "```js\nsay \n```",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "```js\nsay ``\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "```js\nsay \n```",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "```js\nsay \"\"\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "math-block": {
+       "(": {
+        "in": "$$\nsay \n$$",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "$$\nsay ()\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "$$\nsay \n$$",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "$$\nsay **\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "$$\nsay \n$$",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "`",
+        "out": "$$\nsay ``\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "$$\nsay \n$$",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "\"",
+        "out": "$$\nsay \"\"\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "heading": {
+       "(": {
+        "in": "# say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "(",
+        "out": "# say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "# say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "*",
+        "out": "# say **",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "# say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "`",
+        "out": "# say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "# say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "\"",
+        "out": "# say \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       }
+      },
+      "list-item": {
+       "(": {
+        "in": "- say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "(",
+        "out": "- say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "- say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "*",
+        "out": "- say **",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "- say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "`",
+        "out": "- say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "- say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "\"",
+        "out": "- say \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       }
+      },
+      "task-item": {
+       "(": {
+        "in": "- [ ] say ",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "key": "(",
+        "out": "- [ ] say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "- [ ] say ",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "key": "*",
+        "out": "- [ ] say **",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "seedOk": true
+       },
+       "`": {
+        "in": "- [ ] say ",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "key": "`",
+        "out": "- [ ] say ``",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "seedOk": true
+       },
+       "\"": {
+        "in": "- [ ] say ",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "key": "\"",
+        "out": "- [ ] say \"\"",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "seedOk": true
+       }
+      }
+     },
+     "source": {
+      "plain-control": {
+       "(": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "say ",
+        "caret": {
+         "line": 0,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "say **",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "inline-code-closed": {
+       "(": {
+        "in": "x `say ` tail",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "(",
+        "out": "x `say (` tail",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "x `say ` tail",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "*",
+        "out": "x `say *` tail",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "seedOk": true
+       }
+      },
+      "inline-code-at-eol": {
+       "(": {
+        "in": "x `say `",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "(",
+        "out": "x `say (`",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "x `say `",
+        "caret": {
+         "line": 0,
+         "ch": 7
+        },
+        "key": "*",
+        "out": "x `say *`",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "seedOk": true
+       }
+      },
+      "blockquote": {
+       "(": {
+        "in": "> say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "(",
+        "out": "> say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "> say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "*",
+        "out": "> say **",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       }
+      },
+      "nested-blockquote": {
+       "(": {
+        "in": "> > say ",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "(",
+        "out": "> > say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "> > say ",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "*",
+        "out": "> > say **",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       }
+      },
+      "fence-body": {
+       "(": {
+        "in": "```js\nsay \n```",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "```js\nsay ()\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "```js\nsay \n```",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "```js\nsay **\n```",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "math-block": {
+       "(": {
+        "in": "$$\nsay \n$$",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "(",
+        "out": "$$\nsay ()\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "$$\nsay \n$$",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "*",
+        "out": "$$\nsay **\n$$",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       }
+      },
+      "heading": {
+       "(": {
+        "in": "# say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "(",
+        "out": "# say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "# say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "*",
+        "out": "# say **",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       }
+      },
+      "list-item": {
+       "(": {
+        "in": "- say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "(",
+        "out": "- say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "- say ",
+        "caret": {
+         "line": 0,
+         "ch": 6
+        },
+        "key": "*",
+        "out": "- say **",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       }
+      },
+      "task-item": {
+       "(": {
+        "in": "- [ ] say ",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "key": "(",
+        "out": "- [ ] say ()",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "seedOk": true
+       },
+       "*": {
+        "in": "- [ ] say ",
+        "caret": {
+         "line": 0,
+         "ch": 10
+        },
+        "key": "*",
+        "out": "- [ ] say **",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "seedOk": true
+       }
+      }
+     }
+    },
+    "s05-wikilink-brackets": {
+     "ok": true,
+     "ms": 7237,
+     "twoOpeners": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "[]",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "["
+       }
+      ]
+     },
+     "popupAfterTwo": {
+      "visible": true,
+      "items": 1
+     },
+     "thenCloser": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "[]",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "key": "]"
+       }
+      ]
+     },
+     "thenTwoClosers": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "[]",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "key": "]"
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "sel": "",
+        "key": "]"
+       }
+      ]
+     },
+     "escapeThenCloser": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "[]",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "Escape"
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "key": "]"
+       }
+      ]
+     },
+     "typedNameThenClosers": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "[]",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[T]]",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "key": "T"
+       },
+       {
+        "value": "[[Ty]]",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "sel": "",
+        "key": "y"
+       },
+       {
+        "value": "[[Ty]]",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "sel": "",
+        "key": "]"
+       },
+       {
+        "value": "[[Ty]]",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "key": "]"
+       }
+      ]
+     },
+     "afterEscape": {
+      "value": "[[Ty]]",
+      "cursor": {
+       "line": 0,
+       "ch": 6
+      },
+      "sel": ""
+     },
+     "threeOpeners": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "[]",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "[[[]]]",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "key": "["
+       }
+      ]
+     },
+     "embedOpener": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "!",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "!"
+       },
+       {
+        "value": "![]",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "["
+       },
+       {
+        "value": "![[]]",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "sel": "",
+        "key": "["
+       }
+      ]
+     }
+    },
+    "s06-forward-delete-in-pair": {
+     "ok": true,
+     "ms": 12986,
+     "autoInserted": {
+      "(": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "()",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "("
+        },
+        {
+         "value": "(",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "Delete"
+        }
+       ]
+      },
+      "[": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "[]",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "["
+        },
+        {
+         "value": "[",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "Delete"
+        }
+       ]
+      },
+      "{": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "{}",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "{"
+        },
+        {
+         "value": "{",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "Delete"
+        }
+       ]
+      },
+      "\"": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "\"\"",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "\""
+        },
+        {
+         "value": "\"",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "Delete"
+        }
+       ]
+      },
+      "*": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "**",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "*"
+        },
+        {
+         "value": "*",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "Delete"
+        }
+       ]
+      },
+      "`": {
+       "in": "",
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true,
+       "before": {
+        "value": "",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        }
+       },
+       "after": [
+        {
+         "value": "``",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "`"
+        },
+        {
+         "value": "`",
+         "cursor": {
+          "line": 0,
+          "ch": 1
+         },
+         "sel": "",
+         "key": "Delete"
+        }
+       ]
+      }
+     },
+     "plantedDelete": {
+      "()": {
+       "in": "()",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Delete",
+       "out": "(",
+       "cursor": {
+        "line": 0,
+        "ch": 1
+       },
+       "seedOk": true
+      },
+      "[]": {
+       "in": "[]",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Delete",
+       "out": "[",
+       "cursor": {
+        "line": 0,
+        "ch": 1
+       },
+       "seedOk": true
+      },
+      "\"\"": {
+       "in": "\"\"",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Delete",
+       "out": "\"",
+       "cursor": {
+        "line": 0,
+        "ch": 1
+       },
+       "seedOk": true
+      },
+      "**": {
+       "in": "**",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Delete",
+       "out": "*",
+       "cursor": {
+        "line": 0,
+        "ch": 1
+       },
+       "seedOk": true
+      },
+      "``": {
+       "in": "``",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Delete",
+       "out": "`",
+       "cursor": {
+        "line": 0,
+        "ch": 1
+       },
+       "seedOk": true
+      }
+     },
+     "plantedBackspace": {
+      "()": {
+       "in": "()",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Backspace",
+       "out": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true
+      },
+      "[]": {
+       "in": "[]",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Backspace",
+       "out": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true
+      },
+      "\"\"": {
+       "in": "\"\"",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Backspace",
+       "out": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true
+      },
+      "**": {
+       "in": "**",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Backspace",
+       "out": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true
+      },
+      "``": {
+       "in": "``",
+       "caret": {
+        "line": 0,
+        "ch": 1
+       },
+       "key": "Backspace",
+       "out": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       },
+       "seedOk": true
+      }
+     },
+     "contentInsideDelete": {
+      "in": "(x)",
+      "caret": {
+       "line": 0,
+       "ch": 1
+      },
+      "key": "Delete",
+      "out": "()",
+      "cursor": {
+       "line": 0,
+       "ch": 1
+      },
+      "seedOk": true
+     },
+     "plainControlDelete": {
+      "in": "plain",
+      "caret": {
+       "line": 0,
+       "ch": 2
+      },
+      "key": "Delete",
+      "out": "plin",
+      "cursor": {
+       "line": 0,
+       "ch": 2
+      },
+      "seedOk": true
+     }
+    },
+    "s07-cursor-round-trip": {
+     "ok": true,
+     "ms": 6414,
+     "endThenHome": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "("
+       },
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "End"
+       },
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        },
+        "sel": "",
+        "key": "Home"
+       }
+      ]
+     },
+     "roundTripThenCloser": {
+      "in": "",
+      "caret": {
+       "line": 0,
+       "ch": 0
+      },
+      "seedOk": true,
+      "before": {
+       "value": "",
+       "cursor": {
+        "line": 0,
+        "ch": 0
+       }
+      },
+      "after": [
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "("
+       },
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": "End"
+       },
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 0
+        },
+        "sel": "",
+        "key": "Home"
+       },
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 1
+        },
+        "sel": "",
+        "key": "ArrowRight"
+       },
+       {
+        "value": "()",
+        "cursor": {
+         "line": 0,
+         "ch": 2
+        },
+        "sel": "",
+        "key": ")"
+       }
+      ]
+     },
+     "lineAwayAndBack": {
+      "in": "first\nsecond",
+      "caret": {
+       "line": 0,
+       "ch": 5
+      },
+      "seedOk": true,
+      "before": {
+       "value": "first\nsecond",
+       "cursor": {
+        "line": 0,
+        "ch": 5
+       }
+      },
+      "after": [
+       {
+        "value": "first()\nsecond",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "key": "("
+       },
+       {
+        "value": "first()\nsecond",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "sel": "",
+        "key": "ArrowDown"
+       },
+       {
+        "value": "first()\nsecond",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "key": "ArrowUp"
+       },
+       {
+        "value": "first())\nsecond",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "sel": "",
+        "key": ")"
+       }
+      ]
+     },
+     "abandoned": {
+      "in": "seed",
+      "caret": {
+       "line": 0,
+       "ch": 4
+      },
+      "seedOk": true,
+      "before": {
+       "value": "seed",
+       "cursor": {
+        "line": 0,
+        "ch": 4
+       }
+      },
+      "after": [
+       {
+        "value": "seed()",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "sel": "",
+        "key": "("
+       },
+       {
+        "value": "seed()",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "key": "End"
+       },
+       {
+        "value": "seed() ",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "sel": "",
+        "key": " "
+       },
+       {
+        "value": "seed() t",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "",
+        "key": "t"
+       },
+       {
+        "value": "seed() ta",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "sel": "",
+        "key": "a"
+       },
+       {
+        "value": "seed() tai",
+        "cursor": {
+         "line": 0,
+         "ch": 10
+        },
+        "sel": "",
+        "key": "i"
+       },
+       {
+        "value": "seed() tail",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "sel": "",
+        "key": "l"
+       }
+      ]
+     },
+     "abandonedSaved": {
+      "value": "seed() tail",
+      "cursor": {
+       "line": 0,
+       "ch": 11
+      },
+      "sel": ""
+     },
+     "abandonedDisk": "seed() tail",
+     "fastThenUndo": {
+      "in": "seed",
+      "caret": {
+       "line": 0,
+       "ch": 4
+      },
+      "seedOk": true,
+      "before": {
+       "value": "seed",
+       "cursor": {
+        "line": 0,
+        "ch": 4
+       }
+      },
+      "after": [
+       {
+        "value": "seed()",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "sel": "",
+        "key": "("
+       },
+       {
+        "value": "seed(a)",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "sel": "",
+        "key": "a"
+       },
+       {
+        "value": "seed(ab)",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "sel": "",
+        "key": "b"
+       },
+       {
+        "value": "seed(abc)",
+        "cursor": {
+         "line": 0,
+         "ch": 8
+        },
+        "sel": "",
+        "key": "c"
+       },
+       {
+        "value": "seed",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "sel": "",
+        "key": "z ctrl"
+       },
+       {
+        "value": "seed() tail",
+        "cursor": {
+         "line": 0,
+         "ch": 11
+        },
+        "sel": "",
+        "key": "z ctrl"
+       }
+      ]
+     }
+    },
+    "s08-shift-tab-ragged": {
+     "ok": true,
+     "ms": 67108,
+     "tabSize2-useTabtrue": {
+      "config": {
+       "tabSize": 2,
+       "useTab": true
+      },
+      "calibration": {
+       "out": "- a\n\t- b",
+       "inserted": "\t"
+      },
+      "shiftTab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": "- a\n\t - b",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": " plain",
+        "cursor": {
+         "line": 0,
+         "ch": 6
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab shift",
+        "out": "- a",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 1
+        },
+        "seedOk": true
+       }
+      },
+      "tab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab",
+        "out": "- a\n\t   - b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n\t - b",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n\t  - b",
+        "cursor": {
+         "line": 1,
+         "ch": 6
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "- a\n\t     - b",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n\t\t- b",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n\t\t - b",
+        "cursor": {
+         "line": 1,
+         "ch": 6
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "\t   plain",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab",
+        "out": "\t- a",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab",
+        "out": "- a\n\t   - b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       }
+      }
+     },
+     "tabSize2-useTabfalse": {
+      "config": {
+       "tabSize": 2,
+       "useTab": false
+      },
+      "calibration": {
+       "out": "- a\n    - b",
+       "inserted": "    "
+      },
+      "shiftTab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": "plain",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab shift",
+        "out": "- a",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 0
+        },
+        "seedOk": true
+       }
+      },
+      "tab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab",
+        "out": "- a\n       - b",
+        "cursor": {
+         "line": 1,
+         "ch": 10
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n     - b",
+        "cursor": {
+         "line": 1,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n      - b",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "- a\n         - b",
+        "cursor": {
+         "line": 1,
+         "ch": 12
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n    \t- b",
+        "cursor": {
+         "line": 1,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n    \t - b",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "       plain",
+        "cursor": {
+         "line": 0,
+         "ch": 12
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab",
+        "out": "    - a",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab",
+        "out": "- a\n       - b",
+        "cursor": {
+         "line": 1,
+         "ch": 6
+        },
+        "seedOk": true
+       }
+      }
+     },
+     "tabSize4-useTabtrue": {
+      "config": {
+       "tabSize": 4,
+       "useTab": true
+      },
+      "calibration": {
+       "out": "- a\n\t- b",
+       "inserted": "\t"
+      },
+      "shiftTab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": "plain",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab shift",
+        "out": "- a",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 0
+        },
+        "seedOk": true
+       }
+      },
+      "tab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab",
+        "out": "- a\n\t   - b",
+        "cursor": {
+         "line": 1,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n\t - b",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n\t  - b",
+        "cursor": {
+         "line": 1,
+         "ch": 6
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "- a\n\t     - b",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n\t\t- b",
+        "cursor": {
+         "line": 1,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n\t\t - b",
+        "cursor": {
+         "line": 1,
+         "ch": 6
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "\t   plain",
+        "cursor": {
+         "line": 0,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab",
+        "out": "\t- a",
+        "cursor": {
+         "line": 0,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab",
+        "out": "- a\n\t   - b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       }
+      }
+     },
+     "tabSize4-useTabfalse": {
+      "config": {
+       "tabSize": 4,
+       "useTab": false
+      },
+      "calibration": {
+       "out": "- a\n    - b",
+       "inserted": "    "
+      },
+      "shiftTab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab shift",
+        "out": "- a\n - b",
+        "cursor": {
+         "line": 1,
+         "ch": 4
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab shift",
+        "out": "plain",
+        "cursor": {
+         "line": 0,
+         "ch": 5
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab shift",
+        "out": "- a",
+        "cursor": {
+         "line": 0,
+         "ch": 3
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab shift",
+        "out": "- a\n- b",
+        "cursor": {
+         "line": 1,
+         "ch": 0
+        },
+        "seedOk": true
+       }
+      },
+      "tab": {
+       "three-space-list": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 6
+        },
+        "key": "Tab",
+        "out": "- a\n       - b",
+        "cursor": {
+         "line": 1,
+         "ch": 10
+        },
+        "seedOk": true
+       },
+       "one-space-list": {
+        "in": "- a\n - b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n     - b",
+        "cursor": {
+         "line": 1,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "two-space-list": {
+        "in": "- a\n  - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n      - b",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "five-space-list": {
+        "in": "- a\n     - b",
+        "caret": {
+         "line": 1,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "- a\n         - b",
+        "cursor": {
+         "line": 1,
+         "ch": 12
+        },
+        "seedOk": true
+       },
+       "tab-list": {
+        "in": "- a\n\t- b",
+        "caret": {
+         "line": 1,
+         "ch": 4
+        },
+        "key": "Tab",
+        "out": "- a\n    \t- b",
+        "cursor": {
+         "line": 1,
+         "ch": 8
+        },
+        "seedOk": true
+       },
+       "tab-plus-space-list": {
+        "in": "- a\n\t - b",
+        "caret": {
+         "line": 1,
+         "ch": 5
+        },
+        "key": "Tab",
+        "out": "- a\n    \t - b",
+        "cursor": {
+         "line": 1,
+         "ch": 9
+        },
+        "seedOk": true
+       },
+       "three-space-plain": {
+        "in": "   plain",
+        "caret": {
+         "line": 0,
+         "ch": 8
+        },
+        "key": "Tab",
+        "out": "       plain",
+        "cursor": {
+         "line": 0,
+         "ch": 12
+        },
+        "seedOk": true
+       },
+       "top-level-list": {
+        "in": "- a",
+        "caret": {
+         "line": 0,
+         "ch": 3
+        },
+        "key": "Tab",
+        "out": "    - a",
+        "cursor": {
+         "line": 0,
+         "ch": 7
+        },
+        "seedOk": true
+       },
+       "caret-in-indent": {
+        "in": "- a\n   - b",
+        "caret": {
+         "line": 1,
+         "ch": 2
+        },
+        "key": "Tab",
+        "out": "- a\n       - b",
+        "cursor": {
+         "line": 1,
+         "ch": 6
+        },
+        "seedOk": true
+       }
+      }
+     },
+     "unindentCommand": {
+      "three-space-list": {
+       "value": "- a\n- b",
+       "cursor": {
+        "line": 1,
+        "ch": 3
+       },
+       "sel": ""
+      },
+      "one-space-list": {
+       "value": "- a\n- b",
+       "cursor": {
+        "line": 1,
+        "ch": 3
+       },
+       "sel": ""
+      },
+      "two-space-list": {
+       "value": "- a\n- b",
+       "cursor": {
+        "line": 1,
+        "ch": 3
+       },
+       "sel": ""
+      },
+      "five-space-list": {
+       "value": "- a\n - b",
+       "cursor": {
+        "line": 1,
+        "ch": 4
+       },
+       "sel": ""
+      },
+      "tab-list": {
+       "value": "- a\n- b",
+       "cursor": {
+        "line": 1,
+        "ch": 3
+       },
+       "sel": ""
+      },
+      "tab-plus-space-list": {
+       "value": "- a\n - b",
+       "cursor": {
+        "line": 1,
+        "ch": 4
+       },
+       "sel": ""
+      },
+      "three-space-plain": {
+       "value": "plain",
+       "cursor": {
+        "line": 0,
+        "ch": 5
+       },
+       "sel": ""
+      },
+      "top-level-list": {
+       "value": "- a",
+       "cursor": {
+        "line": 0,
+        "ch": 3
+       },
+       "sel": ""
+      },
+      "caret-in-indent": {
+       "value": "- a\n- b",
+       "cursor": {
+        "line": 1,
+        "ch": 0
+       },
+       "sel": ""
+      }
+     },
+     "configAfter": {
+      "tabSize": 4,
+      "useTab": true
+     },
+     "appJson": "{\n  \"tabSize\": 4,\n  \"useTab\": true\n}"
+    }
+   },
+   "order": [
+    "s00-context",
+    "s01-skip-over-each-closer",
+    "s02-markdown-rule-halves",
+    "s03-word-boundary-for-the-rest",
+    "s04-suppression-by-context",
+    "s05-wikilink-brackets",
+    "s06-forward-delete-in-pair",
+    "s07-cursor-round-trip",
+    "s08-shift-tab-ragged"
+   ],
+   "elapsedMs": 150991,
+   "vaultPath": "/tmp/silica-probe-vault.0eYLjq",
+   "finishedAt": "2026-10-25T14:48:17.787Z",
+   "s08Note": "s08 re-run on its own after the first attempt used carets past the end of a line; the re-run reopens the note after each config change and calibrates one Tab, because setConfig alone does not rebuild the editor indent extension"
+  }
+ }
+}

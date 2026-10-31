@@ -1,0 +1,190 @@
+---
+title: Releases
+layout: page
+description: Every tagged release of Silica, what landed in each, and the permanent addresses the archives live at. 0.3.2 is current: a download address that never goes stale, the recordings the README is illustrated with, and the vault they were made on.
+---
+<section class="hero" style="padding-bottom:24px">
+  <span class="badge pre">Current: v0.3.2 · 23 October 2026 · MIT</span>
+  <h1>Releases</h1>
+  <p class="lede">
+    A <code>v*</code> tag builds the <code>silica</code> binary on both forges and publishes one
+    archive per platform with a <code>SHA256SUMS</code> file over all of them. Every release
+    since 0.1.0 is listed here, newest first, and the three download addresses below always
+    point at the newest one.
+  </p>
+  <div class="btn-row">
+    <a class="btn primary" href="https://github.com/ragtux/silica/releases/latest/download/silica-linux-x86_64.tar.gz">Linux x86-64</a>
+    <a class="btn" href="https://github.com/ragtux/silica/releases/latest/download/silica-windows-x86_64.zip">Windows x86-64</a>
+    <a class="btn" href="https://github.com/ragtux/silica/releases/latest/download/silica-macos-aarch64.tar.gz">macOS Apple silicon</a>
+    <a class="btn" href="/download/">Platform notes</a>
+  </div>
+  <p class="dim small" style="margin-top:22px">
+    Those addresses are versionless on purpose: they resolve to whatever the newest release is,
+    so a link to them never goes stale. Each release also carries the same three archives named
+    for their tag, which is what you want in a downloads folder you will come back to.
+  </p>
+</section>
+
+<section class="band">
+  <h2>0.3.2 — an address that does not go stale</h2>
+  <p class="lede">
+    Released 23 October 2026. Nothing in the application changed: this release exists to put the
+    three permanent download addresses above into a release, and it carries the recordings the
+    README and this site are illustrated with, together with the small vault they were made on.
+  </p>
+  <div class="grid">
+    <div class="card">
+      <span class="k">Downloads</span>
+      <h3>Two names for every archive</h3>
+      <p>Each archive is published twice: once named for its tag, and once under a name with no
+      version in it. GitHub resolves <code>/releases/latest/download/&lt;name&gt;</code> by exact
+      file name, so the versionless one is an address that keeps working across releases — which
+      is what the buttons on this site now point at. <code>SHA256SUMS</code> lists both names, so
+      checking a download works whichever address you took.</p>
+    </div>
+    <div class="card">
+      <span class="k">Recordings</span>
+      <h3>What the app actually looks like</h3>
+      <p>The README's screenshots and recordings were remade against the current window and now
+      illustrate the manual too — the three-pane shell, reading view, embeds and the canvas,
+      search and the switcher, and Live Preview completing a link. They are driven over the
+      control socket in a headless session, so they can be remade rather than curated.</p>
+    </div>
+    <div class="card">
+      <span class="k">The demo vault</span>
+      <h3>A field guide to silica</h3>
+      <p>The vault the recordings are made on ships with the repository: a small geology field
+      guide with a properties table, photographs, embeds, a canvas and enough links for the graph
+      to have a shape. It is there so the recordings can be reproduced, and because screenshots
+      of an empty vault teach nothing.</p>
+    </div>
+  </div>
+  <p class="dim small" style="margin-top:18px">
+    <a href="https://github.com/ragtux/silica/releases/tag/v0.3.2">The commit-level notes for 0.3.2 →</a>
+  </p>
+</section>
+
+<section class="band">
+  <h2>Earlier releases</h2>
+  <p class="lede">
+    The headline of each, with the full commit list on the forge. Nothing has been yanked: every
+    tag below is still downloadable, archives and checksums intact.
+  </p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Version</th><th>Date</th><th>What it was</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>0.3.1</strong></td>
+          <td>23 Oct 2026</td>
+          <td>The other two platforms: Obsidian's macOS frame with the traffic lights and no
+          title, GPUI's macOS text system, the control socket and a building test suite on
+          Windows, and the Search pane rebuilt against what a probe saw Obsidian's own pane
+          do.</td>
+          <td><a href="https://github.com/ragtux/silica/releases/tag/v0.3.1">v0.3.1</a></td>
+        </tr>
+        <tr>
+          <td><strong>0.3.0</strong></td>
+          <td>22 Oct 2026</td>
+          <td>The canvas view: a <code>.canvas</code> opens in the main area and pans, zooms,
+          selects, moves, resizes, draws edges and autosaves in Obsidian's bytes. The Files
+          header, the right dock's order and the Backlinks, Outgoing links, Tags, All properties
+          and Outline panes were all rebuilt from probes, and tabs drag between groups.</td>
+          <td><a href="https://github.com/ragtux/silica/releases/tag/v0.3.0">v0.3.0</a></td>
+        </tr>
+        <tr>
+          <td><strong>0.2.1</strong></td>
+          <td>21 Oct 2026</td>
+          <td>The hidden window frame on Windows too, and the release signing key named and kept
+          out of CI.</td>
+          <td><a href="https://github.com/ragtux/silica/releases/tag/v0.2.1">v0.2.1</a></td>
+        </tr>
+        <tr>
+          <td><strong>0.2.0</strong></td>
+          <td>21 Oct 2026</td>
+          <td>The writing release: the typed properties table, settings written back,
+          autocompletion for links, headings, aliases, tags and block references, the sixteen
+          table commands with cell editing, templates, daily notes, the round-trip harness, the
+          canvas writer, and the control socket with its MCP server.</td>
+          <td><a href="https://github.com/ragtux/silica/releases/tag/v0.2.0">v0.2.0</a></td>
+        </tr>
+        <tr>
+          <td><strong>0.1.0</strong></td>
+          <td>17 Oct 2026</td>
+          <td>First tagged release, at the end of the reader phase: the three-pane shell, reading
+          view, the link panes, search, the switcher, the graph, the palette and a Settings modal
+          that showed your real configuration.</td>
+          <td><a href="https://github.com/ragtux/silica/releases/tag/v0.1.0">v0.1.0</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="dim small" style="margin-top:18px">
+    Silica is before 1.0 and the minor number is where the work shows: 0.2 was writing, 0.3 is
+    the shell and the other platforms. A tag with a hyphen in it — <code>v0.4.0-rc1</code> — is
+    published as a prerelease and is not what the addresses above resolve to. Releases before
+    0.3.2 carry their archives under the tagged names only.
+  </p>
+</section>
+
+<section class="band">
+  <h2>Checking what you downloaded</h2>
+  <p class="lede">
+    Three independent checks, in increasing order of what they prove. None of them needs an
+    account, and the first one is the one worth doing every time.
+  </p>
+  <figure class="code"><span class="code-lang">shell</span><pre><code>sha256sum -c --ignore-missing SHA256SUMS            # the archive is the one CI built
+gh attestation verify silica-linux-x86_64.tar.gz \
+  --repo ragtux/silica                              # ...from this workflow, at this commit
+gpg --verify SHA256SUMS.asc SHA256SUMS              # ...and the checksums are signed</code></pre></figure>
+  <p>
+    <code>SHA256SUMS</code> lists both names of every archive, so the check works whether you
+    took the versionless address or the tagged one. On macOS the first command is
+    <code>shasum -a 256 -c --ignore-missing SHA256SUMS</code>, and on Windows
+    <code>Get-FileHash</code> prints a hash to compare by eye.
+  </p>
+  <p>
+    The signing key is
+    <code>69BF AA44 7DAC E6C3 EF02 6CBA 4EA6 7A61 88DA 92BD</code>
+    (<code>ragtux &lt;ragtux@outlook.com&gt;</code>), which
+    <code>gpg --keyserver keys.openpgp.org --recv-keys 4EA67A6188DA92BD</code> fetches; each
+    release's notes repeat the fingerprint that signed it. A release published without the key
+    available says so in its notes rather than carrying an unsigned <code>.asc</code>.
+  </p>
+</section>
+
+<section class="band">
+  <h2>How a release is made</h2>
+  <div class="grid">
+    <div class="card">
+      <span class="k">Two forges</span>
+      <h3>The same tag, pushed twice</h3>
+      <p>A <code>v*</code> tag on <a href="https://github.com/ragtux/silica">GitHub</a> builds
+      all three platforms; the same tag on
+      <a href="https://git.ragtux.com/ragtux/silica">git.ragtux.com</a> builds the Linux archive,
+      because the homelab runner has only a Linux container. Same commit, same
+      <code>Cargo.lock</code>, same binary.</p>
+    </div>
+    <div class="card">
+      <span class="k">Gate</span>
+      <h3>The tag has to match the manifest</h3>
+      <p>The first job compares the tag against the workspace version and fails the release
+      before a build slot is spent if they disagree — the archives are named from the tag and
+      the binary reports the manifest, so a mismatch would ship a lie.</p>
+    </div>
+    <div class="card">
+      <span class="k">Reproducible</span>
+      <h3>Built <code>--locked</code></h3>
+      <p><code>Cargo.lock</code> pins <code>libc</code> and the exact GPUI revision on purpose,
+      and the release job builds with <code>--locked</code> so the lockfile decides. Building the
+      tag yourself gives you the same dependency graph CI used.</p>
+    </div>
+  </div>
+  <div class="btn-row" style="margin-top:26px">
+    <a class="btn primary" href="/download/">Platform notes and building from source</a>
+    <a class="btn" href="/docs/install/">Install and run, in the manual</a>
+    <a class="btn" href="https://github.com/ragtux/silica/releases">All releases on GitHub</a>
+  </div>
+</section>

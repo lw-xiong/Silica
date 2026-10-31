@@ -1,0 +1,114 @@
+<h1 data-heading="Quirks" dir="auto">Quirks</h1>
+<p dir="auto"><a href="#hashtag" class="tag" target="_blank" rel="noopener nofollow">#hashtag</a> at line start is a tag, not a heading.</p>
+<h1 data-heading="Heading with space" dir="auto">Heading with space</h1>
+<h1 data-heading="tab after hash" dir="auto">tab after hash</h1>
+<h1 data-heading="indented heading one space" dir="auto">indented heading one space</h1>
+<pre><code># four spaces is code
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></pre>
+<h2 data-heading="--- not a break" dir="auto">--- not a break</h2>
+<hr>
+<hr>
+<ol>
+<li dir="auto">one</li>
+<li dir="auto">one again</li>
+<li dir="auto">still one</li>
+</ol>
+<ul>
+<li dir="auto">
+<p>a</p>
+</li>
+<li dir="auto">
+<p>b</p>
+</li>
+<li dir="auto">
+<p>c</p>
+</li>
+<li dir="auto">
+<p>d</p>
+</li>
+<li dir="auto">
+<p>e</p>
+</li>
+<li dir="auto">
+<p>two space nested</p>
+<ul>
+<li dir="auto">child</li>
+</ul>
+</li>
+<li dir="auto">
+<p>four space nested</p>
+<ul>
+<li dir="auto">child</li>
+</ul>
+</li>
+<li dir="auto">
+<p>tab nested</p>
+<ul>
+<li dir="auto">child</li>
+</ul>
+</li>
+</ul>
+<p dir="auto">Text directly</p>
+<ul>
+<li dir="auto">followed by a list
+<blockquote dir="auto">
+<p>and a quote</p>
+</blockquote>
+</li>
+</ul>
+<h1 data-heading="and a heading" dir="auto">and a heading</h1>
+<pre><code>and code
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></pre>
+<p dir="auto">Paragraph then table<br>
+| a | b |<br>
+| - | - |<br>
+| 1 | 2 |</p>
+<table>
+<thead>
+<tr>
+<th>a</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p dir="auto">paragraph right after table</p>
+<blockquote dir="auto">
+<p>quote<br>
+followed by lazy paragraph</p>
+</blockquote>
+<div data-callout-metadata="" data-callout-fold="" data-callout="note" class="callout node-insert-event"><div class="callout-title" dir="auto"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">callout</div></div><div class="callout-content">
+<p dir="auto">lazy line after callout</p>
+</div></div>
+<div data-callout-metadata="" data-callout-fold="" data-callout="tip" class="callout node-insert-event"><div class="callout-title" dir="auto"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">No space after marker</div></div><div class="callout-content">
+<p dir="auto">body</p>
+</div></div>
+<blockquote dir="auto">
+<p>[!tip]Title without space</p>
+</blockquote>
+<div data-callout-metadata="" data-callout-fold="" data-callout="bad" class="callout node-insert-event"><div class="callout-title" dir="auto"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">not a callout</div></div></div>
+<div data-callout-metadata="" data-callout-fold="" data-callout="note" class="callout node-insert-event"><div class="callout-title" dir="auto"><div class="callout-icon"><svg width="16" height="16"></svg></div><div class="callout-title-inner">Note</div></div><div class="callout-content">
+<p dir="auto">Trailing spaces in header</p>
+</div></div>
+<ol>
+<li dir="auto">
+<p>item</p>
+<p>para in item</p>
+<blockquote dir="auto">
+<p>quote in item</p>
+</blockquote>
+</li>
+<li dir="auto">
+<p>second</p>
+</li>
+</ol>
+<p dir="auto"><a data-href="Links" href="Links" class="internal-link" target="_blank" rel="noopener nofollow">Links</a>: not a definition<br>
+[not a link]: because no colon follows<br>
+[def]: /x<br>
+[def]</p>
+<p dir="auto">Empty lines between</p>
+<p dir="auto">paragraphs are fine</p>
+<p dir="auto">Last line without newline</p>

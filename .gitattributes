@@ -1,0 +1,25 @@
+* text=auto eol=lf
+*.rs text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.txt text eol=lf
+
+# The conformance corpus is byte-exact test data; one note deliberately uses CRLF.
+crates/silica-markdown/tests/corpus/** -text
+
+# The format fixtures are the bytes Obsidian wrote, which is the whole point of
+# them: one base fixture is deliberately CRLF and another carries a BOM, and the
+# canvas fixtures end without a newline.
+crates/silica-formats/tests/base/** -text
+crates/silica-formats/tests/canvas/** -text
+
+# site/ vendors the ragtux.com builder byte for byte (site/README.md); leaving
+# its endings alone is what keeps a diff against that repository readable.
+site/build.mjs -text
+site/lib/** -text
+site/shared/** -text
+
+# The corpus's expected renderings are generated test data; without this Linguist
+# counts their HTML ahead of the Rust and GitHub files the repository as an HTML project.
+crates/silica-markdown/tests/corpus/expected/** linguist-generated

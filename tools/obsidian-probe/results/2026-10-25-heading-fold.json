@@ -1,0 +1,1655 @@
+{
+ "headingFold": {
+  "fixtures": {
+   "startedAt": "2026-10-25T15:22:32.023Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 1
+  },
+  "run": {
+   "startedAt": "2026-10-25T15:22:33.224Z",
+   "steps": {
+    "s01-fold-in-editor-and-the-key": {
+     "ok": true,
+     "ms": 2076,
+     "opened": {
+      "file": "Fold Probe.md",
+      "mode": {
+       "mode": "source",
+       "source": false
+      }
+     },
+     "before": {
+      "mode": {
+       "mode": "source",
+       "source": false
+      },
+      "live": {
+       "folds": [],
+       "lines": 32
+      },
+      "stored": [],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "foldSectionA": {
+      "ran": true,
+      "snap": {
+       "mode": {
+        "mode": "source",
+        "source": false
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "## Section A\u2026",
+        "Section B",
+        "",
+        "- list parent",
+        "\t- child one",
+        "\t- child two",
+        "",
+        "Section C",
+        "",
+        "Body of C.",
+        "",
+        "1 a footnote definition",
+        ""
+       ]
+      }
+     },
+     "noteBytesAfterFold": "byte-identical",
+     "obsidianDirAfterFold": [
+      "app.json",
+      "appearance.json",
+      "core-plugins.json",
+      "workspace.json"
+     ]
+    },
+    "s02-subfolder-key": {
+     "ok": true,
+     "ms": 2139,
+     "opened": {
+      "file": "Sub Folder/Fold Probe.md",
+      "mode": {
+       "mode": "source",
+       "source": false
+      }
+     },
+     "folded": {
+      "ran": true,
+      "snap": {
+       "mode": {
+        "mode": "source",
+        "source": false
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "## Section A\u2026",
+        "Section B",
+        "",
+        "- list parent",
+        "\t- child one",
+        "\t- child two",
+        "",
+        "Section C",
+        "",
+        "Body of C.",
+        "",
+        "1 a footnote definition",
+        ""
+       ]
+      }
+     },
+     "keys": [
+      {
+       "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+      },
+      {
+       "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+      }
+     ]
+    },
+    "s03-fold-more-less-and-zero-zero": {
+     "ok": true,
+     "ms": 9190,
+     "unfoldAll": {
+      "mode": {
+       "mode": "source",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "foldAll": {
+      "mode": {
+       "mode": "source",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        },
+        {
+         "from": 1,
+         "to": 3
+        },
+        {
+         "from": 8,
+         "to": 31
+        },
+        {
+         "from": 12,
+         "to": 19
+        },
+        {
+         "from": 16,
+         "to": 19
+        },
+        {
+         "from": 20,
+         "to": 25
+        },
+        {
+         "from": 22,
+         "to": 24
+        },
+        {
+         "from": 26,
+         "to": 31
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":1,\"to\":3},{\"from\":8,\"to\":31},{\"from\":12,\"to\":19},{\"from\":16,\"to\":19},{\"from\":20,\"to\":25},{\"from\":22,\"to\":24},{\"from\":26,\"to\":31}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top\u2026"
+      ]
+     },
+     "unfoldAllAgain": {
+      "mode": {
+       "mode": "source",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "foldMore": [
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 20
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 8,
+          "to": 31
+         },
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 4
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 8,
+          "to": 31
+         },
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 4
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 8,
+          "to": 31
+         },
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 4
+      }
+     ],
+     "foldLess": [
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 20
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 27
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 27
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         }
+        ],
+        "lines": 32
+       },
+       "lines": 27
+      }
+     ],
+     "toggleFoldProperties": [
+      {
+       "ran": true,
+       "live": {
+        "folds": [],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "firstLines": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top"
+       ]
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "firstLines": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top"
+       ]
+      },
+      {
+       "ran": true,
+       "live": {
+        "folds": [],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "firstLines": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top"
+       ]
+      }
+     ]
+    },
+    "s04-source-mode-and-foldIndent": {
+     "ok": true,
+     "ms": 8642,
+     "sourceMode": {
+      "ran": true,
+      "snap": {
+       "mode": {
+        "mode": "source",
+        "source": true
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "---",
+        "tags:",
+        "  - probe",
+        "  - fold",
+        "---",
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "# H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "## Section A\u2026",
+        "## Section B",
+        "",
+        "- list parent",
+        "\t- child one",
+        "\t- child two",
+        "",
+        "## Section C",
+        "",
+        "Body of C.",
+        "",
+        "[^1]: a footnote definition",
+        ""
+       ]
+      },
+      "indicators": 7,
+      "collapseIcons": 8
+     },
+     "foldIndentFalse": {
+      "listRan": true,
+      "afterList": {
+       "mode": {
+        "mode": "source",
+        "source": false
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "Section A",
+        "",
+        "Body of A.",
+        "",
+        "Sub A1",
+        "",
+        "Body of Sub A1.",
+        "",
+        "Section B",
+        "",
+        "- list parent",
+        "\t- child one",
+        "\t- child two",
+        "",
+        "Section C",
+        "",
+        "Body of C.",
+        "",
+        "1 a footnote definition",
+        ""
+       ]
+      },
+      "headRan": true,
+      "afterHead": {
+       "mode": {
+        "mode": "source",
+        "source": false
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 12,
+          "to": 19
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":12,\"to\":19}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "## Section A\u2026",
+        "Section B",
+        "",
+        "- list parent",
+        "\t- child one",
+        "\t- child two",
+        "",
+        "Section C",
+        "",
+        "Body of C.",
+        "",
+        "1 a footnote definition",
+        ""
+       ]
+      },
+      "config": {
+       "foldIndent": true,
+       "foldHeading": true
+      }
+     }
+    },
+    "s05-reading-view-clicks": {
+     "ok": true,
+     "ms": 6835,
+     "before": {
+      "mode": {
+       "mode": "preview",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "textRect": {
+      "x": 375.9913635253906,
+      "y": 412.3383483886719,
+      "w": 604.4288330078125,
+      "h": 28.07111930847168,
+      "textCx": 415.9913635253906,
+      "cy": 426.3739080429077,
+      "farRightCx": 960.4201965332031
+     },
+     "afterTextClick": {
+      "mode": {
+       "mode": "preview",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "afterEmptySpaceClick": {
+      "mode": {
+       "mode": "preview",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "indicator": {
+      "x": 353.9978332519531,
+      "y": 412.3383483886719,
+      "w": 21.982757568359375,
+      "h": 28.07111930847168,
+      "cx": 364.9892120361328,
+      "cy": 426.3739080429077,
+      "style": {
+       "opacity": "1",
+       "display": "flex",
+       "left": "31.9935px",
+       "position": "absolute"
+      }
+     },
+     "indicatorHovered": {
+      "opacity": "1",
+      "display": "flex"
+     },
+     "afterIndicatorClick": {
+      "mode": {
+       "mode": "preview",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        },
+        {
+         "from": 12,
+         "to": 13
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":12,\"to\":13}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "afterIndicatorClickAgain": {
+      "mode": {
+       "mode": "preview",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B",
+       "",
+       "- list parent",
+       "\t- child one",
+       "\t- child two",
+       "",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     }
+    },
+    "s06-edge-headings": {
+     "ok": true,
+     "ms": 7440,
+     "opened": {
+      "file": "Fold Edges.md",
+      "mode": {
+       "mode": "source",
+       "source": false
+      }
+     },
+     "lines": [
+      "Line zero heading",
+      "",
+      "body",
+      "",
+      "Setext Heading",
+      "==============",
+      "",
+      "setext body",
+      "",
+      "",
+      "> ## Heading in a blockquote",
+      "> quote body",
+      "",
+      "Empty Last Section"
+     ],
+     "cases": {
+      "line-zero-heading": {
+       "caret": {
+        "line": 0,
+        "ch": 0
+       },
+       "lineText": "# Line zero heading",
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 3
+         }
+        ],
+        "lines": 17
+       },
+       "renderedCount": 11
+      },
+      "setext-heading": {
+       "caret": {
+        "line": 4,
+        "ch": 0
+       },
+       "lineText": "Setext Heading",
+       "ran": true,
+       "live": {
+        "folds": [
+         {
+          "from": 4,
+          "to": 16
+         }
+        ],
+        "lines": 17
+       },
+       "renderedCount": 5
+      },
+      "setext-underline": {
+       "caret": {
+        "line": 5,
+        "ch": 0
+       },
+       "lineText": "==============",
+       "ran": true,
+       "live": {
+        "folds": [],
+        "lines": 17
+       },
+       "renderedCount": 14
+      },
+      "heading-in-callout": {
+       "caret": {
+        "line": 10,
+        "ch": 0
+       },
+       "lineText": "> ## Heading in a callout",
+       "ran": true,
+       "live": {
+        "folds": [],
+        "lines": 17
+       },
+       "renderedCount": 17
+      },
+      "heading-in-blockquote": {
+       "caret": {
+        "line": 13,
+        "ch": 0
+       },
+       "lineText": "> ## Heading in a blockquote",
+       "ran": true,
+       "live": {
+        "folds": [],
+        "lines": 17
+       },
+       "renderedCount": 14
+      },
+      "empty-last-section": {
+       "caret": {
+        "line": 16,
+        "ch": 0
+       },
+       "lineText": "## Empty Last Section",
+       "ran": true,
+       "live": {
+        "folds": [],
+        "lines": 17
+       },
+       "renderedCount": 14
+      }
+     },
+     "noTrailingNewline": {
+      "endsWithNewline": false,
+      "length": 195
+     },
+     "bytesAfter": "# Line zero heading\n\nbody\n\nSetext Heading\n==============\n\nsetext body\n\n> [!note] Callout\n> ## Heading in a callout\n> callout body\n\n> ## Heading in a blockquote\n> quote body\n\n## Empty Last Section"
+    },
+    "s07-keyboard-and-link-jump": {
+     "ok": true,
+     "ms": 8995,
+     "hotkeys": {
+      "editor:toggle-fold": {
+       "name": "Toggle fold on the current line",
+       "defaults": null,
+       "custom": null
+      },
+      "editor:fold-all": {
+       "name": "Fold all headings and lists",
+       "defaults": null,
+       "custom": null
+      },
+      "editor:unfold-all": {
+       "name": "Unfold all headings and lists",
+       "defaults": null,
+       "custom": null
+      },
+      "editor:fold-more": {
+       "name": "Fold more",
+       "defaults": null,
+       "custom": null
+      },
+      "editor:fold-less": {
+       "name": "Fold less",
+       "defaults": null,
+       "custom": null
+      },
+      "editor:toggle-fold-properties": {
+       "name": "Toggle fold properties in current file",
+       "defaults": null,
+       "custom": null
+      }
+     },
+     "key_ctrl-shift-bracketleft": {
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "lines": 27
+     },
+     "key_ctrl-shift-bracketright": {
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "lines": 27
+     },
+     "key_ctrl-alt-bracketleft": {
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        }
+       ],
+       "lines": 32
+      },
+      "lines": 27
+     },
+     "linkJump": {
+      "foldedBefore": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        },
+        {
+         "from": 20,
+         "to": 25
+        }
+       ],
+       "lines": 32
+      },
+      "after": {
+       "mode": {
+        "mode": "source",
+        "source": false
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":0,\"to\":0}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "\t## Section A",
+        "",
+        "Body of A.",
+        "",
+        "Sub A1",
+        "",
+        "Body of Sub A1.",
+        "",
+        "## Section B",
+        "",
+        "- list parent",
+        "\t- child one",
+        "\t- child two",
+        "",
+        "Section C",
+        "",
+        "Body of C.",
+        "",
+        "1 a footnote definition",
+        ""
+       ]
+      },
+      "caret": {
+       "line": 20,
+       "ch": 0
+      }
+     }
+    },
+    "s08-leave-a-record-and-quit": {
+     "ok": true,
+     "ms": 4820,
+     "setUp": {
+      "inEditor": {
+       "mode": {
+        "mode": "source",
+        "source": false
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 20,
+          "to": 25
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "\t## Section A",
+        "",
+        "Body of A.",
+        "",
+        "Sub A1",
+        "",
+        "Body of Sub A1.",
+        "",
+        "## Section B\u2026",
+        "Section C",
+        "",
+        "Body of C.",
+        "",
+        "1 a footnote definition",
+        ""
+       ]
+      },
+      "inReading": {
+       "mode": {
+        "mode": "preview",
+        "source": false
+       },
+       "live": {
+        "folds": [
+         {
+          "from": 0,
+          "to": 0
+         },
+         {
+          "from": 20,
+          "to": 21
+         }
+        ],
+        "lines": 32
+       },
+       "stored": [
+        {
+         "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+        },
+        {
+         "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+         "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+        }
+       ],
+       "rendered": [
+        "",
+        "PREAMBLE paragraph before any heading.",
+        "",
+        "H1 Top",
+        "",
+        "Body of H1.",
+        "",
+        "\t## Section A",
+        "",
+        "Body of A.",
+        "",
+        "Sub A1",
+        "",
+        "Body of Sub A1.",
+        "",
+        "Section B\u2026",
+        "Section C",
+        "",
+        "Body of C.",
+        "",
+        "1 a footnote definition",
+        ""
+       ]
+      }
+     },
+     "recordBeforeQuit": [
+      {
+       "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+      },
+      {
+       "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+      }
+     ],
+     "localStorageAll": [
+      "c9722a16183b9547-note-fold-Fold Probe.md",
+      "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md"
+     ]
+    }
+   },
+   "order": [
+    "s01-fold-in-editor-and-the-key",
+    "s02-subfolder-key",
+    "s03-fold-more-less-and-zero-zero",
+    "s04-source-mode-and-foldIndent",
+    "s05-reading-view-clicks",
+    "s06-edge-headings",
+    "s07-keyboard-and-link-jump",
+    "s08-leave-a-record-and-quit"
+   ],
+   "elapsedMs": 50193,
+   "vaultPath": "/tmp/silica-probe-vault.0ICE9T",
+   "title": "New tab - silica-probe-vault.0ICE9T - Obsidian 1.14.5",
+   "finishedAt": "2026-10-25T15:23:23.417Z",
+   "note": "localStorage is shared across every vault this Obsidian has opened, so the raw dumps held other vaults' keys; every listing here is filtered to this probe's own app id c9722a16183b9547."
+  },
+  "after-restart": {
+   "startedAt": "2026-10-25T15:23:26.656Z",
+   "steps": {
+    "s09-cold-load": {
+     "ok": true,
+     "ms": 5637,
+     "keysAtLaunch": [
+      {
+       "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+      },
+      {
+       "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+      }
+     ],
+     "openedInEditor": {
+      "mode": {
+       "mode": "source",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        },
+        {
+         "from": 20,
+         "to": 25
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "\t## Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B\u2026",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "renderedLineCount": 22,
+     "placeholders": [
+      "\u2026"
+     ],
+     "thenReading": {
+      "mode": {
+       "mode": "preview",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        },
+        {
+         "from": 20,
+         "to": 21
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "\t## Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B\u2026",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "backInEditor": {
+      "mode": {
+       "mode": "source",
+       "source": false
+      },
+      "live": {
+       "folds": [
+        {
+         "from": 0,
+         "to": 0
+        },
+        {
+         "from": 20,
+         "to": 25
+        }
+       ],
+       "lines": 32
+      },
+      "stored": [
+       {
+        "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+       },
+       {
+        "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+        "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+       }
+      ],
+      "rendered": [
+       "",
+       "PREAMBLE paragraph before any heading.",
+       "",
+       "H1 Top",
+       "",
+       "Body of H1.",
+       "",
+       "\t## Section A",
+       "",
+       "Body of A.",
+       "",
+       "Sub A1",
+       "",
+       "Body of Sub A1.",
+       "",
+       "Section B\u2026",
+       "Section C",
+       "",
+       "Body of C.",
+       "",
+       "1 a footnote definition",
+       ""
+      ]
+     },
+     "subfolderKeyStillThere": [
+      {
+       "key": "c9722a16183b9547-note-fold-Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":0,\"to\":0},{\"from\":20,\"to\":25}],\"lines\":32}"
+      },
+      {
+       "key": "c9722a16183b9547-note-fold-Sub Folder/Fold Probe.md",
+       "value": "{\"folds\":[{\"from\":12,\"to\":19}],\"lines\":32}"
+      }
+     ]
+    }
+   },
+   "order": [
+    "s09-cold-load"
+   ],
+   "elapsedMs": 5691,
+   "vaultPath": "/tmp/silica-probe-vault.0ICE9T",
+   "title": "Fold Probe - silica-probe-vault.0ICE9T - Obsidian 1.14.5",
+   "finishedAt": "2026-10-25T15:23:32.346Z"
+  }
+ }
+}

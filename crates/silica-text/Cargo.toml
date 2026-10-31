@@ -1,0 +1,27 @@
+[package]
+name = "silica-text"
+description = "The editor's text model: buffer, line index, selections, undo and the edit plans of the editing commands"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+regex.workspace = true
+# The table commands find the table under the cursor with the one Markdown
+# parser rather than by looking for pipes.
+silica-markdown.workspace = true
+# Deletion and caret motion step by grapheme cluster, so one Backspace
+# takes an accented letter or a joined emoji whole.
+unicode-segmentation = "1"
+
+[dev-dependencies]
+silica-cache.workspace = true
+serde.workspace = true
+silica-formats.workspace = true
+silica-suggest.workspace = true
+silica-templates.workspace = true
+silica-vault.workspace = true
+tempfile.workspace = true

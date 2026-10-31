@@ -1,0 +1,734 @@
+{
+ "attachmentPaste": {
+  "fixtures": {
+   "startedAt": "2026-10-25T15:38:51.340Z",
+   "steps": {},
+   "order": [],
+   "elapsedMs": 2
+  },
+  "run": {
+   "startedAt": "2026-10-25T15:38:52.549Z",
+   "steps": {
+    "s01-paste-into-a-folder-that-does-not-exist": {
+     "ok": true,
+     "ms": 4455,
+     "config": {
+      "set": "att/deep/new",
+      "newLinkFormat": "shortest",
+      "useMarkdownLinks": false
+     },
+     "folderAbsentBefore": true,
+     "paste": {
+      "opened": {
+       "file": "Target.md",
+       "type": "markdown"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "before": {
+       "tree": [
+        "Board.canvas (31b)",
+        "Sub/",
+        "Sub/Nested.md (2b)",
+        "Target.md (13b)"
+       ],
+       "value": "BEFORE AFTER\n"
+      },
+      "after": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Board.canvas (31b)",
+        "Sub/",
+        "Sub/Nested.md (2b)",
+        "Target.md (49b)"
+       ],
+       "value": "BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "disk": "BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      }
+     },
+     "folderAfter": {
+      "att": true,
+      "deep": true,
+      "newDir": true
+     }
+    },
+    "s02-same-folder-as-current-file": {
+     "ok": true,
+     "ms": 4424,
+     "config": "./",
+     "paste": {
+      "opened": {
+       "file": "Sub/Nested.md",
+       "type": "markdown"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "before": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Board.canvas (31b)",
+        "Sub/",
+        "Sub/Nested.md (2b)",
+        "Target.md (49b)"
+       ],
+       "value": "x\n"
+      },
+      "after": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Board.canvas (31b)",
+        "Sub/",
+        "Sub/Nested.md (38b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (49b)"
+       ],
+       "value": "x![[Pasted image 20261025103857.png]]\n",
+       "disk": "x![[Pasted image 20261025103857.png]]\n",
+       "notices": []
+      }
+     }
+    },
+    "s03-one-paste-per-format": {
+     "ok": true,
+     "ms": 20571,
+     "formats": {
+      "photo.png": {
+       "clip": {
+        "ok": true,
+        "size": {
+         "width": 8,
+         "height": 8
+        },
+        "formats": [
+         "image/png"
+        ]
+       },
+       "treeDelta": [
+        "Pasted image 20261025103902.png (107b)",
+        "Target.md (85b)"
+       ],
+       "value": "![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      },
+      "shot.jpeg": {
+       "clip": {
+        "ok": true,
+        "size": {
+         "width": 8,
+         "height": 8
+        },
+        "formats": [
+         "image/png"
+        ]
+       },
+       "treeDelta": [
+        "Pasted image 20261025103906.png (108b)",
+        "Target.md (121b)"
+       ],
+       "value": "![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      },
+      "vec.svg": {
+       "clip": {
+        "ok": false,
+        "reason": "nativeImage empty for /tmp/paste-fixtures/vec.svg"
+       },
+       "treeDelta": [
+        "Pasted image 20261025103910.png (108b)",
+        "Target.md (157b)"
+       ],
+       "value": "![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      },
+      "pic.bmp": {
+       "clip": {
+        "ok": false,
+        "reason": "nativeImage empty for /tmp/paste-fixtures/pic.bmp"
+       },
+       "treeDelta": [
+        "Pasted image 20261025103914.png (108b)",
+        "Target.md (193b)"
+       ],
+       "value": "![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      },
+      "doc.pdf": {
+       "clip": {
+        "ok": false,
+        "reason": "nativeImage empty for /tmp/paste-fixtures/doc.pdf"
+       },
+       "treeDelta": [
+        "Pasted image 20261025103918.png (108b)",
+        "Target.md (229b)"
+       ],
+       "value": "![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      }
+     }
+    },
+    "s04-collision-across-folders": {
+     "ok": true,
+     "ms": 8830,
+     "before": [
+      "att/",
+      "att/deep/",
+      "att/deep/new/",
+      "att/deep/new/Pasted image 20261025103853.png (107b)",
+      "Board.canvas (31b)",
+      "Pasted image 20261025103902.png (107b)",
+      "Pasted image 20261025103906.png (108b)",
+      "Pasted image 20261025103910.png (108b)",
+      "Pasted image 20261025103914.png (108b)",
+      "Pasted image 20261025103918.png (108b)",
+      "photo.png (74b)",
+      "Sub/",
+      "Sub/Nested.md (38b)",
+      "Sub/Pasted image 20261025103857.png (107b)",
+      "Target.md (229b)"
+     ],
+     "first": {
+      "opened": {
+       "file": "Target.md",
+       "type": "markdown"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "before": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (38b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (229b)"
+       ],
+       "value": "![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n"
+      },
+      "after": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Attachments/",
+        "Attachments/Pasted image 20261025103922.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (38b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (265b)"
+       ],
+       "value": "![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "disk": "![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      }
+     },
+     "second": {
+      "opened": {
+       "file": "Target.md",
+       "type": "markdown"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "before": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Attachments/",
+        "Attachments/Pasted image 20261025103922.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (38b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (265b)"
+       ],
+       "value": "![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n"
+      },
+      "after": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Attachments/",
+        "Attachments/Pasted image 20261025103922.png (107b)",
+        "Attachments/Pasted image 20261025103927.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (38b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (301b)"
+       ],
+       "value": "![[Pasted image 20261025103927.png]]![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "disk": "![[Pasted image 20261025103927.png]]![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "notices": []
+      }
+     },
+     "after": [
+      "att/",
+      "att/deep/",
+      "att/deep/new/",
+      "att/deep/new/Pasted image 20261025103853.png (107b)",
+      "Attachments/",
+      "Attachments/Pasted image 20261025103922.png (107b)",
+      "Attachments/Pasted image 20261025103927.png (107b)",
+      "Board.canvas (31b)",
+      "Pasted image 20261025103902.png (107b)",
+      "Pasted image 20261025103906.png (108b)",
+      "Pasted image 20261025103910.png (108b)",
+      "Pasted image 20261025103914.png (108b)",
+      "Pasted image 20261025103918.png (108b)",
+      "photo.png (74b)",
+      "Sub/",
+      "Sub/Nested.md (38b)",
+      "Sub/Pasted image 20261025103857.png (107b)",
+      "Target.md (301b)"
+     ]
+    },
+    "s05-markdown-links-and-ugly-names": {
+     "ok": true,
+     "ms": 8839,
+     "config": {
+      "useMarkdownLinks": true,
+      "newLinkFormat": "absolute"
+     },
+     "fromSubfolder": {
+      "opened": {
+       "file": "Sub/Nested.md",
+       "type": "markdown"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "before": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Attachments/",
+        "Attachments/Pasted image 20261025103922.png (107b)",
+        "Attachments/Pasted image 20261025103927.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (38b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (301b)"
+       ],
+       "value": "x![[Pasted image 20261025103857.png]]\n"
+      },
+      "after": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Attachments/",
+        "Attachments/Pasted image 20261025103922.png (107b)",
+        "Attachments/Pasted image 20261025103927.png (107b)",
+        "Attachments/Pasted image 20261025103931.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (90b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (301b)"
+       ],
+       "value": "x![](Attachments/Pasted%20image%2020261025103931.png)![[Pasted image 20261025103857.png]]\n",
+       "disk": "x![](Attachments/Pasted%20image%2020261025103931.png)![[Pasted image 20261025103857.png]]\n",
+       "notices": []
+      }
+     },
+     "ugly": {
+      "opened": {
+       "file": "Sub/Nested.md",
+       "type": "markdown"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "before": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Attachments/",
+        "Attachments/Pasted image 20261025103922.png (107b)",
+        "Attachments/Pasted image 20261025103927.png (107b)",
+        "Attachments/Pasted image 20261025103931.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (90b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (301b)"
+       ],
+       "value": "x![](Attachments/Pasted%20image%2020261025103931.png)![[Pasted image 20261025103857.png]]\n"
+      },
+      "after": {
+       "tree": [
+        "att/",
+        "att/deep/",
+        "att/deep/new/",
+        "att/deep/new/Pasted image 20261025103853.png (107b)",
+        "Attachments/",
+        "Attachments/Pasted image 20261025103922.png (107b)",
+        "Attachments/Pasted image 20261025103927.png (107b)",
+        "Attachments/Pasted image 20261025103931.png (107b)",
+        "Attachments/Pasted image 20261025103936.png (107b)",
+        "Board.canvas (31b)",
+        "Pasted image 20261025103902.png (107b)",
+        "Pasted image 20261025103906.png (108b)",
+        "Pasted image 20261025103910.png (108b)",
+        "Pasted image 20261025103914.png (108b)",
+        "Pasted image 20261025103918.png (108b)",
+        "photo.png (74b)",
+        "Sub/",
+        "Sub/Nested.md (142b)",
+        "Sub/Pasted image 20261025103857.png (107b)",
+        "Target.md (301b)"
+       ],
+       "value": "x![](Attachments/Pasted%20image%2020261025103936.png)![](Attachments/Pasted%20image%2020261025103931.png)![[Pasted image 20261025103857.png]]\n",
+       "disk": "x![](Attachments/Pasted%20image%2020261025103936.png)![](Attachments/Pasted%20image%2020261025103931.png)![[Pasted image 20261025103857.png]]\n",
+       "notices": []
+      }
+     },
+     "restore": {
+      "useMarkdownLinks": false,
+      "newLinkFormat": "shortest"
+     }
+    },
+    "s06-paste-into-reading-view-and-a-canvas": {
+     "ok": true,
+     "ms": 7768,
+     "readingView": {
+      "opened": {
+       "file": "Target.md",
+       "type": "markdown"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "treeDelta": [],
+      "notices": [],
+      "disk": "![[Pasted image 20261025103927.png]]![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n"
+     },
+     "canvas": {
+      "opened": {
+       "type": "canvas",
+       "file": "Board.canvas"
+      },
+      "clip": {
+       "ok": true,
+       "size": {
+        "width": 8,
+        "height": 8
+       },
+       "formats": [
+        "image/png"
+       ]
+      },
+      "treeDelta": [
+       "Attachments/Pasted image 20261025103944.png (107b)",
+       "Board.canvas (162b)"
+      ],
+      "canvasBytes": "{\n\t\"nodes\":[\n\t\t{\"id\":\"73e07abbeb4607bd\",\"x\":0,\"y\":0,\"width\":400,\"height\":400,\"type\":\"file\",\"file\":\"Attachments/Pasted image 20261025103944.png\"}\n\t],\n\t\"edges\":[]\n}",
+      "notices": []
+     }
+    },
+    "s07-undo-depth-and-when-it-hits-disk": {
+     "ok": true,
+     "ms": 12442,
+     "opened": {
+      "file": "Target.md",
+      "type": "markdown"
+     },
+     "diskTimeline": [
+      {
+       "atMs": 0,
+       "disk": "BEFORE AFTER\n",
+       "editor": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n"
+      },
+      {
+       "atMs": 500,
+       "disk": "BEFORE AFTER\n",
+       "editor": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n"
+      },
+      {
+       "atMs": 1000,
+       "disk": "BEFORE AFTER\n",
+       "editor": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n"
+      },
+      {
+       "atMs": 2000,
+       "disk": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n",
+       "editor": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n"
+      },
+      {
+       "atMs": 4000,
+       "disk": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n",
+       "editor": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n"
+      },
+      {
+       "atMs": 6000,
+       "disk": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n",
+       "editor": "BEFORE ![[Pasted image 20261025103949.png]]AFTER\n"
+      }
+     ],
+     "treeDelta": [
+      "Attachments/Pasted image 20261025103949.png (107b)",
+      "Target.md (49b)"
+     ],
+     "undos": [
+      {
+       "press": 1,
+       "editor": "BEFORE AFTER\n",
+       "attachmentStillThere": [
+        "Pasted image 20261025103922.png",
+        "Pasted image 20261025103927.png",
+        "Pasted image 20261025103931.png",
+        "Pasted image 20261025103936.png",
+        "Pasted image 20261025103944.png",
+        "Pasted image 20261025103949.png"
+       ]
+      },
+      {
+       "press": 2,
+       "editor": "![[Pasted image 20261025103927.png]]![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "attachmentStillThere": [
+        "Pasted image 20261025103922.png",
+        "Pasted image 20261025103927.png",
+        "Pasted image 20261025103931.png",
+        "Pasted image 20261025103936.png",
+        "Pasted image 20261025103944.png",
+        "Pasted image 20261025103949.png"
+       ]
+      },
+      {
+       "press": 3,
+       "editor": "![[Pasted image 20261025103922.png]]![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "attachmentStillThere": [
+        "Pasted image 20261025103922.png",
+        "Pasted image 20261025103927.png",
+        "Pasted image 20261025103931.png",
+        "Pasted image 20261025103936.png",
+        "Pasted image 20261025103944.png",
+        "Pasted image 20261025103949.png"
+       ]
+      },
+      {
+       "press": 4,
+       "editor": "![[Pasted image 20261025103918.png]]![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "attachmentStillThere": [
+        "Pasted image 20261025103922.png",
+        "Pasted image 20261025103927.png",
+        "Pasted image 20261025103931.png",
+        "Pasted image 20261025103936.png",
+        "Pasted image 20261025103944.png",
+        "Pasted image 20261025103949.png"
+       ]
+      },
+      {
+       "press": 5,
+       "editor": "![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n",
+       "attachmentStillThere": [
+        "Pasted image 20261025103922.png",
+        "Pasted image 20261025103927.png",
+        "Pasted image 20261025103931.png",
+        "Pasted image 20261025103936.png",
+        "Pasted image 20261025103944.png",
+        "Pasted image 20261025103949.png"
+       ]
+      }
+     ],
+     "afterUndoDisk": "![[Pasted image 20261025103914.png]]![[Pasted image 20261025103910.png]]![[Pasted image 20261025103906.png]]![[Pasted image 20261025103902.png]]BEFORE ![[Pasted image 20261025103853.png]]AFTER\n"
+    },
+    "s08-drop-a-file-into-the-editor": {
+     "ok": true,
+     "ms": 5117,
+     "rect": {
+      "x": 375.9913635253906,
+      "y": 154.01937866210938,
+      "w": 604.4288330078125,
+      "h": 613.9869995117188,
+      "cx": 678.2057800292969,
+      "cy": 461.01287841796875
+     },
+     "drop": "dispatched",
+     "after": {
+      "treeDelta": [
+       "Attachments/photo.png (74b)",
+       "Target.md (36b)"
+      ],
+      "disk": "DROP HERE\n![[Attachments/photo.png]]",
+      "notices": []
+     }
+    }
+   },
+   "order": [
+    "s01-paste-into-a-folder-that-does-not-exist",
+    "s02-same-folder-as-current-file",
+    "s03-one-paste-per-format",
+    "s04-collision-across-folders",
+    "s05-markdown-links-and-ugly-names",
+    "s06-paste-into-reading-view-and-a-canvas",
+    "s07-undo-depth-and-when-it-hits-disk",
+    "s08-drop-a-file-into-the-editor"
+   ],
+   "elapsedMs": 72510,
+   "vaultPath": "/tmp/silica-probe-vault.UTNzwr",
+   "title": "New tab - silica-probe-vault.UTNzwr - Obsidian 1.14.5",
+   "sourceFiles": [
+    "a#b&c (1) cafe.png",
+    "doc.pdf",
+    "photo.png",
+    "pic.bmp",
+    "shot.jpeg",
+    "vec.svg"
+   ],
+   "treeAtStart": [
+    "Board.canvas (31b)",
+    "Sub/",
+    "Sub/Nested.md (2b)",
+    "Target.md (13b)"
+   ],
+   "treeAtEnd": [
+    "att/",
+    "att/deep/",
+    "att/deep/new/",
+    "att/deep/new/Pasted image 20261025103853.png (107b)",
+    "Attachments/",
+    "Attachments/Pasted image 20261025103922.png (107b)",
+    "Attachments/Pasted image 20261025103927.png (107b)",
+    "Attachments/Pasted image 20261025103931.png (107b)",
+    "Attachments/Pasted image 20261025103936.png (107b)",
+    "Attachments/Pasted image 20261025103944.png (107b)",
+    "Attachments/Pasted image 20261025103949.png (107b)",
+    "Attachments/photo.png (74b)",
+    "Board.canvas (162b)",
+    "Pasted image 20261025103902.png (107b)",
+    "Pasted image 20261025103906.png (108b)",
+    "Pasted image 20261025103910.png (108b)",
+    "Pasted image 20261025103914.png (108b)",
+    "Pasted image 20261025103918.png (108b)",
+    "photo.png (74b)",
+    "Sub/",
+    "Sub/Nested.md (142b)",
+    "Sub/Pasted image 20261025103857.png (107b)",
+    "Target.md (36b)"
+   ],
+   "appJsonAtEnd": "{\n  \"attachmentFolderPath\": \"Attachments\",\n  \"useMarkdownLinks\": false,\n  \"newLinkFormat\": \"shortest\"\n}",
+   "finishedAt": "2026-10-25T15:40:05.059Z",
+   "note": "The svg, bmp and pdf rows of s03 are void: nativeImage cannot read those files, so clipImage returned ok:false and the clipboard still held the previous PNG, which is what was pasted. Every clipboard IMAGE pastes as PNG, so the named-file rename rule is only settled by s08, the real file drop."
+  }
+ }
+}
