@@ -324,7 +324,10 @@ uses behave as Obsidian's do.
 | Bases: the rest of the view | done: the cards, list and kanban layouts, the toolbar's six panels, editing through the table, the five `bases:*` commands beyond `new-file`, and an embedded `![[x.base]]`, see [[#Bases: the rest of the view, 2026-10-25]] |
 | PDF | done: a `.pdf` opens in a viewer with Obsidian's toolbar, sidebar and find bar, `![[x.pdf]]` embeds and canvas file cards draw the same viewer, see [[#PDF view, 2026-10-26]] |
 | Math | done: `$x$` and `$$x$$` typeset on a KaTeX-compatible engine and painted natively in reading view, Live Preview and the math block widget, see [[#Math, 2026-10-26]]; MathJax-only syntax shows as source in red |
-| The themes subset, URI and CLI | not started |
+| The themes subset, URI and CLI | done: live appearance/theme/snippet recomputation, `obsidian://` protocol handling, CLI flags (`--help`, `--version`, `--search`, etc.) |
+| Attachments | done: paste clipboard images and drag-and-drop external files to vault attachment folder with collision resolution and embed syntax |
+| Mermaid | done: native pure-Rust SVG diagram rendering in reading view and preview widgets |
+| Vault-wide Search & Replace | done: global search replace row, regex capture group support, batch and per-file replacement |
 
 ### The vault manager, and a menu that would not close, 2026-10-29
 
