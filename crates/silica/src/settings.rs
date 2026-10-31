@@ -254,6 +254,9 @@ enum Flag {
     /// A community plugin id in `community-plugins.json`; enabled means
     /// listed.
     CommunityPlugin(String),
+    /// A CSS snippet in `.obsidian/snippets/<name>.css`; enabled means
+    /// listed in `appearance.json`'s `enabledCssSnippets`.
+    CssSnippet(String),
 }
 
 /// A dropdown's options: what each row reads and what it writes.
@@ -695,6 +698,13 @@ impl Flag {
                 core_plugin_enabled(state.core_plugins().as_ref(), id, *default_on)
             }
             Flag::CommunityPlugin(id) => state.community_plugins().contains(id),
+            Flag::CssSnippet(name) => {
+                state
+                    .appearance()
+                    .enabled_css_snippets
+                    .as_ref()
+                    .is_some_and(|s| s.iter().any(|s| s == name))
+            }
         }
     }
 
@@ -718,6 +728,21 @@ impl Flag {
                     None => plugins.push(id.clone()),
                 }
                 SettingChange::CommunityPlugins(plugins)
+            }
+            Flag::CssSnippet(name) => {
+                let mut next = state.appearance().clone();
+                match next.enabled_css_snippets.as_mut() {
+                    Some(list) => {
+                        match list.iter().position(|s| s == name) {
+                            Some(ix) => {
+                                list.remove(ix);
+                            }
+                            None => list.push(name.clone()),
+                        }
+                    }
+                    None => next.enabled_css_snippets = Some(vec![name.clone()]),
+                }
+                SettingChange::Appearance(next)
             }
         }
     }
@@ -1468,8 +1493,21 @@ impl SettingsView {
                 _ => "Default".into(),
             }
         };
-        let snippets = a.enabled_css_snippets.as_ref().map_or(0, |s| s.len());
-        vec![
+        let _snippets = a.enabled_css_snippets.as_ref().map_or(0, |s| s.len());
+        let snippet_dir = state
+            .vault()
+            .root()
+            .to_path_buf()
+            .join(".obsidian/snippets");
+        let available_snippets = std::fs::read_dir(&snippet_dir).ok().map(|entries| {
+            entries
+                .filter_map(|e| e.ok())
+                .filter(|e| e.path().extension().map_or(false, |ext| ext == "css"))
+                .filter_map(|e| e.file_name().to_str().map(|s| s.trim_end_matches(".css").to_string()))
+                .collect::<Vec<_>>()
+        });
+        let mut items: Vec<Item> = Vec::new();
+        items.push(
             choice(
                 "Base color scheme",
                 "Choose Obsidian's default color scheme.",
@@ -1477,6 +1515,8 @@ impl SettingsView {
                 BASE_COLOR_SCHEME,
             )
             .on_restart(),
+        );
+        items.push(
             text(
                 "Accent color",
                 "Choose the accent color used throughout the app.",
@@ -1486,44 +1526,68 @@ impl SettingsView {
                     .unwrap_or_else(|| "Default".into()),
             )
             .not_yet(),
-            field(
-                "Themes",
-                "Manage installed themes and browse community themes.",
-                state,
-                CSS_THEME,
-            ),
-            item(
-                "CSS snippets",
-                "Manage your collection of CSS files for tweaking the app's appearance.",
-                Control::Text(
-                    match snippets {
-                        0 => "None enabled".to_string(),
-                        1 => "1 enabled".to_string(),
-                        n => format!("{n} enabled"),
-                    }
-                    .into(),
-                ),
-            )
-            .not_yet(),
-            heading("Font"),
+        );
+        items.push(field(
+            "Themes",
+            "Manage installed themes and browse community themes.",
+            state,
+            CSS_THEME,
+        ));
+        items.push(heading("CSS snippets"));
+        if let Some(snippets) = &available_snippets {
+            if snippets.is_empty() {
+                items.push(item(
+                    "No snippets found",
+                    "Add .css files to .obsidian/snippets/ in this vault.",
+                    Control::None,
+                ));
+            } else {
+                for name in snippets {
+                    items.push(toggle(
+                        name,
+                        "Toggle this CSS snippet",
+                        state
+                            .appearance()
+                            .enabled_css_snippets
+                            .as_ref()
+                            .is_some_and(|s| s.iter().any(|s| s == name)),
+                        Flag::CssSnippet(name.to_string()),
+                    ));
+                }
+            }
+        } else {
+            items.push(item(
+                "CSS snippets folder not found",
+                "Create .obsidian/snippets/ in this vault to add snippets.",
+                Control::None,
+            ));
+        }
+        items.push(heading("Font"));
+        items.push(
             text(
                 "Interface font",
                 "Set base font for all of Obsidian.",
                 font(&a.interface_font_family),
             )
             .on_restart(),
+        );
+        items.push(
             text(
                 "Text font",
                 "Set font for editing and reading views.",
                 font(&a.text_font_family),
             )
             .on_restart(),
+        );
+        items.push(
             text(
                 "Monospace font",
                 "Set font for places like code blocks and frontmatter.",
                 font(&a.monospace_font_family),
             )
             .on_restart(),
+        );
+        items.push(
             slider(
                 "Font size",
                 "Font size in pixels that affects editing and reading views.",
@@ -1531,7 +1595,8 @@ impl SettingsView {
                 FONT_SIZE,
             )
             .on_restart(),
-        ]
+        );
+        items
     }
 
     fn interface_items(state: &VaultState) -> Vec<Item> {

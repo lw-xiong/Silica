@@ -1,0 +1,32 @@
+[
+ {
+  "file": "000.png",
+  "dur": 2.0,
+  "name": "palette"
+ },
+ {
+  "file": "001.png",
+  "dur": 2.0,
+  "name": "properties"
+ },
+ {
+  "file": "002.png",
+  "dur": 2.0,
+  "name": "source"
+ },
+ {
+  "file": "003.png",
+  "dur": 2.0,
+  "name": "daily"
+ },
+ {
+  "file": "004.png",
+  "dur": 2.0,
+  "name": "bookmarks"
+ },
+ {
+  "file": "005.png",
+  "dur": 2.0,
+  "name": "settings"
+ }
+]

@@ -346,13 +346,30 @@ fn main() {
                 theme::load_css_theme(&root, &name)
             })
         });
+    // Enabled CSS snippets from `.obsidian/snippets/<name>.css`; applied last
+    // so they override both base and community theme colors.
+    let css_snippets = vault
+        .as_ref()
+        .and_then(|v| {
+            v.appearance_config()
+                .ok()
+                .and_then(|a| a.enabled_css_snippets.clone())
+        })
+        .unwrap_or_default();
+    let css_snippets = vault
+        .as_ref()
+        .and_then(|v| {
+            let root = v.root().to_path_buf();
+            Some(theme::load_css_snippets(&root, &css_snippets))
+        })
+        .unwrap_or_default();
     // The window is what knows the desktop's colour scheme, and it does not
     // exist yet; dark is assumed here and the theme is rebuilt below once
     // the window can answer, which only matters for `theme: "system"`.
     let appearance = vault.as_ref().and_then(|v| v.appearance_config().ok());
     let theme = appearance
         .as_ref()
-        .map(|a| Theme::from_appearance(a, true, css_theme.as_ref()))
+        .map(|a| Theme::from_appearance(a, true, css_theme.as_ref(), &css_snippets))
         .unwrap_or_else(Theme::dark);
     let mut registry = CommandRegistry::with_known_ids();
     // A core plugin that is off has no commands: not in the palette, and
@@ -460,7 +477,7 @@ fn main() {
                             )
                         })
                         .unwrap_or(true);
-                    cx.set_global(Theme::from_appearance(&a, dark, css_theme.as_ref()));
+                    cx.set_global(Theme::from_appearance(&a, dark, css_theme.as_ref(), &css_snippets));
                     window.update(cx, |_, _, cx| cx.notify()).ok();
                 }
             }

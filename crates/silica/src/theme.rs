@@ -246,6 +246,7 @@ impl Theme {
         config: &AppearanceConfig,
         system_dark: bool,
         css_theme: Option<&CssTheme>,
+        css_snippets: &[CssTheme],
     ) -> Theme {
         let mut theme = match config.theme.as_deref() {
             Some("moonstone") => Theme::light(),
@@ -271,6 +272,11 @@ impl Theme {
             theme.mono_font = f;
         }
         if let Some(css) = css_theme {
+            theme.apply_css_theme(css);
+        }
+        // CSS snippets apply last, so they override both base theme and
+        // community theme colors.
+        for css in css_snippets {
             theme.apply_css_theme(css);
         }
         theme
@@ -376,6 +382,20 @@ pub fn load_css_theme(vault_path: &Path, name: &str) -> Option<CssTheme> {
     let path = vault_path.join(".obsidian/themes").join(format!("{name}.css"));
     let css = std::fs::read_to_string(&path).ok()?;
     Some(parse_css_theme(&css))
+}
+
+/// Load every enabled CSS snippet from `.obsidian/snippets/*.css` inside a vault.
+/// Only snippets whose names appear in `enabled` are loaded and returned, in
+/// the same order as `enabled`.
+pub fn load_css_snippets(vault_path: &Path, enabled: &[String]) -> Vec<CssTheme> {
+    let mut out = Vec::new();
+    for name in enabled {
+        let path = vault_path.join(".obsidian/snippets").join(format!("{name}.css"));
+        if let Ok(css) = std::fs::read_to_string(&path) {
+            out.push(parse_css_theme(&css));
+        }
+    }
+    out
 }
 
 impl Theme {
