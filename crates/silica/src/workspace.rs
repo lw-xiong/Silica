@@ -3256,10 +3256,10 @@ impl Workspace {
             SettingChange::CorePlugins(_) => self.rebuild_commands(&state, None, cx),
             _ => {}
         }
-        // Recompute the global theme live when appearance or app settings
-        // change (dark/light, fonts, accent, CSS theme, CSS snippets).
+        // Recompute the global theme live when appearance changes
+        // (dark/light, fonts, accent, CSS theme, CSS snippets).
         // Previously these required a restart.
-        if matches!(&change, SettingChange::Appearance(_) | SettingChange::App(_)) {
+        if matches!(&change, SettingChange::Appearance(_)) {
             self.recompute_theme(&state, window, cx);
         }
         self.apply_app_config(&state, cx);
