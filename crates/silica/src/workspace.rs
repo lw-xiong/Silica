@@ -694,7 +694,7 @@ impl VaultState {
 
     /// Re-reads and re-indexes the notes among `files` (already applied to
     /// the file list) and re-resolves links when files came or went.
-    fn absorb(&self, files: Vec<FileChange>) -> Changes {
+    pub(crate) fn absorb(&self, files: Vec<FileChange>) -> Changes {
         let mut changes = Changes::default();
         // Keep one change per path, the last one seen.
         let mut last: HashMap<String, FileChange> = HashMap::new();
@@ -2885,6 +2885,9 @@ impl Workspace {
                     SearchEvent::Bookmark(query) => {
                         this.start_bookmark(BookmarkDraft::Search(query.clone()), window, cx);
                     }
+                    SearchEvent::FilesChanged(changes) => {
+                        this.after_changes(changes.clone(), cx);
+                    }
                     SearchEvent::CopyResults(entries) => {
                         this.open_copy_results(entries.clone(), window, cx);
                     }
@@ -4026,6 +4029,31 @@ impl Workspace {
         self.search.update(cx, |s, cx| s.set_query(query, cx));
         if let Some(window) = window {
             window.focus(&self.search.focus_handle(cx), cx);
+        }
+        cx.notify();
+    }
+
+    /// Shows the vault-wide search pane with replace row open.
+    #[allow(dead_code)]
+    pub fn show_replace(
+        &mut self,
+        query: &str,
+        replace_text: &str,
+        window: Option<&mut Window>,
+        cx: &mut Context<Self>,
+    ) {
+        self.left_visible = true;
+        self.left_tab = LeftTab::Search;
+        self.search.update(cx, |s, cx| {
+            s.set_query(query, cx);
+            s.set_replace_open(true, cx);
+            if !replace_text.is_empty() {
+                s.set_replace_text(replace_text, cx);
+            }
+        });
+        if let Some(window) = window {
+            let handle = self.search.read(cx).replace_focus_handle(cx);
+            window.focus(&handle, cx);
         }
         cx.notify();
     }

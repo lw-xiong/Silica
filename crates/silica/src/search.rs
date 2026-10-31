@@ -20,7 +20,7 @@ use crate::canvas::menu::tooltip;
 use crate::explorer::SortOrder;
 use crate::text_input::{InputEvent, TextInput};
 use crate::theme::{Theme, FONT_UI_SMALL, FONT_UI_SMALLER, ICON_SIZE};
-use crate::workspace::VaultState;
+use crate::workspace::{Changes, VaultState};
 use gpui::{
     anchored, deferred, div, list, prelude::*, px, relative, rgb, Anchor, App, ClickEvent, Context,
     Entity, EventEmitter, FocusHandle, Focusable, HighlightStyle, ListAlignment, ListState, Pixels,
@@ -32,6 +32,7 @@ use silica_cache::{all_tags, CachedMetadata};
 use silica_search::{
     context_window, match_lines, natural_cmp, parse, MatchLine, Query, Search, SearchFile, TaskLine,
 };
+use silica_vault::FileChange;
 use std::collections::{HashMap, HashSet};
 use std::ops::Range;
 use std::sync::Arc;
@@ -96,6 +97,8 @@ pub enum SearchEvent {
     Dismiss,
     /// One of the six serialised keys changed; the layout wants saving.
     StateChanged,
+    /// Vault files were modified by a replace operation.
+    FilesChanged(Changes),
 }
 
 /// One line of the "Copy search results" modal: a file in the result list.
@@ -115,6 +118,8 @@ const ACTIVE_ALPHA: f32 = 0.1;
 
 pub struct SearchPane {
     input: Entity<TextInput>,
+    replace_input: Entity<TextInput>,
+    replace_open: bool,
     state: Option<Arc<VaultState>>,
     results: Vec<FileResult>,
     /// `matchingCase`: the Match case decorator in the field.
@@ -167,7 +172,12 @@ impl SearchPane {
             input.set_pad_left(px(30.));
             input
         });
-        let subscriptions = vec![cx.subscribe(&input, |this, _, event: &InputEvent, cx| {
+        let replace_input = cx.new(|cx| {
+            let mut input = TextInput::new("Replace...", cx);
+            input.set_pad_left(px(30.));
+            input
+        });
+        let mut subscriptions = vec![cx.subscribe(&input, |this, _, event: &InputEvent, cx| {
             match event {
                 InputEvent::Changed => {
                     // A new query builds a new result list, the way
@@ -192,8 +202,20 @@ impl SearchPane {
                 }
             }
         })];
+        subscriptions.push(cx.subscribe(&replace_input, |this, _, event: &InputEvent, cx| {
+            match event {
+                InputEvent::Submit => this.replace_all(cx),
+                InputEvent::Cancel => {
+                    this.replace_open = false;
+                    cx.notify();
+                }
+                _ => {}
+            }
+        }));
         SearchPane {
             input,
+            replace_input,
+            replace_open: false,
             state: None,
             results: Vec::new(),
             matching_case: false,
@@ -239,6 +261,86 @@ impl SearchPane {
     /// Runs the current query again, after the vault changed.
     pub fn rerun(&mut self, cx: &mut Context<Self>) {
         self.run(cx);
+    }
+
+    #[allow(dead_code)]
+    pub fn replace_focus_handle(&self, cx: &App) -> FocusHandle {
+        self.replace_input.focus_handle(cx)
+    }
+
+    #[allow(dead_code)]
+    pub fn set_replace_open(&mut self, open: bool, cx: &mut Context<Self>) {
+        if self.replace_open != open {
+            self.replace_open = open;
+            cx.notify();
+        }
+    }
+
+    #[allow(dead_code)]
+    pub fn replace_open(&self) -> bool {
+        self.replace_open
+    }
+
+    #[allow(dead_code)]
+    pub fn set_replace_text(&mut self, text: &str, cx: &mut Context<Self>) {
+        self.replace_input.update(cx, |i, cx| i.set_text(text, cx));
+    }
+
+    #[allow(dead_code)]
+    pub fn open_replace(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self.replace_open = true;
+        window.focus(&self.replace_input.focus_handle(cx), cx);
+        cx.notify();
+    }
+
+    pub fn replace_all(&mut self, cx: &mut Context<Self>) {
+        self.replace_paths(None, cx);
+    }
+
+    pub fn replace_file(&mut self, path: &str, cx: &mut Context<Self>) {
+        self.replace_paths(Some(path), cx);
+    }
+
+    fn replace_paths(&mut self, target_path: Option<&str>, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        let query = self.input.read(cx).text().trim().to_string();
+        if query.is_empty() {
+            return;
+        }
+        let replacement = self.replace_input.read(cx).text().to_string();
+        let re = regex_for_query(&query, self.matching_case);
+
+        let mut modified = Vec::new();
+        for file in &self.results {
+            if let Some(target) = target_path {
+                if file.path != target {
+                    continue;
+                }
+            }
+            if file.hits.is_empty() {
+                continue;
+            }
+            let orig_text = match state.texts().get(&file.path) {
+                Some(t) => t.to_string(),
+                None => match std::fs::read_to_string(state.vault().absolute(&file.path)) {
+                    Ok(t) => t,
+                    Err(_) => continue,
+                },
+            };
+            let new_text = apply_replacements(&orig_text, &file.hits, re.as_ref(), &replacement);
+            if new_text != orig_text {
+                if state.vault().write_bytes(&file.path, new_text.as_bytes()).is_ok() {
+                    modified.push(FileChange::Modified(file.path.clone()));
+                }
+            }
+        }
+
+        if !modified.is_empty() {
+            let changes = state.absorb(modified);
+            cx.emit(SearchEvent::FilesChanged(changes));
+        }
     }
 
     // ----- leaf state ---------------------------------------------------------
@@ -693,6 +795,25 @@ impl SearchPane {
         let name = StyledText::new(SharedString::from(file.name.clone()))
             .with_highlights(highlights(&file.name_ranges, Highlight::Name, theme));
         let count: SharedString = file.matches.len().to_string().into();
+        let replace_btn = (self.replace_open && !file.hits.is_empty()).then(|| {
+            let file_path = file.path.clone();
+            div()
+                .id(("search-file-replace", row_ix))
+                .w(px(20.))
+                .h(px(20.))
+                .flex()
+                .items_center()
+                .justify_center()
+                .rounded(px(4.))
+                .cursor_pointer()
+                .hover(|s| s.bg(theme.bg_alt))
+                .tooltip(tooltip("Replace in this file"))
+                .on_click(cx.listener(move |this, _, _, cx| {
+                    cx.stop_propagation();
+                    this.replace_file(&file_path, cx);
+                }))
+                .child(icon("arrow-left-right", 12., theme.text_muted))
+        });
         div()
             .id(("search-file", row_ix))
             .relative()
@@ -745,6 +866,7 @@ impl SearchPane {
                     .text_ellipsis()
                     .child(name),
             )
+            .children(replace_btn)
             .child(
                 div()
                     .flex_shrink_0()
@@ -932,6 +1054,38 @@ impl SearchPane {
                         .child(icon("x", 9., theme.bg_secondary)),
                 )
         });
+        let replace_open = self.replace_open;
+        let replace_toggle = div()
+            .id("search-toggle-replace")
+            .flex_shrink_0()
+            .w(px(28.))
+            .h(px(24.))
+            .flex()
+            .items_center()
+            .justify_center()
+            .rounded(px(4.))
+            .cursor_pointer()
+            .when(replace_open, |d| d.bg(active_wash))
+            .hover(|s| s.bg(theme.bg_alt))
+            .tooltip(tooltip("Toggle replace"))
+            .on_click(cx.listener(|this, _, window, cx| {
+                this.replace_open = !this.replace_open;
+                if this.replace_open {
+                    window.focus(&this.replace_input.focus_handle(cx), cx);
+                } else {
+                    window.focus(&this.input.focus_handle(cx), cx);
+                }
+                cx.notify();
+            }))
+            .child(icon(
+                "arrow-left-right",
+                ICON_SIZE,
+                if replace_open {
+                    theme.accent
+                } else {
+                    theme.text_muted
+                },
+            ));
         let settings_open = self.settings_open;
         let settings = div()
             .id("search-settings")
@@ -1000,7 +1154,109 @@ impl SearchPane {
                             .children(clear),
                     ),
             )
+            .child(replace_toggle)
             .child(settings)
+    }
+
+    fn render_replace_row(&mut self, theme: &Theme, cx: &mut Context<Self>) -> Option<gpui::Div> {
+        if !self.replace_open {
+            return None;
+        }
+        let has_text = !self.replace_input.read(cx).text().is_empty();
+        let pad = if has_text { 32. } else { 8. };
+        self.replace_input
+            .update(cx, |input, _| input.set_pad_right(px(pad)));
+        let clear = has_text.then(|| {
+            div()
+                .id("search-replace-clear")
+                .w(px(28.))
+                .h(px(30.))
+                .flex()
+                .items_center()
+                .justify_center()
+                .cursor_pointer()
+                .tooltip(tooltip("Clear replacement"))
+                .on_click(cx.listener(|this, _, window, cx| {
+                    this.replace_input.update(cx, |input, cx| input.set_text("", cx));
+                    window.focus(&this.replace_input.focus_handle(cx), cx);
+                }))
+                .child(
+                    div()
+                        .size(px(14.))
+                        .rounded_full()
+                        .bg(theme.text_muted)
+                        .flex()
+                        .items_center()
+                        .justify_center()
+                        .child(icon("x", 9., theme.bg_secondary)),
+                )
+        });
+
+        let replace_all_btn = div()
+            .id("search-replace-all")
+            .flex_shrink_0()
+            .h(px(24.))
+            .px(px(8.))
+            .flex()
+            .items_center()
+            .justify_center()
+            .rounded(px(4.))
+            .cursor_pointer()
+            .bg(theme.bg_alt)
+            .hover(|s| s.bg(theme.border))
+            .tooltip(tooltip("Replace all in vault (Enter)"))
+            .on_click(cx.listener(|this, _, _, cx| {
+                this.replace_all(cx);
+            }))
+            .child(
+                div()
+                    .text_size(px(FONT_UI_SMALLER))
+                    .text_color(theme.text)
+                    .child("Replace all"),
+            );
+
+        Some(
+            div()
+                .flex_shrink_0()
+                .mx(px(12.))
+                .mb(px(8.))
+                .h(px(30.))
+                .flex()
+                .flex_row()
+                .items_center()
+                .gap(px(4.))
+                .child(
+                    div()
+                        .relative()
+                        .flex_1()
+                        .min_w_0()
+                        .h(px(30.))
+                        .child(self.replace_input.clone())
+                        .child(
+                            div()
+                                .absolute()
+                                .left(px(8.))
+                                .top(px(0.))
+                                .h(px(30.))
+                                .flex()
+                                .items_center()
+                                .child(icon("arrow-left-right", ICON_SIZE, theme.text_muted)),
+                        )
+                        .child(
+                            div()
+                                .absolute()
+                                .right(px(2.))
+                                .top(px(0.))
+                                .h(px(30.))
+                                .flex()
+                                .flex_row()
+                                .items_center()
+                                .gap(px(2.))
+                                .children(clear),
+                        ),
+                )
+                .child(replace_all_btn),
+        )
     }
 
     /// `search-info-container`: the query as "Explain search terms" reads
@@ -1279,6 +1535,7 @@ impl Render for SearchPane {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = cx.global::<Theme>().clone();
         let search_row = self.render_search_row(&theme, cx);
+        let replace_row = self.render_replace_row(&theme, cx);
         let explain = self.render_explain(&theme, cx);
         let settings = self.render_settings(&theme, cx);
         let info = self.render_results_info(&theme, cx);
@@ -1289,6 +1546,7 @@ impl Render for SearchPane {
             .capture_action(cx.listener(Self::capture_left))
             .capture_action(cx.listener(Self::capture_right))
             .child(search_row)
+            .children(replace_row)
             .children(explain)
             .children(settings)
             .child(info)
@@ -1650,6 +1908,76 @@ pub fn copy_text(
         .join("\n")
 }
 
+pub fn regex_for_query(query_str: &str, case_sensitive: bool) -> Option<regex::Regex> {
+    let q = silica_search::parse(query_str);
+    find_regex_in_query(&q, case_sensitive)
+}
+
+fn find_regex_in_query(query: &Query, case_sensitive: bool) -> Option<regex::Regex> {
+    match query {
+        Query::Regex { pattern, flags } => {
+            let ci = !case_sensitive || flags.contains('i');
+            regex::RegexBuilder::new(pattern)
+                .case_insensitive(ci)
+                .multi_line(flags.contains('m'))
+                .dot_matches_new_line(flags.contains('s'))
+                .build()
+                .ok()
+        }
+        Query::CaseSensitive(inner) => find_regex_in_query(inner, true),
+        Query::CaseInsensitive(inner) => find_regex_in_query(inner, false),
+        Query::All(children) | Query::Any(children) => {
+            children.iter().find_map(|c| find_regex_in_query(c, case_sensitive))
+        }
+        Query::Field(_, inner) => find_regex_in_query(inner, case_sensitive),
+        _ => None,
+    }
+}
+
+pub fn apply_replacements(
+    text: &str,
+    hits: &[Range<usize>],
+    re: Option<&regex::Regex>,
+    replacement: &str,
+) -> String {
+    if hits.is_empty() {
+        return text.to_string();
+    }
+    let mut sorted_hits: Vec<Range<usize>> = hits.to_vec();
+    sorted_hits.sort_by_key(|r| (r.start, r.end));
+
+    let mut out = String::with_capacity(text.len());
+    let mut last = 0;
+    for r in sorted_hits {
+        if r.start < last || r.end < r.start || r.end > text.len() {
+            continue;
+        }
+        if !text.is_char_boundary(r.start) || !text.is_char_boundary(r.end) {
+            continue;
+        }
+        out.push_str(&text[last..r.start]);
+        let rep = match re {
+            Some(regex) => silica_text::find::replacement_for(
+                text,
+                &r,
+                regex,
+                silica_text::find::Options {
+                    regex: true,
+                    ..Default::default()
+                },
+                replacement,
+            ),
+            None => replacement.to_string(),
+        };
+        out.push_str(&rep);
+        last = r.end;
+    }
+    if last < text.len() {
+        out.push_str(&text[last..]);
+    }
+    out
+}
+
 #[cfg(test)]
 #[allow(clippy::single_range_in_vec_init)]
 mod tests {
@@ -1813,5 +2141,29 @@ mod tests {
             "1. [apple](apple.md)\n2. [Apple Pie](Apple Pie.md)\n3. [banana](notes/banana.md)\n4. [mango](mango.md)",
             "the bytes the probe read off the clipboard"
         );
+    }
+
+    #[test]
+    fn test_apply_replacements_plain() {
+        let text = "hello world, hello universe";
+        let hits = vec![0..5, 13..18];
+        let result = apply_replacements(text, &hits, None, "hi");
+        assert_eq!(result, "hi world, hi universe");
+    }
+
+    #[test]
+    fn test_apply_replacements_regex_captures() {
+        let text = "item: 123, item: 456";
+        let re = regex::Regex::new(r"item: (\d+)").unwrap();
+        let hits = vec![0..9, 11..20];
+        let result = apply_replacements(text, &hits, Some(&re), "id($1)");
+        assert_eq!(result, "id(123), id(456)");
+    }
+
+    #[test]
+    fn test_regex_for_query_parser() {
+        let re = regex_for_query("/foo.*bar/i", false).expect("regex should parse");
+        assert!(re.is_match("FOO-TEST-BAR"));
+        assert!(regex_for_query("plain search", false).is_none());
     }
 }
