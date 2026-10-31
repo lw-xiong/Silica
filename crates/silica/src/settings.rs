@@ -596,6 +596,32 @@ const ATTACHMENT_FOLDER: TextField = TextField {
     },
 };
 
+/// The community theme name in `appearance.json`'s `cssTheme` key. Empty
+/// means Obsidian's built-in theme; anything else names a file under
+/// `.obsidian/themes/<name>.css` inside the vault.
+const CSS_THEME: TextField = TextField {
+    key: "cssTheme",
+    placeholder: "Default",
+    prefix: "",
+    read: |state| {
+        state
+            .appearance()
+            .css_theme
+            .clone()
+            .unwrap_or_default()
+    },
+    write: |state, value| {
+        let mut next = state.appearance().clone();
+        let value = if value.is_empty() {
+            None
+        } else {
+            Some(value.to_string())
+        };
+        next.css_theme = value;
+        SettingChange::Appearance(next)
+    },
+};
+
 /// The other half of `attachmentFolderPath`: the name under the note's own
 /// folder, which the subfolder option reveals a row for. Typing
 /// `Attachments` into it stored `./Attachments`, so the row holds what
@@ -1460,15 +1486,12 @@ impl SettingsView {
                     .unwrap_or_else(|| "Default".into()),
             )
             .not_yet(),
-            dropdown(
+            field(
                 "Themes",
                 "Manage installed themes and browse community themes.",
-                a.css_theme
-                    .clone()
-                    .filter(|t| !t.is_empty())
-                    .unwrap_or_else(|| "Default".into()),
-            )
-            .not_yet(),
+                state,
+                CSS_THEME,
+            ),
             item(
                 "CSS snippets",
                 "Manage your collection of CSS files for tweaking the app's appearance.",

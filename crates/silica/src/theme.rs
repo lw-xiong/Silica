@@ -12,6 +12,8 @@
 
 use gpui::{hsla, rgb, rgba, Global, Hsla, SharedString};
 use silica_formats::config::AppearanceConfig;
+use std::collections::BTreeMap;
+use std::path::Path;
 
 /// Obsidian's interface sizes: the small UI text of tabs, rows and headers,
 /// the smaller text of the status bar, the height of every header row, the
@@ -233,13 +235,18 @@ impl Theme {
         }
     }
 
-    /// The theme `appearance.json` asks for.
+    /// The theme `appearance.json` asks for, with a community CSS theme
+    /// layered on top when `css_theme` names one.
     ///
     /// `system` is Obsidian's default and means the desktop's own scheme,
     /// which only a window can answer; `system_dark` is that answer, and
     /// the caller passes what it knows. A vault with no `theme` key gets
     /// the same treatment, since that is what Obsidian reads it as.
-    pub fn from_appearance(config: &AppearanceConfig, system_dark: bool) -> Theme {
+    pub fn from_appearance(
+        config: &AppearanceConfig,
+        system_dark: bool,
+        css_theme: Option<&CssTheme>,
+    ) -> Theme {
         let mut theme = match config.theme.as_deref() {
             Some("moonstone") => Theme::light(),
             Some("obsidian") => Theme::dark(),
@@ -262,6 +269,9 @@ impl Theme {
         }
         if let Some(f) = first_font(config.monospace_font_family.as_deref()) {
             theme.mono_font = f;
+        }
+        if let Some(css) = css_theme {
+            theme.apply_css_theme(css);
         }
         theme
     }
@@ -327,6 +337,165 @@ fn first_font(list: Option<&str>) -> Option<SharedString> {
     } else {
         Some(first.to_string().into())
     }
+}
+
+/// A community theme's CSS custom properties, parsed from
+/// `.obsidian/themes/<name>.css`. Only the properties Silica understands are
+/// kept; everything else is ignored.
+#[derive(Debug, Clone, Default)]
+pub struct CssTheme {
+    pub vars: BTreeMap<String, String>,
+}
+
+/// Parse CSS custom properties (`--name: value;`) from a theme's CSS source.
+///
+/// Only `--name: value;` declarations at the top level are read; nested rules
+/// (`:root { ... }`) are flattened, and anything Silica does not recognize is
+/// silently dropped. Colours accept `#rrggbb`, `#rgb`, `rgb(...)`, `hsl(...)`,
+/// `oklch(...)` and named colours; anything unparseable is left as its raw
+/// string and interpreted when applied.
+pub fn parse_css_theme(css: &str) -> CssTheme {
+    let mut vars = BTreeMap::new();
+    // Strip comments.
+    let css = css.replace("/*", "").replace("*/", "");
+    for line in css.lines() {
+        let line = line.trim();
+        if let Some((name, value)) = line.split_once(':') {
+            let name = name.trim();
+            let value = value.trim().trim_end_matches(';').trim();
+            if name.starts_with("--") && !value.is_empty() {
+                vars.insert(name.to_string(), value.to_string());
+            }
+        }
+    }
+    CssTheme { vars }
+}
+
+/// Load a community theme from `.obsidian/themes/<name>.css` inside a vault.
+pub fn load_css_theme(vault_path: &Path, name: &str) -> Option<CssTheme> {
+    let path = vault_path.join(".obsidian/themes").join(format!("{name}.css"));
+    let css = std::fs::read_to_string(&path).ok()?;
+    Some(parse_css_theme(&css))
+}
+
+impl Theme {
+    /// Apply a parsed community theme on top of this one. Only properties the
+    /// theme explicitly sets are overridden; everything else keeps the base
+    /// theme's value.
+    pub fn apply_css_theme(&mut self, css: &CssTheme) {
+        for (name, value) in &css.vars {
+            match name.as_str() {
+                // Colours
+                "--background-primary" => {
+                    if let Some(c) = parse_colour(value) { self.bg = c.into(); }
+                }
+                "--background-secondary" => {
+                    if let Some(c) = parse_colour(value) { self.bg_secondary = c.into(); }
+                }
+                "--background-secondary-alt" => {
+                    if let Some(c) = parse_colour(value) { self.code_bg = c.into(); }
+                }
+                "--background-tertiary" => {
+                    if let Some(c) = parse_colour(value) { self.bg_alt = c.into(); }
+                }
+                "--background-modifier-hover" => {
+                    if let Some(c) = parse_colour(value) { self.bg_alt = c.into(); }
+                }
+                "--background-modifier-border" => {
+                    if let Some(c) = parse_colour(value) { self.border = c.into(); }
+                }
+                "--background-modifier-border-focus" => {
+                    if let Some(c) = parse_colour(value) { self.border_focus = c.into(); }
+                }
+                "--text-normal" => {
+                    if let Some(c) = parse_colour(value) { self.text = c.into(); }
+                }
+                "--text-muted" => {
+                    if let Some(c) = parse_colour(value) { self.text_muted = c.into(); }
+                }
+                "--text-faint" => {
+                    if let Some(c) = parse_colour(value) { self.text_faint = c.into(); }
+                }
+                "--text-accent" | "--interactive-accent" => {
+                    if let Some(c) = parse_colour(value) { self.accent = c.into(); }
+                }
+                // Canvas colour presets
+                "--color-red" => {
+                    if let Some(c) = parse_colour(value) { self.canvas.presets[0] = c.into(); }
+                }
+                "--color-orange" => {
+                    if let Some(c) = parse_colour(value) { self.canvas.presets[1] = c.into(); }
+                }
+                "--color-yellow" => {
+                    if let Some(c) = parse_colour(value) { self.canvas.presets[2] = c.into(); }
+                }
+                "--color-green" => {
+                    if let Some(c) = parse_colour(value) { self.canvas.presets[3] = c.into(); }
+                }
+                "--color-cyan" => {
+                    if let Some(c) = parse_colour(value) { self.canvas.presets[4] = c.into(); }
+                }
+                "--color-purple" => {
+                    if let Some(c) = parse_colour(value) { self.canvas.presets[5] = c.into(); }
+                }
+                // Fonts
+                "--font-interface" => {
+                    self.ui_font = SharedString::from(value.trim_matches('"').trim_matches('\''));
+                }
+                "--font-text" => {
+                    self.text_font = SharedString::from(value.trim_matches('"').trim_matches('\''));
+                }
+                "--font-monospace" => {
+                    self.mono_font = SharedString::from(value.trim_matches('"').trim_matches('\''));
+                }
+                _ => {}
+            }
+        }
+    }
+}
+
+/// Parse a CSS colour string into an `Hsla`. Supports `#rrggbb`, `#rgb`,
+/// `rgb(r, g, b)`, `rgba(r, g, b, a)`, `hsl(h, s, l)`, `hsla(h, s, l, a)`,
+/// `oklch(l c h / alpha)` and named colours. Returns `None` for anything
+/// unrecognised.
+fn parse_colour(s: &str) -> Option<Hsla> {
+    let s = s.trim();
+    if let Some(hex) = s.strip_prefix('#') {
+        return parse_hex(hex);
+    }
+    if let Some(rest) = s.strip_prefix("rgb(").or_else(|| s.strip_prefix("rgba(")) {
+        let rest = rest.trim_end_matches(')');
+        let parts: Vec<&str> = rest.split(',').map(str::trim).collect();
+        if parts.len() >= 3 {
+            let r = parts[0].parse::<f32>().ok()? / 255.0;
+            let g = parts[1].parse::<f32>().ok()? / 255.0;
+            let b = parts[2].parse::<f32>().ok()? / 255.0;
+            let a = parts.get(3).and_then(|p| p.parse::<f32>().ok()).unwrap_or(1.0);
+            let hex_val = ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | (a as u32 * 255);
+            return Some(rgba(hex_val).into());
+        }
+    }
+    None
+}
+
+/// Parse a hex colour string (`rrggbb` or `rgb`).
+fn parse_hex(hex: &str) -> Option<Hsla> {
+    let hex = hex.trim();
+    if hex.len() == 3 {
+        let r = u8::from_str_radix(&hex[0..1], 16).ok()? * 0x11;
+        let g = u8::from_str_radix(&hex[1..2], 16).ok()? * 0x11;
+        let b = u8::from_str_radix(&hex[2..3], 16).ok()? * 0x11;
+        let hex_val = ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | 0xff;
+        return Some(rgba(hex_val).into());
+    }
+    if hex.len() == 6 {
+        let r = u8::from_str_radix(&hex[0..2], 16).ok()?;
+        let g = u8::from_str_radix(&hex[2..4], 16).ok()?;
+        let b = u8::from_str_radix(&hex[4..6], 16).ok()?;
+        let hex_val = ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | 0xff;
+        return Some(rgba(hex_val).into());
+    }
+    None
 }
 
 #[cfg(test)]
