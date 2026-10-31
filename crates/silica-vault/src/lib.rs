@@ -6,6 +6,7 @@ pub mod registry;
 
 pub use ops::{OpError, TrashOption};
 pub use registry::{VaultEntry, VaultRegistry};
+use serde::de::DeserializeOwned;
 use silica_cache::LinkResolver;
 use silica_formats::bookmarks::Bookmarks;
 use silica_formats::config::{
@@ -14,7 +15,6 @@ use silica_formats::config::{
     TemplatesConfig, DEFAULT_CONFIG_DIR,
 };
 use silica_formats::FileKind;
-use serde::de::DeserializeOwned;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, thiserror::Error)]

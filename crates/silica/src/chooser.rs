@@ -14,8 +14,8 @@ use gpui::{
     FontWeight, HighlightStyle, ScrollStrategy, SharedString, StyledText, Subscription,
     UniformListScrollHandle, Window,
 };
-use silica_search::fuzzy_match;
 use serde_json::{json, Value};
+use silica_search::fuzzy_match;
 use std::ops::Range;
 
 /// One thing that can be picked.

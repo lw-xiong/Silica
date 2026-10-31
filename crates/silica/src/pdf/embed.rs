@@ -83,8 +83,8 @@ use gpui::{
     Bounds, Div, DivFrameState, Element, ElementId, GlobalElementId, Hitbox, InspectorElementId,
     LayoutId, Pixels, ScrollHandle, SharedString, Style, Window,
 };
-use silica_pdf::PageSize;
 use serde_json::{json, Value as Json};
+use silica_pdf::PageSize;
 use std::cell::Cell;
 use std::ops::Range;
 use std::path::{Path, PathBuf};

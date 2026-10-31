@@ -9,8 +9,8 @@ use gpui::{
     anchored, deferred, div, prelude::*, px, Context, EventEmitter, Pixels, Point, SharedString,
     Window,
 };
-use silica_formats::bookmarks::Bookmark;
 use serde_json::{json, Value};
+use silica_formats::bookmarks::Bookmark;
 use std::collections::HashSet;
 
 pub enum BookmarkEvent {

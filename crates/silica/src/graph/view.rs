@@ -17,10 +17,10 @@ use gpui::{
     MouseDownEvent, MouseMoveEvent, MouseUpEvent, PathBuilder, Pixels, Point, ScrollWheelEvent,
     SharedString, Subscription, Task, TextAlign, Window,
 };
+use serde_json::{json, Value};
 use silica_formats::config::{GraphColor, GraphColorGroup, GraphConfig};
 use silica_formats::FileKind;
 use silica_search::{Search, SearchFile};
-use serde_json::{json, Value};
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
@@ -983,7 +983,6 @@ impl GraphView {
         cx.notify();
     }
 
-
     /// "Start timelapse animation": the layout again from its first
     /// positions, so the graph can be watched settling.
     fn restart_layout(&mut self, cx: &mut Context<Self>) {
@@ -1487,13 +1486,9 @@ impl GraphView {
                 .into_any_element(),
             self.slider_row(Slider::LineSize, theme, cx)
                 .into_any_element(),
-            Self::icon_button_dyn(
-                "graph-refresh".to_string(),
-                "↻",
-                theme,
-            )
-            .on_click(cx.listener(|this, _, _, cx| this.rebuild(cx)))
-            .into_any_element(),
+            Self::icon_button_dyn("graph-refresh".to_string(), "↻", theme)
+                .on_click(cx.listener(|this, _, _, cx| this.rebuild(cx)))
+                .into_any_element(),
         ];
         let mut display = display;
         if self.is_local() {
@@ -1514,37 +1509,21 @@ impl GraphView {
                         .items_center()
                         .gap_1()
                         .child(
-                        Self::icon_button_dyn(
-                            "graph-depth-down".to_string(),
-                            "−",
-                            theme,
-                        )
-                            .on_click(
-                                cx.listener(
-                                    move |this, _, _, cx| {
-                                        if this.local_depth > 1 {
-                                            this.local_depth -= 1;
-                                            this.rebuild(cx);
-                                        }
-                                    },
-                                ),
-                            ),
+                            Self::icon_button_dyn("graph-depth-down".to_string(), "−", theme)
+                                .on_click(cx.listener(move |this, _, _, cx| {
+                                    if this.local_depth > 1 {
+                                        this.local_depth -= 1;
+                                        this.rebuild(cx);
+                                    }
+                                })),
                         )
                         .child(div().text_color(theme.text).child(depth_label))
                         .child(
-                        Self::icon_button_dyn(
-                            "graph-depth-up".to_string(),
-                            "+",
-                            theme,
-                        )
-                            .on_click(
-                                cx.listener(
-                                    move |this, _, _, cx| {
-                                        this.local_depth += 1;
-                                        this.rebuild(cx);
-                                    },
-                                ),
-                            ),
+                            Self::icon_button_dyn("graph-depth-up".to_string(), "+", theme)
+                                .on_click(cx.listener(move |this, _, _, cx| {
+                                    this.local_depth += 1;
+                                    this.rebuild(cx);
+                                })),
                         ),
                 )
                 .into_any_element();
@@ -1588,23 +1567,26 @@ impl GraphView {
                             .on_click(cx.listener(|this, _, _, cx| this.restart_layout(cx))),
                     )
                     .child(
-                        Self::icon_button("graph-controls-reset", "↺", theme)
-                            .on_click(cx.listener(|this, _, _, cx| {
+                        Self::icon_button("graph-controls-reset", "↺", theme).on_click(
+                            cx.listener(|this, _, _, cx| {
                                 // Randomize the physics layout without touching zoom or pan.
                                 // user_adjusted = true keeps the simulation from calling fit()
                                 // and overriding the user's current view.
-                                let mut layout =
-                                    Layout::new(this.nodes.len(), (*this.edges).clone(), this.forces());
+                                let mut layout = Layout::new(
+                                    this.nodes.len(),
+                                    (*this.edges).clone(),
+                                    this.forces(),
+                                );
                                 for (i, node) in this.nodes.iter().enumerate() {
-                                    layout.bodies[i].mass =
-                                        1.0 + (node.degree as f32).sqrt() * 0.5;
+                                    layout.bodies[i].mass = 1.0 + (node.degree as f32).sqrt() * 0.5;
                                 }
                                 this.layout = Arc::new(Mutex::new(layout));
                                 this.running = false;
                                 this.user_adjusted = true;
                                 this.start_simulation(cx);
                                 cx.notify();
-                            })),
+                            }),
+                        ),
                     )
                     .child(
                         Self::icon_button("graph-controls-close", "×", theme)
@@ -1946,8 +1928,12 @@ fn build(
                 .into_iter()
                 .filter(|&(a, b)| {
                     let (a, b) = (a as usize, b as usize);
-                    let Some(&da) = depth_of.get(&a) else { return false };
-                    let Some(&db) = depth_of.get(&b) else { return false };
+                    let Some(&da) = depth_of.get(&a) else {
+                        return false;
+                    };
+                    let Some(&db) = depth_of.get(&b) else {
+                        return false;
+                    };
                     da != db
                 })
                 .collect()
@@ -2467,7 +2453,7 @@ mod tests {
         }
     }
 
-fn restored_defaults(config: &GraphConfig) -> GraphConfig {
+    fn restored_defaults(config: &GraphConfig) -> GraphConfig {
         GraphConfig {
             show_tags: Some(false),
             link_distance: config.link_distance.or(Some(250.0)),

@@ -46,8 +46,8 @@ use crate::bases::cells::{
 use crate::bases::view::BasesView;
 use crate::theme::{Theme, FONT_UI_SMALL, FONT_UI_SMALLER};
 use gpui::{div, img, prelude::*, px, AnyElement, Context, ObjectFit, ScrollHandle, SharedString};
-use silica_bases::{CardsLayout, Column, ImageFit, Row, Table};
 use serde_json::{json, Value as Json};
+use silica_bases::{CardsLayout, Column, ImageFit, Row, Table};
 
 /// The gap between two cards, and the padding around the grid.
 ///

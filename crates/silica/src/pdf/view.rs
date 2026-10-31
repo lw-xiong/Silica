@@ -54,8 +54,8 @@ use gpui::{
     KeyBinding, MouseButton, ObjectFit, Pixels, Point, Render, ScrollHandle, ScrollWheelEvent,
     SharedString, Size, Subscription, Task, Window,
 };
-use silica_pdf::{OutlineItem, PageSize};
 use serde_json::{json, Value};
+use silica_pdf::{OutlineItem, PageSize};
 use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
 use std::sync::Arc;

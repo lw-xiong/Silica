@@ -30,12 +30,12 @@ use gpui::{
     FocusHandle, Focusable, FontWeight, KeyBinding, KeyDownEvent, Keystroke, SharedString,
     Subscription, UniformListScrollHandle, Window,
 };
+use serde_json::{json, Value};
 use silica_commands::{hotkey_label, keystroke, Command};
 use silica_formats::config::{
     AppConfig, AppearanceConfig, CorePlugins, Hotkey, Hotkeys, SwitcherConfig, CORE_PLUGINS,
 };
 use silica_search::fuzzy_match;
-use serde_json::{json, Value};
 use std::ops::Range;
 use std::sync::Arc;
 
@@ -606,13 +606,7 @@ const CSS_THEME: TextField = TextField {
     key: "cssTheme",
     placeholder: "Default",
     prefix: "",
-    read: |state| {
-        state
-            .appearance()
-            .css_theme
-            .clone()
-            .unwrap_or_default()
-    },
+    read: |state| state.appearance().css_theme.clone().unwrap_or_default(),
     write: |state, value| {
         let mut next = state.appearance().clone();
         let value = if value.is_empty() {
@@ -698,13 +692,11 @@ impl Flag {
                 core_plugin_enabled(state.core_plugins().as_ref(), id, *default_on)
             }
             Flag::CommunityPlugin(id) => state.community_plugins().contains(id),
-            Flag::CssSnippet(name) => {
-                state
-                    .appearance()
-                    .enabled_css_snippets
-                    .as_ref()
-                    .is_some_and(|s| s.iter().any(|s| s == name))
-            }
+            Flag::CssSnippet(name) => state
+                .appearance()
+                .enabled_css_snippets
+                .as_ref()
+                .is_some_and(|s| s.iter().any(|s| s == name)),
         }
     }
 
@@ -732,14 +724,12 @@ impl Flag {
             Flag::CssSnippet(name) => {
                 let mut next = state.appearance().clone();
                 match next.enabled_css_snippets.as_mut() {
-                    Some(list) => {
-                        match list.iter().position(|s| s == name) {
-                            Some(ix) => {
-                                list.remove(ix);
-                            }
-                            None => list.push(name.clone()),
+                    Some(list) => match list.iter().position(|s| s == name) {
+                        Some(ix) => {
+                            list.remove(ix);
                         }
-                    }
+                        None => list.push(name.clone()),
+                    },
                     None => next.enabled_css_snippets = Some(vec![name.clone()]),
                 }
                 SettingChange::Appearance(next)
@@ -1503,18 +1493,20 @@ impl SettingsView {
             entries
                 .filter_map(|e| e.ok())
                 .filter(|e| e.path().extension().map_or(false, |ext| ext == "css"))
-                .filter_map(|e| e.file_name().to_str().map(|s| s.trim_end_matches(".css").to_string()))
+                .filter_map(|e| {
+                    e.file_name()
+                        .to_str()
+                        .map(|s| s.trim_end_matches(".css").to_string())
+                })
                 .collect::<Vec<_>>()
         });
         let mut items: Vec<Item> = Vec::new();
-        items.push(
-            choice(
-                "Base color scheme",
-                "Choose Obsidian's default color scheme.",
-                state,
-                BASE_COLOR_SCHEME,
-            ),
-        );
+        items.push(choice(
+            "Base color scheme",
+            "Choose Obsidian's default color scheme.",
+            state,
+            BASE_COLOR_SCHEME,
+        ));
         items.push(
             text(
                 "Accent color",
@@ -1562,35 +1554,27 @@ impl SettingsView {
             ));
         }
         items.push(heading("Font"));
-        items.push(
-            text(
-                "Interface font",
-                "Set base font for all of Obsidian.",
-                font(&a.interface_font_family),
-            ),
-        );
-        items.push(
-            text(
-                "Text font",
-                "Set font for editing and reading views.",
-                font(&a.text_font_family),
-            ),
-        );
-        items.push(
-            text(
-                "Monospace font",
-                "Set font for places like code blocks and frontmatter.",
-                font(&a.monospace_font_family),
-            ),
-        );
-        items.push(
-            slider(
-                "Font size",
-                "Font size in pixels that affects editing and reading views.",
-                state,
-                FONT_SIZE,
-            ),
-        );
+        items.push(text(
+            "Interface font",
+            "Set base font for all of Obsidian.",
+            font(&a.interface_font_family),
+        ));
+        items.push(text(
+            "Text font",
+            "Set font for editing and reading views.",
+            font(&a.text_font_family),
+        ));
+        items.push(text(
+            "Monospace font",
+            "Set font for places like code blocks and frontmatter.",
+            font(&a.monospace_font_family),
+        ));
+        items.push(slider(
+            "Font size",
+            "Font size in pixels that affects editing and reading views.",
+            state,
+            FONT_SIZE,
+        ));
         items
     }
 

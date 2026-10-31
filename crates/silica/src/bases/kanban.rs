@@ -46,8 +46,8 @@ use gpui::{
     div, img, prelude::*, px, uniform_list, AnyElement, Context, ObjectFit, ScrollHandle,
     SharedString, UniformListScrollHandle, Window,
 };
-use silica_bases::{CellKind, Column, ImageFit, KanbanLayout, Layout, Row, Table, Value};
 use serde_json::{json, Value as Json};
+use silica_bases::{CellKind, Column, ImageFit, KanbanLayout, Layout, Row, Table, Value};
 use std::ops::Range;
 
 /// The height of a column's header.

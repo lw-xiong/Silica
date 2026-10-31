@@ -21,11 +21,11 @@ use gpui::{
     ObjectFit, Pixels, SharedString, StrikethroughStyle, StyledText, Task, TextRun, UnderlineStyle,
     Window, WindowTextSystem,
 };
+use serde_json::{json, Value};
 use silica_formats::config::PropertyTypes;
 use silica_formats::properties::{PropertiesInDocument, Property, PropertyType};
 use silica_formats::FileKind;
 use silica_markdown::Alignment;
-use serde_json::{json, Value};
 use std::collections::HashSet;
 use std::ops::Range;
 use std::rc::Rc;

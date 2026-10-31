@@ -49,8 +49,8 @@ use crate::theme::{Theme, FONT_UI_SMALL};
 use gpui::{
     div, list, prelude::*, px, AnyElement, Context, ListAlignment, ListState, SharedString, Window,
 };
-use silica_bases::{Column, ListLayout, Markers, Row};
 use serde_json::{json, Value as Json};
+use silica_bases::{Column, ListLayout, Markers, Row};
 
 /// The vertical padding of one line, above and below.
 ///

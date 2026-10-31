@@ -28,6 +28,7 @@ use gpui::{
     KeyUpEvent, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PathBuilder, PinchEvent,
     Pixels, Render, ScrollWheelEvent, SharedString, Subscription, TextAlign, Window,
 };
+use serde_json::{json, Value};
 use silica_canvas::{
     anchor, arrow_head, edge_ends, edge_path_points, edge_stub, facing_side, hit_edge, hit_handle,
     hit_node, nodes_in, side_normal, snap, visible_nodes, Color, Handle, Point as CPoint, Rect,
@@ -35,7 +36,6 @@ use silica_canvas::{
     EDGE_WIDTH, HANDLE, MIN_NODE, NUDGE, NUDGE_LARGE, WHEEL_ZOOM, ZOOM_MAX, ZOOM_MIN,
 };
 use silica_formats::canvas::{Canvas, Edge, Node, NodeType, Side};
-use serde_json::{json, Value};
 use std::sync::Arc;
 
 // ---- constants ----------------------------------------------------------------

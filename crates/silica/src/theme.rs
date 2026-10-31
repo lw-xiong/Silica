@@ -379,7 +379,9 @@ pub fn parse_css_theme(css: &str) -> CssTheme {
 
 /// Load a community theme from `.obsidian/themes/<name>.css` inside a vault.
 pub fn load_css_theme(vault_path: &Path, name: &str) -> Option<CssTheme> {
-    let path = vault_path.join(".obsidian/themes").join(format!("{name}.css"));
+    let path = vault_path
+        .join(".obsidian/themes")
+        .join(format!("{name}.css"));
     let css = std::fs::read_to_string(&path).ok()?;
     Some(parse_css_theme(&css))
 }
@@ -390,7 +392,9 @@ pub fn load_css_theme(vault_path: &Path, name: &str) -> Option<CssTheme> {
 pub fn load_css_snippets(vault_path: &Path, enabled: &[String]) -> Vec<CssTheme> {
     let mut out = Vec::new();
     for name in enabled {
-        let path = vault_path.join(".obsidian/snippets").join(format!("{name}.css"));
+        let path = vault_path
+            .join(".obsidian/snippets")
+            .join(format!("{name}.css"));
         if let Ok(css) = std::fs::read_to_string(&path) {
             out.push(parse_css_theme(&css));
         }
@@ -407,56 +411,90 @@ impl Theme {
             match name.as_str() {
                 // Colours
                 "--background-primary" => {
-                    if let Some(c) = parse_colour(value) { self.bg = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.bg = c.into();
+                    }
                 }
                 "--background-secondary" => {
-                    if let Some(c) = parse_colour(value) { self.bg_secondary = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.bg_secondary = c.into();
+                    }
                 }
                 "--background-secondary-alt" => {
-                    if let Some(c) = parse_colour(value) { self.code_bg = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.code_bg = c.into();
+                    }
                 }
                 "--background-tertiary" => {
-                    if let Some(c) = parse_colour(value) { self.bg_alt = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.bg_alt = c.into();
+                    }
                 }
                 "--background-modifier-hover" => {
-                    if let Some(c) = parse_colour(value) { self.bg_alt = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.bg_alt = c.into();
+                    }
                 }
                 "--background-modifier-border" => {
-                    if let Some(c) = parse_colour(value) { self.border = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.border = c.into();
+                    }
                 }
                 "--background-modifier-border-focus" => {
-                    if let Some(c) = parse_colour(value) { self.border_focus = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.border_focus = c.into();
+                    }
                 }
                 "--text-normal" => {
-                    if let Some(c) = parse_colour(value) { self.text = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.text = c.into();
+                    }
                 }
                 "--text-muted" => {
-                    if let Some(c) = parse_colour(value) { self.text_muted = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.text_muted = c.into();
+                    }
                 }
                 "--text-faint" => {
-                    if let Some(c) = parse_colour(value) { self.text_faint = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.text_faint = c.into();
+                    }
                 }
                 "--text-accent" | "--interactive-accent" => {
-                    if let Some(c) = parse_colour(value) { self.accent = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.accent = c.into();
+                    }
                 }
                 // Canvas colour presets
                 "--color-red" => {
-                    if let Some(c) = parse_colour(value) { self.canvas.presets[0] = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.canvas.presets[0] = c.into();
+                    }
                 }
                 "--color-orange" => {
-                    if let Some(c) = parse_colour(value) { self.canvas.presets[1] = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.canvas.presets[1] = c.into();
+                    }
                 }
                 "--color-yellow" => {
-                    if let Some(c) = parse_colour(value) { self.canvas.presets[2] = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.canvas.presets[2] = c.into();
+                    }
                 }
                 "--color-green" => {
-                    if let Some(c) = parse_colour(value) { self.canvas.presets[3] = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.canvas.presets[3] = c.into();
+                    }
                 }
                 "--color-cyan" => {
-                    if let Some(c) = parse_colour(value) { self.canvas.presets[4] = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.canvas.presets[4] = c.into();
+                    }
                 }
                 "--color-purple" => {
-                    if let Some(c) = parse_colour(value) { self.canvas.presets[5] = c.into(); }
+                    if let Some(c) = parse_colour(value) {
+                        self.canvas.presets[5] = c.into();
+                    }
                 }
                 // Fonts
                 "--font-interface" => {
@@ -490,8 +528,12 @@ fn parse_colour(s: &str) -> Option<Hsla> {
             let r = parts[0].parse::<f32>().ok()? / 255.0;
             let g = parts[1].parse::<f32>().ok()? / 255.0;
             let b = parts[2].parse::<f32>().ok()? / 255.0;
-            let a = parts.get(3).and_then(|p| p.parse::<f32>().ok()).unwrap_or(1.0);
-            let hex_val = ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | (a as u32 * 255);
+            let a = parts
+                .get(3)
+                .and_then(|p| p.parse::<f32>().ok())
+                .unwrap_or(1.0);
+            let hex_val =
+                ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | (a as u32 * 255);
             return Some(rgba(hex_val).into());
         }
     }

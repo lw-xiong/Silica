@@ -42,8 +42,8 @@ use gpui::{
     div, list, prelude::*, px, AnyElement, Context, DragMoveEvent, ListAlignment, ListState,
     MouseButton, MouseDownEvent, SharedString, Window,
 };
-use silica_bases::{CellKind, Column, Row, Table, TableLayout, Value};
 use serde_json::{json, Value as Json};
+use silica_bases::{CellKind, Column, Row, Table, TableLayout, Value};
 
 /// The height of a column header, observed: the right-click target of a
 /// header on `Layout.base` is 30 px tall.

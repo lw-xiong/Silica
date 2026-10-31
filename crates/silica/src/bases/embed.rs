@@ -48,9 +48,9 @@ use crate::reading::model::{EmbedKind, RBlock, Segment};
 use crate::theme::{Theme, FONT_UI_SMALL};
 use crate::workspace::VaultState;
 use gpui::{div, prelude::*, px, AnyElement, App, SharedString, Window};
+use serde_json::{json, Value as Json};
 use silica_bases::{CellKind, Column, Layout, Row, Table, TableLayout, Value};
 use silica_formats::base::PARSE_ERROR_BANNER;
-use serde_json::{json, Value as Json};
 use std::rc::Rc;
 
 /// How many rows an embedded base draws.

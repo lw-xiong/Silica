@@ -11,11 +11,11 @@ use gpui::{
     FontWeight, HighlightStyle, ScrollStrategy, SharedString, StyledText, Subscription,
     UniformListScrollHandle, Window,
 };
+use serde_json::{json, Value};
 use silica_cache::frontmatter_aliases;
 use silica_formats::config::SwitcherConfig;
 use silica_formats::FileKind;
 use silica_search::fuzzy_match;
-use serde_json::{json, Value};
 use std::ops::Range;
 use std::sync::Arc;
 

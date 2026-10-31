@@ -33,8 +33,7 @@ use crate::switcher::{QuickSwitcher, SwitcherEvent};
 use crate::text_input::{self, InputEvent, TextInput};
 use crate::theme::{
     load_css_snippets, load_css_theme, Theme, FONT_UI_SMALL, FONT_UI_SMALLER, HEADER_HEIGHT,
-    ICON_SIZE, RIBBON_WIDTH, SIDEBAR_WIDTH,
-    TAB_CURVE,
+    ICON_SIZE, RIBBON_WIDTH, SIDEBAR_WIDTH, TAB_CURVE,
 };
 use crate::title_field::{self, TitleField};
 use crate::vaults::VaultManager;
@@ -44,12 +43,12 @@ use gpui::{
     size, transparent_black, Action, Anchor, App, Bounds, BoxShadow, ClickEvent, ClipboardItem,
     Context, CursorStyle, Decorations, DragMoveEvent, ElementInputHandler, Entity,
     EntityInputHandler, FocusHandle, Focusable, FontWeight, Global, HighlightStyle, HitboxBehavior,
-    WindowAppearance,
     Hsla, KeyBinding, MouseButton, MouseDownEvent, PathBuilder, Pixels, ResizeEdge, ScrollHandle,
     ShapedLine, SharedString, StyledText, Subscription, Task, TextAlign, Tiling, UTF16Selection,
-    Window, WindowControlArea,
+    Window, WindowAppearance, WindowControlArea,
 };
 use rayon::prelude::*;
+use serde_json::{json, Map, Value};
 use silica_cache::{
     basename, frontmatter_aliases, index_markdown, CachedMetadata, LinkFormat, MetadataCache,
     PropertyEntry,
@@ -68,7 +67,6 @@ use silica_templates as templates;
 use silica_text::table::TableCommand;
 use silica_text::{BlockInsert, LinePrefix, LinkSyntax};
 use silica_vault::{FileChange, TrashOption, Vault, VaultError, VaultRegistry};
-use serde_json::{json, Map, Value};
 use std::collections::{HashMap, HashSet};
 use std::ops::Range;
 use std::path::{Component, Path, PathBuf};
@@ -3236,7 +3234,12 @@ impl Workspace {
         cx.set_global(Commands(registry));
     }
 
-    fn change_setting(&mut self, change: SettingChange, window: &mut Window, cx: &mut Context<Self>) {
+    fn change_setting(
+        &mut self,
+        change: SettingChange,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let Some(state) = self.state.clone() else {
             return;
         };
@@ -3285,10 +3288,7 @@ impl Workspace {
             .css_theme
             .as_ref()
             .and_then(|name| load_css_theme(&state.root, name));
-        let snippets_names = appearance
-            .enabled_css_snippets
-            .as_deref()
-            .unwrap_or(&[]);
+        let snippets_names = appearance.enabled_css_snippets.as_deref().unwrap_or(&[]);
         let css_snippets = load_css_snippets(&state.root, snippets_names);
         cx.set_global(Theme::from_appearance(
             &appearance,

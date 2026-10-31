@@ -78,12 +78,12 @@ use gpui::{
     anchored, deferred, div, prelude::*, px, Anchor, AnyElement, App, ClickEvent, ClipboardItem,
     Context, Entity, Focusable, Pixels, Point, SharedString, Subscription, Window,
 };
+use serde_json::{json, Value as Json};
 use silica_bases::layout::{
     self, ImageFit, Layout, Markers, RowHeight, ASPECT_RANGE, CARD_SIZE_RANGE, COLUMN_WIDTH_RANGE,
     LAYOUTS,
 };
 use silica_formats::base::{Base, Filter, View, DEFAULT_VIEW_NAME, DEFAULT_VIEW_TYPE};
-use serde_json::{json, Value as Json};
 
 /// The bar's own height. **Unprobed** — no toolbar rect was measured; this is
 /// the 30 px of the table header row, the one row of the view that was.

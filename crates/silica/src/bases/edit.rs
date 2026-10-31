@@ -58,10 +58,10 @@ use gpui::{
     anchored, deferred, div, prelude::*, px, AnyElement, Context, Entity, Focusable, Pixels, Point,
     SharedString, Subscription, Window,
 };
+use serde_json::{json, Value as Json};
 use silica_bases::{Column, ColumnSource};
 use silica_formats::config::PropertyTypes;
 use silica_formats::properties::{apply, new_block, plan, type_of, Change, Value};
-use serde_json::{json, Value as Json};
 
 /// A menu row whose label is this draws a separator line instead, as the
 /// canvas's own right-click list does.

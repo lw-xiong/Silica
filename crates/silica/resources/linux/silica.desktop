@@ -7,12 +7,12 @@ Comment=Open a folder of Markdown notes, compatible with Obsidian vaults
 # A vault is a folder, so the entry takes one: tools/linux-desktop/install.sh rewrites this
 # line to the absolute path when the binary is not on PATH, which is the case for the archive.
 # With no argument Silica opens empty and the sidebar's footer has "Open vault...".
-Exec=silica %f
+Exec=silica %u
 Icon=silica
 Terminal=false
 Categories=Office;
 Keywords=notes;markdown;vault;obsidian;wiki;zettelkasten;knowledge;
-MimeType=inode/directory;
+MimeType=inode/directory;x-scheme-handler/obsidian;
 StartupNotify=true
 # gpui sets this as the Wayland app_id and the X11 WM_CLASS (see WindowOptions in main.rs);
 # it is what ties the running window to this entry, and so to the icon, in the task bar.

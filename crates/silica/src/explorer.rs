@@ -27,10 +27,10 @@ use gpui::{
     Context, EventEmitter, FocusHandle, Focusable, FontWeight, KeyBinding, MouseButton, Pixels,
     Point, ScrollStrategy, SharedString, UniformListScrollHandle, Window,
 };
+use serde_json::{json, Value};
 use silica_formats::FileKind;
 use silica_search::natural_cmp;
 use silica_vault::VaultFile;
-use serde_json::{json, Value};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, HashSet};
 use std::ops::Range;

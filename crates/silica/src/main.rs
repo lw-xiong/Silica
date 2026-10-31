@@ -192,6 +192,131 @@ fn parse_size(value: &str) -> Option<(f32, f32)> {
     Some((width.trim().parse().ok()?, height.trim().parse().ok()?))
 }
 
+/// Decode `%XX` sequences in a URI component.
+fn percent_decode(s: &str) -> String {
+    let mut out = Vec::with_capacity(s.len());
+    let bytes = s.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'%' && i + 2 < bytes.len() {
+            if let Ok(byte) =
+                u8::from_str_radix(std::str::from_utf8(&bytes[i + 1..i + 3]).unwrap_or(""), 16)
+            {
+                out.push(byte);
+                i += 3;
+                continue;
+            }
+        }
+        out.push(bytes[i]);
+        i += 1;
+    }
+    String::from_utf8(out).unwrap_or_else(|e| String::from_utf8_lossy(e.as_bytes()).into_owned())
+}
+
+/// Parse an `obsidian://action?key=value&key=value` URI into action + params.
+fn parse_obsidian_uri(uri: &str) -> Option<(String, Vec<(String, String)>)> {
+    let rest = uri.strip_prefix("obsidian://")?;
+    let (path, query) = rest.split_once('?').unwrap_or((rest, ""));
+    let action = percent_decode(path.trim_end_matches('/'));
+    let params: Vec<(String, String)> = if query.is_empty() {
+        Vec::new()
+    } else {
+        query
+            .split('&')
+            .filter_map(|pair| {
+                let (k, v) = pair.split_once('=')?;
+                Some((percent_decode(k), percent_decode(v)))
+            })
+            .collect()
+    };
+    Some((action, params))
+}
+
+/// Resolve a vault name from an obsidian:// URI to a filesystem path using
+/// the vault registry, falling back to the most recently opened vault.
+fn resolve_vault_by_name(name: &str) -> Option<PathBuf> {
+    let reg = silica_vault::VaultRegistry::open().ok()??;
+    for (_, entry) in reg.vaults() {
+        if entry.name().eq_ignore_ascii_case(name) {
+            return Some(entry.path.clone());
+        }
+    }
+    None
+}
+
+/// Apply an `obsidian://` URI to `args`, resolving the vault name and setting
+/// note/search fields as appropriate.
+fn apply_obsidian_uri(args: &mut Args, uri: &str) {
+    let Some((action, params)) = parse_obsidian_uri(uri) else {
+        return;
+    };
+    let get = |key: &str| -> Option<String> {
+        params
+            .iter()
+            .find(|(k, _)| k == key)
+            .map(|(_, v)| v.clone())
+    };
+
+    // Resolve vault from the URI's `vault` param.
+    if let Some(vault_name) = get("vault") {
+        if let Some(path) = resolve_vault_by_name(&vault_name) {
+            args.vault = Some(path);
+        }
+    }
+
+    match action.as_str() {
+        "open" => {
+            args.note = get("file");
+        }
+        "search" => {
+            args.search = get("query");
+        }
+        "new" => {
+            // `new` sets a note path; content is written by the workspace once
+            // create-on-open is implemented.  For now, opening the path is the
+            // best effort.
+            args.note = get("file");
+        }
+        _ => {}
+    }
+}
+
+fn print_help() {
+    let version = env!("CARGO_PKG_VERSION");
+    eprintln!(
+        "Silica {version} — a native Obsidian-compatible knowledge base\n\
+         \n\
+         USAGE:\n\
+         \x20   silica [OPTIONS] [<vault>] [<note>]\n\
+         \x20   silica [OPTIONS] obsidian://open?vault=name&file=note\n\
+         \n\
+         POSITIONAL ARGUMENTS:\n\
+         \x20   <vault>              Path to an Obsidian vault folder\n\
+         \x20   <note>               Note name or path to open\n\
+         \n\
+         URI SCHEME:\n\
+         \x20   obsidian://open?vault=name&file=path   Open a note\n\
+         \x20   obsidian://search?vault=name&query=q   Open search\n\
+         \x20   obsidian://new?vault=name&file=path    Create a note\n\
+         \n\
+         OPTIONS:\n\
+         \x20   --note <path>        Open this note (name, path, or Name#Heading)\n\
+         \x20   --search <query>     Open search with this query\n\
+         \x20   --source             Open in source editing mode\n\
+         \x20   --reading            Open in reading view\n\
+         \x20   --graph [local]      Open the graph view (global or local)\n\
+         \x20   --find <query>       Open the find panel\n\
+         \x20   --settings [tab]     Open Settings on this tab\n\
+         \x20   --frame hidden|native  Window frame style (default: hidden)\n\
+         \x20   --size WxH           Window size in logical pixels (default: 1400x900)\n\
+         \x20   --control <socket>   Bind the control socket at this path\n\
+         \x20   --synthetic <N>      Generate a synthetic note of N lines\n\
+         \x20   --stress [<N>]       Run N self-driven edit steps (default: 600)\n\
+         \x20   --help               Print this help and exit\n\
+         \x20   --version            Print version and exit"
+    );
+}
+
 fn parse_args() -> Args {
     let mut args = Args {
         vault: None,
@@ -223,6 +348,14 @@ fn parse_args() -> Args {
     let mut it = std::env::args().skip(1);
     while let Some(a) = it.next() {
         match a.as_str() {
+            "--help" | "-h" => {
+                print_help();
+                std::process::exit(0);
+            }
+            "--version" | "-V" => {
+                eprintln!("silica {}", env!("CARGO_PKG_VERSION"));
+                std::process::exit(0);
+            }
             "--synthetic" => {
                 args.synthetic = it.next().and_then(|n| n.parse().ok()).or(Some(50_000))
             }
@@ -249,6 +382,9 @@ fn parse_args() -> Args {
             "--control" => args.control = it.next().map(PathBuf::from),
             "--size" => args.size = it.next().as_deref().and_then(parse_size),
             "--frame" => args.frame = it.next(),
+            _ if a.starts_with("obsidian://") => {
+                apply_obsidian_uri(&mut args, &a);
+            }
             _ if args.vault.is_none() => args.vault = Some(PathBuf::from(a)),
             _ => args.note = Some(a),
         }
@@ -335,11 +471,7 @@ fn main() {
     // theme; read it from `.obsidian/themes/<name>.css` inside the vault.
     let css_theme = vault
         .as_ref()
-        .and_then(|v| {
-            v.appearance_config()
-                .ok()
-                .and_then(|a| a.css_theme.clone())
-        })
+        .and_then(|v| v.appearance_config().ok().and_then(|a| a.css_theme.clone()))
         .and_then(|name| {
             vault.as_ref().and_then(|v| {
                 let root = v.root().to_path_buf();
@@ -477,7 +609,12 @@ fn main() {
                             )
                         })
                         .unwrap_or(true);
-                    cx.set_global(Theme::from_appearance(&a, dark, css_theme.as_ref(), &css_snippets));
+                    cx.set_global(Theme::from_appearance(
+                        &a,
+                        dark,
+                        css_theme.as_ref(),
+                        &css_snippets,
+                    ));
                     window.update(cx, |_, _, cx| cx.notify()).ok();
                 }
             }

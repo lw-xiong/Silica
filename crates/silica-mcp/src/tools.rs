@@ -10,8 +10,8 @@
 use crate::app::App;
 use crate::base64;
 use crate::rpc::{Fault, INVALID_PARAMS};
-use silica_control::{method, params_schema};
 use serde_json::{json, Map, Value};
+use silica_control::{method, params_schema};
 
 /// How a tool runs.
 enum Run {

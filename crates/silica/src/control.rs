@@ -19,9 +19,9 @@ use gpui::{
     MouseMoveEvent, MouseUpEvent, Pixels, PlatformInput, Point, ScrollDelta, ScrollWheelEvent,
     TouchPhase, Window, WindowHandle,
 };
+use serde_json::{json, Value};
 use silica_control::net::{UnixListener, UnixStream};
 use silica_control::{Request, Response};
-use serde_json::{json, Value};
 use std::cell::Cell;
 use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;

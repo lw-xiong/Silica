@@ -43,8 +43,8 @@
 //! reads [`INDENT_PROPERTIES_KEY`], the plain spelling, and nothing writes it.
 
 use indexmap::IndexMap;
-use silica_formats::base::View;
 use serde_yaml::{Mapping, Value};
+use silica_formats::base::View;
 
 /// The four layouts Obsidian registers, in the order the Configure view
 /// page's Layout combobox offers them: the name, the label and the

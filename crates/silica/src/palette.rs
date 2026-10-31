@@ -11,9 +11,9 @@ use gpui::{
     FontWeight, HighlightStyle, ScrollStrategy, SharedString, StyledText, Subscription,
     UniformListScrollHandle, Window,
 };
+use serde_json::{json, Value};
 use silica_commands::{hotkey_label, Command};
 use silica_search::fuzzy_match;
-use serde_json::{json, Value};
 use std::ops::Range;
 
 const MAX_RESULTS: usize = 60;

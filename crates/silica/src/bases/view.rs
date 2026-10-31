@@ -36,9 +36,9 @@ use gpui::{
     div, prelude::*, px, AnyElement, Context, EventEmitter, FocusHandle, Focusable, Render,
     SharedString, Window,
 };
+use serde_json::{json, Value as Json};
 use silica_bases::{Layout, Table};
 use silica_formats::base::{Base, View, PARSE_ERROR_BANNER};
-use serde_json::{json, Value as Json};
 use std::sync::Arc;
 
 /// What the view asks the workspace to do; it owns no vault of its own.

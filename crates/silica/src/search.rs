@@ -27,11 +27,11 @@ use gpui::{
     Point, SharedString, StyledText, Subscription, Window,
 };
 use rayon::prelude::*;
+use serde_json::{json, Value};
 use silica_cache::{all_tags, CachedMetadata};
 use silica_search::{
     context_window, match_lines, natural_cmp, parse, MatchLine, Query, Search, SearchFile, TaskLine,
 };
-use serde_json::{json, Value};
 use std::collections::{HashMap, HashSet};
 use std::ops::Range;
 use std::sync::Arc;

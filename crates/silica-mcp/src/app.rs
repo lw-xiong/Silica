@@ -7,8 +7,8 @@
 //! configured in a `.mcp.json` entry and that is the only place a user can
 //! reach it.
 
-use silica_control::Client;
 use serde_json::{json, Value};
+use silica_control::Client;
 use std::io::ErrorKind;
 #[cfg(unix)]
 use std::os::unix::fs::{DirBuilderExt, MetadataExt};

@@ -13,8 +13,8 @@
 //! `{"folds":[{"from","to"}],"lines"}`; Silica keeps the same record in a
 //! file under its own configuration folder.
 
-use silica_markdown::{plain_text, walk_blocks, BlockKind, Document, LineIndex};
 use serde::{Deserialize, Serialize};
+use silica_markdown::{plain_text, walk_blocks, BlockKind, Document, LineIndex};
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 

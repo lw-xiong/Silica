@@ -294,11 +294,16 @@ mod tests {
     fn the_logo_loads_and_keeps_its_own_colours() {
         let bytes = Assets.load(LOGO.0).unwrap().expect("logo.png");
         // It is a PNG with transparency, no svg markup.
-        assert!(!std::str::from_utf8(&bytes).unwrap_or("").contains("<svg"), "the logo is not an svg");
+        assert!(
+            !std::str::from_utf8(&bytes).unwrap_or("").contains("<svg"),
+            "the logo is not an svg"
+        );
         // No stop fades out: a mark that ramps to transparent takes the
         // colour of whatever is behind it, which is how the drawing arrived.
         assert!(
-            !std::str::from_utf8(&bytes).unwrap_or("").contains("stop-opacity:0;"),
+            !std::str::from_utf8(&bytes)
+                .unwrap_or("")
+                .contains("stop-opacity:0;"),
             "the logo has a transparent gradient stop again"
         );
         assert!(Assets.list("").unwrap().iter().any(|p| p == LOGO.0));
