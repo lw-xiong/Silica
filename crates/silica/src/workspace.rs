@@ -32,7 +32,8 @@ use crate::settings::{self, SettingChange, SettingsEvent, SettingsView};
 use crate::switcher::{QuickSwitcher, SwitcherEvent};
 use crate::text_input::{self, InputEvent, TextInput};
 use crate::theme::{
-    Theme, FONT_UI_SMALL, FONT_UI_SMALLER, HEADER_HEIGHT, ICON_SIZE, RIBBON_WIDTH, SIDEBAR_WIDTH,
+    load_css_snippets, load_css_theme, Theme, FONT_UI_SMALL, FONT_UI_SMALLER, HEADER_HEIGHT,
+    ICON_SIZE, RIBBON_WIDTH, SIDEBAR_WIDTH,
     TAB_CURVE,
 };
 use crate::title_field::{self, TitleField};
@@ -43,6 +44,7 @@ use gpui::{
     size, transparent_black, Action, Anchor, App, Bounds, BoxShadow, ClickEvent, ClipboardItem,
     Context, CursorStyle, Decorations, DragMoveEvent, ElementInputHandler, Entity,
     EntityInputHandler, FocusHandle, Focusable, FontWeight, Global, HighlightStyle, HitboxBehavior,
+    WindowAppearance,
     Hsla, KeyBinding, MouseButton, MouseDownEvent, PathBuilder, Pixels, ResizeEdge, ScrollHandle,
     ShapedLine, SharedString, StyledText, Subscription, Task, TextAlign, Tiling, UTF16Selection,
     Window, WindowControlArea,
@@ -2905,7 +2907,7 @@ impl Workspace {
                 |this, _, event: &SettingsEvent, window, cx| match event {
                     SettingsEvent::Close => this.close_modal(window, cx),
                     SettingsEvent::Changed(change) => {
-                        this.change_setting(change.as_ref().clone(), cx)
+                        this.change_setting(change.as_ref().clone(), window, cx)
                     }
                 },
             ),
@@ -3234,7 +3236,7 @@ impl Workspace {
         cx.set_global(Commands(registry));
     }
 
-    fn change_setting(&mut self, change: SettingChange, cx: &mut Context<Self>) {
+    fn change_setting(&mut self, change: SettingChange, window: &mut Window, cx: &mut Context<Self>) {
         let Some(state) = self.state.clone() else {
             return;
         };
@@ -3254,9 +3256,46 @@ impl Workspace {
             SettingChange::CorePlugins(_) => self.rebuild_commands(&state, None, cx),
             _ => {}
         }
+        // Recompute the global theme live when appearance or app settings
+        // change (dark/light, fonts, accent, CSS theme, CSS snippets).
+        // Previously these required a restart.
+        if matches!(&change, SettingChange::Appearance(_) | SettingChange::App(_)) {
+            self.recompute_theme(&state, window, cx);
+        }
         self.apply_app_config(&state, cx);
         self.refresh_vault_views(cx);
         cx.notify();
+    }
+
+    /// Rebuild the global [`Theme`] from the vault's current appearance and
+    /// app config, the system's dark/light state, and any CSS theme or
+    /// snippets on disk. Called from [`change_setting`] so appearance and
+    /// font changes take effect without a restart.
+    fn recompute_theme(&self, state: &VaultState, window: &mut Window, cx: &mut Context<Self>) {
+        let appearance = state.appearance();
+        let dark = match appearance.theme.as_deref() {
+            Some("moonstone") => false,
+            Some("obsidian") => true,
+            _ => matches!(
+                window.appearance(),
+                WindowAppearance::Dark | WindowAppearance::VibrantDark
+            ),
+        };
+        let css_theme = appearance
+            .css_theme
+            .as_ref()
+            .and_then(|name| load_css_theme(&state.root, name));
+        let snippets_names = appearance
+            .enabled_css_snippets
+            .as_deref()
+            .unwrap_or(&[]);
+        let css_snippets = load_css_snippets(&state.root, snippets_names);
+        cx.set_global(Theme::from_appearance(
+            &appearance,
+            dark,
+            css_theme.as_ref(),
+            &css_snippets,
+        ));
     }
 
     fn set_state(&mut self, state: VaultState, window: &mut Window, cx: &mut Context<Self>) {

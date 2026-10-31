@@ -1513,8 +1513,7 @@ impl SettingsView {
                 "Choose Obsidian's default color scheme.",
                 state,
                 BASE_COLOR_SCHEME,
-            )
-            .on_restart(),
+            ),
         );
         items.push(
             text(
@@ -1568,24 +1567,21 @@ impl SettingsView {
                 "Interface font",
                 "Set base font for all of Obsidian.",
                 font(&a.interface_font_family),
-            )
-            .on_restart(),
+            ),
         );
         items.push(
             text(
                 "Text font",
                 "Set font for editing and reading views.",
                 font(&a.text_font_family),
-            )
-            .on_restart(),
+            ),
         );
         items.push(
             text(
                 "Monospace font",
                 "Set font for places like code blocks and frontmatter.",
                 font(&a.monospace_font_family),
-            )
-            .on_restart(),
+            ),
         );
         items.push(
             slider(
@@ -1593,8 +1589,7 @@ impl SettingsView {
                 "Font size in pixels that affects editing and reading views.",
                 state,
                 FONT_SIZE,
-            )
-            .on_restart(),
+            ),
         );
         items
     }
