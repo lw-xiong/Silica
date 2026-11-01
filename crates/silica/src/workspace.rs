@@ -3241,6 +3241,7 @@ impl Workspace {
             group.editor.update(cx, |e, cx| {
                 e.set_link_options(link_options);
                 e.set_readable_line_length(readable);
+                e.set_show_line_number(state.app().show_line_number.unwrap_or(false));
                 e.set_indent_options(smart, use_tab, tab_size);
                 e.set_property_types(state.property_types().clone());
                 e.set_properties_in_document(properties);

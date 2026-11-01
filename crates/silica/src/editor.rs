@@ -648,6 +648,8 @@ pub struct Editor {
     /// An edit arrived while a parse was running; parse again when it lands.
     parse_queued: bool,
     readable_line_length: bool,
+    /// Whether line numbers are painted in the gutter (`showLineNumber`).
+    show_line_number: bool,
     /// Live Preview: markers hidden and constructs rendered in place,
     /// except where the cursor is.
     live_preview: bool,
@@ -745,6 +747,7 @@ impl Editor {
             pending_parse: None,
             parse_queued: false,
             readable_line_length: true,
+            show_line_number: false,
             live_preview: false,
             smart_indent_list: true,
             use_tab: true,
@@ -848,6 +851,10 @@ impl Editor {
 
     pub fn set_readable_line_length(&mut self, on: bool) {
         self.readable_line_length = on;
+    }
+
+    pub fn set_show_line_number(&mut self, on: bool) {
+        self.show_line_number = on;
     }
 
     /// Switches between Live Preview and Source mode. Widgets are only
@@ -5060,6 +5067,8 @@ struct Prepaint {
     text_style: TextStyle,
     wrap_width: Option<Pixels>,
     content_x: Pixels,
+    /// Width of the line-number gutter when `show_line_number`; zero otherwise.
+    line_number_gutter: Pixels,
     selection: Vec<PaintQuad>,
     cursors: Vec<PaintQuad>,
     cursor_line: Option<Arc<Shaped>>,
@@ -5156,7 +5165,15 @@ impl Element for EditorElement {
             } else {
                 available
             };
-            let content_x = bounds.origin.x + (bounds.size.width - content_width) / 2.;
+            // Reserve a gutter for line numbers when enabled; shift content
+            // right so line numbers sit in the left margin.
+            let gutter = if editor.show_line_number && count > 0 {
+                let digits = count.to_string().len().max(1);
+                px(16.) + digits as f32 * font_size * 0.6
+            } else {
+                px(0.)
+            };
+            let content_x = bounds.origin.x + (bounds.size.width - content_width) / 2. + gutter;
             let wrap_width = Some(content_width);
 
             let live = editor.live_preview;
@@ -5606,6 +5623,7 @@ impl Element for EditorElement {
                 text_style,
                 wrap_width,
                 content_x,
+                line_number_gutter: gutter,
                 selection: selection_quads,
                 cursors: cursor_quads,
                 cursor_line,
@@ -5647,6 +5665,31 @@ impl Element for EditorElement {
             }
             for (visible, shaped) in prepaint.lines.iter() {
                 let origin = point(content_x, bounds.origin.y + visible.top);
+                // Line numbers in the gutter, right-aligned.
+                if prepaint.line_number_gutter > px(0.) {
+                    let theme = cx.global::<Theme>();
+                    let number = (visible.line + 1).to_string();
+                    let mut run = prepaint.text_style.to_run(number.len());
+                    run.color = theme.text_faint;
+                    let line_no = window.text_system().shape_line(
+                        SharedString::from(number),
+                        font_size,
+                        &[run],
+                        None,
+                    );
+                    let origin = point(
+                        content_x - prepaint.line_number_gutter + px(4.),
+                        bounds.origin.y + visible.top,
+                    );
+                    let _ = line_no.paint(
+                        origin,
+                        visible.row_height,
+                        TextAlign::Right,
+                        None,
+                        window,
+                        cx,
+                    );
+                }
                 // Run backgrounds (code, highlights) are a separate pass.
                 let _ = shaped.line.paint_background(
                     origin,
