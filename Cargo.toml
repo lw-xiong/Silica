@@ -22,7 +22,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 rust-version = "1.85"
 repository = "https://github.com/ragtux/silica"
@@ -46,6 +46,8 @@ silica-pdf = { path = "crates/silica-pdf" }
 silica-math = { path = "crates/silica-math" }
 
 anyhow = "1"
+bytes = "1"
+futures = "0.3"
 thiserror = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
@@ -101,6 +103,7 @@ chrono = { version = "0.4", default-features = false, features = ["clock", "std"
 # `libc::ENOATTR`, which libc 0.2.190 removed on Linux. Drop the pin once async-tar moves to xattr 1.x.
 gpui = { git = "https://github.com/zed-industries/zed", rev = "4ce18741ad2ea007cb20a1dd96d2a170d224cc01" }
 gpui_platform = { git = "https://github.com/zed-industries/zed", rev = "4ce18741ad2ea007cb20a1dd96d2a170d224cc01", features = ["font-kit", "wayland", "x11"] }
+http_client = { git = "https://github.com/zed-industries/zed", rev = "4ce18741ad2ea007cb20a1dd96d2a170d224cc01" }
 
 [profile.dev]
 opt-level = 0

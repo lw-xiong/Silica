@@ -328,6 +328,10 @@ uses behave as Obsidian's do.
 | Attachments | done: paste clipboard images and drag-and-drop external files to vault attachment folder with collision resolution and embed syntax |
 | Mermaid | done: native pure-Rust SVG diagram rendering in reading view and preview widgets |
 | Vault-wide Search & Replace | done: global search replace row, regex capture group support, batch and per-file replacement |
+| Hover page previews | done: Ctrl+hover on a link previews the target page's contents in a floating card, in Live Preview and the reading view |
+| Remote media embeds | done: `![alt](https://…)` images, audio and video load and render over HTTP, classified by file extension |
+| Drag-and-drop in Files | done: file and folder rows drag onto folders (or the tree background) to move them, with a drag ghost and drop-target highlight |
+| Audio and video player | done: audio and video embeds play in a native player card in the reading view |
 
 ### The vault manager, and a menu that would not close, 2026-10-29
 

@@ -38,7 +38,7 @@ use gpui::{
     Bounds, ClipboardItem, Context, CursorStyle, DispatchPhase, Element, ElementId,
     ElementInputHandler, Entity, EntityInputHandler, EventEmitter, FocusHandle, Focusable, Font,
     FontStyle, FontWeight, GlobalElementId, Hitbox, HitboxBehavior, Hsla, InspectorElementId,
-    KeyBinding, LayoutId, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PaintQuad,
+    KeyBinding, LayoutId, Modifiers, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PaintQuad,
     Pixels, Point, ScrollWheelEvent, SharedString, StrikethroughStyle, Style, Subscription, Task,
     TextAlign, TextRun, TextStyle, UTF16Selection, UnderlineStyle, Window, WrappedLine,
 };
@@ -633,6 +633,8 @@ pub struct Editor {
     table_field: Option<CellEdit>,
     /// The open autocompletion popup, with the rows it is offering.
     suggest: Option<SuggestState>,
+    /// Hover page preview card on Ctrl+hover.
+    hover_preview: Option<(Point<Pixels>, crate::page_preview::PagePreviewData)>,
     /// The vault the suggester reads; `None` until one is open.
     suggest_vault: Option<Arc<VaultState>>,
     /// `newLinkFormat` and `useMarkdownLinks`, for the links it writes.
@@ -732,6 +734,7 @@ impl Editor {
             property_menu: None,
             table_field: None,
             suggest: None,
+            hover_preview: None,
             suggest_vault: None,
             link_options: suggest::Options::default(),
             generation: 0,
@@ -757,6 +760,7 @@ impl Editor {
         self.name = name.into();
         self.buf.load(&raw);
         self.suggest = None;
+        self.hover_preview = None;
         self.table_field = None;
         // Fold ids are per-note counters, so another note's would collapse
         // whichever callout happened to land on the same number.
@@ -1599,8 +1603,15 @@ impl Editor {
             .map(|v| v.line)
     }
 
-    /// Remembers the hovered line, which is where the fold indicator shows.
-    fn hover_at(&mut self, position: Point<Pixels>, cx: &mut Context<Self>) {
+    /// Remembers the hovered line, which is where the fold indicator shows,
+    /// and updates the hovered link preview when Ctrl/Cmd is held.
+    fn hover_at(
+        &mut self,
+        position: Point<Pixels>,
+        modifiers: Modifiers,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let line = self.line_at_point(position);
         if line != self.hover_line {
             // Only a change that moves an indicator is worth a frame.
@@ -1610,6 +1621,40 @@ impl Editor {
             if repaint {
                 cx.notify();
             }
+        }
+
+        if modifiers.control || modifiers.platform {
+            if let Some(hit) = self.display_hit(window, position) {
+                let col = self
+                    .buf
+                    .clamp_col(hit.line, hit.shaped.to_source(hit.display));
+                if let Some(target) = self.link_at(hit.line, col, false) {
+                    if let Some(state) = &self.suggest_vault {
+                        let source = if self.name.is_empty() {
+                            None
+                        } else {
+                            Some(self.name.as_ref())
+                        };
+                        let data = crate::page_preview::resolve_preview(&target, source, state);
+                        let changed = match (&self.hover_preview, &data) {
+                            (Some((_, old)), Some(new)) => old != new,
+                            (Some(_), None) => true,
+                            (None, Some(_)) => true,
+                            (None, None) => false,
+                        };
+                        if changed {
+                            self.hover_preview = data.map(|d| (position, d));
+                            cx.notify();
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+
+        if self.hover_preview.is_some() {
+            self.hover_preview = None;
+            cx.notify();
         }
     }
 
@@ -1784,6 +1829,9 @@ impl Editor {
 
     /// Scrolls the view down by `dy` (up when negative).
     fn scroll_by(&mut self, dy: Pixels, window: &mut Window, cx: &mut Context<Self>) {
+        if self.hover_preview.take().is_some() {
+            cx.notify();
+        }
         self.scroll_px += dy;
         self.normalize_scroll(window);
         if dy > px(0.) {
@@ -4630,6 +4678,10 @@ impl Render for Editor {
             .child(EditorElement {
                 editor: cx.entity(),
             });
+        let preview = self
+            .hover_preview
+            .as_ref()
+            .map(|(pos, data)| crate::page_preview::render_floating(data, *pos, &theme));
         div()
             .relative()
             .size_full()
@@ -4637,6 +4689,7 @@ impl Render for Editor {
             .child(editor)
             .children(panel)
             .children(popup.flatten())
+            .children(preview)
     }
 }
 
@@ -5676,7 +5729,9 @@ impl Element for EditorElement {
                     editor.mouse_drag(event.position, window, cx)
                 });
             } else if event.pressed_button.is_none() {
-                editor.update(cx, |editor, cx| editor.hover_at(event.position, cx));
+                editor.update(cx, |editor, cx| {
+                    editor.hover_at(event.position, event.modifiers, window, cx)
+                });
             }
         });
         let editor = self.editor.clone();

@@ -21,6 +21,7 @@ mod explorer;
 mod fold;
 mod graph;
 mod help;
+mod http_client;
 mod math;
 mod mentions;
 mod mermaid;
@@ -28,6 +29,7 @@ mod palette;
 mod panes;
 mod pdf;
 mod preview;
+mod page_preview;
 mod prompt;
 mod properties;
 mod reading;
@@ -541,6 +543,7 @@ fn main() {
     gpui_platform::application()
         .with_assets(assets::Assets)
         .run(move |cx: &mut App| {
+            cx.set_http_client(Arc::new(http_client::SilicaHttpClient::new()));
             cx.set_global(theme);
             if let Err(e) = cx.text_system().add_fonts(assets::fonts()) {
                 eprintln!("could not register the bundled fonts: {e}");

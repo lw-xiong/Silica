@@ -438,6 +438,62 @@ pub fn display_name(file_name: &str) -> &str {
     }
 }
 
+/// What [`gpui::StatefulInteractiveElement::on_drag`] carries while dragging
+/// a file or folder row in the file explorer tree.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct FileDrag {
+    pub path: String,
+    pub name: String,
+    pub is_folder: bool,
+}
+
+/// Drag preview card for a file or folder row in the file tree.
+struct FileDragPreview {
+    name: SharedString,
+    is_folder: bool,
+    grab: Point<Pixels>,
+}
+
+const DRAG_GHOST_GAP: f32 = 8.;
+
+impl Render for FileDragPreview {
+    fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+        let theme = cx.global::<Theme>().clone();
+        div()
+            .pl(self.grab.x + px(DRAG_GHOST_GAP))
+            .pt(self.grab.y + px(DRAG_GHOST_GAP))
+            .child(gpui::canvas(
+                |_, _, _| (),
+                |_, _, window, _| window.set_window_cursor_style(gpui::CursorStyle::ClosedHand),
+            ))
+            .child(
+                div()
+                    .flex()
+                    .flex_row()
+                    .items_center()
+                    .gap(px(6.))
+                    .px_2()
+                    .py_1()
+                    .rounded_md()
+                    .bg(theme.bg_secondary)
+                    .border_1()
+                    .border_color(theme.border)
+                    .shadow_md()
+                    .child(crate::assets::icon(
+                        if self.is_folder { "folder" } else { "file-text" },
+                        14.,
+                        theme.text_muted,
+                    ))
+                    .child(
+                        div()
+                            .text_size(px(12.))
+                            .text_color(theme.text)
+                            .child(self.name.clone()),
+                    ),
+            )
+    }
+}
+
 pub enum ExplorerEvent {
     Open(String),
     /// A Ctrl+click: the file goes to a new tab.
@@ -464,6 +520,11 @@ pub enum ExplorerEvent {
     },
     Rename(String),
     Move(String),
+    /// Drag and drop file/folder movement to `dest_folder`.
+    MoveToFolder {
+        src: String,
+        dest_folder: String,
+    },
     Duplicate(String),
     Delete(String),
     /// "Bookmark...": a file or folder for the Bookmarks pane.
@@ -1057,6 +1118,29 @@ impl FileExplorer {
         json!({ "target": target, "path": path, "items": items })
     }
 
+    fn drop_file(
+        &mut self,
+        drag: &FileDrag,
+        dest_folder: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        let src = &drag.path;
+        let parent = src.rsplit_once('/').map(|(p, _)| p).unwrap_or("");
+        if parent == dest_folder {
+            return;
+        }
+        if drag.is_folder {
+            if dest_folder == src || dest_folder.starts_with(&format!("{src}/")) {
+                return;
+            }
+        }
+        cx.emit(ExplorerEvent::MoveToFolder {
+            src: src.clone(),
+            dest_folder: dest_folder.to_string(),
+        });
+    }
+
     /// A click on a folder toggles it and puts the keyboard on it; a click
     /// on the open file's row puts the keyboard on that row; a click that
     /// opens a file hands the keyboard to the editor, as Obsidian's does.
@@ -1376,6 +1460,20 @@ impl FileExplorer {
                 // A file no view can open stays faint; a canvas or an image
                 // reads like a note, its tag saying what it is.
                 let faint = !row.is_folder && row.kind == FileKind::Other;
+                let drag = FileDrag {
+                    path: row.path.clone(),
+                    name: row.name.clone(),
+                    is_folder: row.is_folder,
+                };
+                let dest_folder = if row.is_folder {
+                    row.path.clone()
+                } else {
+                    row.path
+                        .rsplit_once('/')
+                        .map(|(d, _)| d)
+                        .unwrap_or("")
+                        .to_string()
+                };
                 // Obsidian's row: 13 px text in a 25 px row with an 8 px
                 // radius, muted until it is active or under the pointer.
                 Some(
@@ -1426,6 +1524,20 @@ impl FileExplorer {
                                 this.open_menu(ix, event.position, cx)
                             }),
                         )
+                        .on_drag(drag.clone(), move |_drag, grab, _window, cx| {
+                            let name: SharedString = drag.name.clone().into();
+                            cx.new(|_| FileDragPreview {
+                                name,
+                                is_folder: drag.is_folder,
+                                grab,
+                            })
+                        })
+                        .drag_over::<FileDrag>(move |style, _, _, _| {
+                            style.bg(theme.bg_active).border_color(theme.border_focus)
+                        })
+                        .on_drop(cx.listener(move |this, drag: &FileDrag, window, cx| {
+                            this.drop_file(drag, &dest_folder, window, cx);
+                        }))
                         .child(
                             div()
                                 .w(px(16.))
@@ -1501,6 +1613,13 @@ impl Render for FileExplorer {
                             this.open_blank_menu(event.position, cx)
                         }),
                     )
+                    .drag_over::<FileDrag>(move |style, _, _, cx| {
+                        let theme = cx.global::<Theme>();
+                        style.bg(theme.bg_alt)
+                    })
+                    .on_drop(cx.listener(move |this, drag: &FileDrag, window, cx| {
+                        this.drop_file(drag, "", window, cx);
+                    }))
                     .child(
                         uniform_list("file-explorer", count, cx.processor(Self::render_rows))
                             .track_scroll(&self.scroll)
@@ -1807,7 +1926,8 @@ mod menu_tests {
             | ExplorerEvent::OpenToRight(p)
             | ExplorerEvent::CopyPath(p)
             | ExplorerEvent::OpenInDefaultApp(p)
-            | ExplorerEvent::SearchInFolder(p) => Some(p),
+            | ExplorerEvent::SearchInFolder(p)
+            | ExplorerEvent::MoveToFolder { src: p, .. } => Some(p),
             ExplorerEvent::NewNote { folder }
             | ExplorerEvent::NewCanvas { folder }
             | ExplorerEvent::NewBase { folder } => Some(folder),

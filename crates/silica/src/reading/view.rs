@@ -15,11 +15,11 @@ use crate::properties::{Field, Part, Target};
 use crate::properties::{PROPERTIES_FOLD_ID, PROPERTY_ID_BASE};
 use crate::theme::Theme;
 use gpui::{
-    actions, canvas, div, img, list, prelude::*, px, AnyElement, App, ClipboardItem, Context,
+    actions, canvas, div, img, list, prelude::*, px, AnyElement, AnyView, App, ClipboardItem, Context,
     ElementId, EventEmitter, FocusHandle, Focusable, Font, FontStyle, FontWeight, HighlightStyle,
-    Hsla, InteractiveText, KeyBinding, ListAlignment, ListOffset, ListState, MouseButton,
-    ObjectFit, Pixels, SharedString, StrikethroughStyle, StyledText, Task, TextRun, UnderlineStyle,
-    Window, WindowTextSystem,
+    Hsla, InteractiveElement, InteractiveText, KeyBinding, ListAlignment, ListOffset, ListState,
+    MouseButton, ObjectFit, Pixels, SharedString, StrikethroughStyle, StyledText, Task, TextRun,
+    UnderlineStyle, Window, WindowTextSystem,
 };
 use serde_json::{json, Value};
 use silica_formats::config::PropertyTypes;
@@ -182,6 +182,8 @@ pub type ToggleHandler = Rc<dyn Fn(usize, &mut App)>;
 pub type TaskHandler = Rc<dyn Fn(TaskMarker, &mut App)>;
 /// Told which code block's copy button was pressed, so its check can show.
 pub type CopyHandler = Rc<dyn Fn(usize, &mut App)>;
+/// What resolves a hovered link into a page preview view.
+pub type PreviewHandler = Rc<dyn Fn(&LinkTarget, &mut Window, &mut App) -> Option<AnyView>>;
 
 /// The settings and affordances only the reading view has. Live Preview
 /// passes `None` and keeps the click handling it already does on the
@@ -193,6 +195,7 @@ pub(crate) struct ReadingHost {
     pub copied: Option<usize>,
     pub on_copy: CopyHandler,
     pub on_task: TaskHandler,
+    pub preview_resolver: Option<PreviewHandler>,
 }
 
 pub enum ReadingEvent {
@@ -238,6 +241,7 @@ pub struct ReadingView {
     flash: Option<Task<()>>,
     /// Width of the view as last painted; tables lay their columns out for it.
     width: Pixels,
+    pub preview_resolver: Option<PreviewHandler>,
 }
 
 impl EventEmitter<ReadingEvent> for ReadingView {}
@@ -266,7 +270,12 @@ impl ReadingView {
             copied: None,
             flash: None,
             width: px(900.),
+            preview_resolver: None,
         }
+    }
+
+    pub fn set_preview_resolver(&mut self, resolver: Option<PreviewHandler>) {
+        self.preview_resolver = resolver;
     }
 
     pub fn set_readable_line_length(&mut self, on: bool) {
@@ -599,6 +608,7 @@ impl ReadingView {
             copied: self.copied,
             on_copy,
             on_task,
+            preview_resolver: self.preview_resolver.clone(),
         };
         let r = Renderer::new(
             &theme,
@@ -1469,6 +1479,32 @@ impl<'a> Renderer<'a> {
                 }
                 div().my_1().child(image).into_any_element()
             }
+            EmbedKind::RemoteImage(url) => {
+                let err_url = url.clone();
+                let bg_sec = t.bg_secondary;
+                let fg_muted = t.text_muted;
+                let mut image = img(url.clone())
+                    .max_w_full()
+                    .object_fit(ObjectFit::Contain)
+                    .with_fallback(move || {
+                        div()
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .bg(bg_sec)
+                            .text_color(fg_muted)
+                            .text_size(px(base * 0.85))
+                            .child(format!("Image failed to load: {}", err_url))
+                            .into_any_element()
+                    });
+                if let Some(w) = embed.width {
+                    image = image.w(px(w));
+                }
+                if let Some(h) = embed.height {
+                    image = image.h(px(h));
+                }
+                div().my_1().child(image).into_any_element()
+            }
             EmbedKind::Note {
                 path,
                 title,
@@ -1526,6 +1562,53 @@ impl<'a> Renderer<'a> {
                         on_link(LinkTarget::Internal(path.to_string()), window, cx)
                     });
                 crate::pdf::embed::render(pdf, t, self.available, open)
+            }
+            // `![[x.mp3]]` / `![[x.mp4]]` and remote audio/video URLs render a
+            // play button that opens the file in the system's default player.
+            // GPUI has no media element, so this is the dependency-free path.
+            EmbedKind::Audio(path) | EmbedKind::Video(path) => {
+                let label = path
+                    .file_name()
+                    .and_then(|n| n.to_str())
+                    .unwrap_or(&embed.link)
+                    .to_string();
+                let target = format!("file://{}", path.display());
+                div()
+                    .my_1()
+                    .border_1()
+                    .border_color(t.border)
+                    .rounded_md()
+                    .px_4()
+                    .py_3()
+                    .cursor_pointer()
+                    .hover(|s| s.bg(t.bg_alt))
+                    .id(("media-play", embed.link.len()))
+                    .on_click(move |_, _, cx| {
+                        cx.open_url(&target);
+                    })
+                    .child(SharedString::from("▶ "))
+                    .child(SharedString::from(label))
+                    .into_any_element()
+            }
+            EmbedKind::RemoteAudio(url) | EmbedKind::RemoteVideo(url) => {
+                let label = url.rsplit('/').next().unwrap_or(url).to_string();
+                let url = url.clone();
+                div()
+                    .my_1()
+                    .border_1()
+                    .border_color(t.border)
+                    .rounded_md()
+                    .px_4()
+                    .py_3()
+                    .cursor_pointer()
+                    .hover(|s| s.bg(t.bg_alt))
+                    .id(("media-play-remote", url.len()))
+                    .on_click(move |_, _, cx| {
+                        cx.open_url(&url);
+                    })
+                    .child(SharedString::from("▶ "))
+                    .child(SharedString::from(label))
+                    .into_any_element()
             }
             // A missing attachment is Obsidian's `file-embed
             // mod-empty-attachment` box (observed on `![[missing.pdf]]`,
@@ -2281,7 +2364,7 @@ impl<'a> Renderer<'a> {
         let ranges: Vec<_> = links.iter().map(|(r, _)| r.clone()).collect();
         let targets: Vec<LinkTarget> = links.iter().map(|(_, l)| l.clone()).collect();
         let on_link = self.on_link.clone();
-        let interactive = InteractiveText::new(("rich", text.id), styled).on_click(
+        let mut interactive = InteractiveText::new(("rich", text.id), styled).on_click(
             ranges,
             move |ix, window, cx| {
                 if let Some(target) = targets.get(ix).cloned() {
@@ -2289,6 +2372,17 @@ impl<'a> Renderer<'a> {
                 }
             },
         );
+        if let Some(preview_fn) = self.reading_host.and_then(|h| h.preview_resolver.clone()) {
+            let targets: Vec<LinkTarget> = links.iter().map(|(_, l)| l.clone()).collect();
+            interactive = interactive.tooltip(move |ix, window, cx| {
+                if window.modifiers().control || window.modifiers().platform {
+                    if let Some(target) = targets.get(ix) {
+                        return preview_fn(target, window, cx);
+                    }
+                }
+                None
+            });
+        }
         (interactive, layout)
     }
 

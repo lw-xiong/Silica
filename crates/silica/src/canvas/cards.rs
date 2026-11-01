@@ -581,6 +581,7 @@ impl Cards {
                     }
                 })
             },
+            preview_resolver: None,
         };
         let renderer = Renderer::new(
             &scaled,

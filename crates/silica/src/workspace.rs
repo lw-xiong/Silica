@@ -2805,6 +2805,15 @@ impl Workspace {
                     }
                     ExplorerEvent::Rename(path) => this.start_rename(path, window, cx),
                     ExplorerEvent::Move(path) => this.start_move(path, window, cx),
+                    ExplorerEvent::MoveToFolder { src, dest_folder } => {
+                        let name = src.rsplit('/').next().unwrap_or(&src);
+                        let to = if dest_folder.is_empty() {
+                            name.to_string()
+                        } else {
+                            format!("{dest_folder}/{name}")
+                        };
+                        this.rename_with_links(&src, &to, window, cx);
+                    }
                     ExplorerEvent::Duplicate(path) => this.duplicate(path, cx),
                     ExplorerEvent::Delete(path) => this.start_delete(path, window, cx),
                     ExplorerEvent::Bookmark(path) => this.start_bookmark_path(path, window, cx),
@@ -3352,6 +3361,7 @@ impl Workspace {
         }
         for group in &self.groups {
             Self::give_editor_the_vault(&group.editor, &state, cx);
+            Self::give_reading_the_vault(&group.reading, &state, cx);
         }
         self.apply_app_config(&state, cx);
         self.refresh_vault_views(cx);
@@ -3373,6 +3383,18 @@ impl Workspace {
         editor.update(cx, |e, cx| {
             e.set_vault(Some(embed_source), build_options, cx);
             e.set_suggest_vault(state.clone());
+        });
+    }
+
+    fn give_reading_the_vault(reading: &Entity<ReadingView>, state: &Arc<VaultState>, cx: &mut App) {
+        let state_clone = state.clone();
+        reading.update(cx, |r, _cx| {
+            let state = state_clone.clone();
+            let resolver: crate::reading::view::PreviewHandler = std::rc::Rc::new(move |target, _window, cx: &mut App| {
+                let data = crate::page_preview::resolve_preview(target, None, &state)?;
+                Some(cx.new(|_| crate::page_preview::PagePreviewView::new(data)).into())
+            });
+            r.set_preview_resolver(Some(resolver));
         });
     }
 
@@ -8658,6 +8680,7 @@ impl Workspace {
         self.next_group_id += 1;
         if let Some(state) = self.state.clone() {
             Self::give_editor_the_vault(&editor, &state, cx);
+            Self::give_reading_the_vault(&reading, &state, cx);
         }
         self.groups
             .push(TabGroup::new(id, editor, reading, canvas, bases, pdf, mode));

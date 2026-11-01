@@ -6,8 +6,9 @@
 //! text with clickable ranges, embeds are resolved and inlined recursively,
 //! and footnote definitions are gathered at the end.
 
-use silica_formats::properties::Property;
-use silica_formats::FileKind;
+use silica_formats::{
+    properties::Property, FileKind, AUDIO_EXTENSIONS, VIDEO_EXTENSIONS,
+};
 use silica_markdown::{
     canonical_callout_type, html::has_scheme, html::percent_decode, parse, plain_text, Alignment,
     Block, BlockKind, Document, Fold, HighlightColor, Inline, InlineKind, LinkKind, ListItem,
@@ -149,6 +150,15 @@ pub struct Embed {
 #[derive(Debug, Clone, PartialEq)]
 pub enum EmbedKind {
     Image(PathBuf),
+    RemoteImage(String),
+    /// A local audio file, resolved to its vault-relative path.
+    Audio(PathBuf),
+    /// A local video file, resolved to its vault-relative path.
+    Video(PathBuf),
+    /// A remote audio file URL.
+    RemoteAudio(String),
+    /// A remote video file URL.
+    RemoteVideo(String),
     Note {
         path: String,
         /// `Note`, `Note > Heading`, or `Note > ^id`.
@@ -167,6 +177,18 @@ pub enum EmbedKind {
     /// The target exists but Silica cannot render it inline yet.
     Unsupported(FileKind),
     TooDeep,
+}
+
+/// Classifies a remote URL embed by its file extension: images stay images,
+/// audio and video become players, everything else falls back to image.
+fn remote_media_kind(url: &str) -> EmbedKind {
+    let path = url.split('?').next().unwrap_or(url);
+    let ext = path.rsplit_once('.').map(|(_, e)| e.to_ascii_lowercase());
+    match ext.as_deref() {
+        Some(e) if AUDIO_EXTENSIONS.contains(&e) => EmbedKind::RemoteAudio(url.to_string()),
+        Some(e) if VIDEO_EXTENSIONS.contains(&e) => EmbedKind::RemoteVideo(url.to_string()),
+        _ => EmbedKind::RemoteImage(url.to_string()),
+    }
 }
 
 /// Calls `f` on every embed in `blocks`, in document order, descending into
@@ -780,12 +802,55 @@ impl<'v> Builder<'v> {
                     kind: LinkKind::Inline,
                     children,
                     ..
+                } if destination.starts_with("http://") || destination.starts_with("https://") => {
+                    self.flush(&mut acc, &mut out);
+                    let alt_text = plain_text(children);
+                    let mut width = None;
+                    let mut height = None;
+                    let mut alt = None;
+                    for part in alt_text.split('|').map(str::trim) {
+                        match size_hint(part) {
+                            Some((w, h)) => {
+                                width = Some(w);
+                                height = h;
+                            }
+                            None if alt.is_none() && !part.is_empty() => alt = Some(part.to_string()),
+                            None => {}
+                        }
+                    }
+                    let alt = alt.unwrap_or_default();
+                    out.push(Segment::Embed(Embed {
+                        kind: remote_media_kind(destination),
+                        link: destination.to_string(),
+                        alt,
+                        width,
+                        height,
+                    }));
+                }
+                InlineKind::Image {
+                    destination,
+                    kind: LinkKind::Inline,
+                    children,
+                    ..
                 } if !has_scheme(destination) => {
                     self.flush(&mut acc, &mut out);
-                    let alt = plain_text(children);
-                    let alt = alt.split('|').next().unwrap_or("").trim_end().to_string();
+                    let alt_text = plain_text(children);
+                    let mut width = None;
+                    let mut height = None;
+                    let mut alt = None;
+                    for part in alt_text.split('|').map(str::trim) {
+                        match size_hint(part) {
+                            Some((w, h)) => {
+                                width = Some(w);
+                                height = h;
+                            }
+                            None if alt.is_none() && !part.is_empty() => alt = Some(part.to_string()),
+                            None => {}
+                        }
+                    }
+                    let alt = alt.unwrap_or_default();
                     let dest = percent_decode(destination).into_owned();
-                    let embed = self.embed(&dest, alt, None, None);
+                    let embed = self.embed(&dest, alt, width, height);
                     out.push(Segment::Embed(embed));
                 }
                 InlineKind::Math {
@@ -1033,6 +1098,15 @@ impl<'v> Builder<'v> {
             }
         }
         let alt = alt.unwrap_or_else(|| wikilink_display(&link));
+        if target.starts_with("http://") || target.starts_with("https://") {
+            return Embed {
+                kind: remote_media_kind(target),
+                link: target.to_string(),
+                alt,
+                width,
+                height,
+            };
+        }
         self.embed(target, alt, width, height)
     }
 
@@ -1076,6 +1150,8 @@ impl<'v> Builder<'v> {
                         height,
                     ))
                 }
+                FileKind::Audio => EmbedKind::Audio(self.vault.absolute(&path)),
+                FileKind::Video => EmbedKind::Video(self.vault.absolute(&path)),
                 other => EmbedKind::Unsupported(other),
             },
         };
@@ -2075,5 +2151,75 @@ mod tests {
         let widgets = build_widgets("test.md", &doc, &stub, BuildOptions::default());
         assert_eq!(widgets.len(), 1);
         assert!(matches!(widgets[0].block, RBlock::Mermaid { .. }));
+    }
+
+    #[test]
+    fn parses_remote_images() {
+        let text = "![Photo](https://example.com/cat.png)\n\n![Sized|300x200](https://example.com/dog.jpg)\n\n![[https://example.com/bird.png]]";
+        let stub = Stub {
+            files: HashMap::new(),
+            base_calls: std::cell::Cell::new(0),
+        };
+        let m = build("test.md", text, &stub);
+        assert_eq!(m.blocks.len(), 3);
+
+        let RBlock::Paragraph(segs0) = &m.blocks[0] else { panic!() };
+        let Segment::Embed(embed0) = &segs0[0] else { panic!() };
+        assert_eq!(embed0.kind, EmbedKind::RemoteImage("https://example.com/cat.png".into()));
+        assert_eq!(embed0.alt, "Photo");
+        assert_eq!(embed0.width, None);
+        assert_eq!(embed0.height, None);
+
+        let RBlock::Paragraph(segs1) = &m.blocks[1] else { panic!() };
+        let Segment::Embed(embed1) = &segs1[0] else { panic!() };
+        assert_eq!(embed1.kind, EmbedKind::RemoteImage("https://example.com/dog.jpg".into()));
+        assert_eq!(embed1.width, Some(300.0));
+        assert_eq!(embed1.height, Some(200.0));
+
+        let RBlock::Paragraph(segs2) = &m.blocks[2] else { panic!() };
+        let Segment::Embed(embed2) = &segs2[0] else { panic!() };
+        assert_eq!(embed2.kind, EmbedKind::RemoteImage("https://example.com/bird.png".into()));
+    }
+
+    #[test]
+    fn parses_remote_audio_and_video() {
+        let text = "![Song](https://example.com/track.mp3)\n\n![Film](https://example.com/movie.mp4)\n\n![[https://example.com/podcast.ogg]]";
+        let stub = Stub {
+            files: HashMap::new(),
+            base_calls: std::cell::Cell::new(0),
+        };
+        let m = build("test.md", text, &stub);
+        assert_eq!(m.blocks.len(), 3);
+
+        let RBlock::Paragraph(segs0) = &m.blocks[0] else { panic!() };
+        let Segment::Embed(embed0) = &segs0[0] else { panic!() };
+        assert_eq!(embed0.kind, EmbedKind::RemoteAudio("https://example.com/track.mp3".into()));
+
+        let RBlock::Paragraph(segs1) = &m.blocks[1] else { panic!() };
+        let Segment::Embed(embed1) = &segs1[0] else { panic!() };
+        assert_eq!(embed1.kind, EmbedKind::RemoteVideo("https://example.com/movie.mp4".into()));
+
+        let RBlock::Paragraph(segs2) = &m.blocks[2] else { panic!() };
+        let Segment::Embed(embed2) = &segs2[0] else { panic!() };
+        assert_eq!(embed2.kind, EmbedKind::RemoteAudio("https://example.com/podcast.ogg".into()));
+    }
+
+    #[test]
+    fn parses_local_audio_and_video() {
+        let text = "![[song.mp3]]\n\n![[video.mp4]]";
+        let stub = Stub {
+            files: HashMap::from([("song.mp3", ""), ("video.mp4", "")]),
+            base_calls: std::cell::Cell::new(0),
+        };
+        let m = build("test.md", text, &stub);
+        assert_eq!(m.blocks.len(), 2);
+
+        let RBlock::Paragraph(segs0) = &m.blocks[0] else { panic!() };
+        let Segment::Embed(embed0) = &segs0[0] else { panic!() };
+        assert_eq!(embed0.kind, EmbedKind::Audio(PathBuf::from("/vault/song.mp3")));
+
+        let RBlock::Paragraph(segs1) = &m.blocks[1] else { panic!() };
+        let Segment::Embed(embed1) = &segs1[0] else { panic!() };
+        assert_eq!(embed1.kind, EmbedKind::Video(PathBuf::from("/vault/video.mp4")));
     }
 }
