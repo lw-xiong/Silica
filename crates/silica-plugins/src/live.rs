@@ -5,20 +5,35 @@
 //! and one `!Send` field in it spreads the bound to every task that touches
 //! the vault. The hosts live here instead, in a store the app's own thread
 //! fills the first time it asks for a plugin.
+//!
+//! Native plugins (Rust, compiled in) are global — registered with
+//! `register_native` at startup, available to every vault session. They sit
+//! beside the per-vault compatibility hosts.
 
 use std::cell::RefCell;
 use std::path::{Path, PathBuf};
 
-use crate::{PluginHost, Registry, Tier};
+use crate::{native::Plugin, PluginHost, Registry, Tier};
 
 thread_local! {
     /// `None` until a vault has been asked about, so the first ask loads.
     static LOADED: RefCell<Option<Loaded>> = const { RefCell::new(None) };
+
+    /// Native plugins compiled into Silica, registered via `register_native`
+    /// before any vault opens. Global for the process, not per vault.
+    static NATIVE: RefCell<Vec<Box<dyn Plugin>>> = const { RefCell::new(Vec::new()) };
 }
 
 struct Loaded {
     root: PathBuf,
     hosts: Vec<PluginHost>,
+}
+
+/// Registers a native plugin compiled into Silica. Called at startup by core
+/// plugins and any third-party native plugin linked into the binary. Plugins
+/// are available to every vault session once registered.
+pub fn register_native(plugin: Box<dyn Plugin>) {
+    NATIVE.with(|native| native.borrow_mut().push(plugin));
 }
 
 /// Loads every enabled plugin that can run here, for the vault at `root`.
@@ -46,7 +61,8 @@ pub fn ensure(root: &Path, config_dir: &str, registry: &Registry) {
     });
 }
 
-/// Every loaded plugin, or an empty slice when none has been loaded yet.
+/// Every loaded compatibility host, or an empty slice when none has been
+/// loaded yet.
 pub fn hosts<R>(f: impl FnOnce(&[PluginHost]) -> R) -> R {
     LOADED.with(|loaded| {
         let loaded = loaded.borrow();
@@ -57,18 +73,38 @@ pub fn hosts<R>(f: impl FnOnce(&[PluginHost]) -> R) -> R {
     })
 }
 
+/// Every registered native plugin, or an empty slice when none have been
+/// registered yet.
+pub fn native<R>(f: impl FnOnce(&[Box<dyn Plugin>]) -> R) -> R {
+    NATIVE.with(|native| f(&native.borrow()))
+}
+
 /// Runs a plugin's own command, with whatever it announced while running.
-/// `None` means no loaded plugin owns that id.
+/// `None` means no loaded plugin owns that id. Native plugins are checked
+/// first, then the compatibility hosts.
 pub fn run(id: &str) -> Option<(Result<(), String>, Vec<String>)> {
+    // Native plugins are global: check first, running inside the borrow so
+    // we never hold the NATIVE lock across the return.
+    let native_hit = NATIVE.with(|native| {
+        native.borrow().iter().find(|p| {
+            p.commands().iter().any(|c| c.id == id)
+        }).map(|plugin| (plugin.run_command(id, None), Vec::new()))
+    });
+    if native_hit.is_some() {
+        return native_hit;
+    }
+
     LOADED.with(|loaded| {
         let loaded = loaded.borrow();
-        let hosts = &loaded.as_ref()?.hosts;
+        let loaded = loaded.as_ref()?;
+        let hosts = &loaded.hosts;
         let host = hosts.iter().find(|host| host.has_command(id))?;
         Some((host.run_command(id), host.take_notices()))
     })
 }
 
-/// Forgets the loaded plugins: the next ask loads them again.
+/// Forgets the loaded compatibility plugins: the next ask loads them again.
+/// Native plugins registered with `register_native` are not affected.
 pub fn forget() {
     LOADED.with(|loaded| *loaded.borrow_mut() = None);
 }
@@ -76,7 +112,31 @@ pub fn forget() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::native::NativeCommand;
     use std::fs;
+
+    struct Counter;
+
+    impl Plugin for Counter {
+        fn id(&self) -> &'static str {
+            "silica:counter"
+        }
+        fn name(&self) -> &'static str {
+            "Counter"
+        }
+        fn commands(&self) -> Vec<NativeCommand> {
+            vec![NativeCommand {
+                id: "silica:counter:count".into(),
+                name: "Counter: Count notes".into(),
+            }]
+        }
+        fn run_command(&self, id: &str, _value: Option<&serde_json::Value>) -> Result<(), String> {
+            match id {
+                "silica:counter:count" => Ok(()),
+                other => Err(format!("'{other}' is not a command this plugin registered")),
+            }
+        }
+    }
 
     #[test]
     fn ensuring_a_vault_loads_its_enabled_plugin_and_its_command_runs() {
@@ -136,5 +196,29 @@ module.exports = Counter;
         hosts(|hosts| assert_eq!(hosts.len(), 1));
         forget();
         hosts(|hosts| assert!(hosts.is_empty()));
+    }
+
+    #[test]
+    fn a_native_plugin_command_runs_through_run() {
+        register_native(Box::new(Counter));
+
+        // Native plugins are global: they run without a vault loaded.
+        let (outcome, _) = run("silica:counter:count").expect("native plugin owns this command");
+        outcome.expect("the command ran");
+
+        // Unknown id is not owned by any plugin -> None.
+        assert!(run("silica:counter:nope").is_none());
+
+        // `forget` clears compat hosts, not native registrations.
+        forget();
+        let (outcome, _) = run("silica:counter:count").expect("native plugin still registered");
+        outcome.expect("the command ran again");
+
+        forget_native();
+    }
+
+    /// Clears native registrations so tests stay isolated.
+    fn forget_native() {
+        NATIVE.with(|native| *native.borrow_mut() = Vec::new());
     }
 }

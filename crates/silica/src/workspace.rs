@@ -4132,6 +4132,18 @@ impl Workspace {
                 }
             }
         });
+        silica_plugins::live::native(|native| {
+            for plugin in native {
+                for command in &plugin.commands() {
+                    commands.push(PaletteCommand {
+                        id: command.id.clone(),
+                        name: command.name.clone(),
+                        hotkeys: Vec::new(),
+                        pinned: pinned.contains(&command.id),
+                    });
+                }
+            }
+        });
         let recent = self.recent_commands.clone();
         self.close_editor_suggest(cx);
         self.modal = Modal::Palette;

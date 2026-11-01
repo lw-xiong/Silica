@@ -16,6 +16,7 @@
 
 pub mod host;
 pub mod live;
+pub mod native;
 pub mod registry;
 pub mod tier;
 
@@ -23,5 +24,6 @@ pub use host::{
     CodeBlockRegistration, CommandRegistration, PluginHost, PostProcessorRegistration, Registrations,
     RibbonRegistration, SettingOption, SettingRow, TabRegistration, CALL_DEADLINE, LOAD_DEADLINE,
 };
+pub use native::{NativeCommand, Plugin};
 pub use registry::{PluginRecord, Registry, SCAN_PREFIX};
 pub use tier::{classify, required_node_module, Refusal, Tier};
