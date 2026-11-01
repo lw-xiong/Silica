@@ -454,6 +454,10 @@ ranges painted through the existing highlight path, and a Copy action joining th
 
 *medium, bug, small*
 
+**Fixed in the tree, verified 2026-11-01**: `set_note` now guards with `if !same { … }`, so a
+reload after an autosave keeps the reader's `toggled` and `folds` sets. Per-file persistence
+across a relaunch is still the larger step below.
+
 **Silica.** Expand a collapsed callout in the reading view, then write the note's own bytes back
 unchanged: 1.5 s later the callout is collapsed again. `ReadingView::set_note` computes
 `let same = path.is_some() && self.path == path` and uses it to keep the scroll position, but
@@ -586,6 +590,9 @@ under Workspace shell.
 
 *low, bug, small*
 
+**Fixed in the tree, verified 2026-11-01**: both the markdown-image and wikilink branches now
+split the alt with the same `size_hint` helper, so `![alt|100](pic.png)` honours the hint.
+
 **Silica.** With a real 400×300 PNG in the vault, `![alt|100](pic.png)` and `![alt](pic.png)` lay
 out identically (click band 404..428) while `![[pic.png|100]]` shrinks to 180..204. The
 markdown-image branch strips everything after `|` from the alt and then calls `self.embed(..)` with
@@ -602,6 +609,10 @@ part that parses as `W` or `WxH` claim the size and keep the rest as the alt —
 ### An embed inside a heading, a table cell or a callout title renders as literal `![[Name]]`
 
 *low, bug, small*
+
+**Landed 2026-11-01**: the embed arm in `rich()` falls through to the link arm, so an embed
+written in a heading, table cell or callout title shows its display text and navigates rather
+than printing `![[Name]]`. Drawing the payload inline still needs a run type `rich()` can carry.
 
 **Silica.** `InlineKind::Wikilink { embed: true }` pushes the three literal pieces `"![["`, the
 display text and `"]]"` into the builder as plain unstyled text and never attaches a link, while the

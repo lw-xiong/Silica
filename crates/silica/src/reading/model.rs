@@ -957,7 +957,7 @@ impl<'v> Builder<'v> {
                 acc.styled(|s| s.link = true, |a| a.push(&shown));
                 acc.link(start, LinkTarget::External(destination.to_string()));
             }
-            InlineKind::Wikilink { body, embed } => {
+            InlineKind::Wikilink { body, embed: _ } => {
                 let link = silica_markdown::parse_linktext(body);
                 let target = silica_markdown::link_target(body).to_string();
                 let shown = match link.alias {
@@ -965,14 +965,15 @@ impl<'v> Builder<'v> {
                     None => wikilink_display(&link),
                 };
                 let start = acc.len();
-                if *embed {
-                    acc.push("![[");
-                    acc.push(&shown);
-                    acc.push("]]");
-                } else {
-                    acc.styled(|s| s.link = true, |a| a.push(&shown));
-                    acc.link(start, LinkTarget::Internal(target));
-                }
+                // `rich()` is what headings, table cells and callout titles are
+                // built from, and none of them has anywhere to draw an embed's
+                // payload. The embed arm used to push the literal `![[Name]]`
+                // here, so an embed anywhere but a paragraph showed its own
+                // markup and was not even clickable; the link arm reads cleanly
+                // and navigates. Real inline embedding needs a run type `rich()`
+                // can carry, which is a larger change than this.
+                acc.styled(|s| s.link = true, |a| a.push(&shown));
+                acc.link(start, LinkTarget::Internal(target));
             }
             InlineKind::Tag(name) => {
                 let start = acc.len();
@@ -1567,6 +1568,23 @@ mod tests {
             },
             other => panic!("not a paragraph: {other:?}"),
         }
+    }
+
+    #[test]
+    fn an_embed_in_a_heading_reads_as_a_link_not_markup() {
+        // `rich()` builds headings, table cells and callout titles, and none
+        // of them has anywhere to draw an embed's payload, so the embed falls
+        // through to the link arm instead of showing its own `![[Name]]`.
+        let m = build("Self.md", "# Head ![[Other]]", &stub());
+        let RBlock::Heading { text, .. } = &m.blocks[0] else {
+            panic!("not a heading: {:?}", m.blocks[0]);
+        };
+        assert_eq!(text.text, "Head Other");
+        assert!(!text.text.contains("![["));
+        assert!(matches!(
+            text.links.first(),
+            Some((_, LinkTarget::Internal(t))) if t == "Other"
+        ));
     }
 
     #[test]
