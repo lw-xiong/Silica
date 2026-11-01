@@ -30,11 +30,11 @@ pub fn bind_keys(cx: &mut App) {
 /// without a scrollbar, and the shape of Obsidian's.
 pub const WINDOW_SIZE: (f32, f32) = (700., 860.);
 
-/// Where "Visit" goes for the manual: Obsidian opens its help site, Silica
-/// silica.cc.
-pub const MANUAL_URL: &str = "https://silica.cc";
-pub const SOURCE_URL: &str = "https://github.com/ragtux/silica";
-pub const ISSUES_URL: &str = "https://github.com/ragtux/silica/issues";
+/// Where "Visit" goes for the manual: the project's GitHub repo, since
+/// there is no separate manual site; the README is the manual.
+pub const MANUAL_URL: &str = "https://github.com/lw-xiong/Silica";
+pub const SOURCE_URL: &str = "https://github.com/lw-xiong/Silica";
+pub const ISSUES_URL: &str = "https://github.com/lw-xiong/Silica/issues";
 
 /// What a row's button does.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -193,6 +193,7 @@ impl HelpWindow {
                     .min_w_0()
                     .flex()
                     .flex_col()
+                    .justify_center()
                     .gap(px(4.))
                     .child(
                         div()
