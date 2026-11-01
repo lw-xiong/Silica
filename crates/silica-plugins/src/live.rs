@@ -103,9 +103,30 @@ pub fn run(id: &str) -> Option<(Result<(), String>, Vec<String>)> {
     })
 }
 
-/// Forgets the loaded compatibility plugins: the next ask loads them again.
-/// Native plugins registered with `register_native` are not affected.
-pub fn forget() {
+/// Runs every registered post-processor across all loaded compatibility
+/// hosts, in registration order. Returns the count that ran. The render
+/// pass calls this for each HTML block so a plugin's post-processor can
+/// inspect the rendered output; the DOM element itself is not yet available
+/// to a native renderer, so the callback receives no element — the hook is
+/// in place for when a render-pass DOM proxy exists.
+pub fn run_all_post_processors() -> usize {
+    let mut count = 0;
+    LOADED.with(|loaded| {
+        let loaded = loaded.borrow();
+        let Some(loaded) = loaded.as_ref() else {
+            return;
+        };
+        for host in &loaded.hosts {
+            for pp in &host.registrations().post_processors {
+                if let Some(key) = &pp.callback {
+                    let _ = host.run_post_processor(key);
+                    count += 1;
+                }
+            }
+        }
+    });
+    count
+}
     LOADED.with(|loaded| *loaded.borrow_mut() = None);
 }
 

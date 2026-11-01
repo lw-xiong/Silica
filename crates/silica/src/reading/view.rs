@@ -13,6 +13,7 @@ use crate::fold::{self, FoldKey};
 use crate::math::{self, FormulaElement, Inline, Overlay, SpaceWidths};
 use crate::properties::{Field, Part, Target};
 use crate::properties::{PROPERTIES_FOLD_ID, PROPERTY_ID_BASE};
+use silica_plugins::live;
 use crate::theme::Theme;
 use gpui::{
     actions, canvas, div, img, list, prelude::*, px, AnyElement, AnyView, App, ClipboardItem, Context,
@@ -1032,13 +1033,20 @@ impl<'a> Renderer<'a> {
                     )
                     .into_any_element()
             }
-            RBlock::Html(text) => div()
-                .mb(gap)
-                .font_family(t.mono_font.clone())
-                .text_size(px(base * 0.875))
-                .text_color(t.text_muted)
-                .child(SharedString::from(text.clone()))
-                .into_any_element(),
+            RBlock::Html(text) => {
+                // Run every registered markdown post-processor so a plugin
+                // can inspect the rendered output. The hook is in place;
+                // the DOM element itself is not yet available to a native
+                // renderer, so the callback receives no element.
+                let _ = live::run_all_post_processors();
+                div()
+                    .mb(gap)
+                    .font_family(t.mono_font.clone())
+                    .text_size(px(base * 0.875))
+                    .text_color(t.text_muted)
+                    .child(SharedString::from(text.clone()))
+                    .into_any_element()
+            }
             RBlock::Quote(children) => div()
                 .mb(gap)
                 .border_l_2()
