@@ -175,10 +175,13 @@ impl HelpWindow {
         } else {
             (theme.text, theme.border)
         };
+        // Buttons need a contrasting background against the row: primary uses
+        // the accent color; compat rows use bg_secondary which is lighter than
+        // the row's bg so the pill stands out.
         let button_bg = if row.primary {
             theme.accent
         } else {
-            theme.bg
+            theme.bg_secondary
         };
         div()
             .flex()
@@ -186,7 +189,7 @@ impl HelpWindow {
             .items_center()
             .gap(px(24.))
             .py(px(22.))
-            .bg(theme.bg_alt)
+            .bg(theme.bg)
             .border_b_1()
             .border_color(theme.border)
             .child(
