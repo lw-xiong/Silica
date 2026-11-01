@@ -1917,6 +1917,9 @@ impl SettingsView {
     fn community_plugin_items(state: &VaultState) -> Vec<Item> {
         let n = state.plugins.records().len();
         let compat = state.plugins.compat_count();
+        // Loading the runtimes belongs on this thread, and this tab is where
+        // their result is read.
+        silica_plugins::live::ensure(&state.root, state.vault().config_dir(), &state.plugins);
         let mut items = vec![
             item(
                 "Community plugins",
@@ -1959,15 +1962,39 @@ impl SettingsView {
                     Tier::Refused(refusal) => refusal.reason(),
                     tier => tier.label().to_string(),
                 });
+                // What the runtimes did with it, which is the one thing a
+                // tier label cannot say: a plugin that loaded and a plugin
+                // that threw look the same until something runs one.
+                let loaded = silica_plugins::live::hosts(|hosts| {
+                    hosts
+                        .iter()
+                        .find(|host| host.id() == record.id())
+                        .map(|host| host.detail())
+                });
+                match loaded {
+                    Some(said) => {
+                        detail.push(' ');
+                        detail.push_str(&said);
+                    }
+                    None if record.enabled && record.tier == Tier::Compat => {
+                        detail.push_str(" It is enabled but was not loaded.");
+                    }
+                    None => {}
+                }
                 items.push(
                     toggle(&title, &detail, record.enabled, Flag::CommunityPlugin(record.id().to_string()))
-                        // Nothing loads a plugin yet; the list is Obsidian's.
+                        // The list is Obsidian's, and the runtimes are built
+                        // when this tab or the palette is first opened:
+                        // flipping a switch here rewrites
+                        // `community-plugins.json` for the next open but loads
+                        // nothing now.
                         .not_yet(),
                 );
             }
         }
         items
     }
+
 
     fn plugin_items(state: &VaultState, commands: &[Command], id: &str) -> Vec<Item> {
         match id {

@@ -113,10 +113,13 @@ const CODEMIRROR: &[&str] = &[
 ];
 
 /// Constructs that mean the plugin draws into or reads the DOM.
+/// What means the plugin draws for itself, and cannot be served by a native
+/// renderer. The element helpers a settings tab builds its rows with
+/// (`createEl`, `createDiv`, `createSpan`) are deliberately absent: the shim
+/// serves those as rows, which is how a vault-only plugin with a settings tab
+/// stays runnable. A markdown post-processor is present because its output is
+/// a node the reading view would have to place.
 const DOM: &[&str] = &[
-    ".createDiv(",
-    ".createEl(",
-    ".createSpan(",
     "addEventListener(",
     "createElement(",
     "document.",
@@ -124,7 +127,9 @@ const DOM: &[&str] = &[
     "getElementById",
     "HTMLElement",
     "innerHTML",
+    "MarkdownRenderer",
     "querySelector",
+    "registerMarkdownPostProcessor",
     "window.",
 ];
 
@@ -263,8 +268,35 @@ mod tests {
 
     #[test]
     fn drawing_into_the_dom_is_refused() {
-        let tier = classify(&manifest(None), "el.createEl('div')", false);
+        let tier = classify(&manifest(None), "el.innerHTML = '<b>x</b>'", false);
         assert_eq!(tier, Tier::Refused(Refusal::Dom));
+        let post_processor = classify(
+            &manifest(None),
+            "this.registerMarkdownPostProcessor((el) => el)",
+            false,
+        );
+        assert_eq!(post_processor, Tier::Refused(Refusal::Dom));
+    }
+
+    #[test]
+    fn a_settings_tab_is_not_dom_work() {
+        // The shim turns these into rows; refusing them would refuse almost
+        // every vault-only plugin, which is the tier that can run.
+        let source = r#"
+const { Plugin, PluginSettingTab, Setting } = require("obsidian");
+class Tab extends PluginSettingTab {
+  display() {
+    this.containerEl.empty();
+    this.containerEl.createEl("h2", { text: "Counter" });
+    const row = this.containerEl.createDiv({ cls: "setting-item" });
+    row.createSpan({ text: "Enabled" });
+    new Setting(this.containerEl).setName("Enabled").addToggle((t) => t.setValue(true));
+  }
+}
+class P extends Plugin { onload() { this.addSettingTab(new Tab(this.app, this)); } }
+module.exports = P;
+"#;
+        assert_eq!(classify(&manifest(None), source, false), Tier::Compat);
     }
 
     #[test]

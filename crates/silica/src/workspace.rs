@@ -4108,11 +4108,30 @@ impl Workspace {
         // The palette is what the check callbacks decide, so the list is
         // built with the keyboard where it is now: opening the palette
         // from a reading leaf does not offer the editing commands.
-        let commands: Vec<PaletteCommand> = registry
+        let mut commands: Vec<PaletteCommand> = registry
             .iter()
             .filter(|c| self.can_run(&c.id, window, cx))
             .map(|c| PaletteCommand::from_command(c, pinned.contains(&c.id)))
             .collect();
+        // The commands the loaded plugins registered, under the names
+        // Obsidian shows them by. Loading happens here and in Settings, both
+        // on this thread: the runtimes are JavaScript, and this is the only
+        // thread they can be made on.
+        if let Some(state) = self.state.as_ref() {
+            silica_plugins::live::ensure(&state.root, state.vault().config_dir(), &state.plugins);
+        }
+        silica_plugins::live::hosts(|hosts| {
+            for host in hosts {
+                for command in &host.registrations().commands {
+                    commands.push(PaletteCommand {
+                        id: command.id.clone(),
+                        name: command.name.clone(),
+                        hotkeys: Vec::new(),
+                        pinned: pinned.contains(&command.id),
+                    });
+                }
+            }
+        });
         let recent = self.recent_commands.clone();
         self.close_editor_suggest(cx);
         self.modal = Modal::Palette;
@@ -4171,6 +4190,19 @@ impl Workspace {
         // is in no palette and on no key. Asked for by id -- over the
         // control socket, or by a binding made before the toggle -- it
         // says so rather than running anyway.
+        // A plugin command is not in the registry either: it belongs to the
+        // plugin's own runtime, on the thread the app runs on. A plugin that
+        // failed to load registered nothing, so its commands are unknown here
+        // like any other unknown id.
+        if let Some((outcome, notices)) = silica_plugins::live::run(id) {
+            for notice in notices {
+                self.report(notice, cx);
+            }
+            if let Err(reason) = outcome {
+                self.report(reason, cx);
+            }
+            return;
+        }
         if let Some(plugin) = silica_commands::plugin_of(id) {
             let enabled = self
                 .state
