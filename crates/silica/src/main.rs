@@ -134,6 +134,7 @@ fn synthetic_note(lines: usize) -> String {
     out
 }
 
+#[derive(Clone)]
 struct Args {
     vault: Option<PathBuf>,
     note: Option<String>,
@@ -840,4 +841,91 @@ fn main() {
                 .detach();
             }
         });
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn percent_decode_handles_hex_escapes_and_passes_unknown_through() {
+        assert_eq!(percent_decode("hello%20world"), "hello world");
+        assert_eq!(percent_decode("a%2Fb%2Cc"), "a/b,c");
+        assert_eq!(percent_decode("not%20%20encoded"), "not  encoded");
+        // Invalid % sequences are not touched: leave the literal characters.
+        assert_eq!(percent_decode("100% GG"), "100% GG");
+        assert_eq!(percent_decode("trailing%"), "trailing%");
+        assert_eq!(percent_decode("plain"), "plain");
+        assert_eq!(percent_decode(""), "");
+    }
+
+    #[test]
+    fn parse_obsidian_uri_splits_action_and_percent_decoded_params() {
+        let (action, params) =
+            parse_obsidian_uri("obsidian://open?vault=My%20Vault&file=Note%23Heading.md").unwrap();
+        assert_eq!(action, "open");
+        assert_eq!(
+            params,
+            vec![
+                ("vault".into(), "My Vault".into()),
+                ("file".into(), "Note#Heading.md".into())
+            ]
+        );
+
+        // No query -> empty params, trailing slash on action is trimmed.
+        let (action, params) = parse_obsidian_uri("obsidian://search/").unwrap();
+        assert_eq!(action, "search");
+        assert!(params.is_empty());
+
+        // `obsidian://` with an empty action is still a valid parse.
+        assert_eq!(parse_obsidian_uri("obsidian://"), Some(("".into(), vec![])));
+
+        // Not an obsidian URI -> None.
+        assert!(parse_obsidian_uri("https://example.com/x").is_none());
+        assert!(parse_obsidian_uri("").is_none());
+    }
+
+    #[test]
+    fn apply_obsidian_uri_sets_note_and_search_without_crashing_on_unknown_action() {
+        let base = Args {
+            vault: None,
+            note: None,
+            synthetic: None,
+            stress: None,
+            search: None,
+            switcher: None,
+            pane: None,
+            graph: None,
+            palette: None,
+            settings: None,
+            source: false,
+            reading: false,
+            find: None,
+            find_all: None,
+            rename: None,
+            prompt: None,
+            type_text: None,
+            accept: None,
+            cell: None,
+            command: None,
+            template: None,
+            menu: None,
+            control: None,
+            size: None,
+            frame: None,
+        };
+
+        let mut args = base.clone();
+        apply_obsidian_uri(&mut args, "obsidian://open?vault=V&file=My Note.md");
+        assert_eq!(args.note.as_deref(), Some("My Note.md"));
+
+        let mut args = base.clone();
+        apply_obsidian_uri(&mut args, "obsidian://search?vault=V&query=hello+world");
+        assert_eq!(args.search.as_deref(), Some("hello+world"));
+
+        let mut args = base.clone();
+        apply_obsidian_uri(&mut args, "obsidian://do-anything?vault=V&file=x.md");
+        assert!(args.note.is_none());
+        assert!(args.vault.is_none());
+    }
 }
