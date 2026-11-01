@@ -127,6 +127,10 @@ pub fn run_all_post_processors() -> usize {
     });
     count
 }
+
+/// Forgets the loaded compatibility plugins: the next ask loads them again.
+/// Native plugins registered with `register_native` are not affected.
+pub fn forget() {
     LOADED.with(|loaded| *loaded.borrow_mut() = None);
 }
 
