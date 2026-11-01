@@ -60,7 +60,7 @@ use silica_formats::config::{
     DailyNotesConfig, Hotkeys, PropertyTypes, SwitcherConfig, TemplatesConfig,
     CORE_PLUGINS,
 };
-use silica_formats::properties::PropertiesInDocument;
+use silica_formats::properties::{Change, PropertiesInDocument};
 use silica_formats::{validate_renamed_file, FileKind};
 use silica_markdown::Subpath;
 use silica_templates as templates;
@@ -2685,9 +2685,16 @@ fn view_subscriptions(
                 this.link_in_new_tab = true;
                 this.follow_link(target.clone(), cx);
             }
+            _ => {}
         }),
         cx.subscribe(reading, |this, _, event: &TaskToggled, cx| {
             this.toggle_task(&event.path, event.marker, cx)
+        }),
+        cx.subscribe(reading, |this, _, event: &ReadingEvent, cx| match event {
+            &ReadingEvent::PropertyChanged { ref path, ref changes } => {
+                this.change_property(path, changes, cx)
+            }
+            _ => {}
         }),
         cx.subscribe(editor, |this, _, event: &EditorEvent, cx| match event {
             EditorEvent::Edited => {
@@ -6207,6 +6214,50 @@ impl Workspace {
         self.words = text.split_whitespace().count();
         self.chars = text.chars().count();
         let model = reading::build_with(path, &text, state.as_ref(), state.build_options());
+        self.reading
+            .update(cx, |r, cx| r.set_note(Some(path.to_string()), model, cx));
+        cx.notify();
+    }
+
+    /// The reading view edited a property in the reading view's properties
+    /// block. Read the vault file, plan the change against its frontmatter,
+    /// write it back, and rebuild the reading model so the change is visible.
+    fn change_property(
+        &mut self,
+        path: &str,
+        changes: &[Change],
+        cx: &mut Context<Self>,
+    ) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        // Only the currently open note can be edited this way.
+        if self.current.as_deref() != Some(path) {
+            return;
+        }
+        let absolute = match self.vault_path(path) {
+            Ok(p) => p,
+            Err(_) => return,
+        };
+        let Ok(text) = std::fs::read_to_string(&absolute) else {
+            return;
+        };
+        let Some(props) = silica_cache::note_properties(&text) else {
+            return;
+        };
+        let Some(edits) = silica_formats::properties::plan(&text, &props, changes) else {
+            return;
+        };
+        let mut new_text = text;
+        // Apply edits in reverse order so earlier byte ranges stay valid.
+        for edit in edits.iter().rev() {
+            new_text.replace_range(edit.start..edit.end, &edit.text);
+        }
+        if let Err(e) = std::fs::write(&absolute, &new_text) {
+            self.report(format!("could not write properties: {e}"), cx);
+            return;
+        }
+        let model = reading::build_with(path, &new_text, state.as_ref(), state.build_options());
         self.reading
             .update(cx, |r, cx| r.set_note(Some(path.to_string()), model, cx));
         cx.notify();

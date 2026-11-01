@@ -19,14 +19,14 @@
 use crate::assets::icon;
 use crate::explorer::display_name;
 use crate::reading::model::{build_section, build_with, EmbedKind, Model, RBlock, Segment};
-use crate::reading::view::{LinkHandler, ReadingHost, Renderer, ToggleHandler};
+use crate::reading::view::{LinkHandler, ReadingHost, ReadingView, Renderer, ToggleHandler};
 use crate::reading::{EmbedSource, LinkTarget, TaskMarker};
 use crate::theme::Theme;
 use crate::workspace::VaultState;
 use gpui::{
     div, img, prelude::*, px, AnyElement, App, Bounds, Div, DivFrameState, Element, ElementId,
     FontWeight, GlobalElementId, Hitbox, InspectorElementId, LayoutId, ObjectFit, Pixels,
-    SharedString, Size, Window,
+    SharedString, Size, WeakEntity, Window,
 };
 use silica_canvas::ZOOM_THRESHOLD;
 use silica_formats::canvas::{BackgroundStyle, Node, NodeType};
@@ -594,6 +594,8 @@ impl Cards {
             None,
             on_link,
             on_toggle,
+            String::new(),
+            WeakEntity::<ReadingView>::new_invalid(),
         )
         .with_reading_host(&host);
         let blocks: Vec<AnyElement> = model

@@ -10,7 +10,7 @@
   <img alt="Rust" src="https://img.shields.io/badge/100%25-Rust-E8590C?style=flat-square&logo=rust&logoColor=white">
   <img alt="Linux, Windows, macOS" src="https://img.shields.io/badge/Linux%20%7C%20Windows%20%7C%20macOS-2b2b2b?style=flat-square">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2b2b2b?style=flat-square">
-  <img alt="v0.2.3" src="https://img.shields.io/badge/status-early%20alpha%20·%20v0.2.3-f2545b?style=flat-square">
+  <img alt="v0.2.4" src="https://img.shields.io/badge/status-early%20alpha%20·%20v0.2.4-f2545b?style=flat-square">
 </p>
 
 Silica is a native knowledge base written in Rust on [GPUI](https://gpui.rs), built to open [Obsidian](https://obsidian.md) vaults unchanged: same folder, same `.obsidian` configuration, same Markdown dialect, same `.canvas` and `.base` files. There is no import step, no conversion and no second copy of anything. It is an independent implementation and is not affiliated with Obsidian.
@@ -59,7 +59,7 @@ What works today, measured against Obsidian:
 | Vault formats | `.md`, `.canvas`, `.base`, `.pdf`, `.obsidian/` | Same files Obsidian writes; no conversion |
 | Command ids | 244 ids + default hotkeys | Vault `hotkeys.json` applies unchanged |
 | Link rewriting | Rename, move, copy, delete | Rewrites `[[wikilinks]]` as Obsidian does |
-| Plugins | Classification + compat host + native trait | Installed plugins classified as native/compat/refused; compat plugins run in a per-plugin QuickJS host with shimmed `app`; their commands show in the palette, settings tabs in Settings > Community plugins. The native `Plugin` trait is defined and native plugins register via `register_native`, with commands exposed to the palette and runnable; post-processor execution in the render pass is the next slice. |
+| Plugins | Classification + compat host + native trait | Installed plugins classified as native/compat/refused; compat plugins run in a per-plugin QuickJS host with shimmed `app`; their commands show in the palette, settings tabs in Settings > Community plugins. The native `Plugin` trait is defined and native plugins register via `register_native`, with commands exposed to the palette and runnable; post-processor execution wired into the render pass via `run_all_post_processors()`. |
 
 ## Limitations
 

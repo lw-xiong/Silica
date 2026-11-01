@@ -16,15 +16,15 @@ use crate::properties::{PROPERTIES_FOLD_ID, PROPERTY_ID_BASE};
 use silica_plugins::live;
 use crate::theme::Theme;
 use gpui::{
-    actions, canvas, div, img, list, prelude::*, px, AnyElement, AnyView, App, ClipboardItem, Context,
-    ElementId, EventEmitter, FocusHandle, Focusable, Font, FontStyle, FontWeight, HighlightStyle,
-    Hsla, InteractiveElement, InteractiveText, KeyBinding, ListAlignment, ListOffset, ListState,
-    MouseButton, ObjectFit, Pixels, SharedString, StrikethroughStyle, StyledText, Task, TextRun,
-    UnderlineStyle, Window, WindowTextSystem,
+    actions, canvas, div, img, list, prelude::*, px, AnyElement, AnyView, App, ClipboardItem,
+    Context, ElementId, EventEmitter, FocusHandle, Focusable, Font, FontStyle, FontWeight,
+    HighlightStyle, Hsla, InteractiveElement, InteractiveText, KeyBinding, ListAlignment,
+    ListOffset, ListState, MouseButton, ObjectFit, Pixels, SharedString, StrikethroughStyle,
+    StyledText, Task, TextRun, UnderlineStyle, WeakEntity, Window, WindowTextSystem,
 };
 use serde_json::{json, Value};
 use silica_formats::config::PropertyTypes;
-use silica_formats::properties::{PropertiesInDocument, Property, PropertyType};
+use silica_formats::properties::{Change, PropertiesInDocument, Property, PropertyType};
 use silica_formats::FileKind;
 use silica_markdown::Alignment;
 use std::collections::HashSet;
@@ -203,6 +203,12 @@ pub enum ReadingEvent {
     OpenLink(LinkTarget),
     /// A Ctrl+click on a link: it opens in a new tab.
     OpenLinkInNewTab(LinkTarget),
+    /// The reader changed a property in the reading view's properties block.
+    /// The workspace turns this into the same edit Live Preview makes.
+    PropertyChanged {
+        path: String,
+        changes: Vec<silica_formats::properties::Change>,
+    },
 }
 
 /// A reader clicked a task checkbox. The reading view does not write the
@@ -611,18 +617,43 @@ impl ReadingView {
             on_task,
             preview_resolver: self.preview_resolver.clone(),
         };
+        // The reading view's properties block is now editable: clicks on
+        // rows come back as PropertyChanged events that the workspace
+        // writes to the vault file.
+        let path_for_prop = self.path.clone().unwrap_or_default();
+        let view_for_prop = view.clone();
+        let on_property_action: PropertyHandler = Rc::new(move |action, _window, cx| {
+            match action {
+                PropertyAction::Remove { key } => {
+                    view_for_prop.update(cx, |_, cx| {
+                        cx.emit(ReadingEvent::PropertyChanged {
+                            path: path_for_prop.clone(),
+                            changes: vec![Change::Remove { key }],
+                        });
+                    });
+                }
+                _ => {}
+            }
+        });
+        let properties_host = PropertiesHost {
+            field: None,
+            selected_pill: None,
+            mode: self.properties_in_document,
+            menu: None,
+            on_action: on_property_action,
+        };
         let r = Renderer::new(
             &theme,
             _window.text_system().clone(),
             available,
             &self.toggled,
             &self.property_types,
-            // Read-only: the reading view edits neither properties nor
-            // table cells.
-            None,
+            Some(&properties_host),
             None,
             on_link,
             on_toggle,
+            self.path.clone().unwrap_or_default(),
+            view.downgrade(),
         )
         .with_reading_host(&host);
         let mut inner = r.block(block, false);
@@ -772,6 +803,13 @@ pub(crate) struct Renderer<'a> {
     /// The vault's `types.json`, so a property row can draw the type its key
     /// is assigned rather than only the one its value infers.
     property_types: &'a PropertyTypes,
+    /// The vault-relative path of the note being rendered, so the reading
+    // view can write property changes back to the vault file. Empty for
+    // Live Preview, which edits through its own buffer.
+    path: String,
+    /// Weak handle to the reading view, so property changes can be emitted
+    // as events for the workspace to write to the vault.
+    view: WeakEntity<ReadingView>,
     /// Set by Live Preview to make the properties block editable.
     properties_host: Option<&'a PropertiesHost>,
     /// Set by Live Preview to make a table's cells editable.
@@ -797,6 +835,8 @@ impl<'a> Renderer<'a> {
         table_host: Option<&'a TableHost>,
         on_link: LinkHandler,
         on_toggle: ToggleHandler,
+        path: String,
+        view: WeakEntity<ReadingView>,
     ) -> Renderer<'a> {
         Renderer {
             theme,
@@ -809,6 +849,8 @@ impl<'a> Renderer<'a> {
             on_toggle,
             text_system,
             available: available.max(100.),
+            path,
+            view,
         }
     }
 
@@ -2021,16 +2063,26 @@ impl<'a> Renderer<'a> {
         };
         if let crate::properties::Display::Checkbox(checked) = row.value {
             let key = row.key.clone();
-            let on_toggle = on_action.clone();
+            let path = self.path.clone();
+            let view = self.view.clone();
             return div()
                 .id(("property-checkbox", row.id))
                 .flex_1()
                 .min_w_0()
                 .cursor_pointer()
                 .child(self.property_value(row))
-                .on_mouse_down(gpui::MouseButton::Left, move |_, window, cx| {
-                    let _ = checked;
-                    on_toggle(PropertyAction::Toggle { key: key.clone() }, window, cx);
+                .on_mouse_down(gpui::MouseButton::Left, move |_, _, cx| {
+                    let path = path.clone();
+                    let key = key.clone();
+                    let _ = view.update(cx, move |_, cx| {
+                        cx.emit(ReadingEvent::PropertyChanged {
+                            path,
+                            changes: vec![Change::Set {
+                                key,
+                                value: silica_formats::properties::Value::Checkbox(!checked),
+                            }],
+                        });
+                    });
                 })
                 .into_any_element();
         }

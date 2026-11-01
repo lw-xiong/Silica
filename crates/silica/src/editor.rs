@@ -26,7 +26,7 @@ use crate::math::SpaceWidths;
 use crate::preview::{self, DisplayLine, Piece};
 use crate::properties::{self, Field, Part, PillStep, Target};
 use crate::reading::model::{build_widgets, BuildOptions, EmbedSource, LinkTarget, RBlock, Widget};
-use crate::reading::view::{LinkHandler, Renderer, ToggleHandler};
+use crate::reading::view::{LinkHandler, ReadingView, Renderer, ToggleHandler};
 use crate::reading::view::{PropertiesHost, PropertyAction};
 use crate::reading::view::{TableAction, TableHost};
 use crate::suggest::{Anchor, SuggestState};
@@ -41,6 +41,7 @@ use gpui::{
     KeyBinding, LayoutId, Modifiers, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PaintQuad,
     Pixels, Point, ScrollWheelEvent, SharedString, StrikethroughStyle, Style, Subscription, Task,
     TextAlign, TextRun, TextStyle, UTF16Selection, UnderlineStyle, Window, WrappedLine,
+    WeakEntity,
 };
 use silica_formats::config::PropertyTypes;
 use silica_formats::properties::{self as props, PropertiesInDocument};
@@ -5227,6 +5228,8 @@ impl Element for EditorElement {
                 Some(&table_host),
                 on_link,
                 on_toggle,
+                String::new(),
+                WeakEntity::<ReadingView>::new_invalid(),
             );
             let mut lines: Vec<(VisibleLine, Shaped)> = Vec::new();
             let mut widgets: Vec<WidgetPaint> = Vec::new();
