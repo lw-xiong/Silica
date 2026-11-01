@@ -17,7 +17,7 @@ var __silica_registrations = {
   ribbon: [],
   tabs: [],
   code_blocks: [],
-  post_processors: 0,
+  post_processors: [],
   failure: null,
 };
 
@@ -324,8 +324,8 @@ Plugin.prototype.registerMarkdownPostProcessor = function (fn, order) {
     __silica_fail("registerMarkdownPostProcessor was given something that is not a function");
     return;
   }
-  __silica_registrations.post_processors += 1;
   var key = __silica_bind(fn);
+  __silica_registrations.post_processors.push({ order: Number(order) || 0, callback: key });
   __silica_raw_post_processor(Number(order) || 0, key);
 };
 

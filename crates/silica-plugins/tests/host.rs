@@ -152,7 +152,7 @@ fn a_vault_only_plugin_registers_what_it_added() {
     assert_eq!(registered.ribbon[0].icon, "dice");
     assert_eq!(registered.ribbon[0].title, "Count notes");
 
-    assert_eq!(registered.post_processors, 1);
+    assert_eq!(registered.post_processors.len(), 1);
     assert_eq!(registered.code_blocks[0].language, "counter");
 
     // The settings tab is the rows its own `display()` produced.

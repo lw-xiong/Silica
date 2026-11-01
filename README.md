@@ -10,14 +10,16 @@
   <img alt="Rust" src="https://img.shields.io/badge/100%25-Rust-E8590C?style=flat-square&logo=rust&logoColor=white">
   <img alt="Linux, Windows, macOS" src="https://img.shields.io/badge/Linux%20%7C%20Windows%20%7C%20macOS-2b2b2b?style=flat-square">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2b2b2b?style=flat-square">
-  <img alt="v0.1.5" src="https://img.shields.io/badge/status-early%20alpha%20·%20v0.1.5-f2545b?style=flat-square">
+  <img alt="v0.2.0" src="https://img.shields.io/badge/status-early%20alpha%20·%20v0.2.0-f2545b?style=flat-square">
 </p>
 
 Silica is a native knowledge base written in Rust on [GPUI](https://gpui.rs), built to open [Obsidian](https://obsidian.md) vaults unchanged: same folder, same `.obsidian` configuration, same Markdown dialect, same `.canvas` and `.base` files. There is no import step, no conversion and no second copy of anything. It is an independent implementation and is not affiliated with Obsidian.
 
 ## Status
 
-Reader and writer done, parity in progress (phase 4 of 5). `silica-markdown` parses CommonMark (all 652 spec examples) plus the GitHub extensions Obsidian uses into one tree with byte spans, and renders reading-view HTML that matches Obsidian on 1007 of 1009 corpus notes. The app opens a real vault with a three-pane shell: Files, reading view, Backlinks, Outgoing links, Tags, All properties and Outline; Search with grouping, sort, copy results, and vault-wide search & replace; the quick switcher, graph, command palette and a Settings modal that writes. Notes open in Live Preview or Source mode with find and replace, multiple cursors, auto-pairing, collapsible headings and lists, and autosave; `[[`, `![[` and `#` autocomplete against the vault's files, aliases, headings, tags and block references; clipboard images and dropped files automatically save to the vault's attachment folder and insert embeds; frontmatter is an editable, typed properties table that rewrites only the lines it changes. A `.canvas` opens in a canvas view; a `.pdf` opens in a viewer with toolbar, sidebar and find bar; Mermaid diagrams render directly via a pure-Rust engine; audio and video embeds play in the reading view, remote images load over HTTP, Ctrl+hovering a link previews the target inline, and file and folder rows drag between folders to move them; `$x$` and `$$x$$` typeset inline in reading view and Live Preview. The main area splits into tab groups, and `workspace.json` records the tree the way Obsidian does. Everything is bound through Obsidian's command ids, so a vault's `hotkeys.json` applies unchanged.
+Reader and writer done, all five phases landed (phase 5: plugins). `silica-markdown` parses CommonMark (all 652 spec examples) plus the GitHub extensions Obsidian uses into one tree with byte spans, and renders reading-view HTML that matches Obsidian on 1007 of 1009 corpus notes. The app opens a real vault with a three-pane shell: Files, reading view, Backlinks, Outgoing links, Tags, All properties and Outline; Search with grouping, sort, copy results, and vault-wide search & replace; the quick switcher, graph, command palette and a Settings modal that writes. Notes open in Live Preview or Source mode with find and replace, multiple cursors, auto-pairing, collapsible headings and lists, and autosave; `[[`, `![[` and `#` autocomplete against the vault's files, aliases, headings, tags and block references; clipboard images and dropped files automatically save to the vault's attachment folder and insert embeds; frontmatter is an editable, typed properties table that rewrites only the lines it changes. A `.canvas` opens in a canvas view; a `.pdf` opens in a viewer with toolbar, sidebar and find bar; Mermaid diagrams render directly via a pure-Rust engine; audio and video embeds play in the reading view, remote images load over HTTP, Ctrl+hovering a link previews the target inline, and file and folder rows drag between folders to move them; `$x$` and `$$x$$` typeset inline in reading view and Live Preview. The main area splits into tab groups, and `workspace.json` records the tree the way Obsidian does. Everything is bound through Obsidian's command ids, so a vault's `hotkeys.json` applies unchanged.
+
+Obsidian plugins: installed plugins in `.obsidian/plugins/` are classified into native, compatibility, or refused-with-reason tiers. Compatibility plugins run in a per-plugin QuickJS host with a shimmed `app` (vault read/write, metadataCache, commands, ribbon, settings tabs, `loadData`/`saveData`); their commands appear in the palette and their settings tabs in Settings > Community plugins. Plugins that need Electron, Node, CodeMirror or the DOM are refused with the reason shown, never half-loaded. A `silica.json` marker flags a native plugin targeting Silica itself.
 
 > **Keep a backup of any vault you open with it.** Reading is well covered; editing is newer code against files you cannot get back. Until the round-trip gate is met, let Silica read a vault that matters and let Obsidian write it.
 
@@ -57,6 +59,7 @@ What works today, measured against Obsidian:
 | Vault formats | `.md`, `.canvas`, `.base`, `.pdf`, `.obsidian/` | Same files Obsidian writes; no conversion |
 | Command ids | 244 ids + default hotkeys | Vault `hotkeys.json` applies unchanged |
 | Link rewriting | Rename, move, copy, delete | Rewrites `[[wikilinks]]` as Obsidian does |
+| Plugins | Classification + compat host | Installed plugins classified as native/compat/refused; compat plugins run in a per-plugin QuickJS host with shimmed `app`; their commands show in the palette, settings tabs in Settings > Community plugins. Native plugin loading (`silica.json`, the `Plugin` trait) and markdown post-processor execution in the render pass are the next slice. |
 
 ## Limitations
 
@@ -70,7 +73,7 @@ Factual gaps versus upstream Obsidian:
 
 **Markdown edge cases** — Two of the 1,009 corpus notes do not match Obsidian's output: nested delimiter runs such as `****a****`, `==== four ==x===y==`, and a wikilink inside Markdown link text (Obsidian splits the link on it). Degenerate cases, tracked rather than hidden.
 
-**Not ever** — Obsidian's community plugins will not run (JavaScript against an Electron app's API; Silica is a native binary with no JavaScript runtime or DOM). A native plugin API of Silica's own is the last planned phase. Obsidian Sync, Publish and the commercial services are Obsidian's products, not file formats; Silica has nothing to do with them — any file-level sync (git, Syncthing, Dropbox, or Obsidian Sync itself) works because files are all Silica needs.
+**Not ever** — Obsidian Sync, Publish and the commercial services are Obsidian's products, not file formats; Silica has nothing to do with them — any file-level sync (git, Syncthing, Dropbox, or Obsidian Sync itself) works because files are all Silica needs.
 
 ## Deliberately different
 

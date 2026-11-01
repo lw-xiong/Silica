@@ -1984,11 +1984,9 @@ impl SettingsView {
                 items.push(
                     toggle(&title, &detail, record.enabled, Flag::CommunityPlugin(record.id().to_string()))
                         // The list is Obsidian's, and the runtimes are built
-                        // when this tab or the palette is first opened:
-                        // flipping a switch here rewrites
-                        // `community-plugins.json` for the next open but loads
-                        // nothing now.
-                        .not_yet(),
+                        // when this tab or the palette is first opened: flipping
+                        // a switch here rewrites `community-plugins.json` for
+                        // the next open.
                 );
             }
         }

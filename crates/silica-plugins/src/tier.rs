@@ -129,7 +129,6 @@ const DOM: &[&str] = &[
     "innerHTML",
     "MarkdownRenderer",
     "querySelector",
-    "registerMarkdownPostProcessor",
     "window.",
 ];
 
@@ -270,12 +269,31 @@ mod tests {
     fn drawing_into_the_dom_is_refused() {
         let tier = classify(&manifest(None), "el.innerHTML = '<b>x</b>'", false);
         assert_eq!(tier, Tier::Refused(Refusal::Dom));
-        let post_processor = classify(
+        let dom = classify(
             &manifest(None),
-            "this.registerMarkdownPostProcessor((el) => el)",
+            "document.createElement('div')",
             false,
         );
-        assert_eq!(post_processor, Tier::Refused(Refusal::Dom));
+        assert_eq!(dom, Tier::Refused(Refusal::Dom));
+    }
+
+    #[test]
+    fn a_markdown_post_processor_is_compat_not_refused() {
+        // The host stores post-processor registrations and can run them, so a
+        // plugin that registers one is compatibility tier, not refused.
+        let source = r#"
+const { Plugin } = require("obsidian");
+class P extends Plugin {
+  onload() {
+    this.registerMarkdownPostProcessor((el) => el, 0);
+  }
+}
+module.exports = P;
+"#;
+        assert_eq!(
+            classify(&manifest(None), source, false),
+            Tier::Compat
+        );
     }
 
     #[test]

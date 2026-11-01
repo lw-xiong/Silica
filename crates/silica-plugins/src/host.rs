@@ -106,6 +106,15 @@ pub struct CodeBlockRegistration {
     pub order: i64,
 }
 
+/// A markdown post-processor a plugin registered, by the callback key it
+/// announced and the order it asked to run in.
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+pub struct PostProcessorRegistration {
+    pub order: i64,
+    #[serde(default)]
+    pub callback: Option<String>,
+}
+
 /// What a plugin registered while loading. Empty plus a `failure` means the
 /// plugin did not load, which is what the app reports as the reason.
 #[derive(Debug, Clone, Default, PartialEq, Deserialize)]
@@ -119,7 +128,7 @@ pub struct Registrations {
     #[serde(default)]
     pub code_blocks: Vec<CodeBlockRegistration>,
     #[serde(default)]
-    pub post_processors: usize,
+    pub post_processors: Vec<PostProcessorRegistration>,
     #[serde(default)]
     pub failure: Option<String>,
 }
@@ -151,6 +160,8 @@ struct Shared {
     /// The note open in the editor. Writes to it are refused: a plugin writing
     /// under an editor with unsaved changes would lose them.
     open_note: Option<String>,
+    /// Post-processors the plugin registered, in the order it asked for them.
+    post_processors: Vec<(i64, String)>,
 }
 
 impl Shared {
@@ -270,6 +281,7 @@ impl PluginHost {
             notices: Vec::new(),
             active_file: open_note.clone(),
             open_note,
+            post_processors: Vec::new(),
         }));
 
         let runtime = match Runtime::new() {
@@ -477,6 +489,15 @@ impl PluginHost {
         }
     }
 
+    /// Runs a post-processor callback the plugin registered, by the key its
+    /// registration carries. Bounded by `CALL_DEADLINE`. The render pass
+    /// that calls this for each registered post-processor is not wired yet;
+    /// the method exists so registrations are real even before a frame
+    /// consumes them.
+    pub fn run_post_processor(&self, key: &str) -> Result<(), String> {
+        self.run(key, None)
+    }
+
     /// The metadata cache entry for a note, in Obsidian's shape.
     pub fn metadata(&self, path: &str) -> Result<Value, String> {
         let shared = self.shared.borrow();
@@ -677,7 +698,10 @@ fn install<'js>(
         false
     });
 
-    set!("__silica_raw_post_processor", move |_order: i64, _key: String| {});
+    let s = Rc::clone(&shared);
+    set!("__silica_raw_post_processor", move |order: i64, key: String| {
+        s.borrow_mut().post_processors.push((order, key));
+    });
 
     globals.set("__silica_manifest", manifest_json)?;
     Ok(())
