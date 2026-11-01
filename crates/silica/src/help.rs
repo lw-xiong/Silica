@@ -172,12 +172,21 @@ impl HelpWindow {
         } else {
             (theme.bg_alt, theme.text, theme.border)
         };
+        // Buttons need a slightly different background than the row so they
+        // stand out against it: primary uses the accent, compat rows use the
+        // darker base instead of the row's bg_alt.
+        let button_bg = if row.primary {
+            theme.accent
+        } else {
+            theme.bg
+        };
         div()
             .flex()
             .flex_row()
             .items_center()
             .gap(px(24.))
             .py(px(22.))
+            .bg(bg)
             .border_b_1()
             .border_color(theme.border)
             .child(
@@ -218,7 +227,7 @@ impl HelpWindow {
                     .flex()
                     .items_center()
                     .rounded(px(8.))
-                    .bg(bg)
+                    .bg(button_bg)
                     .border_1()
                     .border_color(border)
                     .text_size(px(16.))
