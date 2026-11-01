@@ -57,7 +57,7 @@ use silica_commands::{hotkey_label, keystroke, CommandRegistry};
 use silica_formats::bookmarks::{Bookmark, Bookmarks};
 use silica_formats::config::{
     self as config, AppConfig, AppearanceConfig, CommandPaletteConfig, CorePlugins,
-    DailyNotesConfig, Hotkeys, PluginManifest, PropertyTypes, SwitcherConfig, TemplatesConfig,
+    DailyNotesConfig, Hotkeys, PropertyTypes, SwitcherConfig, TemplatesConfig,
     CORE_PLUGINS,
 };
 use silica_formats::properties::PropertiesInDocument;
@@ -392,7 +392,9 @@ pub struct VaultState {
     templates: RwLock<TemplatesConfig>,
     /// The Daily notes plugin's settings.
     daily_notes: RwLock<DailyNotesConfig>,
-    pub plugin_manifests: Vec<PluginManifest>,
+    /// Every installed plugin, classified into what Silica can run —
+    /// native, in the compatibility host, or refused with a reason.
+    pub plugins: silica_plugins::Registry,
     pub palette: CommandPaletteConfig,
     /// `types.json`: the type assigned to each property name.
     property_types: RwLock<PropertyTypes>,
@@ -476,7 +478,7 @@ impl VaultState {
         let community_plugins = vault.community_plugins();
         note("community-plugins.json", community_plugins.as_ref().err());
         let community_plugins = community_plugins.unwrap_or_default();
-        let plugin_manifests = vault.plugin_manifests();
+        let plugins = silica_plugins::Registry::scan(&vault);
         let palette = vault.command_palette_config();
         note("command-palette.json", palette.as_ref().err());
         let palette = palette.unwrap_or_default();
@@ -525,7 +527,7 @@ impl VaultState {
             switcher: RwLock::new(switcher),
             templates: RwLock::new(templates),
             daily_notes: RwLock::new(daily_notes),
-            plugin_manifests,
+            plugins,
             palette,
             property_types: RwLock::new(property_types),
             bookmarks: RwLock::new(bookmarks),

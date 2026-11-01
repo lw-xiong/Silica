@@ -1,0 +1,17 @@
+[package]
+name = "silica-plugins"
+description = "Which Obsidian plugins a native vault can run, and the host that runs them"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+silica-vault.workspace = true
+silica-formats.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

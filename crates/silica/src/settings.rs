@@ -35,6 +35,7 @@ use silica_commands::{hotkey_label, keystroke, Command};
 use silica_formats::config::{
     AppConfig, AppearanceConfig, CorePlugins, Hotkey, Hotkeys, SwitcherConfig, CORE_PLUGINS,
 };
+use silica_plugins::Tier;
 use silica_search::fuzzy_match;
 use std::ops::Range;
 use std::sync::Arc;
@@ -1914,7 +1915,8 @@ impl SettingsView {
     }
 
     fn community_plugin_items(state: &VaultState) -> Vec<Item> {
-        let n = state.plugin_manifests.len();
+        let n = state.plugins.records().len();
+        let compat = state.plugins.compat_count();
         let mut items = vec![
             item(
                 "Community plugins",
@@ -1926,14 +1928,17 @@ impl SettingsView {
                 &match n {
                     0 => "You currently have no plugins installed.".to_string(),
                     1 => "You currently have 1 plugin installed.".to_string(),
-                    n => format!("You currently have {n} plugins installed."),
+                    n => format!(
+                        "You currently have {n} plugins installed, {compat} of which can run here."
+                    ),
                 },
                 Control::Button("Check for updates".into()),
             ),
         ];
         if n > 0 {
             items.push(heading("Installed plugins"));
-            for m in &state.plugin_manifests {
+            for record in state.plugins.records() {
+                let m = &record.manifest;
                 let mut title = m.name.clone();
                 if !m.version.is_empty() {
                     title.push_str(&format!(" v{}", m.version));
@@ -1941,15 +1946,23 @@ impl SettingsView {
                 if !m.author.is_empty() {
                     title.push_str(&format!(" By {}", m.author));
                 }
+                // Obsidian runs whatever is installed. A native app runs
+                // the plugins that touch only the vault and its index, so
+                // each row says which tier it landed in, and a refused one
+                // gives the reason instead of a switch that would do
+                // nothing.
+                let mut detail = m.description.clone();
+                if !detail.is_empty() {
+                    detail.push(' ');
+                }
+                detail.push_str(&match &record.tier {
+                    Tier::Refused(refusal) => refusal.reason(),
+                    tier => tier.label().to_string(),
+                });
                 items.push(
-                    toggle(
-                        &title,
-                        &m.description,
-                        state.community_plugins().contains(&m.id),
-                        Flag::CommunityPlugin(m.id.clone()),
-                    )
-                    // Silica runs no plugins; the list is Obsidian's.
-                    .not_yet(),
+                    toggle(&title, &detail, record.enabled, Flag::CommunityPlugin(record.id().to_string()))
+                        // Nothing loads a plugin yet; the list is Obsidian's.
+                        .not_yet(),
                 );
             }
         }

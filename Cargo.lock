@@ -5505,6 +5505,7 @@ dependencies = [
  "silica-markdown",
  "silica-math",
  "silica-pdf",
+ "silica-plugins",
  "silica-search",
  "silica-suggest",
  "silica-templates",
@@ -5617,6 +5618,16 @@ name = "silica-pdf"
 version = "0.1.5"
 dependencies = [
  "hayro",
+]
+
+[[package]]
+name = "silica-plugins"
+version = "0.1.5"
+dependencies = [
+ "serde_json",
+ "silica-formats",
+ "silica-vault",
+ "tempfile",
 ]
 
 [[package]]

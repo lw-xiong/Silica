@@ -18,6 +18,7 @@ members = [
     "crates/silica-templates",
     "crates/silica-pdf",
     "crates/silica-math",
+    "crates/silica-plugins",
     "crates/silica-bench",
 ]
 
@@ -43,6 +44,7 @@ silica-bases = { path = "crates/silica-bases" }
 silica-suggest = { path = "crates/silica-suggest" }
 silica-templates = { path = "crates/silica-templates" }
 silica-pdf = { path = "crates/silica-pdf" }
+silica-plugins = { path = "crates/silica-plugins" }
 silica-math = { path = "crates/silica-math" }
 
 anyhow = "1"

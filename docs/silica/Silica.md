@@ -15,6 +15,7 @@ browse a vault, open it in Silica too. Anything the two apps disagree on here is
 - [[Specification]] — what the app implements and where the full specification lives.
 - [[Development]] — machine setup, build commands, pinned dependencies, and benchmark results.
 - [[Interaction probes]] — the hands-on Obsidian observations the automated probe could not make.
+- [[Plugins]] — phase 5: how far a vault's Obsidian plugins can run here, and the tier line.
 - [[GPUI Kit]] — the component framework Silica does not use, and when adopting part of it would pay.
 
 ## Brand colors

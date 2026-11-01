@@ -31,6 +31,7 @@ silica-bases.workspace = true
 silica-canvas.workspace = true
 silica-pdf.workspace = true
 silica-math.workspace = true
+silica-plugins.workspace = true
 anyhow.workspace = true
 async-channel.workspace = true
 bytes = { workspace = true }
