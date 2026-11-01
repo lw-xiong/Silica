@@ -167,14 +167,14 @@ impl HelpWindow {
         cx: &mut Context<Self>,
     ) -> gpui::Div {
         let go = row.go;
-        let (bg, fg, border) = if row.primary {
-            (theme.accent, gpui::white(), theme.accent)
+        // All rows share the same background square; the primary row's button
+        // uses the accent color to single it out, matching Obsidian's design
+        // where only the "Open help" row's button is accent-colored.
+        let (fg, border) = if row.primary {
+            (gpui::white(), theme.accent)
         } else {
-            (theme.bg_alt, theme.text, theme.border)
+            (theme.text, theme.border)
         };
-        // Buttons need a slightly different background than the row so they
-        // stand out against it: primary uses the accent, compat rows use the
-        // darker base instead of the row's bg_alt.
         let button_bg = if row.primary {
             theme.accent
         } else {
@@ -186,7 +186,7 @@ impl HelpWindow {
             .items_center()
             .gap(px(24.))
             .py(px(22.))
-            .bg(bg)
+            .bg(theme.bg_alt)
             .border_b_1()
             .border_color(theme.border)
             .child(
