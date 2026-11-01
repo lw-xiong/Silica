@@ -552,6 +552,9 @@ fn main() {
             bind_all_keys(cx, &registry);
             cx.set_global(Commands(registry));
 
+            // Register native plugins compiled into Silica.
+            silica_plugins::native_plugins::register_all();
+
             let (width, height) = args.size.unwrap_or((1400.0, 900.0));
             let bounds = Bounds::centered(None, size(px(width), px(height)), cx);
             let vault = args.vault.clone();
