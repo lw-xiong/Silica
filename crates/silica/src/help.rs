@@ -178,6 +178,7 @@ impl HelpWindow {
             .items_center()
             .gap(px(24.))
             .py(px(22.))
+            .bg(bg)
             .when(!last, |d| d.border_b_1().border_color(theme.border))
             .child(
                 div()
