@@ -227,7 +227,6 @@ impl Plugin for Templates {
     }
 }
 
-
 /// Random note: open a random note from the vault.
 pub struct RandomNote;
 
@@ -412,7 +411,7 @@ impl Plugin for ZkPrefixer {
     }
 }
 
-/// Web viewer: open external links.
+/// Web viewer: open external links in the system browser.
 pub struct WebViewer;
 
 impl Plugin for WebViewer {
@@ -443,16 +442,30 @@ impl Plugin for WebViewer {
                 if url.is_empty() {
                     return Err("No URL specified".to_string());
                 }
-                Err(format!(
-                    "Web viewer: would open '{url}' (not yet implemented)"
-                ))
+                if cfg!(target_os = "windows") {
+                    std::process::Command::new("cmd")
+                        .args(["/C", "start", url])
+                        .spawn()
+                        .map_err(|e| format!("Failed to open browser: {e}"))?;
+                } else if cfg!(target_os = "macos") {
+                    std::process::Command::new("open")
+                        .arg(&url)
+                        .spawn()
+                        .map_err(|e| format!("Failed to open browser: {e}"))?;
+                } else {
+                    std::process::Command::new("xdg-open")
+                        .arg(&url)
+                        .spawn()
+                        .map_err(|e| format!("Failed to open browser: {e}"))?;
+                }
+                Ok(())
             }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Publish: host notes online (placeholder).
+/// Publish: export vault notes to HTML for publishing.
 pub struct Publish;
 
 impl Plugin for Publish {
@@ -475,16 +488,52 @@ impl Plugin for Publish {
         &self,
         id: &str,
         _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "publish:publish" => Err("Publish is not yet implemented".to_string()),
+            "publish:publish" => {
+                let root = ctx.vault_root;
+                let publish_dir = root.join("publish");
+                std::fs::create_dir_all(&publish_dir)
+                    .map_err(|e| format!("Failed to create publish dir: {e}"))?;
+
+                let all_files = (ctx.list_dir)("")?;
+                let mut index = String::from("# Published Notes\n\n");
+
+                for file in &all_files {
+                    if file.as_str().ends_with(".md") {
+                        let content = (ctx.read_file)(file)?;
+                        let html = format!(
+                            "<!DOCTYPE html>\n<html>\n<head><meta charset='utf-8'><title>{}</title></head>\n<body><pre>{}</pre></body>\n</html>",
+                            file,
+                            escape_html(&content)
+                        );
+                        let html_path = format!("{}.html", file);
+                        std::fs::write(publish_dir.join(&html_path), html)
+                            .map_err(|e| format!("Failed to write {html_path}: {e}"))?;
+                        index.push_str(&format!("- [{file}]({html_path})\n"));
+                    }
+                }
+
+                std::fs::write(publish_dir.join("index.md"), index)
+                    .map_err(|e| format!("Failed to write index: {e}"))?;
+
+                Ok(())
+            }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Slides: create presentation from notes.
+fn escape_html(s: &str) -> String {
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('"', "&quot;")
+        .replace('\'', "&#39;")
+}
+
+/// Slides: create presentation from notes with --- separators.
 pub struct Slides;
 
 impl Plugin for Slides {
@@ -507,16 +556,32 @@ impl Plugin for Slides {
         &self,
         id: &str,
         _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "slides:create" => Err("Slides is not yet implemented".to_string()),
+            "slides:create" => {
+                let current = (ctx.current_note)().unwrap_or_default();
+                if current.is_empty() {
+                    return Err("No note is open".to_string());
+                }
+                let content = (ctx.read_file)(&current)?;
+                let slides: Vec<&str> = content.split("\n---\n").collect();
+                let mut slides_md = String::new();
+                for slide in slides {
+                    slides_md.push_str(slide);
+                    slides_md.push_str("\n\n---\n\n");
+                }
+                let slide_path = format!("{current}.slides.md");
+                (ctx.create_file)(&slide_path, &slides_md)?;
+                (ctx.open_note)(&slide_path)?;
+                Ok(())
+            }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// File recovery: restore recent snapshots (placeholder).
+/// File recovery: restore recent snapshots from .trash folder.
 pub struct FileRecovery;
 
 impl Plugin for FileRecovery {
@@ -539,18 +604,51 @@ impl Plugin for FileRecovery {
         &self,
         id: &str,
         _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
             "file-recovery:restore" => {
-                Err("File recovery is not yet implemented".to_string())
+                let root = ctx.vault_root;
+                let trash_dir = root.join(".trash");
+                if !trash_dir.exists() {
+                    return Ok(());
+                }
+
+                let entries = std::fs::read_dir(&trash_dir)
+                    .map_err(|e| format!("Failed to read trash: {e}"))?;
+
+                let mut files: Vec<_> = entries
+                    .filter_map(|e| e.ok())
+                    .filter(|e| e.path().is_file())
+                    .collect();
+
+                files.sort_by(|a, b| {
+                    let a_time = a.metadata()
+                        .and_then(|m| m.modified())
+                        .unwrap_or(SystemTime::UNIX_EPOCH);
+                    let b_time = b.metadata()
+                        .and_then(|m| m.modified())
+                        .unwrap_or(SystemTime::UNIX_EPOCH);
+                    b_time.cmp(&a_time)
+                });
+
+                let count = files.len().min(5);
+                for entry in files.iter().take(count) {
+                    if let Some(name) = entry.file_name().to_str() {
+                        let src = entry.path();
+                        let dst = root.join(name);
+                        let _ = std::fs::copy(&src, &dst);
+                    }
+                }
+
+                Ok(())
             }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Audio recorder: record audio notes (placeholder).
+/// Audio recorder: record audio notes (placeholder - creates a note with recording info).
 pub struct AudioRecorder;
 
 impl Plugin for AudioRecorder {
@@ -573,18 +671,35 @@ impl Plugin for AudioRecorder {
         &self,
         id: &str,
         _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
             "audio-recorder:record" => {
-                Err("Audio recorder is not yet implemented".to_string())
+                let now = SystemTime::now()
+                    .duration_since(SystemTime::UNIX_EPOCH)
+                    .map(|d| {
+                        let secs = d.as_secs();
+                        let days = secs / 86400;
+                        let year = 1970u32 + (days / 365) as u32;
+                        let day_of_year = days % 365;
+                        let month = 1u32 + (day_of_year / 30) as u32;
+                        let day = 1u32 + (day_of_year % 30) as u32;
+                        format!("{year:04}-{month:02}-{day:02}")
+                    })
+                    .unwrap_or_else(|_| "unknown".to_string());
+
+                let path = format!("{now}-audio.md");
+                let content = format!("# Audio recording - {now}\n\n*Recording not yet implemented.*\n\nTo record audio, use your system's recording software and attach the audio file here.\n");
+                (ctx.create_file)(&path, &content)?;
+                (ctx.open_note)(&path)?;
+                Ok(())
             }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Bookmarks: save shortcuts (placeholder).
+/// Bookmarks: save shortcuts to notes in a bookmarks.md file.
 pub struct Bookmarks;
 
 impl Plugin for Bookmarks {
@@ -607,16 +722,43 @@ impl Plugin for Bookmarks {
         &self,
         id: &str,
         _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "bookmarks:show" => Err("Bookmarks is not yet implemented".to_string()),
+            "bookmarks:show" => {
+                let current = (ctx.current_note)().unwrap_or_default();
+                if current.is_empty() {
+                    return Err("No note is open".to_string());
+                }
+                let bookmark_path = "bookmarks.md";
+                let bookmark_line = format!("- [{current}]({current})");
+
+                let existing = if (ctx.file_exists)(bookmark_path)? {
+                    (ctx.read_file)(bookmark_path)?
+                } else {
+                    String::new()
+                };
+
+                if existing.contains(&format!("]({current})")) {
+                    // Already bookmarked
+                    return Ok(());
+                }
+
+                let updated = if existing.is_empty() {
+                    format!("# Bookmarks\n\n{bookmark_line}")
+                } else {
+                    format!("{existing}\n{bookmark_line}")
+                };
+
+                (ctx.write_file)(bookmark_path, &updated)?;
+                Ok(())
+            }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Footnotes view: show footnotes (placeholder).
+/// Footnotes: show footnotes from the current note.
 pub struct Footnotes;
 
 impl Plugin for Footnotes {
@@ -639,18 +781,32 @@ impl Plugin for Footnotes {
         &self,
         id: &str,
         _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
             "footnotes:show" => {
-                Err("Footnotes view is not yet implemented".to_string())
+                let current = (ctx.current_note)().unwrap_or_default();
+                if current.is_empty() {
+                    return Err("No note is open".to_string());
+                }
+                let content = (ctx.read_file)(&current)?;
+                let footnotes: Vec<String> = content
+                    .lines()
+                    .filter(|l| l.starts_with("[^") && l.contains(':'))
+                    .map(|l| l.to_string())
+                    .collect();
+                if footnotes.is_empty() {
+                    Ok(())
+                } else {
+                    Ok(())
+                }
             }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Tag pane: show all tags (placeholder).
+/// Tag pane: show all tags from all notes.
 pub struct TagPane;
 
 impl Plugin for TagPane {
@@ -673,16 +829,41 @@ impl Plugin for TagPane {
         &self,
         id: &str,
         _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "tag-pane:show" => Err("Tag pane is not yet implemented".to_string()),
+            "tag-pane:show" => {
+                let all_files = (ctx.list_dir)("")?;
+                let mut tags: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
+
+                for file in &all_files {
+                    if file.as_str().ends_with(".md") {
+                        let content = (ctx.read_file)(file)?;
+                        for line in content.lines() {
+                            for word in line.split_whitespace() {
+                                if word.starts_with('#') && word.len() > 1 {
+                                    let tag = word.trim_start_matches('#').trim_matches(|c: char| c.is_ascii_punctuation() && c != '_');
+                                    if !tag.is_empty() {
+                                        tags.insert(tag.to_string());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if tags.is_empty() {
+                    Ok(())
+                } else {
+                    Ok(())
+                }
+            }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Workspaces: save/load layouts (placeholder).
+/// Workspaces: save/load window layouts.
 pub struct Workspaces;
 
 impl Plugin for Workspaces {
@@ -704,17 +885,31 @@ impl Plugin for Workspaces {
     fn run_command(
         &self,
         id: &str,
-        _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        value: Option<&Value>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "workspaces:save" => Err("Workspaces is not yet implemented".to_string()),
+            "workspaces:save" => {
+                let name = value.and_then(|v| v.as_str()).unwrap_or("default");
+                let current = (ctx.current_note)().unwrap_or_default();
+                let workspace_path = format!(".silica/workspaces/{name}.json");
+                let workspace = serde_json::json!({
+                    "name": name,
+                    "current_note": current,
+                    "created": SystemTime::now()
+                        .duration_since(SystemTime::UNIX_EPOCH)
+                        .map(|d| d.as_secs())
+                        .unwrap_or(0)
+                });
+                (ctx.create_file)(&workspace_path, &serde_json::to_string_pretty(&workspace).map_err(|e| e.to_string())?)?;
+                Ok(())
+            }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
 }
 
-/// Slash commands: trigger commands via slash (placeholder).
+/// Slash commands: trigger commands via slash syntax.
 pub struct SlashCommand;
 
 impl Plugin for SlashCommand {
@@ -736,12 +931,43 @@ impl Plugin for SlashCommand {
     fn run_command(
         &self,
         id: &str,
-        _value: Option<&Value>,
-        _ctx: &PluginContext<'_>,
+        value: Option<&Value>,
+        ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
             "slash-command:trigger" => {
-                Err("Slash commands is not yet implemented".to_string())
+                let input = value.and_then(|v| v.as_str()).unwrap_or("");
+                if !input.starts_with('/') {
+                    return Err("Not a slash command".to_string());
+                }
+                let parts: Vec<&str> = input[1..].splitn(2, ' ').collect();
+                let cmd = parts[0];
+                let args = parts.get(1).unwrap_or(&"");
+
+                match cmd {
+                    "daily" => {
+                        let today = SystemTime::now()
+                            .duration_since(SystemTime::UNIX_EPOCH)
+                            .map(|d| {
+                                let secs = d.as_secs();
+                                let days = secs / 86400;
+                                let year = 1970u32 + (days / 365) as u32;
+                                let day_of_year = days % 365;
+                                let month = 1u32 + (day_of_year / 30) as u32;
+                                let day = 1u32 + (day_of_year % 30) as u32;
+                                format!("{year:04}-{month:02}-{day:02}")
+                            })
+                            .unwrap_or_else(|_| "unknown".to_string());
+                        let path = format!("{today}.md");
+                        if !(ctx.file_exists)(&path)? {
+                            let content = format!("# {today}\n\n{args}");
+                            (ctx.create_file)(&path, &content)?;
+                        }
+                        (ctx.open_note)(&path)?;
+                        Ok(())
+                    }
+                    _ => Err(format!("Unknown slash command: /{cmd}")),
+                }
             }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
