@@ -650,11 +650,153 @@ const SUBFOLDER_NAME: TextField = TextField {
     },
 };
 
+/// The accent color shown throughout the app, stored as a hex string like
+/// `#3366cc`. Empty means the theme's default.
+const ACCENT_COLOR: TextField = TextField {
+    key: "accentColor",
+    placeholder: "Default",
+    prefix: "",
+    read: |state| {
+        state
+            .appearance()
+            .accent_color
+            .clone()
+            .unwrap_or_default()
+    },
+    write: |state, value| {
+        let mut next = state.appearance().clone();
+        let value = if value.is_empty() { None } else { Some(value.to_string()) };
+        next.accent_color = value;
+        SettingChange::Appearance(next)
+    },
+};
+
+/// The font used for the UI: side panes, menus, modal text.
+const INTERFACE_FONT_FAMILY: TextField = TextField {
+    key: "interfaceFontFamily",
+    placeholder: "Default",
+    prefix: "",
+    read: |state| {
+        state
+            .appearance()
+            .interface_font_family
+            .clone()
+            .unwrap_or_default()
+    },
+    write: |state, value| {
+        let mut next = state.appearance().clone();
+        let value = if value.is_empty() { None } else { Some(value.to_string()) };
+        next.interface_font_family = value;
+        SettingChange::Appearance(next)
+    },
+};
+
+/// The font used for editing and reading views.
+const TEXT_FONT_FAMILY: TextField = TextField {
+    key: "textFontFamily",
+    placeholder: "Default",
+    prefix: "",
+    read: |state| {
+        state
+            .appearance()
+            .text_font_family
+            .clone()
+            .unwrap_or_default()
+    },
+    write: |state, value| {
+        let mut next = state.appearance().clone();
+        let value = if value.is_empty() { None } else { Some(value.to_string()) };
+        next.text_font_family = value;
+        SettingChange::Appearance(next)
+    },
+};
+
+/// The font used for code blocks and frontmatter.
+const MONOSPACE_FONT_FAMILY: TextField = TextField {
+    key: "monospaceFontFamily",
+    placeholder: "Default",
+    prefix: "",
+    read: |state| {
+        state
+            .appearance()
+            .monospace_font_family
+            .clone()
+            .unwrap_or_default()
+    },
+    write: |state, value| {
+        let mut next = state.appearance().clone();
+        let value = if value.is_empty() { None } else { Some(value.to_string()) };
+        next.monospace_font_family = value;
+        SettingChange::Appearance(next)
+    },
+};
+
+/// The spellcheck languages, stored as a comma-separated list.
+const SPELLCHECK_LANGUAGES: TextField = TextField {
+    key: "spellcheckLanguages",
+    placeholder: "",
+    prefix: "",
+    read: |state| {
+        state
+            .app()
+            .spellcheck_languages
+            .as_ref()
+            .map(|l| l.join(", "))
+            .unwrap_or_default()
+    },
+    write: |state, value| {
+        let mut next = state.app().clone();
+        let langs: Vec<String> = value
+            .split(',')
+            .map(|s| s.trim().to_string())
+            .filter(|s| !s.is_empty())
+            .collect();
+        next.spellcheck_languages = if langs.is_empty() { None } else { Some(langs) };
+        SettingChange::App(next)
+    },
+};
+
+/// The excluded file patterns, stored as a comma-separated list.
+const EXCLUDED_FILES: TextField = TextField {
+    key: "userIgnoreFilters",
+    placeholder: "",
+    prefix: "",
+    read: |state| {
+        state
+            .app()
+            .user_ignore_filters
+            .as_ref()
+            .map(|f| f.join(", "))
+            .unwrap_or_default()
+    },
+    write: |state, value| {
+        let mut next = state.app().clone();
+        let filters: Vec<String> = value
+            .split(',')
+            .map(|s| s.trim().to_string())
+            .filter(|s| !s.is_empty())
+            .collect();
+        next.user_ignore_filters = if filters.is_empty() { None } else { Some(filters) };
+        SettingChange::App(next)
+    },
+};
+
 /// Every slider and text field that writes, for the tests that walk them.
 #[cfg(test)]
 const NUMBERS: &[Number] = &[FONT_SIZE, TAB_SIZE];
 #[cfg(test)]
-const TEXTS: &[TextField] = &[NEW_FILE_FOLDER, ATTACHMENT_FOLDER, SUBFOLDER_NAME];
+const TEXTS: &[TextField] = &[
+    NEW_FILE_FOLDER,
+    ATTACHMENT_FOLDER,
+    SUBFOLDER_NAME,
+    ACCENT_COLOR,
+    INTERFACE_FONT_FAMILY,
+    TEXT_FONT_FAMILY,
+    MONOSPACE_FONT_FAMILY,
+];
+// SPELLCHECK_LANGUAGES and EXCLUDED_FILES write Vec<String>, not a single
+// string, so the string-only TEXTS test doesn't cover them; their write
+// closures are exercised by the write paths themselves.
 
 /// A config file with one setting changed, for the workspace to write.
 #[derive(Clone, Debug, PartialEq)]
@@ -1478,12 +1620,6 @@ impl SettingsView {
 
     fn appearance_items(state: &VaultState) -> Vec<Item> {
         let a = &state.appearance();
-        let font = |family: &Option<String>| -> SharedString {
-            match family.as_deref().map(str::trim) {
-                Some(f) if !f.is_empty() => f.to_string().into(),
-                _ => "Default".into(),
-            }
-        };
         let _snippets = a.enabled_css_snippets.as_ref().map_or(0, |s| s.len());
         let snippet_dir = state
             .vault()
@@ -1509,15 +1645,12 @@ impl SettingsView {
             BASE_COLOR_SCHEME,
         ));
         items.push(
-            text(
+            field(
                 "Accent color",
                 "Choose the accent color used throughout the app.",
-                a.accent_color
-                    .clone()
-                    .filter(|c| !c.is_empty())
-                    .unwrap_or_else(|| "Default".into()),
-            )
-            .not_yet(),
+                state,
+                ACCENT_COLOR,
+            ),
         );
         items.push(field(
             "Themes",
@@ -1555,20 +1688,23 @@ impl SettingsView {
             ));
         }
         items.push(heading("Font"));
-        items.push(text(
+        items.push(field(
             "Interface font",
             "Set base font for all of Obsidian.",
-            font(&a.interface_font_family),
+            state,
+            INTERFACE_FONT_FAMILY,
         ));
-        items.push(text(
+        items.push(field(
             "Text font",
             "Set font for editing and reading views.",
-            font(&a.text_font_family),
+            state,
+            TEXT_FONT_FAMILY,
         ));
-        items.push(text(
+        items.push(field(
             "Monospace font",
             "Set font for places like code blocks and frontmatter.",
-            font(&a.monospace_font_family),
+            state,
+            MONOSPACE_FONT_FAMILY,
         ));
         items.push(slider(
             "Font size",
@@ -1617,11 +1753,6 @@ impl SettingsView {
 
     fn editor_items(state: &VaultState) -> Vec<Item> {
         let app = &state.app();
-        let languages = app
-            .spellcheck_languages
-            .as_ref()
-            .map(|l| l.join(", "))
-            .unwrap_or_default();
         let editor_status = match state.core_plugins().as_ref() {
             Some(CorePlugins::Map(m)) => m.get("editor-status").copied().unwrap_or(true),
             Some(CorePlugins::List(l)) => l.iter().any(|x| x == "editor-status"),
@@ -1708,11 +1839,12 @@ impl SettingsView {
                 app,
                 SPELLCHECK,
             ).not_yet(),
-            text(
+            field(
                 "Spellcheck languages",
                 "Choose the languages for the spellchecker to use.",
-                languages,
-            ).not_yet(),
+                state,
+                SPELLCHECK_LANGUAGES,
+            ),
             app_toggle(
                 "Auto-pair brackets",
                 "Pair brackets and quotes automatically.",
@@ -1761,12 +1893,6 @@ impl SettingsView {
 
     fn files_items(state: &VaultState) -> Vec<Item> {
         let app = &state.app();
-        let excluded = app
-            .user_ignore_filters
-            .as_ref()
-            .filter(|f| !f.is_empty())
-            .map(|f| f.join(", "))
-            .unwrap_or_else(|| "None".into());
         let config_dir = state.vault().config_dir().to_string();
         let mut items = vec![
             app_toggle(
@@ -1877,11 +2003,12 @@ impl SettingsView {
                 TRASH_OPTION,
             ),
             heading("Advanced"),
-            text(
+            field(
                 "Excluded files",
                 "Excluded files will be hidden in Search, Graph View, and Unlinked Mentions, less noticeable in Quick Switcher and link suggestions.",
-                excluded,
-            ).not_yet(),
+                state,
+                EXCLUDED_FILES,
+            ),
             text(
                 "Override config folder",
                 "Use a different config folder than the default one. Must start with a dot.",
