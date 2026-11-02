@@ -86,6 +86,102 @@ pub struct RunCommand {
     pub id: String,
 }
 
+/// What was right-clicked in a side-pane (Tags, All properties, Outline).
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum SidePaneTarget {
+    /// A tag row: right-click searches for the tag.
+    Tag(String),
+    /// A property key row: right-click searches for notes with that property.
+    Property(String),
+    /// An outline heading row: right-click opens the heading's note.
+    Heading(String),
+    /// The empty space below the last row: no items.
+    Blank,
+}
+
+/// One row of a side-pane context menu: what Obsidian draws, and the action
+/// Silica emits when it is clicked.
+struct SidePaneMenuItem {
+    label: &'static str,
+    icon: &'static str,
+    action: SidePaneAction,
+}
+
+/// A context menu over a side-pane row.
+struct SidePaneMenu {
+    position: gpui::Point<Pixels>,
+    target: SidePaneTarget,
+}
+
+/// The menu for a side-pane target, in Obsidian's order.
+fn side_menu_items(target: &SidePaneTarget) -> Vec<SidePaneMenuItem> {
+    use SidePaneAction as A;
+    let item = |label, icon, action| SidePaneMenuItem { label, icon, action };
+    match target {
+        SidePaneTarget::Tag(tag) => vec![
+            item(
+                "Search for \"#tag\"",
+                "search",
+                A::SearchTag(tag.clone()),
+            ),
+            item(
+                "Rename tag...",
+                "pen-line",
+                A::RenameTag(tag.clone()),
+            ),
+            item(
+                "Copy tag",
+                "clipboard",
+                A::CopyTag(tag.clone()),
+            ),
+        ],
+        SidePaneTarget::Property(key) => vec![
+            item(
+                "Search for property",
+                "search",
+                A::SearchProperty(key.clone()),
+            ),
+            item(
+                "Copy property",
+                "clipboard",
+                A::CopyProperty(key.clone()),
+            ),
+        ],
+        SidePaneTarget::Heading(path) => vec![
+            item(
+                "Open note",
+                "file-text",
+                A::OpenHeading(path.clone()),
+            ),
+            item(
+                "Open note in new tab",
+                "file-plus",
+                A::OpenHeadingInNewTab(path.clone()),
+            ),
+            item(
+                "Open note to the right",
+                "separator-vertical",
+                A::OpenHeadingToRight(path.clone()),
+            ),
+        ],
+        SidePaneTarget::Blank => vec![],
+    }
+}
+
+/// Actions emitted by side-pane context menu items.
+#[derive(Debug, Clone, PartialEq, Action)]
+#[action(namespace = workspace, no_json)]
+pub enum SidePaneAction {
+    SearchTag(String),
+    RenameTag(String),
+    CopyTag(String),
+    SearchProperty(String),
+    CopyProperty(String),
+    OpenHeading(String),
+    OpenHeadingInNewTab(String),
+    OpenHeadingToRight(String),
+}
+
 /// The command registry with the vault's `hotkeys.json` applied.
 pub struct Commands(pub Arc<CommandRegistry>);
 
@@ -2603,6 +2699,11 @@ pub struct Workspace {
     /// Where the pointer was when a pane's sort button was clicked: the
     /// menu opens there, its top-right corner at the click, as Obsidian's does.
     sort_menu_at: gpui::Point<Pixels>,
+    /// Where the pointer was when a side-pane row was right-clicked: the
+    /// context menu opens there, anchored top-left, as Obsidian's does.
+    side_menu_at: gpui::Point<Pixels>,
+    /// A right-click context menu over a side-pane row, if one is open.
+    side_menu: Option<SidePaneMenu>,
     /// The Backlinks pane's search filter (`searchQuery`).
     backlink_filter: Entity<TextInput>,
     /// Every tag in the vault as a tree, sorted the way the Tags pane is.
@@ -3109,6 +3210,8 @@ impl Workspace {
             backlink_state: BacklinkState::default(),
             outgoing_state: OutgoingState::default(),
             sort_menu_at: point(px(0.), px(0.)),
+            side_menu_at: point(px(0.), px(0.)),
+            side_menu: None,
             backlink_filter,
             tag_tree: Vec::new(),
             tag_state: TagPaneState::default(),
@@ -12786,6 +12889,120 @@ impl Workspace {
         )
     }
 
+    /// Opens the side-pane context menu at the pointer's position, as
+    /// Obsidian's right-click on a Tags/All properties/Outline row does.
+    fn open_side_menu(
+        &mut self,
+        position: gpui::Point<Pixels>,
+        target: SidePaneTarget,
+        cx: &mut Context<Self>,
+    ) {
+        self.side_menu_at = position;
+        self.side_menu = Some(SidePaneMenu { position, target });
+        cx.notify();
+    }
+
+    /// Closes the open context menu, as clicking outside one does.
+    fn close_side_menu(&mut self, cx: &mut Context<Self>) {
+        if self.side_menu.take().is_some() {
+            cx.notify();
+        }
+    }
+
+    /// The right-click context menu over a side-pane row.
+    fn render_side_menu(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> Option<gpui::AnyElement> {
+        let menu = self.side_menu.as_ref()?;
+        let items = side_menu_items(&menu.target);
+        let mut list = div()
+            .id("side-menu")
+            .flex()
+            .flex_col()
+            .min_w(px(196.))
+            .py_1()
+            .bg(theme.bg_secondary)
+            .border_1()
+            .border_color(theme.border)
+            .rounded_md()
+            .shadow_lg()
+            .text_size(px(13.))
+            .text_color(theme.text)
+            .occlude()
+            .on_mouse_down_out(cx.listener(move |this, _, _, cx| {
+                this.close_side_menu(cx);
+            }));
+        for (ix, item) in items.into_iter().enumerate() {
+            if ix > 0 {
+                list = list.child(div().my_1().h(px(1.)).bg(theme.border));
+            }
+            list = list.child(
+                div()
+                    .id(("side-menu-item", ix))
+                    .flex()
+                    .items_center()
+                    .gap_2()
+                    .px_3()
+                    .py_1()
+                    .cursor_pointer()
+                    .hover(|s| s.bg(theme.bg_alt))
+                    .on_click(cx.listener(move |this, _, _, cx| {
+                        this.close_side_menu(cx);
+                        this.handle_side_menu_action(&item.action, cx);
+                        cx.notify();
+                    }))
+                    .child(crate::assets::icon(item.icon, 16., theme.text_muted))
+                    .child(item.label),
+            );
+        }
+        Some(
+            deferred(
+                anchored()
+                    .position(menu.position)
+                    .anchor(Anchor::TopLeft)
+                    .snap_to_window_with_margin(px(8.))
+                    .child(list),
+            )
+            .with_priority(1)
+            .into_any_element(),
+        )
+    }
+
+    /// Handles a side-pane context menu action: searches for tags/properties,
+    /// copies paths, or opens outline headings.
+    fn handle_side_menu_action(&mut self, action: &SidePaneAction, cx: &mut Context<Self>) {
+        match action {
+            SidePaneAction::SearchTag(tag) => {
+                self.show_search(&format!("tag:#{tag}"), None, cx);
+            }
+            SidePaneAction::RenameTag(_tag) => {
+                // Tag renaming is not yet implemented: Obsidian's rename
+                // rewrites every occurrence across the vault, which requires
+                // a vault-wide scan and link repair that is not yet built.
+            }
+            SidePaneAction::CopyTag(tag) => {
+                self.copy_path(tag, cx);
+            }
+            SidePaneAction::SearchProperty(key) => {
+                self.show_search(&format!("[\"{key}\"]"), None, cx);
+            }
+            SidePaneAction::CopyProperty(key) => {
+                self.copy_path(key, cx);
+            }
+            SidePaneAction::OpenHeading(path) => {
+                self.open_file(path.clone(), None, cx);
+            }
+            SidePaneAction::OpenHeadingInNewTab(path) => {
+                self.open_in_new_tab(path.clone(), None, cx);
+            }
+            SidePaneAction::OpenHeadingToRight(path) => {
+                self.open_in_new_tab(path.clone(), None, cx);
+            }
+        }
+    }
+
     /// Obsidian's `tree-item-self`: 25 px tall at a 27 px pitch,
     /// `padding: 4px 8px 4px 24px` with 17 px more on the left per level of
     /// depth, an 8 px radius, 13 px muted text that brightens under the
@@ -12805,6 +13022,7 @@ impl Workspace {
         active: bool,
         theme: &Theme,
         cx: &mut Context<Self>,
+        on_right_click: Option<Box<dyn Fn(&mut Self, gpui::Point<Pixels>, &mut Context<Self>)>>,
     ) -> gpui::Stateful<gpui::Div> {
         let text_x = 24. + 17. * depth as f32;
         let gutter = match (fold, icon_name) {
@@ -12874,6 +13092,15 @@ impl Workspace {
             .cursor_pointer()
             .when(active, |d| d.bg(theme.bg_alt))
             .hover(|s| s.bg(theme.bg_alt))
+            .on_mouse_down(
+                MouseButton::Right,
+                cx.listener(move |this, event: &gpui::MouseDownEvent, _, cx| {
+                    if let Some(on_right_click) = &on_right_click {
+                        cx.stop_propagation();
+                        on_right_click(this, event.position, cx);
+                    }
+                }),
+            )
             // Obsidian's `tree-item-children` guides: a hairline 12 px in
             // from each ancestor's text, the row's full pitch tall.
             .children((1..=depth).map(|k| {
@@ -12993,6 +13220,7 @@ impl Workspace {
             .pb(px(32.));
         for (ix, row) in rows.into_iter().enumerate() {
             let path = row.path.clone();
+            let path_for_menu = path.clone();
             let fold = row.has_children.then(|| {
                 let key = row.key.clone();
                 let on_fold: FoldAction =
@@ -13016,6 +13244,9 @@ impl Workspace {
                     false,
                     theme,
                     cx,
+                    Some(Box::new(move |this, position, cx| {
+                        this.open_side_menu(position, SidePaneTarget::Tag(path_for_menu.clone()), cx);
+                    })),
                 )
                 .on_click(cx.listener(move |this, _, window, cx| {
                     this.show_search(&format!("tag:#{path}"), Some(window), cx);
@@ -13091,20 +13322,24 @@ impl Workspace {
             .pb(px(32.));
         for (ix, row) in rows.into_iter().enumerate() {
             let name = row.name.clone();
+            let name_for_menu = name.clone();
             list = list.child(
                 Self::tree_row(
                     ("property-row", ix),
                     0,
                     None,
                     Some(row.icon),
-                    Self::tree_label(row.name.clone()),
+                    Self::tree_label(name.clone()),
                     Some(row.count.to_string().into()),
                     false,
                     theme,
                     cx,
+                    Some(Box::new(move |this, position, cx| {
+                        this.open_side_menu(position, SidePaneTarget::Property(name_for_menu.clone()), cx);
+                    })),
                 )
                 .on_click(cx.listener(move |this, _, window, cx| {
-                    this.show_search(&format!("[\"{name}\"]"), Some(window), cx);
+                    this.show_search(&format!("[\\\"{name}\\\"]"), Some(window), cx);
                 })),
             );
         }
@@ -13251,6 +13486,7 @@ impl Workspace {
                         row.active,
                         theme,
                         cx,
+                    None,
                     )
                     .on_click(cx.listener(move |this, _, _, cx| this.reveal_heading(offset, cx))),
                 );
@@ -13394,6 +13630,7 @@ impl Workspace {
                     .when(mac, |d| d.child(self.sidebar_toggle(false, theme, cx))),
             )
             .child(div().flex_1().overflow_hidden().child(body))
+            .children(self.render_side_menu(&theme, cx))
             .child(self.dock_handle(false, theme))
     }
 }
