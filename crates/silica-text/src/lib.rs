@@ -19,6 +19,7 @@ pub mod find;
 pub mod format;
 pub mod lists;
 mod plan;
+mod spell;
 pub mod table;
 pub mod wrap;
 
@@ -29,3 +30,4 @@ pub use buffer::{
 pub use format::BlockInsert;
 pub use format::{LinePrefix, LinkSyntax};
 pub use plan::{indent_plan, newline_plan, shifted};
+pub use spell::SpellChecker;

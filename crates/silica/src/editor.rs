@@ -38,7 +38,7 @@ use gpui::{
     Bounds, ClipboardItem, Context, CursorStyle, DispatchPhase, Element, ElementId,
     ElementInputHandler, Entity, EntityInputHandler, EventEmitter, FocusHandle, Focusable, Font,
     FontStyle, FontWeight, GlobalElementId, Hitbox, HitboxBehavior, Hsla, InspectorElementId,
-    KeyBinding, KeyDownEvent, LayoutId, Modifiers, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PaintQuad,
+    KeyBinding, KeyDownEvent, LayoutId, Modifiers, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PaintQuad, PathBuilder,
     Pixels, Point, ScrollWheelEvent, SharedString, StrikethroughStyle, Style, Subscription, Task,
     TextAlign, TextRun, TextStyle, UTF16Selection, UnderlineStyle, Window, WrappedLine,
     WeakEntity,
@@ -52,7 +52,7 @@ use silica_suggest::{self as suggest, Accept, BlockId, Suggestion};
 use silica_text::table::{self, TableCommand};
 use silica_text::{
     autopair, find, shifted, wrap, BlockInsert, Cursor, Cursors, EditKind, LinePrefix, LinkSyntax,
-    Sel, TextBuffer,
+    Sel, SpellChecker, TextBuffer,
 };
 use std::collections::{HashMap, HashSet};
 use std::ops::Range;
@@ -666,6 +666,8 @@ pub struct Editor {
     /// Whether text direction is right-to-left (`rightToLeft`). When on,
     /// lines are aligned to the right and shaped RTL.
     right_to_left: bool,
+    /// The spell checker: dictionary and misspelled-word positions.
+    spellchecker: SpellChecker,
     /// Live Preview: markers hidden and constructs rendered in place,
     /// except where the cursor is.
     live_preview: bool,
@@ -769,6 +771,7 @@ impl Editor {
             vim_insert_mode: false,
             spellcheck: false,
             right_to_left: false,
+            spellchecker: SpellChecker::new(),
             live_preview: false,
             smart_indent_list: true,
             use_tab: true,
@@ -5107,6 +5110,8 @@ struct Prepaint {
     font_size: Pixels,
     text_style: TextStyle,
     wrap_width: Option<Pixels>,
+    /// Content width used for RTL mirroring of cursor and selection.
+    content_width: Pixels,
     content_x: Pixels,
     /// Width of the line-number gutter when `show_line_number`; zero otherwise.
     line_number_gutter: Pixels,
@@ -5114,6 +5119,9 @@ struct Prepaint {
     /// `show_indent_guide` is on. One segment per tab level per indented
     /// visible line.
     indent_guides: Vec<(Pixels, Pixels, Pixels)>,
+    /// Misspelled-word squiggly underlines: `(x, top, width)`,
+    /// painted when `spellcheck` is on. One segment per misspelled word.
+    spellcheck_words: Vec<(Pixels, Pixels, Pixels)>,
     selection: Vec<PaintQuad>,
     cursors: Vec<PaintQuad>,
     cursor_line: Option<Arc<Shaped>>,
@@ -5670,9 +5678,14 @@ impl Element for EditorElement {
                                 x1 += font_size * 0.4;
                             }
                             if x1 > x0 {
+                                let sel_x = if editor.right_to_left {
+                                    content_x + content_width - x1
+                                } else {
+                                    content_x + x0
+                                };
                                 selection_quads.push(fill(
                                     Bounds::new(
-                                        point(content_x + x0, y + rh * r as f32),
+                                        point(sel_x, y + rh * r as f32),
                                         size(x1 - x0, rh),
                                     ),
                                     palette.selection,
@@ -5682,9 +5695,14 @@ impl Element for EditorElement {
                     }
                     if sel.head >= range.start && sel.head <= range.end {
                         let (row, x) = shaped.row_and_x(sel.head - range.start);
+                        let cursor_x = if editor.right_to_left {
+                            content_x + content_width - x - px(2.)
+                        } else {
+                            content_x + x
+                        };
                         cursor_quads.push(fill(
                             Bounds::new(
-                                point(content_x + x, y + rh * row as f32),
+                                point(cursor_x, y + rh * row as f32),
                                 size(px(2.), rh),
                             ),
                             palette.text,
@@ -5799,6 +5817,25 @@ impl Element for EditorElement {
             } else {
                 Vec::new()
             };
+
+            // Spellcheck: find misspelled words on visible lines and
+            // compute their paint rectangles for squiggly underlines.
+            let spellcheck_words = if editor.spellcheck {
+                let mut words = Vec::new();
+                for (visible, shaped) in &lines {
+                    let text = editor.buf.line_text(visible.line);
+                    for (start, end) in editor.spellchecker.misspelled(text) {
+                        let unwrapped = &shaped.line.unwrapped_layout;
+                        let start_x = unwrapped.x_for_index(start);
+                        let end_x = unwrapped.x_for_index(end);
+                        words.push((start_x, visible.top + visible.row_height - px(2.), end_x - start_x));
+                    }
+                }
+                words
+            } else {
+                Vec::new()
+            };
+
             Prepaint {
                 lines,
                 hitbox,
@@ -5809,9 +5846,11 @@ impl Element for EditorElement {
                 font_size,
                 text_style,
                 wrap_width,
+                content_width,
                 content_x,
                 line_number_gutter: gutter,
                 indent_guides,
+                spellcheck_words,
                 selection: selection_quads,
                 cursors: cursor_quads,
                 cursor_line,
@@ -5844,6 +5883,7 @@ impl Element for EditorElement {
         let content_x = prepaint.content_x;
         let font_size = prepaint.font_size;
         let text_color = self.editor.read(cx).palette.text;
+        let right_to_left = self.editor.read(cx).right_to_left;
         window.with_content_mask(Some(gpui::ContentMask { bounds }), |window| {
             for quad in prepaint.decor.drain(..) {
                 window.paint_quad(quad);
@@ -5861,6 +5901,25 @@ impl Element for EditorElement {
                     Bounds::new(point(*x, bounds.origin.y + *top), size(px(1.), *height)),
                     guide,
                 ));
+            }
+            // Spellcheck squiggly underlines: draw a sine-wave path under
+            // each misspelled word.
+            let palette = &self.editor.read(cx).palette;
+            let mut misspelled = palette.text;
+            misspelled.a = 1.0;
+            for (x, top, width) in &prepaint.spellcheck_words {
+                let mut path_builder = PathBuilder::fill();
+                let baseline = bounds.origin.y + *top + px(6.);
+                let steps = 8;
+                let step_w = *width / steps as f32;
+                path_builder.move_to(point(*x, baseline));
+                for s in 1..=steps {
+                    let t = s as f32 * std::f32::consts::PI * 2.0 / steps as f32;
+                    let y = baseline + t.sin() * px(2.);
+                    path_builder.line_to(point(*x + step_w * s as f32, y));
+                }
+                let path = path_builder.build().unwrap();
+                window.paint_path(path, misspelled);
             }
             for (visible, shaped) in prepaint.lines.iter() {
                 let origin = point(content_x, bounds.origin.y + visible.top);
@@ -5893,7 +5952,7 @@ impl Element for EditorElement {
                 let _ = shaped.line.paint_background(
                     origin,
                     visible.row_height,
-                    TextAlign::Left,
+                    if right_to_left { TextAlign::Right } else { TextAlign::Left },
                     None,
                     window,
                     cx,
@@ -5901,7 +5960,7 @@ impl Element for EditorElement {
                 let _ = shaped.line.paint(
                     origin,
                     visible.row_height,
-                    TextAlign::Left,
+                    if right_to_left { TextAlign::Right } else { TextAlign::Left },
                     None,
                     window,
                     cx,
