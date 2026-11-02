@@ -22,6 +22,7 @@ use gpui::{
     ListOffset, ListState, MouseButton, ObjectFit, Pixels, SharedString, StrikethroughStyle,
     StyledText, Task, TextRun, UnderlineStyle, WeakEntity, Window, WindowTextSystem,
 };
+use rodio::{OutputStream, OutputStreamHandle, Sink};
 use serde_json::{json, Value};
 use silica_formats::config::PropertyTypes;
 use silica_formats::properties::{Change, PropertiesInDocument, Property, PropertyType};
@@ -249,6 +250,21 @@ pub struct ReadingView {
     /// Width of the view as last painted; tables lay their columns out for it.
     width: Pixels,
     pub preview_resolver: Option<PreviewHandler>,
+}
+
+/// Global audio player for local audio file embeds. Single-window app,
+/// so a module-level static is sufficient. `unsafe` is safe here because
+/// GPUI runs all event handlers on the main thread.
+static mut AUDIO_PLAYER: Option<AudioPlayer> = None;
+
+/// An audio player for local audio file embeds. Holds one output stream,
+/// one sink (which can play multiple sources sequentially, though we only
+/// play one at a time), and play/pause state.
+struct AudioPlayer {
+    _stream: OutputStream,
+    handle: OutputStreamHandle,
+    sink: Sink,
+    is_playing: bool,
 }
 
 impl EventEmitter<ReadingEvent> for ReadingView {}
@@ -1613,10 +1629,9 @@ impl<'a> Renderer<'a> {
                     });
                 crate::pdf::embed::render(pdf, t, self.available, open)
             }
-            // `![[x.mp3]]` / `![[x.mp4]]` and remote audio/video URLs render a
-            // play button that opens the file in the system's default player.
-            // GPUI has no media element, so this is the dependency-free path.
-            EmbedKind::Audio(path) | EmbedKind::Video(path) => {
+            // `![[x.mp3]]` local audio plays in Silica's own player (rodio).
+            // Local video and remote media open in the system's default player.
+            EmbedKind::Video(path) => {
                 let label = path
                     .file_name()
                     .and_then(|n| n.to_str())
@@ -1632,11 +1647,62 @@ impl<'a> Renderer<'a> {
                     .py_3()
                     .cursor_pointer()
                     .hover(|s| s.bg(t.bg_alt))
-                    .id(("media-play", embed.link.len()))
+                    .id(("video-play", embed.link.len()))
                     .on_click(move |_, _, cx| {
                         cx.open_url(&target);
                     })
                     .child(SharedString::from("▶ "))
+                    .child(SharedString::from(label))
+                    .into_any_element()
+            }
+            EmbedKind::Audio(path) => {
+                let label = path
+                    .file_name()
+                    .and_then(|n| n.to_str())
+                    .unwrap_or(&embed.link)
+                    .to_string();
+                let is_playing = unsafe { AUDIO_PLAYER.as_ref().map_or(false, |p| p.is_playing) };
+                let path_clone = path.clone();
+                div()
+                    .my_1()
+                    .border_1()
+                    .border_color(t.border)
+                    .rounded_md()
+                    .px_4()
+                    .py_3()
+                    .cursor_pointer()
+                    .hover(|s| s.bg(t.bg_alt))
+                    .id(("audio-player", embed.link.len()))
+                    .on_click(move |_, _, _cx| {
+                        unsafe {
+                            if let Some(player) = AUDIO_PLAYER.as_mut() {
+                                if player.is_playing {
+                                    player.sink.pause();
+                                    player.is_playing = false;
+                                } else {
+                                    player.sink.play();
+                                    player.is_playing = true;
+                                }
+                            } else if let Ok((stream, handle)) =
+                                rodio::OutputStream::try_default()
+                            {
+                                if let Ok(file) = std::fs::File::open(&path_clone) {
+                                    if let Ok(source) = rodio::Decoder::new(file) {
+                                        let sink = rodio::Sink::try_new(&handle).unwrap();
+                                        sink.append(source);
+                                        sink.play();
+                                        AUDIO_PLAYER = Some(AudioPlayer {
+                                            _stream: stream,
+                                            handle,
+                                            sink,
+                                            is_playing: true,
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .child(SharedString::from(if is_playing { "⏸ " } else { "▶ " }))
                     .child(SharedString::from(label))
                     .into_any_element()
             }

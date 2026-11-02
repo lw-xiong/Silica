@@ -23,7 +23,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.3.8"
+version = "0.3.9"
 edition = "2021"
 rust-version = "1.85"
 repository = "https://github.com/lw-xiong/Silica.git"
@@ -86,6 +86,7 @@ ratex-katex-fonts = "0.1.15"
 # database prunes a face with no `m` glyph (every KaTeX size face) and cannot
 # tell the KaTeX italics from the uprights (no italic flag in the files).
 ab_glyph = "0.2"
+rodio = "0.16"
 # Already in the tree through gpui; crates/silica/build.rs compiles the icon
 # and VERSIONINFO into silica.exe with it, and does nothing off Windows.
 embed-resource = "3"

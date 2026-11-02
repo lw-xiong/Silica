@@ -53,6 +53,7 @@ image.workspace = true
 mermaid-rs-renderer.workspace = true
 resvg.workspace = true
 usvg.workspace = true
+rodio.workspace = true
 
 [build-dependencies]
 embed-resource.workspace = true

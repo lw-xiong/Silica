@@ -10,7 +10,7 @@
   <img alt="Rust" src="https://img.shields.io/badge/100%25-Rust-E8590C?style=flat-square&logo=rust&logoColor=white">
   <img alt="Linux, Windows, macOS" src="https://img.shields.io/badge/Linux%20%7C%20Windows%20%7C%20macOS-2b2b2b?style=flat-square">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2b2b2b?style=flat-square">
-  <img alt="v0.3.8" src="https://img.shields.io/badge/status-early%20alpha%20·%20v0.3.8-f2545b?style=flat-square">
+  <img alt="v0.3.9" src="https://img.shields.io/badge/status-early%20alpha%20·%20v0.3.9-f2545b?style=flat-square">
 </p>
 
 Silica is a native knowledge base written in Rust on [GPUI](https://gpui.rs), built to open [Obsidian](https://obsidian.md) vaults unchanged: same folder, same `.obsidian` configuration, same Markdown dialect, same `.canvas` and `.base` files. There is no import step, no conversion and no second copy of anything. It is an independent implementation and is not affiliated with Obsidian.
@@ -65,7 +65,7 @@ What works today, measured against Obsidian:
 
 Factual gaps versus upstream Obsidian:
 
-**Rendering** — Math typeset with a KaTeX-compatible engine rather than MathJax (MathJax-only commands show source in red; no `\require` extension loader); HTML in notes parsed and shown as literal text; remote images `![](https://…)` load via the HTTP client with disk caching; PDF viewer has toolbar/sidebar/find bar and `![[x.pdf]]` embeds, but text cannot be selected or copied and there is no export; audio and video recognized as file kinds with no player.
+**Rendering** — Math typeset with a KaTeX-compatible engine rather than MathJax (MathJax-only commands show source in red; no `\require` extension loader); HTML in notes parsed and shown as literal text; remote images `![](https://…)` load via the HTTP client with disk caching; PDF viewer has toolbar/sidebar/find bar and `![[x.pdf]]` embeds, but text cannot be selected or copied and there is no export; local audio `![[x.mp3]]` plays in Silica's own player (rodio play/pause button); local video and remote media open in the system's default player.
 
 **Views** — Bases YAML format round-trips but there is no base view (canvas has one); `![[Board.canvas]]` opens in its own view rather than embedded in a note; no popout windows; tabs and split groups exist but stacking does not; one vault per window (run Silica once per vault); local graph is a full view, not a side pane; graph depth beyond 1, arrows, timelapse and screenshot export not supported.
 
