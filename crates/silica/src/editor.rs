@@ -650,6 +650,9 @@ pub struct Editor {
     readable_line_length: bool,
     /// Whether line numbers are painted in the gutter (`showLineNumber`).
     show_line_number: bool,
+    /// Whether vertical indent guides are painted under indented lines
+    /// (`showIndentGuide`).
+    show_indent_guide: bool,
     /// Live Preview: markers hidden and constructs rendered in place,
     /// except where the cursor is.
     live_preview: bool,
@@ -748,6 +751,7 @@ impl Editor {
             parse_queued: false,
             readable_line_length: true,
             show_line_number: false,
+            show_indent_guide: true,
             live_preview: false,
             smart_indent_list: true,
             use_tab: true,
@@ -855,6 +859,10 @@ impl Editor {
 
     pub fn set_show_line_number(&mut self, on: bool) {
         self.show_line_number = on;
+    }
+
+    pub fn set_show_indent_guide(&mut self, on: bool) {
+        self.show_indent_guide = on;
     }
 
     /// Switches between Live Preview and Source mode. Widgets are only
@@ -5069,6 +5077,10 @@ struct Prepaint {
     content_x: Pixels,
     /// Width of the line-number gutter when `show_line_number`; zero otherwise.
     line_number_gutter: Pixels,
+    /// Vertical indent-guide segments: `(x, top, height)`, painted when
+    /// `show_indent_guide` is on. One segment per tab level per indented
+    /// visible line.
+    indent_guides: Vec<(Pixels, Pixels, Pixels)>,
     selection: Vec<PaintQuad>,
     cursors: Vec<PaintQuad>,
     cursor_line: Option<Arc<Shaped>>,
@@ -5612,6 +5624,30 @@ impl Element for EditorElement {
                 });
             let last_top = editor.last_top_line(window);
             let scrollbar = Scrollbar::layout(track, count, first, last_top, fits);
+            // Indent guides: one vertical segment per tab level under each
+            // indented visible line, at content_x + tab_size * level.
+            let indent_guides = if editor.show_indent_guide {
+                let tab_size_px = font_size * editor.tab_size as f32;
+                let mut guides = Vec::new();
+                for (visible, _) in &lines {
+                    let text = editor.buf.line_text(visible.line);
+                    let mut tabs = 0usize;
+                    for ch in text.chars() {
+                        if ch == '\t' {
+                            tabs += 1;
+                        } else {
+                            break;
+                        }
+                    }
+                    for level in 0..tabs {
+                        let x = content_x + tab_size_px * (level + 1) as f32;
+                        guides.push((x, visible.top, visible.height()));
+                    }
+                }
+                guides
+            } else {
+                Vec::new()
+            };
             Prepaint {
                 lines,
                 hitbox,
@@ -5624,6 +5660,7 @@ impl Element for EditorElement {
                 wrap_width,
                 content_x,
                 line_number_gutter: gutter,
+                indent_guides,
                 selection: selection_quads,
                 cursors: cursor_quads,
                 cursor_line,
@@ -5662,6 +5699,17 @@ impl Element for EditorElement {
             }
             for quad in prepaint.selection.drain(..) {
                 window.paint_quad(quad);
+            }
+            // Indent guides: faint vertical lines under indented lines,
+            // painted behind the text.
+            let palette = &self.editor.read(cx).palette;
+            let mut guide = palette.muted;
+            guide.a = 0.25;
+            for (x, top, height) in &prepaint.indent_guides {
+                window.paint_quad(fill(
+                    Bounds::new(point(*x, bounds.origin.y + *top), size(px(1.), *height)),
+                    guide,
+                ));
             }
             for (visible, shaped) in prepaint.lines.iter() {
                 let origin = point(content_x, bounds.origin.y + visible.top);

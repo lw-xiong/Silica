@@ -1825,7 +1825,7 @@ impl SettingsView {
                 "Show vertical relationship lines between list items.",
                 app,
                 SHOW_INDENT_GUIDE,
-            ).not_yet(),
+            ),
             app_toggle(
                 "Right-to-left (RTL)",
                 "Sets the default text direction of notes to right-to-left.",
@@ -3645,6 +3645,7 @@ mod tests {
                 "Fold heading",
                 "Fold indent",
                 "Line numbers",
+                "Indentation guides",
                 "Auto-pair brackets",
                 "Auto-pair Markdown syntax",
                 "Smart lists",
