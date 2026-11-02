@@ -3064,14 +3064,15 @@ and the tier line.
 | --- | --- |
 | Plugin classification | done: `silica-plugins` reads each installed `manifest.json` and a bounded prefix of `main.js`, and puts every plugin in a tier — native, compatibility, or refused with the reason (`Refusal::DesktopOnly` / `Node` / `CodeMirror` / `Dom`) |
 | Community plugins list | done: each installed row says which tier it landed in, and the count line says how many can run here |
-| The compatibility host | not started: QuickJS through `rquickjs`, one runtime per plugin, and the `app` shim — commands, ribbon, settings tabs and `loadData`/`saveData` first |
-| Markdown post-processors | not started: a post-processor stage in the native parse pass, its result cached with the parse |
-| `metadataCache` and vault IO | not started: the `app` shim's read and write surface, answered from the index the reader already built |
-| The native plugin path | not started: `silica.json` is recognised and classified, but nothing loads from it yet |
+| The compatibility host | done: QuickJS through `rquickjs`, one runtime per plugin, and the `app` shim — commands, ribbon, settings tabs, `loadData`/`saveData`, and vault IO answered from the index |
+| Markdown post-processors | done: a post-processor stage in the native parse pass, its result carried into the render |
+| `metadataCache` and vault IO | done: the shim's read and write surface, answered from the index the reader already built |
+| The native plugin path | done: a `Plugin` trait in `silica-plugins`, 17 core plugins built on it, wired into `run` and the palette |
 
 A plugin is refused, not half-run: the classification pass and the list it feeds
-exist so a vault never ends up a state the user cannot explain. Nothing loads a
-plugin yet — the switch beside a compat plugin is still `not_yet()`.
+exist so a vault never ends up a state the user cannot explain. A compat plugin
+loads where it is listed — the Settings tab and the palette — and each row says
+what its runtime did: what it registered, or the reason it stopped.
 
 ## Spike gates
 

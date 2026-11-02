@@ -1676,19 +1676,19 @@ impl SettingsView {
                 "Lets you fold all content under a heading.",
                 app,
                 FOLD_HEADING,
-            ).not_yet(),
+            ),
             app_toggle(
                 "Fold indent",
                 "Lets you fold part of an indentation, such as lists.",
                 app,
                 FOLD_INDENT,
-            ).not_yet(),
+            ),
             app_toggle(
                 "Line numbers",
                 "Show line numbers in the gutter.",
                 app,
                 SHOW_LINE_NUMBER,
-            ).not_yet(),
+            ),
             app_toggle(
                 "Indentation guides",
                 "Show vertical relationship lines between list items.",
@@ -1856,7 +1856,7 @@ impl SettingsView {
                 "Auto-generate Wikilinks for [[links]] and ![[images]] instead of Markdown links and images.",
                 app,
                 USE_WIKILINKS,
-            ).not_yet(),
+            ),
             app_toggle(
                 "Show all file types",
                 "Show files with any extension even if Obsidian can't open them natively, so you can link to them and see them in the file explorer.",
@@ -1973,6 +1973,9 @@ impl SettingsView {
                 });
                 match loaded {
                     Some(said) => {
+                        if !detail.ends_with('.') {
+                            detail.push('.');
+                        }
                         detail.push(' ');
                         detail.push_str(&said);
                     }
@@ -3512,11 +3515,15 @@ mod tests {
                 "Show ribbon",
                 "Readable line length",
                 "Strict line breaks",
+                "Fold heading",
+                "Fold indent",
+                "Line numbers",
                 "Auto-pair brackets",
                 "Auto-pair Markdown syntax",
                 "Smart lists",
                 "Indent using tabs",
                 "Automatically update internal links",
+                "Use [[Wikilinks]]",
                 "Show all file types",
                 "Confirm before deleting files",
                 // The Quick switcher tab's three, read by `QuickSwitcher::set_state`.
