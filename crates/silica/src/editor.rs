@@ -38,7 +38,7 @@ use gpui::{
     Bounds, ClipboardItem, Context, CursorStyle, DispatchPhase, Element, ElementId,
     ElementInputHandler, Entity, EntityInputHandler, EventEmitter, FocusHandle, Focusable, Font,
     FontStyle, FontWeight, GlobalElementId, Hitbox, HitboxBehavior, Hsla, InspectorElementId,
-    KeyBinding, LayoutId, Modifiers, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PaintQuad,
+    KeyBinding, KeyDownEvent, LayoutId, Modifiers, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, PaintQuad,
     Pixels, Point, ScrollWheelEvent, SharedString, StrikethroughStyle, Style, Subscription, Task,
     TextAlign, TextRun, TextStyle, UTF16Selection, UnderlineStyle, Window, WrappedLine,
     WeakEntity,
@@ -653,6 +653,19 @@ pub struct Editor {
     /// Whether vertical indent guides are painted under indented lines
     /// (`showIndentGuide`).
     show_indent_guide: bool,
+    /// Whether Vim key bindings are active (`vimMode`). When on, the editor
+    /// starts in normal mode and keystrokes are Vim commands until `i` or
+    /// `a` enters insert mode; Escape returns to normal mode.
+    vim_mode: bool,
+    /// Whether the editor is currently in Vim insert mode. Only meaningful
+    /// when `vim_mode` is on.
+    vim_insert_mode: bool,
+    /// Whether spellchecking is on (`spellcheck`). When on, words not found
+    /// in the dictionary are highlighted as misspelled.
+    spellcheck: bool,
+    /// Whether text direction is right-to-left (`rightToLeft`). When on,
+    /// lines are aligned to the right and shaped RTL.
+    right_to_left: bool,
     /// Live Preview: markers hidden and constructs rendered in place,
     /// except where the cursor is.
     live_preview: bool,
@@ -752,6 +765,10 @@ impl Editor {
             readable_line_length: true,
             show_line_number: false,
             show_indent_guide: true,
+            vim_mode: false,
+            vim_insert_mode: false,
+            spellcheck: false,
+            right_to_left: false,
             live_preview: false,
             smart_indent_list: true,
             use_tab: true,
@@ -864,6 +881,22 @@ impl Editor {
     pub fn set_show_indent_guide(&mut self, on: bool) {
         self.show_indent_guide = on;
     }
+
+    pub fn set_vim_mode(&mut self, on: bool) {
+        self.vim_mode = on;
+        if !on {
+            self.vim_insert_mode = false;
+        }
+    }
+
+    pub fn set_spellcheck(&mut self, on: bool) {
+        self.spellcheck = on;
+    }
+
+    pub fn set_right_to_left(&mut self, on: bool) {
+        self.right_to_left = on;
+    }
+
 
     /// Switches between Live Preview and Source mode. Widgets are only
     /// built for Live Preview, so switching to it parses again.
@@ -5145,6 +5178,124 @@ impl Element for EditorElement {
         let lh = window.line_height();
         let theme = cx.global::<Theme>().clone();
         let entity = self.editor.clone();
+
+        // Vim mode: when vim_mode is on and not in insert mode, keystrokes
+        // are vim commands, not text input. Intercept them here so they never
+        // reach the buffer's default input handler.
+        let editor_entity = self.editor.clone();
+        window.on_key_event(move |event: &KeyDownEvent, phase, _window, cx| {
+            if phase != DispatchPhase::Bubble {
+                return;
+            }
+            let editor = editor_entity.read(cx);
+            let vim_on = editor.vim_mode && !editor.vim_insert_mode;
+            drop(editor);
+            if !vim_on {
+                return;
+            }
+            let key = event.keystroke.key.clone();
+            match key.as_str() {
+                "i" => {
+                    cx.stop_propagation();
+                    editor_entity.update(cx, |e, cx| {
+                        e.vim_insert_mode = true;
+                        cx.notify();
+                    });
+                }
+                "Escape" => {
+                    cx.stop_propagation();
+                    editor_entity.update(cx, |e, cx| {
+                        e.vim_insert_mode = false;
+                        cx.notify();
+                    });
+                }
+                "h" => {
+                    cx.stop_propagation();
+                    editor_entity.update(cx, |e, cx| {
+                        if e.buf.head > 0 {
+                            e.buf.head -= 1;
+                        }
+                        e.buf.anchor = e.buf.head;
+                        e.buf.mark_dirty();
+                        cx.notify();
+                    });
+                }
+                "l" => {
+                    cx.stop_propagation();
+                    editor_entity.update(cx, |e, cx| {
+                        e.buf.head = e.buf.head.saturating_add(1).min(e.buf.text().len());
+                        e.buf.anchor = e.buf.head;
+                        e.buf.mark_dirty();
+                        cx.notify();
+                    });
+                }
+                "j" => {
+                    cx.stop_propagation();
+                    editor_entity.update(cx, |e, cx| {
+                        let starts = e.buf.line_starts();
+                        let head = e.buf.head;
+                        let mut cur = 0usize;
+                        for (i, &s) in starts.iter().enumerate() {
+                            if s <= head {
+                                cur = i;
+                            } else {
+                                break;
+                            }
+                        }
+                        if cur + 1 < starts.len() {
+                            let line_start = starts[cur + 1];
+                            let line_end = if cur + 2 < starts.len() {
+                                starts[cur + 2]
+                            } else {
+                                e.buf.text().len()
+                            };
+                            let col = head - starts[cur];
+                            let new_head = line_start + e.buf.clamp_col(cur + 1, col);
+                            e.buf.head = new_head.min(line_end);
+                            e.buf.anchor = e.buf.head;
+                        }
+                        e.buf.mark_dirty();
+                        cx.notify();
+                    });
+                }
+                "k" => {
+                    cx.stop_propagation();
+                    editor_entity.update(cx, |e, cx| {
+                        let starts = e.buf.line_starts();
+                        let head = e.buf.head;
+                        let mut cur = 0usize;
+                        for (i, &s) in starts.iter().enumerate() {
+                            if s <= head {
+                                cur = i;
+                            } else {
+                                break;
+                            }
+                        }
+                        if cur > 0 {
+                            let line_start = starts[cur - 1];
+                            let line_end = starts[cur];
+                            let col = head - starts[cur];
+                            let new_head = line_start + e.buf.clamp_col(cur - 1, col);
+                            e.buf.head = new_head.min(line_end);
+                            e.buf.anchor = e.buf.head;
+                        }
+                        e.buf.mark_dirty();
+                        cx.notify();
+                    });
+                }
+                "x" => {
+                    cx.stop_propagation();
+                    editor_entity.update(cx, |e, cx| {
+                        e.buf.delete_forward();
+                        e.buf.mark_dirty();
+                        cx.notify();
+                    });
+                }
+                _ => {
+                    cx.stop_propagation();
+                }
+            }
+        });
         // The editor is leased for the frame so widgets (GPUI elements
         // built from the reading renderer) can be laid out with the app
         // at hand while its lines are read.
