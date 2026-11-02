@@ -93,8 +93,9 @@ enum SidePaneTarget {
     Tag(String),
     /// A property key row: right-click searches for notes with that property.
     Property(String),
-    /// An outline heading row: right-click opens the heading's note.
-    Heading(String),
+    /// An outline heading row: right-click opens the heading in its note.
+    /// Holds the note path and the heading's byte offset.
+    Heading { path: String, offset: usize },
     /// The empty space below the last row: no items.
     Blank,
 }
@@ -147,11 +148,11 @@ fn side_menu_items(target: &SidePaneTarget) -> Vec<SidePaneMenuItem> {
                 A::CopyProperty(key.clone()),
             ),
         ],
-        SidePaneTarget::Heading(path) => vec![
+        SidePaneTarget::Heading { path, offset } => vec![
             item(
-                "Open note",
+                "Open heading",
                 "file-text",
-                A::OpenHeading(path.clone()),
+                A::OpenHeading(path.clone(), *offset),
             ),
             item(
                 "Open note in new tab",
@@ -177,7 +178,7 @@ pub enum SidePaneAction {
     CopyTag(String),
     SearchProperty(String),
     CopyProperty(String),
-    OpenHeading(String),
+    OpenHeading(String, usize),
     OpenHeadingInNewTab(String),
     OpenHeadingToRight(String),
 }
@@ -12991,8 +12992,9 @@ impl Workspace {
             SidePaneAction::CopyProperty(key) => {
                 self.copy_path(key, cx);
             }
-            SidePaneAction::OpenHeading(path) => {
+            SidePaneAction::OpenHeading(path, offset) => {
                 self.open_file(path.clone(), None, cx);
+                self.reveal_offset(*offset, cx);
             }
             SidePaneAction::OpenHeadingInNewTab(path) => {
                 self.open_in_new_tab(path.clone(), None, cx);
@@ -13486,7 +13488,10 @@ impl Workspace {
                         row.active,
                         theme,
                         cx,
-                    None,
+                        Some(Box::new(move |this, position, cx| {
+                            let path = this.current.clone().unwrap_or_default();
+                            this.open_side_menu(position, SidePaneTarget::Heading { path, offset: row.offset }, cx);
+                        })),
                     )
                     .on_click(cx.listener(move |this, _, _, cx| this.reveal_heading(offset, cx))),
                 );
