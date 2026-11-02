@@ -28,6 +28,7 @@ mod mermaid;
 mod palette;
 mod panes;
 mod pdf;
+mod popout;
 mod preview;
 mod page_preview;
 mod prompt;

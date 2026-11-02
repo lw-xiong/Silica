@@ -25,6 +25,7 @@ use crate::mentions::{Finder, Name};
 use crate::palette::{CommandPalette, PaletteCommand, PaletteEvent};
 use crate::panes::{self, PaneSort};
 use crate::pdf::view::{PdfEvent, PdfView};
+use crate::popout::PopoutWindow;
 use crate::prompt::{Prompt, PromptEvent, PromptSpec};
 use crate::reading::{self, LinkTarget, ReadingEvent, ReadingView, TaskMarker, TaskToggled};
 use crate::search::{CopyEntry, SearchEvent, SearchPane};
@@ -2576,6 +2577,8 @@ pub struct Workspace {
     help_window: Option<gpui::WindowHandle<HelpWindow>>,
     /// The vault manager while one is up, the same way.
     vault_window: Option<gpui::WindowHandle<VaultManager>>,
+    /// Popout windows, one per note path, keyed by the vault-relative path.
+    popout_windows: HashMap<String, gpui::WindowHandle<PopoutWindow>>,
     loading: Option<SharedString>,
     explorer: Entity<FileExplorer>,
     search: Entity<SearchPane>,
@@ -3032,6 +3035,9 @@ impl Workspace {
                     SearchEvent::OpenInDefaultApp(path) => {
                         this.open_in_default_app(&path, cx);
                     }
+                    SearchEvent::OpenInPopout(path) => {
+                        this.open_popout(&path, window, cx);
+                    }
                 },
             ),
             cx.subscribe_in(
@@ -3146,6 +3152,7 @@ impl Workspace {
             tab_list_menu: None,
             help_window: None,
             vault_window: None,
+            popout_windows: HashMap::new(),
             loading: None,
             explorer,
             search,
@@ -5063,6 +5070,35 @@ impl Workspace {
         match HelpWindow::open(cx.weak_entity(), main, cx) {
             Ok(handle) => self.help_window = Some(handle),
             Err(err) => self.report(format!("Could not open the Help window: {err}"), cx),
+        }
+    }
+
+    /// Open `path` in a popout window, bringing it forward if it is already open.
+    fn open_popout(&mut self, path: &str, window: &Window, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        if let Some(handle) = self.popout_windows.get(path) {
+            let up = handle
+                .update(cx, |_, window, _| window.activate_window())
+                .is_ok();
+            if up {
+                return;
+            }
+            self.popout_windows.remove(path);
+        }
+        let main = window.window_handle();
+        match crate::popout::open(
+            cx.weak_entity(),
+            path.to_string(),
+            state,
+            main,
+            cx,
+        ) {
+            Ok(handle) => {
+                self.popout_windows.insert(path.to_string(), handle);
+            }
+            Err(err) => self.report(format!("Could not open popout window: {err}"), cx),
         }
     }
 

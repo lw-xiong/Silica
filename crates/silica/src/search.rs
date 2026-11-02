@@ -100,6 +100,8 @@ pub enum SearchEvent {
     CopyPath(String),
     /// Open a file in the default app.
     OpenInDefaultApp(String),
+    /// Open a file in a popout window.
+    OpenInPopout(String),
     /// "Bookmark..." from the count's menu: bookmark this query.
     Bookmark(String),
     /// "Copy search results" from the count's menu: open the copy modal
@@ -234,6 +236,11 @@ fn search_menu_items(target: &SearchTarget) -> Vec<SearchMenuItem> {
                 "Open in default app",
                 "arrow-up-right",
                 E::OpenInDefaultApp(path.clone()),
+            ),
+            item(
+                "Open in popout window",
+                "external-link",
+                E::OpenInPopout(path.clone()),
             ),
         ],
         SearchTarget::Blank => vec![],
