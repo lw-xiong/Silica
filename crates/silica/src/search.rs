@@ -23,7 +23,7 @@ use crate::theme::{Theme, FONT_UI_SMALL, FONT_UI_SMALLER, ICON_SIZE};
 use crate::workspace::{Changes, VaultState};
 use gpui::{
     anchored, deferred, div, list, prelude::*, px, relative, rgb, Anchor, App, ClickEvent, Context,
-    Entity, EventEmitter, FocusHandle, Focusable, HighlightStyle, ListAlignment, ListState, Pixels,
+    Entity, EventEmitter, FocusHandle, Focusable, HighlightStyle, ListAlignment, ListState, MouseButton, Pixels,
     Point, SharedString, StyledText, Subscription, Window,
 };
 use rayon::prelude::*;
@@ -84,9 +84,22 @@ enum Highlight {
     Match,
 }
 
+#[derive(Debug, Clone)]
 pub enum SearchEvent {
     /// Open a file at a byte offset.
     Open(String, Option<usize>),
+    /// Open a file in a new tab.
+    OpenInNewTab(String),
+    /// Open a file to the right of the current tab.
+    OpenToRight(String),
+    /// Rename a file.
+    Rename(String),
+    /// Delete a file.
+    Delete(String),
+    /// Copy a file path to the clipboard.
+    CopyPath(String),
+    /// Open a file in the default app.
+    OpenInDefaultApp(String),
     /// "Bookmark..." from the count's menu: bookmark this query.
     Bookmark(String),
     /// "Copy search results" from the count's menu: open the copy modal
@@ -99,6 +112,15 @@ pub enum SearchEvent {
     StateChanged,
     /// Vault files were modified by a replace operation.
     FilesChanged(Changes),
+}
+
+/// What was right-clicked in the search results.
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum SearchTarget {
+    /// A file row, by vault-relative path.
+    File(String),
+    /// The empty space below the last result.
+    Blank,
 }
 
 /// One line of the "Copy search results" modal: a file in the result list.
@@ -152,7 +174,70 @@ pub struct SearchPane {
     count_menu_open: bool,
     sort_menu_open: bool,
     menu_at: Point<Pixels>,
+    /// A right-click context menu over a search result, if one is open.
+    context_menu: Option<SearchMenu>,
     _subscriptions: Vec<Subscription>,
+}
+
+/// A right-click context menu over a search result.
+struct SearchMenu {
+    /// Where the menu should appear, in viewport pixels.
+    position: Point<Pixels>,
+    /// What was right-clicked.
+    target: SearchTarget,
+}
+
+/// A context menu row: what Obsidian draws, and what Silica emits when it
+/// is clicked.
+struct SearchMenuItem {
+    label: &'static str,
+    icon: &'static str,
+    event: SearchEvent,
+}
+
+/// The menu for a search target.
+fn search_menu_items(target: &SearchTarget) -> Vec<SearchMenuItem> {
+    use SearchEvent as E;
+    let item = |label, icon, event| SearchMenuItem {
+        label,
+        icon,
+        event,
+    };
+    match target {
+        SearchTarget::File(path) => vec![
+            item(
+                "Open in new tab",
+                "file-plus",
+                E::OpenInNewTab(path.clone()),
+            ),
+            item(
+                "Open to the right",
+                "separator-vertical",
+                E::OpenToRight(path.clone()),
+            ),
+            item(
+                "Rename...",
+                "pen-line",
+                E::Rename(path.clone()),
+            ),
+            item(
+                "Delete",
+                "trash-2",
+                E::Delete(path.clone()),
+            ),
+            item(
+                "Copy path",
+                "clipboard",
+                E::CopyPath(path.clone()),
+            ),
+            item(
+                "Open in default app",
+                "arrow-up-right",
+                E::OpenInDefaultApp(path.clone()),
+            ),
+        ],
+        SearchTarget::Blank => vec![],
+    }
 }
 
 impl EventEmitter<SearchEvent> for SearchPane {}
@@ -235,6 +320,7 @@ impl SearchPane {
             count_menu_open: false,
             sort_menu_open: false,
             menu_at: Point::default(),
+            context_menu: None,
             _subscriptions: subscriptions,
         }
     }
@@ -559,6 +645,39 @@ impl SearchPane {
         cx.notify();
     }
 
+    /// Opens the context menu over a search result at the pointer's
+    /// position, as Obsidian's right-click on a result row does.
+    fn open_menu(&mut self, ix: usize, position: Point<Pixels>, cx: &mut Context<Self>) {
+        let Some(row) = self.rows.get(ix).copied() else {
+            return;
+        };
+        match row {
+            Row::File { ix } => {
+                let path = self.results[ix].path.clone();
+                self.context_menu = Some(SearchMenu {
+                    position,
+                    target: SearchTarget::File(path),
+                });
+                cx.notify();
+            }
+            Row::Match { ix, .. } => {
+                let path = self.results[ix].path.clone();
+                self.context_menu = Some(SearchMenu {
+                    position,
+                    target: SearchTarget::File(path),
+                });
+                cx.notify();
+            }
+        }
+    }
+
+    /// Closes the open context menu, as clicking outside one does.
+    fn close_menu(&mut self, cx: &mut Context<Self>) {
+        if self.context_menu.take().is_some() {
+            cx.notify();
+        }
+    }
+
     /// Folds or unfolds the focused row's file: Left folds, Right unfolds,
     /// as Obsidian's `onKeyArrowLeftInFocus` and `Right` do. True when the
     /// key did something.
@@ -832,6 +951,13 @@ impl SearchPane {
                 this.focused = Some(row_ix);
                 this.toggle(path.clone(), cx)
             }))
+            .on_mouse_down(
+                MouseButton::Right,
+                cx.listener(move |this, event: &gpui::MouseDownEvent, _, cx| {
+                    cx.stop_propagation();
+                    this.open_menu(ix, event.position, cx)
+                }),
+            )
             .child(
                 // `tree-item-icon collapse-icon`: 16 px wide in the row's
                 // left gutter, the 10 px chevron faint at 85 %.
@@ -1529,6 +1655,50 @@ impl SearchPane {
             .into_any_element(),
         )
     }
+
+    /// The right-click context menu over a search result.
+    fn render_menu(&self, theme: &Theme, cx: &mut Context<Self>) -> Option<gpui::AnyElement> {
+        let m = self.context_menu.as_ref()?;
+        let items = search_menu_items(&m.target);
+        let mut list = menu("search-menu", theme)
+            .on_mouse_down_out(cx.listener(|this, _, _, cx| {
+                this.close_menu(cx);
+            }));
+        for (ix, item) in items.into_iter().enumerate() {
+            if ix > 0 {
+                list = list.child(div().my_1().h(px(1.)).bg(theme.border));
+            }
+            list = list.child(
+                div()
+                    .id(("search-menu-item", ix))
+                    .flex()
+                    .items_center()
+                    .gap_2()
+                    .px_3()
+                    .py_1()
+                    .cursor_pointer()
+                    .hover(|s| s.bg(theme.bg_alt))
+                    .on_click(cx.listener(move |this, _, _, cx| {
+                        this.close_menu(cx);
+                        cx.emit(item.event.clone());
+                        cx.notify();
+                    }))
+                    .child(crate::assets::icon(item.icon, 16., theme.text_muted))
+                    .child(item.label),
+            );
+        }
+        Some(
+            deferred(
+                anchored()
+                    .position(m.position)
+                    .anchor(Anchor::TopLeft)
+                    .snap_to_window_with_margin(px(8.))
+                    .child(list),
+            )
+            .with_priority(1)
+            .into_any_element(),
+        )
+    }
 }
 
 impl Render for SearchPane {
@@ -1550,6 +1720,7 @@ impl Render for SearchPane {
             .children(explain)
             .children(settings)
             .child(info)
+            .children(self.render_menu(&theme, cx))
             .child(
                 // `.search-result-container`: 12 px of padding; the list
                 // is virtualised since a match wraps to its own height.

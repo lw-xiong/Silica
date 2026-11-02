@@ -2912,6 +2912,24 @@ impl Workspace {
                     }
                     SearchEvent::Dismiss => this.focus_main(window, cx),
                     SearchEvent::StateChanged => {}
+                    SearchEvent::OpenInNewTab(path) => {
+                        this.open_in_new_tab(path.clone(), None, cx);
+                    }
+                    SearchEvent::OpenToRight(path) => {
+                        this.open_in_new_tab(path.clone(), None, cx);
+                    }
+                    SearchEvent::Rename(path) => {
+                        this.start_rename(&path, window, cx);
+                    }
+                    SearchEvent::Delete(path) => {
+                        this.start_delete(&path, window, cx);
+                    }
+                    SearchEvent::CopyPath(path) => {
+                        this.copy_path(&path, cx);
+                    }
+                    SearchEvent::OpenInDefaultApp(path) => {
+                        this.open_in_default_app(&path, cx);
+                    }
                 },
             ),
             cx.subscribe_in(
