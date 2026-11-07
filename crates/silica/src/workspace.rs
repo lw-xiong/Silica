@@ -4809,7 +4809,10 @@ impl Workspace {
                     let state = state.clone();
                     let root = state.as_ref().map(|s| s.root.clone()).unwrap_or_default();
                     let full_path = root.join(path);
-                    let mut existing = std::fs::read_to_string(&full_path).unwrap_or_default();
+                    // A file that cannot be read must not be treated as empty:
+                    // the write below would drop everything in it.
+                    let mut existing = std::fs::read_to_string(&full_path)
+                        .map_err(|e| format!("Could not read {path}: {e}"))?;
                     existing.push_str(text);
                     std::fs::write(&full_path, existing).map_err(|e| e.to_string())
                 }
@@ -4820,13 +4823,24 @@ impl Workspace {
                     let state = state.clone();
                     let root = state.as_ref().map(|s| s.root.clone()).unwrap_or_default();
                     let full_path = root.join(path);
-                    if full_path.exists() {
-                        return Err(format!("'{path}' already exists"));
-                    }
                     if let Some(parent) = full_path.parent() {
                         let _ = std::fs::create_dir_all(parent);
                     }
-                    std::fs::write(&full_path, text).map_err(|e| e.to_string())
+                    // create_new rather than exists()+write: between a check
+                    // and a write another writer can appear, and plain write
+                    // would truncate whatever it put there.
+                    match std::fs::OpenOptions::new()
+                        .create_new(true)
+                        .write(true)
+                        .open(&full_path)
+                    {
+                        Ok(mut file) => std::io::Write::write_all(&mut file, text.as_bytes())
+                            .map_err(|e| format!("Could not write {path}: {e}")),
+                        Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => {
+                            Err(format!("'{path}' already exists"))
+                        }
+                        Err(e) => Err(format!("Could not create {path}: {e}")),
+                    }
                 }
             }),
             create_folder: Box::new({
@@ -6486,7 +6500,10 @@ impl Workspace {
         let text = if dirty {
             self.editor.read(cx).file_contents()
         } else {
-            std::fs::read_to_string(state.vault().absolute(&current)).unwrap_or_default()
+            std::fs::read_to_string(state.vault().absolute(&current)).unwrap_or_else(|e| {
+                self.report(format!("Could not read {current}: {e}"), cx);
+                String::new()
+            })
         };
         self.build_reading_model(&current, &text, &state, cx);
     }
