@@ -4809,7 +4809,10 @@ impl Workspace {
                     let state = state.clone();
                     let root = state.as_ref().map(|s| s.root.clone()).unwrap_or_default();
                     let full_path = root.join(path);
-                    let mut existing = std::fs::read_to_string(&full_path).unwrap_or_default();
+                    let mut existing = std::fs::read_to_string(&full_path).map_err(|e| {
+                        eprintln!("Could not read {}: {e}", full_path.display());
+                        String::new()
+                    })?;
                     existing.push_str(text);
                     std::fs::write(&full_path, existing).map_err(|e| e.to_string())
                 }
@@ -6486,7 +6489,10 @@ impl Workspace {
         let text = if dirty {
             self.editor.read(cx).file_contents()
         } else {
-            std::fs::read_to_string(state.vault().absolute(&current)).unwrap_or_default()
+            std::fs::read_to_string(state.vault().absolute(&current)).unwrap_or_else(|e| {
+                eprintln!("Could not read {}: {e}", current);
+                String::new()
+            })
         };
         self.build_reading_model(&current, &text, &state, cx);
     }
