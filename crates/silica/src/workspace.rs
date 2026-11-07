@@ -11618,6 +11618,32 @@ mod tests {
         (dir, state)
     }
 
+    /// A config file nothing can parse must not keep the vault from opening.
+    /// `VaultState::load` promises it: the defaults stand in, the broken file
+    /// is named for the window's notice, and the notes still open. Nothing
+    /// covered the promise — a crash that truncated `app.json` mid-string was
+    /// the exact case, and the whole boot hangs off this load.
+    #[test]
+    fn a_config_that_will_not_parse_does_not_stop_the_vault_opening() {
+        let dir = tempfile::tempdir().unwrap();
+        let r = dir.path();
+        fs::create_dir_all(r.join(".obsidian")).unwrap();
+        // * What a crash leaves: the file is there, cut off mid-string.
+        fs::write(r.join(".obsidian/app.json"), "{\"trashOption\": \"lo").unwrap();
+        fs::write(r.join("Note.md"), "# Note\n").unwrap();
+
+        let state = VaultState::load(&r.to_path_buf())
+            .expect("a config that will not parse must not stop the vault opening");
+        assert_eq!(
+            state.unreadable_configs,
+            vec!["app.json".to_string()],
+            "the broken file must be named for the window's notice"
+        );
+        // * The defaults stand in: the unreadable setting does not take
+        // * effect, so nothing silently runs on half a config.
+        assert_eq!(state.trash_option(), TrashOption::System);
+    }
+
     /// A link written in a property is an outgoing link like any other,
     /// listed first the way the file writes it; a body link is labelled as
     /// it reads in the note and carries the link it was written with.
@@ -12992,6 +13018,415 @@ mod tests {
             return;
         }
         assert!(vault_path_in(&root, "dangling.md").is_err());
+    }
+
+    /// What the rename dialog's typed name actually lands on. The extension
+    /// is carried over and the folder is kept, so a note can never be renamed
+    /// into a different file than the one the explorer shows — and a name the
+    /// OS would rewrite (trailing dot or space, which Windows silently drops)
+    /// is refused rather than allowed to clobber its neighbour.
+    #[test]
+    fn a_renamed_keeps_its_extension_and_its_folder() {
+        // * The extension comes back; only the stem is the typed part.
+        assert_eq!(renamed_path("Note.md", "Fresh", false).unwrap(), "Fresh.md");
+        // * A folder keeps its place, and gets no extension of its own.
+        assert_eq!(
+            renamed_path("Notes/Plan.md", "Roadmap", false).unwrap(),
+            "Notes/Roadmap.md"
+        );
+        // * A folder's typed name is its new whole path: the entry at the
+        // * vault root keeps its level, and a nested one keeps its parent.
+        assert_eq!(renamed_path("Notes", "Archive", true).unwrap(), "Archive");
+        assert_eq!(
+            renamed_path("Notes/Sub", "Moved", true).unwrap(),
+            "Notes/Moved"
+        );
+        // * A note with no extension stays without one: appending ".md" to
+        // * a file the user made deliberately extension-less changes its kind.
+        assert_eq!(renamed_path("Scratch", "Bin", false).unwrap(), "Bin");
+        // * Only the last extension is carried: Obsidian's rule, so a double
+        // * extension note is not silently given a different one.
+        assert_eq!(
+            renamed_path("archive.tar.gz", "backup", false).unwrap(),
+            "backup.gz"
+        );
+
+        // * A name the OS would rewrite is refused by the same validator the
+        // * vault uses, not renamed into something else.
+        for bad in ["Trailing.", "Trailing ", "  "] {
+            assert!(
+                renamed_path("Note.md", bad, false).is_err(),
+                "{bad:?} must be refused"
+            );
+        }
+    }
+
+    /// The other half of the watcher's `apply`: a file that appears from
+    /// outside — a sync client dropping a note, a restore, a copy in — has to
+    /// reach the index, the file list and the link resolver. A note that
+    /// stays invisible until restart is data the app cannot see, and the
+    /// search that misses it is worse than one that lists a ghost.
+    #[test]
+    fn a_note_that_appears_from_outside_reaches_the_index() {
+        let (dir, state) = vault();
+        let added = dir.path().join("Fresh.md");
+        fs::write(&added, "# Fresh\n\nPoints at [[B]] and [[Sub/S]].\n").unwrap();
+
+        let changes = state.apply(std::slice::from_ref(&added));
+
+        assert_eq!(
+            changes.files,
+            vec![FileChange::Added("Fresh.md".into())],
+            "the arrival has to reach the caller"
+        );
+        assert!(state.cache().file("Fresh.md").is_some(), "not indexed");
+        assert!(state.texts().get("Fresh.md").is_some(), "not cached");
+        assert!(
+            state.vault().files().iter().any(|f| f.path == "Fresh.md"),
+            "not in the file list"
+        );
+        // * Its links resolve, and the notes it points at count it: A and
+        //   Sub/S already link to B, so the third is this one.
+        assert!(state.cache().unresolved_links("Fresh.md").is_none());
+        assert_eq!(state.cache().backlinks("B.md").len(), 3);
+
+        // * A note whose bytes changed underneath is re-indexed the same way:
+        //   the old links leave the resolver and the new ones arrive, or the
+        //   graph keeps pointing where the text no longer does. B used to
+        //   carry three links to A; it now carries none.
+        let b = dir.path().join("B.md");
+        fs::write(&b, "\u{feff}# B\n\nNow only [[Sub/S]].\n").unwrap();
+        state.apply(std::slice::from_ref(&b));
+        assert_eq!(
+            state.cache().backlinks("A.md").len(),
+            1,
+            "only Sub/S links to A now"
+        );
+        assert!(state.cache().unresolved_links("B.md").is_none());
+        assert_eq!(
+            state.texts()["B.md"].as_str(),
+            "\u{feff}# B\n\nNow only [[Sub/S]].\n",
+            "the changed text was not re-read"
+        );
+    }
+
+    /// A note whose name carries spaces, non-ASCII letters and a symbol is
+    /// indexed and linked like any other: the vault lists it, a wikilink to
+    /// its display name resolves, and the notes it points at count it. A name
+    /// the walk or the resolver mishandled would leave the note in the file
+    /// list but silently unlinked — the graph just missing edges with nothing
+    /// to say so.
+    #[test]
+    fn a_note_with_a_name_no_url_would_like_is_indexed_and_linked() {
+        let (dir, state) = vault();
+        let weird = dir.path().join("Ω notes ✓.md");
+        fs::write(&weird, "# Weird\n\nTalks of [[B]] and [[Sub/S]].\n").unwrap();
+        // * A note that links to it by its display name.
+        let linker = dir.path().join("Linker.md");
+        fs::write(&linker, "See [[Ω notes ✓]] for the details.\n").unwrap();
+
+        state.apply(&[weird, linker]);
+
+        assert!(
+            state
+                .vault()
+                .files()
+                .iter()
+                .any(|f| f.path == "Ω notes ✓.md"),
+            "not in the file list: {:?}",
+            state.vault().files()
+        );
+        assert!(state.cache().file("Ω notes ✓.md").is_some(), "not indexed");
+        assert!(state.texts().get("Ω notes ✓.md").is_some(), "not cached");
+        // * The link to it resolves, so the resolver carried the whole name.
+        assert_eq!(
+            state.cache().backlinks("Ω notes ✓.md").len(),
+            1,
+            "the wikilink to the odd name dangled"
+        );
+        assert!(
+            state.cache().unresolved_links("Linker.md").is_none(),
+            "Linker's link is unresolved: {:?}",
+            state.cache().unresolved_links("Linker.md")
+        );
+        // * Its own links resolve the other way, and are counted.
+        assert!(state.cache().unresolved_links("Ω notes ✓.md").is_none());
+        assert_eq!(
+            state.cache().backlinks("B.md").len(),
+            3,
+            "A, Sub/S and this one"
+        );
+        assert_eq!(
+            state.cache().backlinks("Sub/S.md").len(),
+            2,
+            "A and this one"
+        );
+    }
+
+    /// A note with no bytes in it is a note like any other: the vault lists
+    /// it, the index holds it with nothing in it, and a link to it resolves
+    /// to the file rather than dangling. The second half is the outside
+    /// change: a note another app empties is re-indexed to nothing rather
+    /// than keeping the frontmatter it used to carry — stale rows would
+    /// describe a file that no longer says so.
+    #[test]
+    fn a_note_with_no_bytes_is_listed_indexed_and_linked() {
+        let (dir, state) = vault();
+        // * A note that starts empty, from outside.
+        let empty = dir.path().join("Untitled.md");
+        fs::write(&empty, "").unwrap();
+        state.apply(std::slice::from_ref(&empty));
+
+        assert!(state
+            .vault()
+            .files()
+            .iter()
+            .any(|f| f.path == "Untitled.md"));
+        assert!(state.cache().file("Untitled.md").is_some(), "not indexed");
+        assert_eq!(
+            state.texts()["Untitled.md"].as_str(),
+            "",
+            "its text is the empty string, not missing"
+        );
+        // * A link to it resolves to the file rather than dangling.
+        fs::write(
+            dir.path().join("Linker.md"),
+            "Start from [[Untitled]] and fill it in.\n",
+        )
+        .unwrap();
+        state.apply(&[dir.path().join("Linker.md")]);
+        assert_eq!(
+            state.cache().backlinks("Untitled.md").len(),
+            1,
+            "a link to an empty note dangled"
+        );
+
+        // * Another app empties a note that had frontmatter properties.
+        let b = dir.path().join("B.md");
+        assert!(
+            state.cache().file("B.md").unwrap().frontmatter.is_some(),
+            "the fixture note has frontmatter"
+        );
+        fs::write(&b, "").unwrap();
+        state.apply(std::slice::from_ref(&b));
+        assert!(
+            state.cache().file("B.md").unwrap().frontmatter.is_none(),
+            "frontmatter of a note that no longer has any stayed: {:?}",
+            state.cache().file("B.md").unwrap().frontmatter
+        );
+        assert_eq!(
+            state.texts()["B.md"].as_str(),
+            "",
+            "the emptied text was not re-read"
+        );
+        assert!(
+            state.cache().file("B.md").is_some(),
+            "the note vanished from the index"
+        );
+    }
+
+    /// The vault-side fold of a differently-spelled path reports the
+    /// modification under the spelling the file list already holds, so the
+    /// index never has to rename a key: `texts` and the metadata cache keep
+    /// the one spelling, and the note is not listed twice. A second spelling
+    /// arriving here would leave the index holding one spelling while the
+    /// explorer holds another, and a link would resolve to one while search
+    /// finds the other.
+    #[cfg(windows)]
+    #[test]
+    fn a_respelled_path_keeps_one_index_key_and_one_listing() {
+        let (dir, state) = vault();
+        assert!(state.cache().file("A.md").is_some());
+        assert!(state.texts().get("A.md").is_some());
+        let listed = || {
+            state
+                .vault()
+                .files()
+                .iter()
+                .filter(|f| f.path.eq_ignore_ascii_case("a.md"))
+                .count()
+        };
+        assert_eq!(listed(), 1);
+
+        // * The other side spells the same file differently; the watcher
+        // * hands that spelling to the state.
+        let respelled = dir.path().join("a.md");
+        let changes = state.apply(std::slice::from_ref(&respelled));
+
+        assert!(
+            changes
+                .files
+                .iter()
+                .all(|c| matches!(c, FileChange::Modified(p) if p == "A.md")),
+            "the fold did not report the stored spelling: {:?}",
+            changes.files
+        );
+        assert_eq!(listed(), 1, "the explorer holds two rows for one note");
+        assert!(
+            state.cache().file("A.md").is_some(),
+            "the index dropped the note"
+        );
+        assert!(state.texts().get("A.md").is_some(), "the text was dropped");
+        // * No second key appeared for the same file.
+        assert!(
+            state
+                .cache()
+                .files()
+                .all(|(p, _)| !p.eq_ignore_ascii_case("a.md") || p == "A.md"),
+            "the index holds a second key for one note: {:?}",
+            state.cache().files().map(|(p, _)| p).collect::<Vec<_>>()
+        );
+    }
+
+    /// And the mirror: a folder that appears from outside — a restore, a
+    /// sync client unpacking a tree — is walked and every note in it is
+    /// indexed, with the folder itself in the file list. A restored tree the
+    /// app cannot see until restart is data on disk the user cannot reach.
+    #[test]
+    fn a_folder_that_appears_from_outside_is_walked_and_indexed() {
+        let (dir, state) = vault();
+        assert!(!state.vault().folders().contains(&"Restored".to_string()));
+
+        let restored = dir.path().join("Restored");
+        fs::create_dir_all(restored.join("Deep")).unwrap();
+        fs::write(
+            restored.join("Deep/Note.md"),
+            "# Restored\n\nTalks of [[B]].\n",
+        )
+        .unwrap();
+
+        // * The watcher reports the folder that appeared.
+        let changes = state.apply(std::slice::from_ref(&restored));
+
+        assert!(changes
+            .files
+            .iter()
+            .any(|c| matches!(c, FileChange::Added(p) if p == "Restored/Deep/Note.md")));
+        assert_eq!(changes.removed_notes, Vec::<String>::new(), "nothing went");
+        assert!(
+            state.vault().folders().contains(&"Restored".to_string()),
+            "the folder itself is not listed"
+        );
+        assert!(
+            state
+                .vault()
+                .folders()
+                .contains(&"Restored/Deep".to_string()),
+            "a nested folder is not listed: {:?}",
+            state.vault().folders()
+        );
+        assert!(
+            state.cache().file("Restored/Deep/Note.md").is_some(),
+            "not indexed"
+        );
+        assert!(
+            state.texts().get("Restored/Deep/Note.md").is_some(),
+            "not cached"
+        );
+        assert_eq!(
+            state.cache().backlinks("B.md").len(),
+            3,
+            "A, Sub/S and the restored note"
+        );
+    }
+
+    /// A whole folder disappearing from outside is the same contract as one
+    /// note, one level up: every note under it leaves the index in one batch,
+    /// the folder leaves the file list, and the links that pointed into it
+    /// stop resolving. A folder left behind would keep its notes in search
+    /// and in the explorer long after the disk stopped having them.
+    #[test]
+    fn a_folder_deleted_behind_the_apps_back_takes_every_note_in_it() {
+        let (dir, state) = vault();
+        let sub = dir.path().join("Sub");
+        assert_eq!(
+            state.cache().backlinks("Sub/S.md").len(),
+            1,
+            "A links into it"
+        );
+        assert!(state.vault().folders().contains(&"Sub".to_string()));
+
+        // * The other app removes the folder; the watcher reports its path.
+        fs::remove_dir_all(&sub).unwrap();
+        let changes = state.apply(std::slice::from_ref(&sub));
+
+        assert!(
+            changes
+                .files
+                .iter()
+                .all(|c| matches!(c, FileChange::Removed(_))),
+            "everything that went has to be reported as removed: {:?}",
+            changes.files
+        );
+        assert!(changes.files.iter().any(|c| c.path() == "Sub/S.md"));
+        assert_eq!(changes.removed_notes, vec!["Sub/S.md".to_string()]);
+        assert!(
+            state.cache().file("Sub/S.md").is_none(),
+            "a note that is gone stayed indexed"
+        );
+        assert!(
+            state.texts().get("Sub/S.md").is_none(),
+            "and its text stayed cached"
+        );
+        assert!(
+            state.vault().folders().iter().all(|f| f != "Sub"),
+            "the folder stayed in the file list"
+        );
+        assert!(
+            state
+                .vault()
+                .files()
+                .iter()
+                .all(|f| !f.path.starts_with("Sub/")),
+            "files under a removed folder stayed listed"
+        );
+        assert!(
+            state.cache().backlinks("Sub/S.md").is_empty(),
+            "links still point into a folder that is gone"
+        );
+    }
+
+    /// A note deleted behind the app's back — another app, a sync client, a
+    /// shell — reaches the index through the watcher's `apply`. The file list,
+    /// the metadata cache and the cached text all have to drop it: a ghost
+    /// entry would keep the note in search and in the explorer, its links
+    /// would keep resolving, and opening it would fail on a file that is not
+    /// there. Trash covers the app's own deletion; this is the outside one.
+    #[test]
+    fn a_note_deleted_behind_the_apps_back_leaves_the_index() {
+        let (dir, state) = vault();
+        let gone = dir.path().join("A.md");
+        assert!(state.cache().file("A.md").is_some(), "the fixture holds A");
+        assert!(
+            !state.cache().backlinks("A.md").is_empty(),
+            "B and Sub/S.md link to A in the fixture"
+        );
+
+        // * The other app deletes it; the watcher reports the path.
+        fs::remove_file(&gone).unwrap();
+        let changes = state.apply(std::slice::from_ref(&gone));
+
+        assert_eq!(
+            changes.removed_notes,
+            vec!["A.md".to_string()],
+            "the removal has to reach the caller"
+        );
+        assert!(
+            state.cache().file("A.md").is_none(),
+            "the index kept a ghost note"
+        );
+        assert!(
+            state.texts().get("A.md").is_none(),
+            "the text of a note that is gone stayed cached"
+        );
+        assert!(
+            state.vault().files().iter().all(|f| f.path != "A.md"),
+            "the file list still lists it"
+        );
+        assert!(
+            state.cache().backlinks("A.md").is_empty(),
+            "links still point at a file that does not exist"
+        );
     }
 
     /// A file kind reaches the state dump in lower case.

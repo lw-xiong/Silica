@@ -92,6 +92,12 @@ pub fn validate_file_name(name: &str) -> Result<(), &'static str> {
     if name.len() > MAX_NAME_BYTES {
         return Err("File name is too long.");
     }
+    // * Windows drops a trailing dot or space from every path component, so a
+    // * note named `plan.md.` lands on `plan.md` — silently overwriting a
+    // * different note. Refuse the name wherever the vault asks for one.
+    if name.ends_with('.') || name.ends_with(' ') {
+        return Err("File name must not end with a dot or a space.");
+    }
     Ok(())
 }
 
@@ -137,6 +143,14 @@ mod tests {
         assert!(validate_file_name("   ").is_err());
         assert!(validate_file_name(&"a".repeat(MAX_NAME_BYTES)).is_ok());
         assert!(validate_file_name(&"a".repeat(MAX_NAME_BYTES + 1)).is_err());
+        assert_eq!(
+            validate_file_name("note.md."),
+            Err("File name must not end with a dot or a space.")
+        );
+        assert_eq!(
+            validate_file_name("note "),
+            Err("File name must not end with a dot or a space.")
+        );
     }
 
     /// A rename types the stem and the extension comes back afterwards, so

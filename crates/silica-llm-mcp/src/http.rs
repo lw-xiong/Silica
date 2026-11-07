@@ -86,6 +86,7 @@ impl Url {
 /// bytes this client will hold for one response, chunked or not.
 pub const MAX_RESPONSE_BYTES: usize = 16 << 20; // 16 MiB
 
+#[derive(Debug)]
 pub struct Response {
     pub status: u16,
     pub body: String,
@@ -298,6 +299,22 @@ fn read_response<S: Read>(stream: &mut S, address: &str) -> Result<Response, Str
         if read == 0 {
             let start = head_end
                 .ok_or_else(|| format!("{address}: closed before sending a complete header"))?;
+            // * The server closed the socket. A body that promised more than
+            // * arrived — by Content-Length, or by a chunked stream with no
+            // * final chunk — is a truncated answer, and handing it back
+            // * looks exactly like a whole one. A reply with no declared
+            // * length has nothing to be short of and reads whole.
+            let have = raw.len() - start;
+            if let Some(length) = length.filter(|l| have < *l) {
+                return Err(format!(
+                    "{address}: the server closed after {have} of {length} bytes"
+                ));
+            }
+            if chunked {
+                return Err(format!(
+                    "{address}: the server closed before the final chunk"
+                ));
+            }
             return Ok(Response {
                 status,
                 body: decode(&raw[start..], chunked, length),
@@ -394,6 +411,30 @@ mod tests {
         assert!(Url::parse("http://").unwrap_err().contains("no host"));
     }
 
+    /// A `Content-Length: 0` is a whole answer, not a body still to come:
+    /// the reply is complete the moment the header ends, and the body is
+    /// empty. A first line with no status code is an error naming it,
+    /// because a response without one is not a message to parse.
+    #[test]
+    fn a_zero_length_body_and_a_response_with_no_status_are_both_settled() {
+        // * Empty answer, complete at once.
+        let wire = b"HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n".to_vec();
+        let got = read_response(&mut std::io::Cursor::new(wire), "test").unwrap();
+        assert_eq!(got.status, 200);
+        assert_eq!(got.body, "");
+
+        // * The same with a body that follows anyway: the length rules.
+        let wire = b"HTTP/1.1 204 No Content\r\nContent-Length: 0\r\n\r\nnothing".to_vec();
+        let got = read_response(&mut std::io::Cursor::new(wire), "test").unwrap();
+        assert_eq!(got.body, "");
+
+        // * A first line with no status code never becomes a message.
+        let wire = b"HELLO THERE\r\nContent-Length: 2\r\n\r\nhi".to_vec();
+        let err = read_response(&mut std::io::Cursor::new(wire), "test")
+            .expect_err("a response with no status must not answer Ok");
+        assert!(err.contains("no status"), "{err}");
+    }
+
     #[test]
     fn decodes_a_plain_body() {
         assert_eq!(decode(b"hello", false, Some(5)), "hello");
@@ -479,6 +520,66 @@ mod tests {
         assert_eq!(decode(b"ff\r\nshort", true, None), "short");
         // And a header that is not hex stops the loop rather than guessing.
         assert_eq!(decode(b"zz\r\nhello\r\n0\r\n\r\n", true, None), "");
+    }
+
+    /// A server that dies mid-body must not hand back a truncated answer
+    /// that looks complete. The header promised more bytes than arrived, so
+    /// the shortfall is named; a completely bodied reply still reads whole,
+    /// and so does the old shape with no declared length at all.
+    #[test]
+    fn a_body_the_server_did_not_finish_is_an_error_not_a_short_answer() {
+        // * Content-Length promised 100 bytes; the socket closed after 20.
+        let cut = b"HTTP/1.1 200 OK\r\nContent-Length: 100\r\n\r\nhalf of the body a".to_vec();
+        let err = read_response(&mut std::io::Cursor::new(cut), "test")
+            .expect_err("a body short of its Content-Length must not answer Ok");
+        assert!(
+            err.contains("closed") || err.contains("byte"),
+            "the shortfall must be named: {err}"
+        );
+
+        // * The same for a chunked reply with no final chunk.
+        let cut = b"HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n5\r\nhello".to_vec();
+        let err = read_response(&mut std::io::Cursor::new(cut), "test")
+            .expect_err("a chunked body with no final chunk must not answer Ok");
+        assert!(
+            err.contains("closed") || err.contains("chunk"),
+            "the cut must be named: {err}"
+        );
+
+        // * A whole body still answers.
+        let whole = b"HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nhello".to_vec();
+        let got = read_response(&mut std::io::Cursor::new(whole), "test").unwrap();
+        assert_eq!(got.body, "hello");
+
+        // * And so does the shape that never declares a length.
+        let whole = b"HTTP/1.1 200 OK\r\n\r\nhello".to_vec();
+        let got = read_response(&mut std::io::Cursor::new(whole), "test").unwrap();
+        assert_eq!(got.body, "hello");
+    }
+
+    /// A header that promises a length cannot parse — a negative number, a
+    /// float, a hex digit — means no length at all, so the reply is read to
+    /// EOF rather than answered short; and a socket closed before the header
+    /// ends is an error, never an empty answer.
+    #[test]
+    fn a_content_length_that_cannot_parse_leaves_the_body_read_to_eof() {
+        for header in [
+            "Content-Length: -5",
+            "Content-Length: 1.5",
+            "Content-Length: 0x10",
+            "Content-Length: 99999999999999999999",
+        ] {
+            let wire = format!("HTTP/1.1 200 OK\r\n{header}\r\n\r\nhello").into_bytes();
+            let got = read_response(&mut std::io::Cursor::new(wire), "test")
+                .unwrap_or_else(|e| panic!("{header}: {e}"));
+            assert_eq!(got.body, "hello", "{header} should read to EOF");
+        }
+
+        // * Closed before the header ends: an error, not an empty 200.
+        let cut = b"HTTP/1.1 200 OK\r\nContent-Length: 5\r\n".to_vec();
+        let err = read_response(&mut std::io::Cursor::new(cut), "test")
+            .expect_err("a header cut off mid-way must not answer Ok");
+        assert!(err.contains("closed"), "{err}");
     }
 
     /// A chunk whose declared size covers the body but whose trailing CRLF is

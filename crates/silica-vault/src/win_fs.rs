@@ -387,4 +387,39 @@ mod tests {
             .expect("read_inside past MAX_PATH");
         assert_eq!(read_back, bytes);
     }
+
+    /// The other half of a save: writing a note that is *already* there.
+    /// The three upstream commits that rebuilt `FILE_RENAME_INFO` only ever
+    /// exercised a fresh destination, while `ReplaceIfExists = 1` is what
+    /// makes a second save replace the file instead of failing — and plugin
+    /// writes (`write_at_handles`) and snapshot writes both land on existing
+    /// paths. If the flag or the name length were wrong, every overwrite
+    /// would fail with error 87 and no test would say so.
+    #[test]
+    fn a_write_over_an_existing_file_replaces_it_and_leaves_no_scratch() {
+        let root = tempfile::tempdir().unwrap();
+        let relative = Path::new("note.md");
+
+        write_at(root.path(), relative, b"first save\n").expect("first write");
+        let second = b"second save, longer than the first one\n";
+        write_at(root.path(), relative, second).expect("write over an existing file");
+
+        let read_back = read_inside(root.path(), relative, second.len() as u64 + 1)
+            .expect("read back the second save");
+        assert_eq!(read_back, second, "the old bytes survived the overwrite");
+
+        // * The companion is renamed onto the target, not left beside it.
+        let scratch: Vec<String> = std::fs::read_dir(root.path())
+            .unwrap()
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .filter(|name| name.ends_with(".silica-tmp"))
+            .collect();
+        assert!(scratch.is_empty(), "scratch left behind: {scratch:?}");
+        assert_eq!(
+            std::fs::read_dir(root.path()).unwrap().count(),
+            1,
+            "the vault holds exactly the note"
+        );
+    }
 }

@@ -17,6 +17,7 @@ use silica_formats::config::{
     TemplatesConfig, DEFAULT_CONFIG_DIR,
 };
 use silica_formats::FileKind;
+use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, thiserror::Error)]
@@ -44,6 +45,20 @@ pub enum VaultError {
     /// write is refused and the bytes are left alone.
     #[error("{0} is not valid JSON; Silica will not overwrite it")]
     Unparseable(PathBuf),
+    /// Windows strips a trailing dot or space from every path component, so
+    /// writing `note.md.` silently lands on `note.md` — a different note
+    /// than asked for. Refuse before the OS rewrites anything.
+    #[error("File name must not end with a dot or a space: {0}")]
+    RefusedName(PathBuf),
+}
+
+/// Whether two paths name one file on disk, which on a case-insensitive
+/// filesystem is what `Note.md` and `note.md` do. Canonicalization is
+/// asked only of a pair that already differs by case, so the common path
+/// costs one string comparison and a distinct file on a case-sensitive
+/// filesystem is never merged.
+fn same_file(a: &Path, b: &Path) -> bool {
+    std::fs::canonicalize(a).ok() == std::fs::canonicalize(b).ok()
 }
 
 /// One file in the vault. `path` is vault-relative with `/` separators.
@@ -740,9 +755,27 @@ impl Vault {
     }
 
     fn add_folder(&mut self, rel: &str) {
-        if let Err(ix) = self.folders.binary_search_by(|f| f.as_str().cmp(rel)) {
-            self.folders.insert(ix, rel.to_string());
+        if self
+            .folders
+            .binary_search_by(|f| f.as_str().cmp(rel))
+            .is_ok()
+        {
+            return;
         }
+        // * One directory, several spellings: a case-insensitive filesystem
+        // * would otherwise get a second row for the same folder, the way
+        // * `refresh_path` refuses a second row for the same file.
+        let already = self.folders.iter().any(|f| {
+            f.eq_ignore_ascii_case(rel) && same_file(&self.root.join(f), &self.root.join(rel))
+        });
+        if already {
+            return;
+        }
+        let ix = self
+            .folders
+            .binary_search_by(|f| f.as_str().cmp(rel))
+            .unwrap_err();
+        self.folders.insert(ix, rel.to_string());
     }
 
     /// Registers every folder above `rel` (a file or folder path).
@@ -798,6 +831,14 @@ impl Vault {
         }
         let last = parts.len() - 1;
         for (ix, part) in parts.into_iter().enumerate() {
+            // * Windows strips a trailing dot or space from every path
+            // * component, so `note.md.` silently lands on `note.md` — a
+            // * different note than asked for. Refuse before the OS rewrites
+            // * anything; the leaf counts too, since a rename target may be
+            // * a link the caller is allowed to replace.
+            if Self::has_trailing_dot_or_space(&part) {
+                return Err(VaultError::RefusedName(absolute.join(&part)));
+            }
             absolute.push(part);
             if ix == last && leaf_may_link {
                 break;
@@ -811,6 +852,13 @@ impl Vault {
             }
         }
         Ok(absolute)
+    }
+
+    /// A trailing dot or space is silently dropped by Win32 path parsing,
+    /// so `note.md.` and `note ` resolve to a different file than typed.
+    fn has_trailing_dot_or_space(part: &OsStr) -> bool {
+        let name = part.to_string_lossy();
+        !name.is_empty() && (name.ends_with('.') || name.ends_with(' '))
     }
 
     /// Writes `bytes` to a vault-relative path, through [`Vault::write_path`]
@@ -923,7 +971,7 @@ impl Vault {
         match std::fs::metadata(path) {
             Ok(meta) if meta.is_file() => {
                 self.add_ancestors(&rel);
-                let file = VaultFile {
+                let mut file = VaultFile {
                     kind: FileKind::from_path(&rel),
                     path: rel.clone(),
                     size: meta.len(),
@@ -936,8 +984,31 @@ impl Vault {
                         changes.push(FileChange::Modified(rel));
                     }
                     Err(ix) => {
-                        self.files.insert(ix, file);
-                        changes.push(FileChange::Added(rel));
+                        // * A path that differs from a listed one only by
+                        // * capitalisation and names the same file on disk is
+                        // * not a second note: on a case-insensitive
+                        // * filesystem the list would hold two rows for one
+                        // * file and the index two keys for one note. Keep
+                        // * the spelling the list already holds so nothing
+                        // * downstream has to move, and report the file as
+                        // * changed rather than as a new one.
+                        let same = self
+                            .files
+                            .iter()
+                            .position(|f| f.path.eq_ignore_ascii_case(&rel))
+                            .filter(|&j| same_file(&self.root.join(&self.files[j].path), path));
+                        match same {
+                            Some(j) => {
+                                let kept = self.files[j].path.clone();
+                                file.path = kept.clone();
+                                self.files[j] = file;
+                                changes.push(FileChange::Modified(kept));
+                            }
+                            None => {
+                                self.files.insert(ix, file);
+                                changes.push(FileChange::Added(rel));
+                            }
+                        }
                     }
                 }
             }
@@ -1438,6 +1509,79 @@ mod tests {
         assert_eq!(r.resolve("plan", "Note.md"), Some("Projects/Plan.md"));
     }
 
+    /// A path spelled with different capitalisation that names the same file
+    /// on disk is not a new note: on a case-insensitive filesystem the file
+    /// list would otherwise hold two rows for one file, the explorer would
+    /// show a note twice, and removing one would report a file that is still
+    /// there. Sync clients and macOS-to-Windows moves hand the watcher
+    /// exactly these spellings.
+    #[cfg(windows)]
+    #[test]
+    fn a_path_spelled_with_other_capitalisation_is_the_same_file() {
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path().canonicalize().unwrap();
+        fs::create_dir_all(root.join("Notes")).unwrap();
+        fs::write(root.join("Notes/Plan.md"), "plan\n").unwrap();
+        fs::write(root.join("Note.md"), "one file\n").unwrap();
+        let mut vault = Vault::open(&root).unwrap();
+        assert_eq!(vault.files().len(), 2);
+        assert!(vault.folders().contains(&"Notes".to_string()));
+
+        // * The same file, spelled the way the other side wrote it.
+        vault.refresh_path(&root.join("note.md"));
+        // * And the same folder, spelled the other way too.
+        vault.refresh_path(&root.join("notes"));
+
+        let listed: Vec<&str> = vault.files().iter().map(|f| f.path.as_str()).collect();
+        assert_eq!(
+            listed,
+            vec!["Note.md", "Notes/Plan.md"],
+            "one file, two rows in the explorer: {listed:?}"
+        );
+        assert_eq!(
+            vault.folders(),
+            ["Notes"],
+            "one folder, two rows: {:?}",
+            vault.folders()
+        );
+        // * And the event says the file changed, not that a second appeared.
+        let changes = vault.refresh_path(&root.join("NOTE.md"));
+        assert!(
+            matches!(changes.as_slice(), [FileChange::Modified(p)] if p == "Note.md"),
+            "a re-spelling reported a new file: {changes:?}"
+        );
+    }
+
+    /// A plugin folder whose manifest is corrupt (or absent) is skipped
+    /// rather than failing the whole scan: one broken plugin may not hide
+    /// the installed ones, and it may not stop the vault opening either.
+    #[test]
+    fn a_plugin_manifest_that_will_not_parse_is_skipped_not_listed() {
+        let dir = sample_vault();
+        let r = dir.path();
+        // * Corrupt, not just missing: JSON cut off mid-key.
+        fs::write(
+            r.join(".obsidian/plugins/broken/manifest.json"),
+            "{\"id\": \"brok",
+        )
+        .unwrap();
+        // * A second healthy one, to show the scan went on.
+        fs::create_dir_all(r.join(".obsidian/plugins/good")).unwrap();
+        fs::write(
+            r.join(".obsidian/plugins/good/manifest.json"),
+            r#"{"id":"good","name":"Good","version":"2.0.0","author":"me","description":"d"}"#,
+        )
+        .unwrap();
+
+        let manifests = Vault::open(r).unwrap().plugin_manifests();
+        let listed: Vec<&str> = manifests.iter().map(|m| m.id.as_str()).collect();
+        assert_eq!(
+            listed,
+            vec!["good", "x"],
+            "the corrupt and the manifest-less folders are skipped, both healthy ones listed: {listed:?}"
+        );
+    }
+
     #[test]
     fn refresh_path_tracks_files_folders_and_removals() {
         let dir = sample_vault();
@@ -1816,6 +1960,41 @@ mod tests {
         assert_eq!(fs::read_to_string(r.join("Sub/a.md")).unwrap(), "b");
     }
 
+    /// `note.md.` would be silently rewritten by Windows to `note.md`, so
+    /// the vault refuses it instead of overwriting a neighbour's note. The
+    /// same refusal runs on every platform so the vault behaves the same
+    /// wherever it is opened.
+    #[test]
+    fn write_bytes_refuses_a_name_an_os_would_rewrite() {
+        let dir = tempfile::tempdir().unwrap();
+        let r = dir.path();
+        fs::create_dir_all(r.join(".obsidian")).unwrap();
+        fs::create_dir_all(r.join(".trash")).unwrap();
+        let vault = Vault::open(r).unwrap();
+
+        vault.write_bytes("note.md", b"original\n").unwrap();
+        let err = vault.write_bytes("note.md.", b"overwrite\n").unwrap_err();
+        assert!(
+            matches!(err, VaultError::RefusedName(_)),
+            "a name ending in a dot must be refused: {err}"
+        );
+        // * The neighbour note is untouched — no silent overwrite.
+        assert_eq!(
+            fs::read_to_string(r.join("note.md")).unwrap(),
+            "original\n",
+            "the neighbour's bytes changed"
+        );
+        // * A normal name still writes fine.
+        vault.write_bytes("other.md", b"ok\n").unwrap();
+        assert_eq!(fs::read_to_string(r.join("other.md")).unwrap(), "ok\n");
+
+        // * The rename path is refused too, through checked_path.
+        assert!(matches!(
+            vault.write_path("note.md."),
+            Err(VaultError::RefusedName(_))
+        ));
+    }
+
     #[cfg(unix)]
     #[test]
     fn write_at_follows_directories_but_never_a_link() {
@@ -1900,6 +2079,38 @@ mod tests {
 
         write_no_follow(&path, b"newer").unwrap();
         assert_eq!(std::fs::read_to_string(&path).unwrap(), "newer");
+    }
+
+    /// A note past MAX_PATH exists: the app creates its folders and first
+    /// bytes through `win_fs`, whose Win32 calls carry the `\\?\` prefix.
+    /// Saving it goes through `write_no_follow` — the save entry point
+    /// `Vault::write_bytes` uses on Windows — whose std calls do not. So the
+    /// save that follows a deep note's creation fails with "cannot find the
+    /// path specified" (os error 3), the scratch file's longer name crossing
+    /// the limit first. A note win_fs can write must be saveable too.
+    #[cfg(windows)]
+    #[test]
+    fn a_save_past_max_path_lands_and_reads_back() {
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path().canonicalize().unwrap();
+        // * One 60-char component per level: three dirs plus the file name
+        // * carry the absolute path well past 260 without ever naming `..`.
+        let long = "l".repeat(60);
+        let relative = Path::new(&long)
+            .join(&long)
+            .join(&long)
+            .join(format!("{long}.md"));
+
+        win_fs::create_dir_all_at(&root, relative.parent().expect("has a parent"))
+            .expect("create_dir_all_at past MAX_PATH");
+        win_fs::write_at(&root, &relative, b"first save\n").expect("write_at past MAX_PATH");
+
+        write_no_follow(&root.join(&relative), b"second save\n")
+            .expect("write_no_follow past MAX_PATH");
+
+        let read_back =
+            win_fs::read_inside(&root, &relative, 32).expect("read_inside past MAX_PATH");
+        assert_eq!(read_back, b"second save\n");
     }
 
     #[cfg(unix)]
