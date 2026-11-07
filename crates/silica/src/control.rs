@@ -296,8 +296,17 @@ fn handle(
         //   is exercised without driving a desktop save dialog.
         "graph_png" => {
             let path = request.str_param("path")?;
-            ctl.workspace(|ws, _window, cx| ws.export_graph_png(std::path::Path::new(&path), cx))
-                .map(Some)
+            ctl.workspace(|ws, _window, cx| {
+                // * Every other file the socket touches goes through
+                //   `vault_path`, and this one did not: a caller could name
+                //   any writable path on the machine and have the app
+                //   overwrite it with picture bytes. The panel's own "Save
+                //   as image" writes through the desktop dialog and is not
+                //   affected.
+                let absolute = ws.vault_path(path)?;
+                ws.export_graph_png(&absolute, cx)
+            })
+            .map(Some)
         }
         "state" => {
             let text = request.bool_param("text", false);

@@ -12,6 +12,14 @@ use std::io::{BufRead, BufReader, Write};
 use std::path::Path;
 use std::time::{Duration, Instant};
 
+/// The largest reply line read from the socket. Requests are capped at
+/// 64 KiB on the app's side; a reply carries vault listings and state
+/// dumps, so its bound is far more generous — but still a bound: an answer
+/// past it is a runaway or something that is not the app at all, and
+/// `read_until` has consumed the whole line either way, so the stream
+/// stays aligned for the error to travel on.
+const MAX_REPLY_BYTES: usize = 8 * 1024 * 1024;
+
 #[derive(Debug)]
 pub struct Client {
     stream: UnixStream,
@@ -108,7 +116,7 @@ impl Client {
         };
         let mut line = serde_json::to_string(&request)
             .map_err(|e| format!("control socket: cannot encode {method}: {e}"))?;
-        line.push('\n');
+        line.push('\u{000a}');
         if let Err(e) = self
             .stream
             .write_all(line.as_bytes())
@@ -119,8 +127,8 @@ impl Client {
             return Err(format!("control socket: writing {method}: {e}"));
         }
 
-        let mut reply = String::new();
-        match self.reader.read_line(&mut reply) {
+        let mut bytes = Vec::new();
+        match self.reader.read_until(b'\n', &mut bytes) {
             Ok(0) => {
                 self.broken = true;
                 return Err(format!("control socket: closed while waiting for {method}"));
@@ -133,6 +141,20 @@ impl Client {
                 return Err(format!("control socket: reading {method}: {e}"));
             }
         }
+        if bytes.len() > MAX_REPLY_BYTES {
+            self.broken = true;
+            return Err(format!(
+                "control socket: reply to {method} is too large ({} bytes)",
+                bytes.len()
+            ));
+        }
+        let reply = match String::from_utf8(bytes) {
+            Ok(reply) => reply,
+            Err(_) => {
+                self.broken = true;
+                return Err(format!("control socket: reply to {method} is not UTF-8"));
+            }
+        };
         let response: Response = match serde_json::from_str(reply.trim_end()) {
             Ok(response) => response,
             Err(e) => {
@@ -196,6 +218,21 @@ mod tests {
                     Response::ok(request.id, Value::Null)
                 }
                 "liar" => Response::ok(request.id + 100, Value::Null),
+                // * A reply past any bound a client could reasonably read:
+                //   a line of it, newline included, well over the cap.
+                "flood" => {
+                    let mut line = String::new();
+                    line.push_str(r#"{"id":"#);
+                    line.push_str(&request.id.to_string());
+                    line.push_str(r#","result":{"pad":""#);
+                    line.push_str(&"x".repeat(9 * 1024 * 1024));
+                    line.push_str(r#"}}"#);
+                    line.push('\u{000a}');
+                    // * Write it raw: the typed reply would never carry it.
+                    let _ = writer.write_all(line.as_bytes());
+                    let _ = writer.flush();
+                    continue;
+                }
                 other => Response::err(request.id, format!("unknown method: {other}")),
             };
             // * A client that gave up on a slow reply is already gone; that is
@@ -329,6 +366,32 @@ mod tests {
         assert_eq!(
             client.call("ping", json!({})).expect("a reply")["ok"],
             json!(true)
+        );
+
+        drop(client);
+        server.join().expect("the server thread");
+        std::fs::remove_file(&path).expect("removes the socket");
+    }
+
+    /// A reply line past `MAX_REPLY_BYTES` is refused with a distinct error
+    /// instead of being buffered without bound: the line is consumed whole,
+    /// so the stream stays aligned and the client is marked broken so its
+    /// caller reconnects.
+    #[test]
+    fn a_flooded_reply_is_refused_without_an_unbounded_allocation() {
+        let path = socket_path("flood-reply");
+        let listener = UnixListener::bind(&path).expect("binds");
+        let server = std::thread::spawn(move || serve(listener));
+
+        let mut client = Client::connect(&path, Duration::from_secs(2)).expect("connects");
+        let e = client.call("flood", json!({})).expect_err("flooded");
+        assert!(
+            e.contains("too large"),
+            "an over-large reply must be refused: {e}"
+        );
+        assert!(
+            client.is_broken(),
+            "a flooded connection is broken and must be replaced"
         );
 
         drop(client);

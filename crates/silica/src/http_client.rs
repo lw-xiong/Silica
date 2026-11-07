@@ -1,11 +1,11 @@
 use std::path::{Path, PathBuf};
 
-use anyhow::{anyhow, Result};
-use futures::future::BoxFuture;
+use anyhow::{Result, anyhow};
 use futures::FutureExt;
+use futures::future::BoxFuture;
 use http_client::{
-    http::{HeaderValue, Response, StatusCode},
     AsyncBody, HttpClient, Url,
+    http::{HeaderValue, Response, StatusCode},
 };
 
 /// The largest remote image Silica will keep. A note's picture is a picture;
@@ -175,6 +175,36 @@ pub fn resolve_target(url: &str) -> Option<String> {
         .ok()?
         .find(|a| !is_private(a.ip()))?;
     Some(format!("{host}:{port}:{}", ip.ip()))
+}
+
+/// What a response's status line tells the redirect loop to do next, given how
+/// many redirects have already been followed.
+enum Next {
+    /// A redirect whose Location is safe to validate and follow.
+    Follow(String),
+    /// Still redirecting with the budget spent: refused, never treated as the
+    /// final answer.
+    TooManyRedirects,
+    /// Not a redirect (or one with nowhere to go): the body stands.
+    Finish,
+}
+
+/// Decide the next move from the raw header block curl wrote to disk.
+fn next_hop(headers: &str, redirects: u32) -> Next {
+    let code = headers
+        .lines()
+        .next()
+        .and_then(|l| l.split_whitespace().nth(1))
+        .and_then(|c| c.parse::<u16>().ok())
+        .unwrap_or(0);
+    let Some(location) = extract_location(headers).filter(|_| is_redirect_status(code)) else {
+        // * Not a redirect, or one we cannot follow: the body stands.
+        return Next::Finish;
+    };
+    if redirects >= MAX_REDIRECTS {
+        return Next::TooManyRedirects;
+    }
+    Next::Follow(location)
 }
 
 /// Loopback, link-local, private, and the other ranges that mean "this
@@ -393,15 +423,9 @@ impl HttpClient for SilicaHttpClient {
                             Ok(s) if s.success() => {
                                 let headers = std::fs::read_to_string(&headers_path)
                                     .unwrap_or_default();
-                                let code = headers
-                                    .lines()
-                                    .next()
-                                    .and_then(|l| l.split_whitespace().nth(1))
-                                    .and_then(|c| c.parse::<u16>().ok())
-                                    .unwrap_or(0);
 
-                                if is_redirect_status(code) && redirects < MAX_REDIRECTS {
-                                    if let Some(location) = extract_location(&headers) {
+                                match next_hop(&headers, redirects) {
+                                    Next::Follow(location) => {
                                         // Resolve relative redirects (a path, or
                                         // a protocol-relative URL) against the
                                         // current URL before validating, so
@@ -436,6 +460,19 @@ impl HttpClient for SilicaHttpClient {
                                         cleanup();
                                         continue;
                                     }
+                                    // * The budget is spent and the server is
+                                    //   still redirecting: refusing is the
+                                    //   only honest answer. Treating it as the
+                                    //   final response would cache a redirect
+                                    //   page's body as the picture and hand it
+                                    //   back with a 200.
+                                    Next::TooManyRedirects => {
+                                        cleanup();
+                                        break 'redirects Err(anyhow!(
+                                            "too many redirects fetching {current_uri}"
+                                        ));
+                                    }
+                                    Next::Finish => {}
                                 }
 
                                 // * Final response (not a redirect, or too many
@@ -543,6 +580,53 @@ mod destination_tests {
             assert!(!allows_destination(url), "{url} was allowed");
         }
         assert!(!allows_destination("example.com/x.png"), "no scheme");
+    }
+}
+
+#[cfg(test)]
+mod next_hop_tests {
+    use super::*;
+
+    #[test]
+    fn a_redirect_with_budget_left_is_followed() {
+        let headers = "HTTP/1.1 302 Found\r\nLocation: https://example.com/next.png\r\n";
+        assert!(matches!(
+            next_hop(headers, MAX_REDIRECTS - 1),
+            Next::Follow(_)
+        ));
+        assert!(matches!(next_hop(headers, 0), Next::Follow(_)));
+    }
+
+    #[test]
+    fn a_redirect_with_the_budget_spent_is_refused_not_finished() {
+        // ! Before this guard, the sixth redirect fell through to the
+        //     "final response" branch: its body was renamed into the image
+        //     cache and handed back as the picture with a 200.
+        let headers = "HTTP/1.1 302 Found\r\nLocation: https://example.com/loop.png\r\n";
+        assert!(matches!(
+            next_hop(headers, MAX_REDIRECTS),
+            Next::TooManyRedirects
+        ));
+        assert!(matches!(
+            next_hop(headers, MAX_REDIRECTS + 7),
+            Next::TooManyRedirects
+        ));
+    }
+
+    #[test]
+    fn a_non_redirect_is_finished() {
+        assert!(matches!(
+            next_hop("HTTP/1.1 200 OK\r\nContent-Type: image/png\r\n", 0),
+            Next::Finish
+        ));
+        // * A redirect with no Location has nowhere to go: its body stands,
+        //   exactly as before.
+        assert!(matches!(
+            next_hop("HTTP/1.1 302 Found\r\nContent-Length: 0\r\n", 0),
+            Next::Finish
+        ));
+        // * An unreadable status line is not evidence of a redirect.
+        assert!(matches!(next_hop("", MAX_REDIRECTS), Next::Finish));
     }
 }
 
