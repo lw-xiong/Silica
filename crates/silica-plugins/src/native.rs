@@ -65,6 +65,15 @@ pub struct PluginContext<'a> {
     pub notify: NoticeSink<'a>,
 }
 
+/// The one message a `run_command` answers an unknown id with.
+///
+/// Every plugin — the native core plugins, the vault doctor, and the
+/// compatibility host — says the same sentence, so it lives here instead
+/// of being spelled out at each call site where the copies could drift.
+pub fn unknown_command(id: &str) -> String {
+    format!("'{id}' is not a command this plugin registered")
+}
+
 /// A plugin Silica runs in-process: no bridge, no sandbox, no QuickJS.
 pub trait Plugin {
     /// Stable id the plugin is known by, e.g. `silica:backlinks`.
@@ -87,6 +96,6 @@ pub trait Plugin {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         let _ = (id, value, ctx);
-        Err(format!("'{id}' is not a command this plugin registered"))
+        Err(unknown_command(id))
     }
 }

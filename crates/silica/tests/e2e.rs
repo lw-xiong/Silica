@@ -425,3 +425,52 @@ fn the_view_header_bookmark_action_prompts_for_a_title() {
         "the prompt bookmarks the current heading: {modal:?}"
     );
 }
+
+/// The socket's graph export goes through the same vault confinement as
+/// every other file method: a caller naming a path outside the vault is
+/// refused, and nothing is written there.
+#[test]
+fn a_graph_export_cannot_leave_the_vault() {
+    if !e2e_enabled() {
+        eprintln!("skipped: no display available for the graphical end-to-end tests");
+        return;
+    }
+    let vault = Vault::new();
+    let mut app = match App::launch(&vault.root) {
+        Some(a) => a,
+        None => {
+            eprintln!("skipped: no graphical session to launch silica in");
+            return;
+        }
+    };
+    app.settle();
+    let vault_root = app.socket.parent().expect("the vault folder").to_path_buf();
+    let escaped = vault_root
+        .parent()
+        .expect("the temp folder outside the vault")
+        .join("escaped-graph.png");
+
+    // * The raw client call, not `app.call`: an error is the answer being
+    //   asserted here, and `app.call` turns one into a panic.
+    // * The absolute path, not `../…`: a relative one resolves against the
+    //   app's working directory, so the file the old code wrote landed
+    //   somewhere the assertion below was not looking.
+    let refused = app.client.call("graph_png", json!({"path": escaped}));
+    assert!(
+        refused.is_err(),
+        "an export naming a path outside the vault must be refused: {refused:?}"
+    );
+    assert!(
+        !escaped.exists(),
+        "nothing may be written outside the vault: {}",
+        escaped.display()
+    );
+
+    // * A vault-relative name is what the method is for: the picture still
+    //   lands in the vault.
+    app.call("graph_png", json!({"path": "graph.png"}));
+    assert!(
+        vault_root.join("graph.png").exists(),
+        "a vault-relative export lands in the vault"
+    );
+}

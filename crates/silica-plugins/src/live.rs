@@ -223,7 +223,7 @@ mod tests {
         ) -> Result<(), String> {
             match id {
                 "silica:counter:count" => Ok(()),
-                other => Err(format!("'{other}' is not a command this plugin registered")),
+                other => Err(crate::native::unknown_command(other)),
             }
         }
     }

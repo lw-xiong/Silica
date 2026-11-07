@@ -814,7 +814,13 @@ mod tests {
         // * step for good; the next call has to get a new one.
         assert!(app.client.is_none(), "the broken client was kept");
 
-        let reply = app.call("ping", json!({})).expect("a fresh connection");
+        // * The `hang` timed out on the 60ms window by design; the *next*
+        //   call only has to prove a fresh connection works, so it gets a
+        //   window a loaded CI machine can still answer inside — otherwise
+        //   the suite's parallel load makes this test flaky (os error 10060).
+        let reply = app
+            .call_within("ping", json!({}), Duration::from_secs(10))
+            .expect("a fresh connection");
         assert_eq!(reply, json!({"ok": true}));
         assert_eq!(fake.connections.load(Ordering::SeqCst), 2);
     }

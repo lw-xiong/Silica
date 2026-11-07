@@ -161,6 +161,155 @@ pub fn attachment_path(setting: Option<&str>, note: &str, name: &str) -> String 
     join(&attachment_folder(setting, note), name)
 }
 
+/// What one backup run produced.
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct BackupReport {
+    /// Files copied into the new backup folder.
+    pub files: usize,
+    /// Bytes those files hold.
+    pub bytes: u64,
+    /// The backup folder that was written.
+    pub dir: std::path::PathBuf,
+}
+
+/// Copies the whole vault into a new folder under `backups` and prunes all
+/// but the newest `keep`.
+///
+/// Obsidian never backs a vault up -- that is Sync's job and Sync is paid --
+/// so this is Silica's own answer to the most common request the app gets: a
+/// local copy that outlives a bad edit. The one rule it keeps is that a
+/// backup must never eat the vault it is a copy of: `.git` and `.silica` are
+/// skipped (the first is the user's own history, the second is where the
+/// backups themselves live), `backups` itself is skipped wherever it sits,
+/// and `keep` is at least one so a run cannot delete the only copy that
+/// exists.
+pub fn backup_vault(root: &Path, backups: &Path, keep: usize) -> Result<BackupReport, OpError> {
+    let dest = unique_backup_dir(backups)?;
+    std::fs::create_dir_all(&dest).map_err(io("create folder", &dest))?;
+    let mut report = BackupReport {
+        dir: dest.clone(),
+        ..Default::default()
+    };
+    copy_backup_tree(root, root, &dest, backups, &mut report)?;
+    let keep = keep.max(1);
+    prune_backups(backups, keep);
+    Ok(report)
+}
+
+/// The next `vault-<epoch seconds>` folder inside `backups`, never one that
+/// already exists: two runs in the same second get `-2`, `-3`, ... which is
+/// what keeps the sort the prune does chronological. Unix time rather than a
+/// date because the vault crate has no clock-to-civil conversion of its own,
+/// and borrowing the templates crate's for a folder name is not worth the
+/// dependency.
+fn unique_backup_dir(backups: &Path) -> Result<PathBuf, OpError> {
+    std::fs::create_dir_all(backups).map_err(io("create folder", backups))?;
+    let secs = std::time::SystemTime::now()
+        .duration_since(std::time::SystemTime::UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
+    let base = format!("vault-{secs}");
+    let mut n = 1;
+    loop {
+        let name = if n == 1 {
+            base.clone()
+        } else {
+            format!("{base}-{n}")
+        };
+        let candidate = backups.join(name);
+        if !candidate.exists() {
+            return Ok(candidate);
+        }
+        n += 1;
+    }
+}
+
+/// Copies everything under `from` into `to`, keeping the folder structure and
+/// skipping what a backup must not hold.
+fn copy_backup_tree(
+    root: &Path,
+    from: &Path,
+    to: &Path,
+    backups: &Path,
+    report: &mut BackupReport,
+) -> Result<(), OpError> {
+    let entries = match std::fs::read_dir(from) {
+        Ok(entries) => entries,
+        // ! A vault that loses a folder between the walk and the read is not
+        //   a failed backup: the rest of it is still worth having.
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(err) => return Err(io("read folder", from)(err)),
+    };
+    let mut entries: Vec<_> = entries.filter_map(|e| e.ok()).collect();
+    entries.sort_by_key(|e| e.file_name());
+    for entry in entries {
+        let path = entry.path();
+        let rel = match path.strip_prefix(root) {
+            Ok(rel) => rel.to_path_buf(),
+            Err(_) => continue,
+        };
+        if path.starts_with(backups) {
+            continue;
+        }
+        // * Silica's own scratch space and the user's own history: both are
+        //   already copies of something.
+        if matches!(
+            rel.components().next().and_then(|c| c.as_os_str().to_str()),
+            Some(".git") | Some(".silica")
+        ) {
+            continue;
+        }
+        let file_type = match entry.file_type() {
+            Ok(file_type) => file_type,
+            Err(_) => continue,
+        };
+        // ! The destination is the mirror of this level, not of the root: the
+        //   walk carries the root-relative path, and joining that onto the
+        //   level's own folder would nest `Sub/Sub`.
+        let local = match path.strip_prefix(from) {
+            Ok(local) => local.to_path_buf(),
+            Err(_) => continue,
+        };
+        let dest = to.join(&local);
+        if file_type.is_dir() {
+            std::fs::create_dir_all(&dest).map_err(io("create folder", &dest))?;
+            copy_backup_tree(root, &path, &dest, backups, report)?;
+        } else if file_type.is_file() {
+            let bytes = std::fs::copy(&path, &dest).map_err(io("copy file", &path))?;
+            report.files += 1;
+            report.bytes += bytes;
+        }
+        // ! A symlink is left alone: following one could copy a file the
+        //   vault only borrows, and the app's write path refuses them anyway.
+    }
+    Ok(())
+}
+
+/// Deletes every backup folder but the newest `keep`, by name: the timestamp
+/// prefix is fixed width, so the sort is chronological.
+fn prune_backups(backups: &Path, keep: usize) {
+    let Ok(entries) = std::fs::read_dir(backups) else {
+        return;
+    };
+    let mut dirs: Vec<PathBuf> = entries
+        .filter_map(|e| e.ok())
+        .map(|e| e.path())
+        .filter(|p| {
+            p.is_dir()
+                && p.file_name()
+                    .and_then(|n| n.to_str())
+                    .is_some_and(|n| n.starts_with("vault-"))
+        })
+        .collect();
+    dirs.sort();
+    if dirs.len() <= keep {
+        return;
+    }
+    for stale in &dirs[..dirs.len() - keep] {
+        let _ = std::fs::remove_dir_all(stale);
+    }
+}
+
 /// Checks every segment of a new path the way Obsidian's rename does.
 fn validate_path(path: &str) -> Result<(), OpError> {
     if path.is_empty() {
@@ -367,7 +516,16 @@ impl Vault {
         }
         let moved = self.rename_plan(from, to);
         std::fs::rename(&from_abs, &to_abs).map_err(io("rename", &from_abs))?;
-        self.refresh_path(&from_abs);
+        // * The old prefix is gone from disk whatever the filesystem says
+        // * about its spelling, so drop it by name instead of refreshing the
+        // * old path: on a case-insensitive filesystem that path still
+        // * resolves to the renamed entry, and refreshing it would report a
+        // * file that is merely spelled differently rather than a removal.
+        let old_prefix = format!("{from}/");
+        self.files
+            .retain(|f| f.path != from && !f.path.starts_with(&old_prefix));
+        self.folders
+            .retain(|f| *f != from && !f.starts_with(&old_prefix));
         self.refresh_path(&to_abs);
         Ok(moved)
     }
@@ -421,7 +579,16 @@ impl Vault {
         };
         let target = self.numbered_path(".trash", stem, ext, 2);
         let target_abs = self.entry_path(&target)?;
-        std::fs::rename(&abs, &target_abs).map_err(io("move to .trash", &abs))
+        std::fs::rename(&abs, &target_abs).map_err(io("move to .trash", &abs))?;
+        // * The flat `.trash` throws away which folder the entry came from,
+        // * so say it beside it: a restore would otherwise put a note from
+        // * Sub/ at the vault root and every relative link in it would
+        // * point somewhere else. Best effort — a record that fails to write
+        // * costs the note its old folder, not its bytes.
+        if let Some((folder, _)) = path.rsplit_once('/') {
+            let _ = std::fs::write(trash.join(format!(".{name}.origin")), folder);
+        }
+        Ok(())
     }
 
     /// Lists the contents of the vault's own `.trash/` folder, returning
@@ -435,6 +602,9 @@ impl Vault {
             .map_err(io("read trash", &trash))?
             .filter_map(|e| e.ok())
             .filter_map(|e| e.file_name().to_str().map(|s| s.to_string()))
+            // * Dot-prefixed entries are the vault's own records, not the
+            // * user's trashed notes.
+            .filter(|n| !n.starts_with('.'))
             .collect();
         out.sort();
         out.dedup();
@@ -443,20 +613,51 @@ impl Vault {
 
     /// Restores a trashed entry back to its original vault path.
     /// `name` is the entry's file name as returned by [`list_trash`].
-    pub fn restore_from_trash(&self, name: &str) -> Result<(), OpError> {
+    /// Brings a note back from `.trash` under its own name. The trashed copy
+    /// is moved, not read-and-copied, so there is never a moment where two
+    /// full copies of the user's data exist; and a name the vault already
+    /// holds is refused, so a restore can never trade a newer note for the
+    /// older one. The index is refreshed for the restored path — a note that
+    /// is on disk but not in the file list is invisible to search, links and
+    /// every list in the app, which would look exactly like a lost note.
+    /// Where a trashed entry came from, when it did not come from the vault
+    /// root. The vault's own `.trash` is flat, so the folder the entry lived
+    /// in is the one thing the move itself loses — the freedesktop route
+    /// keeps it in its `.trashinfo`, and this is the same job for the
+    /// fallback: a sidecar, dot-prefixed so it never looks like a user's
+    /// note and is skipped by [`Vault::list_trash`].
+    fn origin_of(&self, trash: &Path, name: &str) -> Option<String> {
+        let record = trash.join(format!(".{name}.origin"));
+        std::fs::read_to_string(&record)
+            .ok()
+            .filter(|f| !f.is_empty())
+    }
+
+    pub fn restore_from_trash(&mut self, name: &str) -> Result<(), OpError> {
         let trash = self.write_path(".trash")?;
         let src = trash.join(name);
         if !src.exists() {
             return Err(OpError::NotFound(name.to_string()));
         }
-        let dst = self.entry_path(name)?;
+        // * Back to the folder it was taken from, not to the vault root: the
+        // * name in `.trash` alone cannot say where that was.
+        let where_to = match self.origin_of(&trash, name) {
+            Some(folder) => format!("{folder}/{name}"),
+            None => name.to_string(),
+        };
+        let dst = self.entry_path(&where_to)?;
         if dst.exists() {
             return Err(OpError::DestinationExists);
         }
         if let Some(parent) = dst.parent() {
             std::fs::create_dir_all(parent).map_err(io("create folder", parent))?;
         }
-        std::fs::rename(&src, dst).map_err(io("restore from trash", &src))
+        std::fs::rename(&src, &dst).map_err(io("restore from trash", &src))?;
+        // * Its record has said everything it has to say; a stale one for a
+        // * name that no longer exists is never read, so this is only tidy-up.
+        let _ = std::fs::remove_file(trash.join(format!(".{name}.origin")));
+        self.refresh_path(&dst);
+        Ok(())
     }
 }
 
@@ -788,6 +989,45 @@ mod tests {
         assert!(v.rename("renamed a.md", "renamed a.md").unwrap().is_empty());
     }
 
+    /// Menghapus folder yang berisi file yang sedang dibuka proses lain
+    /// (tidak ada sharing) harus gagal bersih: ada yang terhapus, ada yang
+    /// tersisa, dan errornya menyatakan alamatnya. Tidak boleh panic, dan
+    /// tidak boleh dianggap berhasil karena sebagian file sudah pergi.
+    #[cfg(windows)]
+    #[test]
+    fn trash_refuses_a_folder_holding_a_locked_file() {
+        use std::fs::OpenOptions;
+        use std::os::windows::fs::OpenOptionsExt;
+        let (dir, mut v) = vault();
+        let root = dir.path();
+        fs::create_dir_all(root.join("Locked")).unwrap();
+        fs::write(root.join("Locked/note.md"), "inside\n").unwrap();
+        // * share_mode(0): proses lain memegang catatan, tanpa sharing sama sekali.
+        let locked = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .share_mode(0)
+            .open(root.join("Locked/note.md"));
+        let locked = match locked {
+            Ok(h) => h,
+            Err(_) => return,
+            // * CI tanpa hak buka file eksklusif: tidak ada yang diuji.
+        };
+        let err = v.trash("Locked", TrashOption::Local).unwrap_err();
+        assert!(
+            matches!(err, OpError::Io { .. }),
+            "trash folder with locked file must return an io error: {err}"
+        );
+        // * Folder masih ada dan belum disentang, meski catatan dikunci:
+        // * tidak ada penghapusan parsial yang diam-diam.
+        assert!(root.join("Locked/note.md").is_file());
+        drop(locked);
+        assert_eq!(
+            fs::read_to_string(root.join("Locked/note.md")).unwrap(),
+            "inside\n"
+        );
+    }
+
     /// A folder typed with the wrong case still reports every move, so the
     /// caller rewrites links instead of silently dropping them (F2).
     #[test]
@@ -804,6 +1044,200 @@ mod tests {
         assert_eq!(
             v.rename_plan("untitled.md", "Renamed.md"),
             vec![("Untitled.md".to_string(), "Renamed.md".to_string())]
+        );
+    }
+
+    /// Renaming a folder that holds a file another process has open with no
+    /// sharing must fail with an I/O error naming the move, and leave the
+    /// folder exactly where it was: the file list still holds every note
+    /// under the old name, because a rename that half-applied would leave
+    /// the index describing a tree the disk no longer has.
+    #[cfg(windows)]
+    #[test]
+    fn renaming_a_folder_holding_a_locked_file_is_refused_not_half_applied() {
+        use std::fs::OpenOptions;
+        use std::os::windows::fs::OpenOptionsExt;
+        let (dir, mut v) = vault();
+        let root = dir.path();
+        let held = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .share_mode(0)
+            .open(root.join("Sub/S.md"));
+        let held = match held {
+            Ok(h) => h,
+            Err(_) => return, // CI without the right to open exclusively
+        };
+
+        let err = v
+            .rename("Sub", "Moved")
+            .expect_err("the move must be refused");
+        assert!(
+            matches!(err, OpError::Io { .. }),
+            "a locked file in the way must surface as an io error: {err}"
+        );
+        assert!(
+            err.to_string().contains("Moved") || err.to_string().contains("Sub"),
+            "{err}"
+        );
+        // * Nothing moved: the disk and the index still agree.
+        assert!(root.join("Sub/S.md").is_file(), "the folder moved anyway");
+        assert!(
+            !root.join("Moved").exists(),
+            "a half-applied rename left a destination"
+        );
+        let paths: Vec<&str> = paths(&v);
+        assert!(
+            paths.contains(&"Sub/S.md"),
+            "the index dropped the note: {paths:?}"
+        );
+        assert!(
+            paths.contains(&"Sub/Deep/D.md"),
+            "the index dropped a nested note: {paths:?}"
+        );
+        assert!(
+            paths.iter().all(|p| !p.starts_with("Moved")),
+            "the index lists the new name"
+        );
+        assert!(
+            v.folders().contains(&"Sub".to_string()),
+            "the folder list moved early"
+        );
+        drop(held);
+    }
+
+    /// A name the extension splitter has to think about. Trashing and
+    /// restoring it must come back to the same file, because a
+    /// stem/extension split that takes the wrong half would restore the note
+    /// under a different name — or leave the user's file in `.trash` under a
+    /// name the restore cannot match.
+    #[test]
+    fn a_trashed_note_with_an_odd_name_comes_back_under_the_same_name() {
+        for name in [
+            "notes",               // * No extension at all: the whole name is the stem.
+            "archive.tar.gz",      // * Two dots: the last one is the extension.
+            "Ω notes ✓.md",        // * Spaces and non-ASCII letters.
+            "name with spaces.md", // * Blanks in the middle are just bytes.
+        ] {
+            let (dir, mut v) = vault();
+            let note = dir.path().join(name);
+            // * Through the vault API, so the note is in the file list the
+            // * way a note the user made is.
+            v.create_note(name, "kept bytes\n").unwrap();
+            assert!(note.is_file(), "{name} was not created");
+            assert_eq!(
+                v.trash(name, TrashOption::Local).unwrap(),
+                vec![name.to_string()],
+                "{name} did not move"
+            );
+            assert!(
+                v.list_trash().unwrap().iter().any(|t| t == name),
+                "{name} is not in .trash: {:?}",
+                v.list_trash().unwrap()
+            );
+            assert!(!note.exists(), "{name} stayed behind");
+
+            v.restore_from_trash(name).unwrap();
+            assert_eq!(
+                fs::read_to_string(&note).unwrap(),
+                "kept bytes\n",
+                "{name} came back different"
+            );
+        }
+    }
+
+    /// Restoring into a name the vault already holds must not overwrite it:
+    /// the trashed copy stays in `.trash` and the note on disk keeps its
+    /// bytes, because a restore that silently replaced the current file would
+    /// trade the user's newer note for the older one. And a name that tries to
+    /// leave the vault — `..`, or an absolute path — is refused before any
+    /// file moves, the same way every other write path is.
+    #[test]
+    fn a_restore_refuses_a_name_the_vault_already_holds_or_that_leaves_it() {
+        let (dir, mut v) = vault();
+        fs::create_dir_all(dir.path().join(".trash")).unwrap();
+
+        // * A note trashed, and a new note written under the same name.
+        v.trash("A.md", TrashOption::Local).unwrap();
+        v.create_note("A.md", "the newer note\n").unwrap();
+        let keep = fs::read_to_string(dir.path().join("A.md")).unwrap();
+        assert!(v.list_trash().unwrap().iter().any(|t| t == "A.md"));
+
+        let err = v.restore_from_trash("A.md").expect_err("the name is taken");
+        assert!(matches!(err, OpError::DestinationExists), "{err}");
+        // * Neither copy was touched by the refusal.
+        assert_eq!(
+            fs::read_to_string(dir.path().join("A.md")).unwrap(),
+            keep,
+            "the current note was replaced by the restore"
+        );
+        assert!(
+            v.list_trash().unwrap().iter().any(|t| t == "A.md"),
+            "the trashed copy disappeared"
+        );
+
+        // * A name that would leave the vault never moves anything: refused
+        // * before any file moves, and nothing appears outside the vault.
+        for escape in ["../../outside.md", "../outside.md", "/etc/passwd"] {
+            let err = v.restore_from_trash(escape);
+            assert!(err.is_err(), "{escape:?} must be refused, not restored");
+        }
+        assert!(
+            !dir.path().join("outside.md").exists(),
+            "a restore escaped to the vault root"
+        );
+        assert!(
+            !dir.path().parent().unwrap().join("outside.md").exists(),
+            "a restore escaped the vault"
+        );
+    }
+
+    /// The `System` option is a preference, not a promise: on a desktop with
+    /// no system trash (Windows, or a read-only data directory) the vault's
+    /// own `.trash` is the fallback, and the note must land there rather than
+    /// be reported as failed. A user who picked "move to system trash" and
+    /// got an error would think the note was still there — or lose it.
+    #[test]
+    fn a_system_trash_with_no_system_trash_lands_in_the_vaults_own() {
+        let (dir, mut v) = vault();
+        let note = dir.path().join("A.md");
+        let bytes = fs::read_to_string(&note).unwrap();
+
+        let removed = v
+            .trash("A.md", TrashOption::System)
+            .expect("the vault's own trash is the fallback, not an error");
+        assert_eq!(
+            removed,
+            vec!["A.md".to_string()],
+            "the note did not go anywhere"
+        );
+
+        // * It is in the vault's own .trash, under its own name — the fallback
+        // * must not make the user hunt for a numbered copy.
+        let trashed = dir.path().join(".trash/A.md");
+        assert!(trashed.is_file(), "the note is not in .trash: {trashed:?}");
+        assert_eq!(
+            fs::read_to_string(&trashed).unwrap(),
+            bytes,
+            "the bytes were lost"
+        );
+        assert!(!note.exists(), "the original stayed behind");
+        assert!(
+            !paths(&v).contains(&"A.md"),
+            "the index still lists a note that is in .trash"
+        );
+
+        // * And it comes back whole, which is the point of falling back.
+        v.restore_from_trash("A.md")
+            .expect("the fallback copy restores");
+        assert_eq!(
+            fs::read_to_string(&note).unwrap(),
+            bytes,
+            "the restore lost bytes"
+        );
+        assert!(
+            paths(&v).contains(&"A.md"),
+            "the restored note is not in the index"
         );
     }
 
@@ -828,6 +1262,301 @@ mod tests {
             v.trash("Untitled.md", TrashOption::None),
             Err(OpError::NotFound(_))
         ));
+    }
+
+    /// A trashed folder comes back whole: every note under it, at its own
+    /// path, listed again in both the file list and the folder list. A
+    /// restore that left the folder on disk but absent from the lists would
+    /// make every note inside it unreachable — the folder would not show, so
+    /// the user could not open the notes they can see exist. And the name the
+    /// vault already holds is refused, the same as for a note, so a restore
+    /// can never nest one user's folder inside another's.
+    #[test]
+    fn a_trashed_folder_comes_back_with_every_note_in_it() {
+        let (dir, mut v) = vault();
+
+        let removed = v.trash("Sub", TrashOption::Local).unwrap();
+        assert_eq!(
+            removed.len(),
+            3,
+            "every file under the folder moved: {removed:?}"
+        );
+        assert!(
+            dir.path().join(".trash/Sub/Deep/D.md").is_file(),
+            "the folder is not in .trash as a whole"
+        );
+        assert!(!paths(&v).contains(&"Sub/S.md"), "the note is still listed");
+
+        v.restore_from_trash("Sub")
+            .expect("a trashed folder restores");
+
+        // * Files and folders are back where they were, all of them.
+        let mut files = paths(&v);
+        files.sort();
+        assert_eq!(
+            files,
+            vec![
+                "A.md",
+                "Sub/Deep/D.md",
+                "Sub/S.md",
+                "Sub/pic.png",
+                "Untitled.md"
+            ],
+            "the folder did not come back complete"
+        );
+        let mut folders: Vec<String> = v.folders().to_vec();
+        folders.sort();
+        assert_eq!(
+            folders,
+            vec!["Inbox", "Sub", "Sub/Deep"],
+            "the folders are not listed"
+        );
+
+        // * The bytes survived, and the trashed copy is gone rather than copied.
+        assert_eq!(
+            fs::read_to_string(dir.path().join("Sub/S.md")).unwrap(),
+            "s"
+        );
+        assert_eq!(
+            fs::read_to_string(dir.path().join("Sub/Deep/D.md")).unwrap(),
+            "d"
+        );
+        assert!(
+            !dir.path().join(".trash/Sub").exists(),
+            "the trashed folder stayed behind as a second copy"
+        );
+
+        // * A name the vault already holds is refused, folder or not.
+        v.create_folder("Docs").unwrap();
+        v.trash("Inbox", TrashOption::Local).unwrap();
+        v.create_folder("Inbox").unwrap();
+        let err = v
+            .restore_from_trash("Inbox")
+            .expect_err("the name is taken");
+        assert!(matches!(err, OpError::DestinationExists), "{err}");
+    }
+
+    /// A note trashed from *inside a folder* comes back to that folder, not to
+    /// the vault root. The flat `.trash` keeps only the file name, so a
+    /// restore that reads it back naively would land the note at the root:
+    /// the folder it lived in would lose it, a same-named note at the root
+    /// would refuse the restore, and every relative link in the note would
+    /// silently point somewhere else. That looks like a moved note, not a
+    /// broken one.
+    #[test]
+    fn a_note_trashed_inside_a_folder_returns_to_that_folder() {
+        let (dir, mut v) = vault();
+
+        v.trash("Sub/S.md", TrashOption::Local).unwrap();
+        let in_trash = v.list_trash().unwrap();
+        assert!(
+            in_trash.iter().any(|t| t == "S.md"),
+            "the note is not in .trash: {in_trash:?}"
+        );
+
+        v.restore_from_trash("S.md")
+            .expect("a trashed note restores");
+
+        assert!(
+            dir.path().join("Sub/S.md").is_file(),
+            "the note came back to the vault root instead of Sub/"
+        );
+        assert!(
+            !dir.path().join("S.md").exists(),
+            "the note landed at the root"
+        );
+        let mut files = paths(&v);
+        files.sort();
+        assert_eq!(
+            files,
+            vec![
+                "A.md",
+                "Sub/Deep/D.md",
+                "Sub/S.md",
+                "Sub/pic.png",
+                "Untitled.md"
+            ],
+            "the note is not back where it was"
+        );
+        assert_eq!(
+            fs::read_to_string(dir.path().join("Sub/S.md")).unwrap(),
+            "s",
+            "the bytes were lost"
+        );
+
+        // * The record that said where it came from is gone, and it was never
+        // * listed as one of the user's trashed notes.
+        assert!(
+            !dir.path().join(".trash/.S.md.origin").exists(),
+            "the sidecar stayed behind after the restore"
+        );
+        let listed = v.list_trash().unwrap();
+        assert!(
+            listed.iter().all(|n| !n.starts_with('.')),
+            "the vault's own records showed up as notes: {listed:?}"
+        );
+
+        // * A record is data, not instruction: one planted saying the note
+        // * came from outside the vault is refused by the same gate as any
+        // * other path, and the note stays put in `.trash` rather than
+        // * being written somewhere the user did not ask for.
+        v.trash("Sub/S.md", TrashOption::Local).unwrap();
+        assert!(
+            dir.path().join(".trash/S.md").is_file(),
+            "the second trash did not go back to the plain name"
+        );
+        std::fs::write(
+            dir.path().join(".trash/.S.md.origin"),
+            "../../outside-folder",
+        )
+        .unwrap();
+        let err = v
+            .restore_from_trash("S.md")
+            .expect_err("the record names a place outside the vault");
+        assert!(
+            dir.path().join(".trash/S.md").is_file(),
+            "the note was moved on the strength of a record that failed to resolve"
+        );
+        assert!(
+            !dir.path().join("../outside-folder").exists(),
+            "the note escaped the vault: {err:?}"
+        );
+    }
+
+    /// The vault's own `.trash` slot can be taken by something that is not a
+    /// folder — another tool drops a file there, or a sync client puts a
+    /// placeholder. The trash then cannot be made, and the move must fail
+    /// with the note exactly where it was: a note half-moved, or worse one
+    /// gone with no copy anywhere, is the shape this has to refuse. The
+    /// failing folder is named in the error so the user can go and look at
+    /// what is squatting on it.
+    #[test]
+    fn a_file_squatting_on_the_trash_folder_fails_and_keeps_the_note() {
+        let (dir, mut v) = vault();
+
+        let squatter = dir.path().join(".trash");
+        std::fs::write(&squatter, "not a folder\n").unwrap();
+        let note = dir.path().join("A.md");
+        let bytes = fs::read_to_string(&note).unwrap();
+
+        // * Local trash, and the fallback of the System option: both have to
+        // * go through the vault's own `.trash`, and both must be refused.
+        for option in [TrashOption::Local, TrashOption::System] {
+            let err = v
+                .trash("A.md", option)
+                .expect_err("a file is squatting on .trash");
+            assert!(
+                matches!(err, OpError::Io { .. }),
+                "the failure is not reported as an io error naming the folder: {err:?}"
+            );
+            // * Nothing moved, and the bytes are the user's.
+            assert!(
+                note.is_file(),
+                "the note moved on a failed trash: {option:?}"
+            );
+            assert_eq!(fs::read_to_string(&note).unwrap(), bytes);
+            assert!(
+                paths(&v).contains(&"A.md"),
+                "the index lost a note that is still on disk"
+            );
+        }
+
+        // * The squatter is untouched: refusing the trash is not a licence to
+        // * delete whatever was in the way.
+        assert_eq!(fs::read_to_string(&squatter).unwrap(), "not a folder\n");
+
+        // * Once the slot is a folder again, the same trash works — the vault
+        // * is not left permanently unable to trash.
+        std::fs::remove_file(&squatter).unwrap();
+        let removed = v.trash("A.md", TrashOption::Local).unwrap();
+        assert_eq!(removed, vec!["A.md".to_string()]);
+        assert!(dir.path().join(".trash/A.md").is_file());
+    }
+
+    /// An empty note is a note, not a hole: a check anywhere that treated
+    /// "no bytes" as "not there" would lose it the moment it was moved —
+    /// trashed, restored or renamed — and the user would have no note where
+    /// they had one. It has to come back with nothing in it and still be
+    /// listed, because that is what a note the user deliberately left blank
+    /// looks like.
+    #[test]
+    fn an_empty_note_survives_a_move_and_stays_a_listed_note() {
+        let (dir, mut v) = vault();
+        let empty = dir.path().join("Blank.md");
+        v.create_note("Blank.md", "").unwrap();
+        assert!(empty.is_file(), "an empty note was not created");
+        assert!(
+            paths(&v).contains(&"Blank.md"),
+            "the empty note is not indexed"
+        );
+
+        // * Trashed and back, with nothing in it and still indexed.
+        v.trash("Blank.md", TrashOption::Local).unwrap();
+        assert!(
+            dir.path().join(".trash/Blank.md").is_file(),
+            "the empty note is not in .trash as a file"
+        );
+        v.restore_from_trash("Blank.md").unwrap();
+        assert!(empty.is_file(), "the empty note did not come back");
+        assert_eq!(fs::read_to_string(&empty).unwrap(), "");
+        assert!(
+            paths(&v).contains(&"Blank.md"),
+            "the restored empty note is not indexed"
+        );
+
+        // * And renamed, which is where a "no bytes, so nothing to keep"
+        // * shortcut would drop it.
+        let moved = dir.path().join("Renamed.md");
+        v.rename("Blank.md", "Renamed.md").unwrap();
+        assert!(moved.is_file(), "the empty note vanished on a rename");
+        assert_eq!(fs::read_to_string(&moved).unwrap(), "");
+        assert!(
+            paths(&v).contains(&"Renamed.md"),
+            "the renamed empty note is not indexed"
+        );
+        assert!(!empty.exists(), "the empty note also stayed behind");
+    }
+
+    /// A note the size of a real journal is the same note: nothing in the
+    /// write, rename or trash path may drop part of it. A truncation would
+    /// look exactly like a note the user had not finished writing, and the
+    /// only trace would be the missing tail. Every byte is checked, in both
+    /// directions of the move.
+    #[test]
+    fn a_large_note_keeps_every_byte_through_rename_and_trash() {
+        let (dir, mut v) = vault();
+        // * A repeating pattern, so a truncation or a repeat cannot pass.
+        let text: String = (0..1_048_576u32)
+            .map(|i| char::from(b'a' + u8::try_from(i % 26).unwrap()))
+            .collect();
+        v.create_note("Big.md", &text).unwrap();
+        assert_eq!(fs::read_to_string(dir.path().join("Big.md")).unwrap(), text);
+
+        v.rename("Big.md", "Moved.md").unwrap();
+        assert_eq!(
+            fs::read_to_string(dir.path().join("Moved.md")).unwrap(),
+            text,
+            "the rename lost part of a large note"
+        );
+
+        v.trash("Moved.md", TrashOption::Local).unwrap();
+        v.restore_from_trash("Moved.md").unwrap();
+        assert_eq!(
+            fs::read_to_string(dir.path().join("Moved.md")).unwrap(),
+            text,
+            "the trash round trip lost part of a large note"
+        );
+
+        // * And overwriting it keeps every byte of the new, larger text: this
+        // * is the save path the app uses for note content.
+        let bigger = format!("{text}{text}");
+        v.write_bytes("Moved.md", bigger.as_bytes())
+            .expect("the overwrite worked");
+        assert_eq!(
+            fs::read_to_string(dir.path().join("Moved.md")).unwrap(),
+            bigger,
+            "an overwrite lost part of a large note"
+        );
     }
 
     #[cfg(all(unix, not(target_os = "macos")))]
@@ -877,7 +1606,7 @@ mod tests {
 
     #[test]
     fn restore_from_trash_errors_when_entry_is_missing_or_target_exists() {
-        let (dir, v) = vault();
+        let (dir, mut v) = vault();
         fs::create_dir_all(dir.path().join(".trash")).unwrap();
         assert!(matches!(
             v.restore_from_trash("Gone.md"),
@@ -895,7 +1624,7 @@ mod tests {
     //   data loss wearing an error's clothes.
     #[test]
     fn a_failed_restore_keeps_the_trashed_entry() {
-        let (dir, v) = vault();
+        let (dir, mut v) = vault();
         fs::create_dir_all(dir.path().join(".trash")).unwrap();
         fs::write(dir.path().join(".trash/Keep.md"), "only copy").unwrap();
         fs::write(dir.path().join("Keep.md"), "in the way").unwrap();
@@ -949,6 +1678,102 @@ mod tests {
             TrashOption::System
         );
         assert_eq!(TrashOption::from_config(Some("Local")), TrashOption::System);
+    }
+
+    // * A backup is a copy with its own folder: every note lands in it, and
+    //   the vault it came from is untouched by both the copy and the prune.
+    //   It works on a plain folder, so the tests need no `Vault` at all.
+    fn plain_vault() -> (tempfile::TempDir, PathBuf) {
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path().to_path_buf();
+        fs::create_dir_all(root.join("Sub/Deep")).unwrap();
+        fs::write(root.join("A.md"), "aa").unwrap();
+        fs::write(root.join("Sub/B.md"), "bbb").unwrap();
+        fs::write(root.join("Sub/Deep/C.md"), "cccc").unwrap();
+        (dir, root)
+    }
+
+    #[test]
+    fn a_backup_copies_the_notes_and_leaves_the_vault_alone() {
+        let (_dir, root) = plain_vault();
+        let backups = root.join(".silica").join("backups");
+        let report = super::backup_vault(&root, &backups, 7).unwrap();
+
+        assert_eq!(report.files, 3);
+        assert_eq!(report.bytes, 9);
+        assert!(
+            report
+                .dir
+                .file_name()
+                .and_then(|n| n.to_str())
+                .is_some_and(|n| n.starts_with("vault-")),
+            "named {}",
+            report.dir.display()
+        );
+        assert_eq!(fs::read_to_string(report.dir.join("A.md")).unwrap(), "aa");
+        assert_eq!(
+            fs::read_to_string(report.dir.join("Sub/Deep/C.md")).unwrap(),
+            "cccc"
+        );
+        // * The vault is the same vault it was.
+        assert_eq!(fs::read_to_string(root.join("A.md")).unwrap(), "aa");
+        assert!(root.join("Sub").is_dir());
+    }
+
+    // * The repo, the backup folder itself and a note that vanished mid-walk
+    //   are all outside a backup's remit, and none of them may stop it.
+    #[test]
+    fn a_backup_skips_the_repo_and_its_own_folder() {
+        let (_dir, root) = plain_vault();
+        fs::create_dir_all(root.join(".git")).unwrap();
+        fs::write(root.join(".git/HEAD"), "ref: refs/heads/main\n").unwrap();
+        let backups = root.join(".silica").join("backups");
+        fs::create_dir_all(backups.join("vault-1")).unwrap();
+        fs::write(backups.join("vault-1/A.md"), "old").unwrap();
+
+        let report = super::backup_vault(&root, &backups, 7).unwrap();
+
+        assert_eq!(report.files, 3);
+        assert!(!report.dir.join(".git").exists());
+        assert!(!report.dir.join(".silica").exists());
+        assert!(!report.dir.join("vault-1").exists());
+    }
+
+    #[test]
+    fn a_second_backup_in_the_same_second_gets_its_own_folder() {
+        let (_dir, root) = plain_vault();
+        let backups = root.join(".silica").join("backups");
+        let first = super::backup_vault(&root, &backups, 7).unwrap().dir;
+        let second = super::backup_vault(&root, &backups, 7).unwrap().dir;
+
+        assert_ne!(first, second);
+        assert!(first.exists() && second.exists());
+    }
+
+    #[test]
+    fn backups_are_pruned_to_the_cap_without_eating_the_newest() {
+        let (_dir, root) = plain_vault();
+        let backups = root.join(".silica").join("backups");
+        let first = super::backup_vault(&root, &backups, 2).unwrap().dir;
+        let second = super::backup_vault(&root, &backups, 2).unwrap().dir;
+        let third = super::backup_vault(&root, &backups, 2).unwrap().dir;
+
+        // * Three runs with a cap of two: the oldest goes, the newest two stay.
+        assert!(!first.exists(), "{first:?} should have been pruned");
+        assert!(second.exists());
+        assert!(third.exists());
+        // * The vault's own note was never touched by any of it.
+        assert_eq!(fs::read_to_string(root.join("A.md")).unwrap(), "aa");
+    }
+
+    #[test]
+    fn a_cap_of_zero_still_keeps_the_backup_it_just_made() {
+        let (_dir, root) = plain_vault();
+        let backups = root.join(".silica").join("backups");
+        let report = super::backup_vault(&root, &backups, 0).unwrap();
+
+        assert!(report.dir.exists());
+        assert_eq!(report.files, 3);
     }
 }
 

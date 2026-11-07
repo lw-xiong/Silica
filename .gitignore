@@ -26,3 +26,8 @@ tools/readme-recording/frames/
 gate*.log
 clippy.log
 test-*.log
+
+# Per-worktree build dirs
+target-s17/
+target-ux/
+target-gap/

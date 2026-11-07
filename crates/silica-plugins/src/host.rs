@@ -403,6 +403,12 @@ impl Shared {
         }
         #[cfg(windows)]
         {
+            // * Same snapshot as Unix: `write_at_handles` replaces the file
+            //   whole and leaves no way back otherwise, and a plugin writing
+            //   an existing note is the normal case, not the edge one.
+            if resolved.exists() {
+                silica_vault::snapshot_before_overwrite(resolved);
+            }
             silica_vault::write_at_handles(&self.root, relative, bytes)
         }
         #[cfg(all(not(unix), not(windows)))]
@@ -716,7 +722,7 @@ impl PluginHost {
             .commands
             .iter()
             .find(|c| c.id == id)
-            .ok_or_else(|| format!("'{id}' is not a command this plugin registered"))?;
+            .ok_or_else(|| crate::native::unknown_command(id))?;
         match &command.callback {
             Some(key) => self.run(key, None),
             None => Err(format!(
@@ -1569,6 +1575,46 @@ mod path_tests {
             timers: Vec::new(),
         };
         (dir, Rc::new(RefCell::new(shared)))
+    }
+
+    /// The doc on `write_checked` says the existing file is snapshotted
+    /// before it is replaced, so a plugin write cannot destroy prior
+    /// content. Unix snapshots in its own branch; the Windows branch calls
+    /// `write_at_handles`, which does not. A plugin that rewrites a note —
+    /// the normal case, not the fresh-file one — therefore leaves the user
+    /// with no way back to the bytes it replaced.
+    #[test]
+    fn a_plugin_write_over_an_existing_note_keeps_a_snapshot_of_the_old_bytes() {
+        let (dir, shared) = vault(None);
+        let root = dir.path().canonicalize().unwrap();
+        let note = root.join("note.md");
+        std::fs::write(&note, "the user's own draft\n").unwrap();
+        let resolved = shared.borrow().writable("note.md").unwrap();
+
+        shared
+            .borrow()
+            .write_checked(&resolved, b"what the plugin wrote\n")
+            .expect("a plugin write over an existing note");
+
+        assert_eq!(
+            std::fs::read_to_string(&note).unwrap(),
+            "what the plugin wrote\n"
+        );
+        let snapshots = root.join(".trash").join(".snapshots");
+        let kept: Vec<String> = std::fs::read_dir(&snapshots)
+            .unwrap()
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .collect();
+        assert!(
+            !kept.is_empty(),
+            "no snapshot of the replaced bytes: {snapshots:?}"
+        );
+        let content = std::fs::read_to_string(snapshots.join(&kept[0])).unwrap();
+        assert_eq!(
+            content, "the user's own draft\n",
+            "the snapshot kept the wrong bytes"
+        );
     }
 
     #[cfg(unix)]

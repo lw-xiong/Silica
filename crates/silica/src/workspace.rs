@@ -93,6 +93,7 @@ use silica_vault::{FileChange, TrashOption, Vault, VaultError, VaultFile, VaultR
 use std::collections::{HashMap, HashSet};
 use std::ops::Range;
 use std::path::{Component, Path, PathBuf};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, RwLock, RwLockReadGuard};
 use std::time::{Duration, Instant};
 
@@ -383,6 +384,8 @@ pub const RUNNABLE: &[&str] = &[
     // * Silica's own extension, not an Obsidian id: the `silica:` prefix is
     //   what the repo marks its native additions with.
     "silica:export-site",
+    "silica:export-site-watch",
+    "silica:open-exported-site",
     "canvas:new-file",
     "canvas:export-as-image",
     "canvas:jump-to-group",
@@ -409,23 +412,27 @@ pub const RUNNABLE: &[&str] = &[
     "editor:table-row-up",
     "editor:table-row-down",
     "editor:table-row-copy",
+    "editor:table-row-duplicate",
     "editor:table-row-delete",
     "editor:table-col-before",
     "editor:table-col-after",
     "editor:table-col-left",
     "editor:table-col-right",
     "editor:table-col-copy",
+    "editor:table-col-duplicate",
     "editor:table-col-delete",
     "editor:table-col-align-left",
     "editor:table-col-align-center",
     "editor:table-col-align-right",
     "app:go-back",
-    "app:go-forward",
-    "app:reload",
-    "audio-recorder:start",
-    "audio-recorder:stop",
     "quick-capture:open",
     "task-dashboard:open",
+    "app:go-forward",
+    "app:reload",
+    "app:increase-font-size",
+    "app:decrease-font-size",
+    "audio-recorder:start",
+    "audio-recorder:stop",
     "app:open-settings",
     "app:open-help",
     "app:open-vault",
@@ -448,6 +455,10 @@ pub const RUNNABLE: &[&str] = &[
     "file-explorer:move-file",
     "file-explorer:duplicate-file",
     "workspace:edit-file-title",
+    "workspace:copy-path",
+    "workspace:copy-full-path",
+    "silica:vault-backup",
+    "silica:toggle-graph-pane",
     "workspace:new-tab",
     "workspace:close",
     "workspace:close-others",
@@ -1394,6 +1405,9 @@ pub(crate) enum RightTab {
     /// All properties: every key in the vault with its type and count.
     Properties,
     Outline,
+    /// The graph, in the right dock: the same view the ribbon opens full
+    /// screen, kept beside the note — Obsidian's graph side pane.
+    Graph,
 }
 
 /// The Outline pane's headings for one note's metadata, whether that
@@ -1630,6 +1644,7 @@ pub(crate) enum PendingOp {
     /// `silica:export-site`: the folder the site is written to. An empty
     /// box takes the vault's sibling default.
     ExportSite,
+    ExportSiteWatch,
     /// "Merge entire file with...": the open note takes `other` in.
     Merge {
         file: String,
@@ -2954,6 +2969,12 @@ pub struct Workspace {
     words: usize,
     chars: usize,
     _watcher: Option<watch::Watcher>,
+    /// The site-export watch, while one runs: the flag its thread checks,
+    /// so a second "export (watching)" run stops it. `None` = not watching.
+    site_watch: Option<Arc<AtomicBool>>,
+    /// The folder of the last site export, so "open exported site" has a
+    /// target without re-exporting. `None` until the first export lands.
+    last_site_export: Option<PathBuf>,
     /// Pending autosave, two seconds after the last edit.
     save_task: Option<Task<()>>,
     /// Whether the startup flags have been applied. A client driving the
@@ -3546,6 +3567,8 @@ impl Workspace {
             words: 0,
             chars: 0,
             _watcher: None,
+            site_watch: None,
+            last_site_export: None,
             save_task: None,
             started: false,
             _subscriptions: subscriptions,
@@ -3814,7 +3837,62 @@ impl Workspace {
         self.report(result, cx);
     }
 
-    /// Rebuild the global [`Theme`] from the vault's current appearance and
+    /// Obsidian's "Increase font size" and "Decrease font size": the base
+    /// font size in `appearance.json`, one point at a time within the range
+    /// the Settings slider offers. It goes through `change_setting`, the
+    /// same path the slider takes, so the theme is recomputed live and the
+    /// file is the record of what the user asked for.
+    fn step_font_size(&mut self, up: bool, window: &mut Window, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        const MIN: u32 = 10;
+        const MAX: u32 = 30;
+        let mut next = state.appearance().clone();
+        let current = next.base_font_size.unwrap_or(16);
+        let step = if up {
+            current + 1
+        } else {
+            current.saturating_sub(1)
+        };
+        let step = step.clamp(MIN, MAX);
+        if step == current {
+            return;
+        }
+        next.base_font_size = Some(step);
+        self.change_setting(SettingChange::Appearance(next), window, cx);
+    }
+
+    /// Obsidian never backs a vault up: that is Sync's job, and Sync is paid.
+    /// `silica:vault-backup` is Silica's own answer to the most common
+    /// request the app gets -- a local copy that outlives a bad edit -- and
+    /// it lands beside the snapshots Silica already keeps, never on the
+    /// vault itself. One folder per run, named for the moment it was taken,
+    /// and all but the newest few pruned so a day's work does not become a
+    /// disk's worth of copies.
+    fn backup_vault(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        let root = state.root.clone();
+        let backups = root.join(".silica").join("backups");
+        let keep = 7;
+        let outcome = silica_vault::ops::backup_vault(&root, &backups, keep);
+        match outcome {
+            Ok(report) => self.report(
+                format!(
+                    "Backed up {} file(s), {} byte(s), into {}",
+                    report.files,
+                    report.bytes,
+                    backups.display()
+                ),
+                cx,
+            ),
+            Err(err) => self.report(format!("Backup failed: {err}"), cx),
+        }
+    }
+
+    /// Recompute the global [`Theme`] from the vault's current appearance and
     /// app config, the system's dark/light state, and any CSS theme or
     /// snippets on disk. Called from [`change_setting`] so appearance and
     /// font changes take effect without a restart.
@@ -4611,6 +4689,7 @@ impl Workspace {
             "outline" => RightTab::Outline,
             "tags" => RightTab::Tags,
             "properties" => RightTab::Properties,
+            "graph" => RightTab::Graph,
             _ => RightTab::Backlinks,
         };
         self.select_right_tab(which, cx);
@@ -5073,7 +5152,9 @@ impl Workspace {
             "switcher:open" => self.open_switcher("", window, cx),
             "global-search:open" => self.open_search_action(&OpenSearch, window, cx),
             "graph:open" => self.open_graph_action(&OpenGraph, window, cx),
-            "silica:export-site" => self.start_export_site(window, cx),
+            "silica:export-site" => self.start_export_site(window, cx, false),
+            "silica:export-site-watch" => self.start_export_site(window, cx, true),
+            "silica:open-exported-site" => self.open_exported_site(cx),
             // * Asked for by id with no file open -- the palette does not offer
             //   it, and `can_run` says so -- this opens nothing, which is what
             //   Obsidian's `checkCallback` does rather than falling back to the
@@ -5329,6 +5410,15 @@ impl Workspace {
             }
             "app:go-back" => self.go_back(&GoBack, window, cx),
             "app:go-forward" => self.go_forward(&GoForward, window, cx),
+            "app:increase-font-size" | "app:decrease-font-size" => {
+                let up = id == "app:increase-font-size";
+                self.step_font_size(up, window, cx);
+            }
+            "workspace:copy-path" | "workspace:copy-full-path" => {
+                self.copy_current_path(id == "workspace:copy-full-path", cx);
+            }
+            "silica:vault-backup" => self.backup_vault(window, cx),
+            "silica:toggle-graph-pane" => self.toggle_graph_pane(cx),
             "app:reload" => {
                 self.close_modal(window, cx);
                 let Ok(exe) = std::env::current_exe() else {
@@ -7303,6 +7393,7 @@ impl Workspace {
         window.focus(&self.copy_results.focus_handle(cx), cx);
         cx.notify();
     }
+
 
 }
 /// and names of other notes mentioned in it (outgoing).

@@ -304,6 +304,19 @@ pub(crate) struct BlockParser<'a, 'o> {
 }
 
 impl<'a, 'o> BlockParser<'a, 'o> {
+    /// Hard bound on simultaneously open block nodes. Unbounded nesting used to
+    /// crash the parser with an uncatchable stack overflow: lowering in
+    /// `lower_blocks` and the callout-title re-entry in `parse_span` are
+    /// recursive, so a 40 KB note of `"> ".repeat(300)` or `"[^x]: ".repeat(300)`
+    /// exhausted the stack before lowering finished. Authoring never nests
+    /// anywhere near this deep.
+    const MAX_OPEN_NODES: usize = 32;
+
+    /// True when opening one more container would exceed the hard nesting bound.
+    fn at_depth_limit(&self) -> bool {
+        self.open.len() >= Self::MAX_OPEN_NODES
+    }
+
     /// Parses one span of `src` as blocks, with every span in the result still
     /// an offset into `src` rather than into the slice.
     ///
@@ -1071,7 +1084,7 @@ impl<'a, 'o> BlockParser<'a, 'o> {
         let tip_is_paragraph = self.open[container].is_paragraph();
 
         // * Block quote.
-        if !self.indented && c == b'>' {
+        if !self.indented && c == b'>' && !self.at_depth_limit() {
             let start = self.next_nonspace;
             self.advance_next_nonspace();
             self.advance_offset(1, false);
@@ -1343,7 +1356,12 @@ impl<'a, 'o> BlockParser<'a, 'o> {
         }
 
         // * Footnote definition.
-        if self.opts.footnotes && !self.indented && c == b'[' && !tip_is_paragraph {
+        if self.opts.footnotes
+            && !self.indented
+            && c == b'['
+            && !tip_is_paragraph
+            && !self.at_depth_limit()
+        {
             if let Some((label, len)) = scan_footnote_label(self.rest()) {
                 let start = self.next_nonspace;
                 self.advance_next_nonspace();
@@ -1362,7 +1380,10 @@ impl<'a, 'o> BlockParser<'a, 'o> {
 
         // * List item.
         let in_list = matches!(self.open[container].kind, NodeKind::List { .. });
-        if (!self.indented || in_list) && (matches!(c, b'-' | b'+' | b'*') || c.is_ascii_digit()) {
+        if (!self.indented || in_list)
+            && (matches!(c, b'-' | b'+' | b'*') || c.is_ascii_digit())
+            && !self.at_depth_limit()
+        {
             if let Some(item) = self.parse_list_marker(tip_is_paragraph, in_list) {
                 self.close_unmatched_blocks();
                 let needs_list = match &self.tip().kind {

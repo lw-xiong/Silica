@@ -96,7 +96,7 @@ Factual gaps versus Obsidian, tracked rather than hidden:
 - Math uses a KaTeX-compatible engine rather than MathJax; genuinely unsupported TeX still shows source in red.
 - HTML is drawn where it can be drawn faithfully and left as source where it cannot. `<sup>` and `<sub>` are among the tags drawn without a baseline shift, because the text layer carries no vertical-offset attribute.
 - Local video plays without sound or seeking; remote media opens in the system player.
-- The graph is a full view, not a side pane.
+- The graph opens as a full view, and as a right-dock side pane (`silica:toggle-graph-pane`) kept beside the note.
 - Version history is Silica's own store — snapshots taken on save — not Obsidian Sync's. A vault written only by Obsidian has no history until Silica saves it once.
 - Two of 1,009 corpus notes do not match Obsidian's output (degenerate delimiter runs, a wikilink inside link text).
 

@@ -191,10 +191,16 @@ pub fn parse_node(source: &str) -> Expr {
 
 // ---------------------------------------------------------------------------
 
+/// One recursive descent step is counted by both `parse_expr` and
+/// `parse_unary`, so this allows 32 levels of real nesting (`(` or `[`
+/// or unary operator per level).
+const MAX_DEPTH: usize = 64;
+
 struct Parser<'a> {
     bytes: &'a [u8],
     src: &'a str,
     pos: usize,
+    depth: usize,
 }
 
 impl<'a> Parser<'a> {
@@ -203,7 +209,24 @@ impl<'a> Parser<'a> {
             bytes: src.as_bytes(),
             src,
             pos: 0,
+            depth: 0,
         }
+    }
+
+    /// Enters one recursive descent step. The parser recurses on every nested
+    /// `(`, unary operator, `[` index and argument list, so an unbounded
+    /// source they nest deeply enough overflows the stack; this is a hard
+    /// bound that degrades a deep statement to `Invalid` instead of a crash.
+    fn enter(&mut self) -> Result<(), ParseError> {
+        if self.depth >= MAX_DEPTH {
+            return Err(ParseError::unparseable(self.pos));
+        }
+        self.depth += 1;
+        Ok(())
+    }
+
+    fn leave(&mut self) {
+        self.depth -= 1;
     }
 
     fn skip_space(&mut self) {
@@ -227,7 +250,10 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_expr(&mut self) -> Result<Expr, ParseError> {
-        self.parse_binary(0)
+        self.enter()?;
+        let out = self.parse_binary(0);
+        self.leave();
+        out
     }
 
     /// One precedence level, left-associative, climbing to the next.
@@ -278,6 +304,13 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_unary(&mut self) -> Result<Expr, ParseError> {
+        self.enter()?;
+        let out = self.parse_unary_inner();
+        self.leave();
+        out
+    }
+
+    fn parse_unary_inner(&mut self) -> Result<Expr, ParseError> {
         self.skip_space();
         let start = self.pos;
         if self.eat("!") {
@@ -828,6 +861,44 @@ mod tests {
         assert!(error.starts_with("Unable to parse formula."), "{error}");
         // * ... and a statement that parses is never wrapped.
         assert_eq!(parse_node("1 + 1"), parse("1 + 1").unwrap());
+    }
+
+    /// A statement nested deeper than the parser's hard bound fails instead of
+    /// overflowing the stack: every `(`, unary op and `[` index is a recursive
+    /// descent step, and a `.base` can carry thousands of them.
+    #[test]
+    fn pathologically_nested_statements_fail_without_overflow() {
+        for src in [
+            format!("{}{}", "(".repeat(5000), ")".repeat(5000)),
+            "!".repeat(5000),
+            "-".repeat(5000),
+            format!("{}{}", "[".repeat(5000), "]".repeat(5000)),
+            "a".to_string() + &"[0".repeat(5000),
+            "f(".to_string() + &"f(".repeat(5000),
+        ] {
+            let node = parse_node(&src);
+            assert!(
+                matches!(node, Expr::Invalid { .. }),
+                "deep statement parsed: {} chars",
+                src.len()
+            );
+        }
+    }
+
+    /// ... while ordinary statements keep their shape at every depth the bound
+    /// still allows, and flat expressions are unaffected by the depth counter.
+    #[test]
+    fn ordinary_statements_are_unaffected_by_the_depth_bound() {
+        assert!(parse("1 + 1").is_ok());
+        assert!(parse("(1 + 2) * 3").is_ok());
+        assert!(parse("a.b.c[0] && d || !e").is_ok());
+        let flat: String = (0..200)
+            .map(|i| format!("a{i} + "))
+            .collect::<Vec<_>>()
+            .join("");
+        assert!(parse(&format!("{flat}b")).is_ok());
+        let nested = format!("{}1{}", "(".repeat(31), ")".repeat(31));
+        assert!(parse(&nested).is_ok(), "31-deep parens must stay legal");
     }
 
     /// The names are kept as written. Resolution is case-insensitive, but that

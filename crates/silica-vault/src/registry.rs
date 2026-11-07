@@ -194,11 +194,45 @@ impl VaultRegistry {
                         let _ = handle.sync_all();
                     }
                 }
+                // * A process that died between its create and its rename left
+                // * its companion behind, and nothing else ever removes it: the
+                // * configuration folder would collect a hidden file per
+                // * crashed run. The rename just succeeded, so this is the one
+                // * moment it is safe to sweep the others — best effort, since
+                // * failing to collect junk is not a reason to fail a save.
+                self.sweep_dead_companions();
                 Ok(())
             }
             Err(error) => {
                 let _ = std::fs::remove_file(&temp);
                 Err(error)
+            }
+        }
+    }
+
+    /// Removes the companions of a save that never finished, in the folder
+    /// this registry lives in. Only files this registry itself would have
+    /// written are touched: any other file in the user's configuration folder
+    /// is left exactly as it is.
+    fn sweep_dead_companions(&self) {
+        let Some(dir) = self.path.parent() else {
+            return;
+        };
+        let Ok(entries) = std::fs::read_dir(dir) else {
+            return;
+        };
+        let Some(stem) = self
+            .path
+            .file_name()
+            .map(|n| n.to_string_lossy().into_owned())
+        else {
+            return;
+        };
+        let prefix = format!(".{stem}.");
+        for entry in entries.flatten() {
+            let name = entry.file_name().to_string_lossy().into_owned();
+            if name.starts_with(&prefix) && name.ends_with(".silica-tmp") {
+                let _ = std::fs::remove_file(entry.path());
             }
         }
     }
@@ -339,6 +373,71 @@ mod tests {
         let text = std::fs::read_to_string(&path).unwrap();
         assert!(text.contains("\"open\":true"), "{text}");
         assert!(text.contains("\"ts\":1000"), "{text}");
+    }
+
+    /// The write is a companion plus a rename, so a save leaves exactly one
+    /// file behind — the registry itself. A scratch file left sitting in the
+    /// configuration folder would be junk the user cannot see and no code
+    /// removes. And a scratch file a *crashed* process left behind must not
+    /// break the next load: the list is read from the registry, and the
+    /// stray file is simply not it.
+    #[test]
+    fn a_save_leaves_no_scratch_and_a_crashed_one_is_ignored() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("config/silica/silica.json");
+
+        // * What a process killed between the create and the rename leaves.
+        let stray = dir.path().join("config/silica/.silica.json.999.silica-tmp");
+        std::fs::create_dir_all(stray.parent().unwrap()).unwrap();
+        std::fs::write(&stray, "{\"vaults\":{\"deadbee").unwrap();
+
+        let mut reg = VaultRegistry::load(&path).unwrap();
+        let id = reg.record_open(&dir.path().join("Notes"), 1000);
+        reg.save().unwrap();
+
+        let entries: Vec<String> = std::fs::read_dir(dir.path().join("config/silica"))
+            .unwrap()
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .collect();
+        assert_eq!(
+            entries
+                .iter()
+                .filter(|n| n.as_str() == "silica.json")
+                .count(),
+            1,
+            "the registry file is there: {entries:?}"
+        );
+        assert!(
+            entries.iter().all(|n| !n.ends_with(".999.silica-tmp")),
+            "a save cleaned up after the crash: {entries:?}"
+        );
+
+        // * A save also leaves nothing of its own behind: one registry file.
+        let owned: Vec<&String> = entries
+            .iter()
+            .filter(|n| n.ends_with(".silica-tmp"))
+            .collect();
+        assert!(
+            owned.is_empty(),
+            "a save left its scratch behind: {owned:?} — all entries: {entries:?}"
+        );
+
+        // * A file that is not this registry's companion is never touched:
+        // * the sweep must not eat the user's configuration folder.
+        let keep = dir.path().join("config/silica/keep-me.txt");
+        std::fs::write(&keep, "mine\n").unwrap();
+        let mut reg = VaultRegistry::load(&path).unwrap();
+        reg.record_open(&dir.path().join("Other"), 2000);
+        reg.save().unwrap();
+        assert!(keep.is_file(), "the sweep removed a file it does not own");
+        assert_eq!(std::fs::read_to_string(&keep).unwrap(), "mine\n");
+
+        // * The stray never became part of the list, and the load still works:
+        // * two vaults (Notes, then Other), the original keeping its place.
+        let reloaded = VaultRegistry::load(&path).unwrap();
+        assert_eq!(reloaded.vaults().len(), 2);
+        assert_eq!(reloaded.vaults()[0].0, id.as_str());
     }
 
     #[test]

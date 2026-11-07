@@ -27,6 +27,21 @@ use std::sync::{Arc, Mutex, PoisonError};
 /// are let go. An A4 page at 2x is about 8 MB; this is a few dozen of them.
 pub const PAGE_CACHE_BYTES: usize = 256 << 20;
 
+/// How many bytes of file may be read for a PDF at all. A file is read
+/// whole before the parser sees it, so a multi-gigabyte "pdf" dropped in a
+/// vault is a memory bomb: the size is refused before anything is read.
+/// A scanned book is a few hundred megabytes, hence the width.
+pub const MAX_PDF_BYTES: u64 = 512 << 20;
+
+/// The size check on its own, so it can be exercised without a large file.
+fn check_pdf_size(meta: &std::fs::Metadata) -> Result<(), String> {
+    let size = meta.len();
+    if size > MAX_PDF_BYTES {
+        return Err(format!("the file is too large ({size} bytes)"));
+    }
+    Ok(())
+}
+
 /// A parsed file and what every drawing reads off it before any page is
 /// rendered: the page sizes for layout, the outline for the sidebar, the
 /// title.
@@ -292,8 +307,13 @@ pub fn page_source(absolute: PathBuf, page: usize, scale: f32) -> ImageSource {
 }
 
 fn load(path: &Path) -> DocState {
-    let bytes = match std::fs::read(path) {
-        Ok(bytes) => bytes,
+    let bytes = match std::fs::metadata(path).and_then(|m| {
+        check_pdf_size(&m).map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidInput, e))
+    }) {
+        Ok(()) => match std::fs::read(path) {
+            Ok(bytes) => bytes,
+            Err(err) => return DocState::Failed(err.to_string()),
+        },
         Err(err) => return DocState::Failed(err.to_string()),
     };
     match Document::open(bytes) {
@@ -331,6 +351,39 @@ fn render_image(bitmap: Bitmap) -> Option<Arc<RenderImage>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A file sized past the cap is refused before anything is read; a
+    /// sparse file makes the case without spending the disk.
+    #[test]
+    fn a_pdf_past_the_size_cap_is_refused_before_the_read() {
+        let path = std::env::temp_dir().join(format!("silica-pdf-cap-{}.pdf", std::process::id()));
+        let file = std::fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .write(true)
+            .open(&path)
+            .expect("opens");
+        file.set_len(MAX_PDF_BYTES + 1).expect("sparse size");
+        drop(file);
+        let meta = std::fs::metadata(&path).expect("metadata");
+        let err = check_pdf_size(&meta).expect_err("too large");
+        assert!(err.contains("too large"), "{err}");
+        // * And through the real door: the failure, not a read.
+        match load(&path) {
+            DocState::Failed(m) => assert!(m.contains("too large"), "load must refuse: {m}"),
+            _ => panic!("load must refuse an over-cap file"),
+        }
+        std::fs::remove_file(&path).expect("removes");
+    }
+
+    #[test]
+    fn a_pdf_within_the_cap_passes_the_size_check() {
+        let path = std::env::temp_dir().join(format!("silica-pdf-ok-{}.pdf", std::process::id()));
+        std::fs::write(&path, b"%PDF-1.4\n").expect("writes");
+        let meta = std::fs::metadata(&path).expect("metadata");
+        check_pdf_size(&meta).expect("small file passes");
+        std::fs::remove_file(&path).expect("removes");
+    }
 
     fn image(w: u32, h: u32) -> Arc<RenderImage> {
         render_image(Bitmap {

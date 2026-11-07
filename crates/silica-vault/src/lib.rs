@@ -290,7 +290,8 @@ fn write_snapshot(snapshots: &Path, stem: &str, ext: &str, bytes: &[u8]) -> std:
         .unwrap_or(0);
     let mut counter: u64 = 0;
     loop {
-        let target = snapshots.join(format!("{stem}.{stamp}.{counter}.{ext}"));
+        let name = format!("{stem}.{stamp}.{counter}.{ext}");
+        let target = snapshots.join(&name);
         // ! Refuse to write through a symlink: an attacker who plants a link
         // ! at the target path must not redirect the snapshot.
         if target
@@ -312,31 +313,9 @@ fn write_snapshot(snapshots: &Path, stem: &str, ext: &str, bytes: &[u8]) -> std:
         // * its handle and renames relative to it, so the pathname check above
         // * is not what stands between a junction and the snapshot.
         #[cfg(unix)]
-        let written = target
-            .file_name()
-            .map(|name| write_at(snapshots, Path::new(name), bytes))
-            .unwrap_or_else(|| {
-                Err(std::io::Error::new(
-                    std::io::ErrorKind::InvalidInput,
-                    "snapshot path has no file name",
-                ))
-            });
+        let written = write_at(snapshots, Path::new(&name), bytes);
         #[cfg(windows)]
-        let written = {
-            let relative = match target.strip_prefix(snapshots) {
-                Ok(rel) => rel,
-                Err(_) => match target.file_name() {
-                    Some(name) => Path::new(name),
-                    None => {
-                        return Err(std::io::Error::new(
-                            std::io::ErrorKind::InvalidInput,
-                            "snapshot path has no file name",
-                        ))
-                    }
-                },
-            };
-            win_fs::write_at(snapshots, relative, bytes)
-        };
+        let written = win_fs::write_at(snapshots, Path::new(&name), bytes);
         #[cfg(not(any(unix, windows)))]
         let written = write_no_follow(&target, bytes);
         match written {

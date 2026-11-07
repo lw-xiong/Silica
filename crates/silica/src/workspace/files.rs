@@ -36,6 +36,27 @@ impl Workspace {
         cx.write_to_clipboard(ClipboardItem::new_string(path.to_string()));
     }
 
+    /// Obsidian's `workspace:copy-path` and `workspace:copy-full-path`, which
+    /// only exist as menu items over there but are commands in every sense:
+    /// the path of the open note, vault-relative or the host path, and a
+    /// spoken refusal with no note open rather than a clipboard holding the
+    /// last thing it held.
+    pub(crate) fn copy_current_path(&mut self, full: bool, cx: &mut Context<Self>) {
+        let Some(current) = self.current.clone() else {
+            self.report("No note is open", cx);
+            return;
+        };
+        let text = if full {
+            match self.vault_path(&current) {
+                Ok(path) => path.display().to_string(),
+                Err(_) => current,
+            }
+        } else {
+            current
+        };
+        cx.write_to_clipboard(ClipboardItem::new_string(text));
+    }
+
     /// The explorer menu's "Open in default app": the file handed to the
     /// desktop, one command per platform and no crate for it, so the
     /// dependency tree is unchanged. The child is spawned and let go -- the
@@ -667,7 +688,12 @@ impl Workspace {
 
     /// `silica:export-site`: asks where the site goes, with the vault's
     /// sibling folder as the pre-filled answer.
-    pub(crate) fn start_export_site(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn start_export_site(
+        &mut self,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+        watch: bool,
+    ) {
         // * The default folder is read through the state's borrow, which
         //   ends before `open_prompt` takes `self` back.
         let default = match self.state.as_ref() {
@@ -689,11 +715,24 @@ impl Workspace {
             None => return,
         };
         self.open_prompt(
-            PendingOp::ExportSite,
+            if watch {
+                PendingOp::ExportSiteWatch
+            } else {
+                PendingOp::ExportSite
+            },
             PromptSpec {
-                title: "Export vault as site".into(),
+                title: if watch {
+                    "Export vault as site (watching)".into()
+                } else {
+                    "Export vault as site".into()
+                },
                 detail: Some(
-                    "Every note renders to HTML; links and attachments come along.".into(),
+                    if watch {
+                        "Every note renders to HTML; links and attachments come along. The folder refreshes as the vault changes — run this again to stop."
+                    } else {
+                        "Every note renders to HTML; links and attachments come along."
+                    }
+                    .into(),
                 ),
                 input: Some(default),
                 placeholder: "Folder".into(),
@@ -703,6 +742,59 @@ impl Workspace {
             window,
             cx,
         );
+    }
+
+    /// `silica:toggle-graph-pane`: the graph in the right dock, beside the
+    /// note — Obsidian's graph side pane. Asked for with the pane already
+    /// showing it, the dock closes instead. The dock comes back first: a
+    /// pane that is not painted is outside the dispatch tree.
+    pub(crate) fn toggle_graph_pane(&mut self, cx: &mut Context<Self>) {
+        if self.right_tab == RightTab::Graph && self.right_visible {
+            self.right_visible = false;
+            cx.notify();
+        } else {
+            self.right_visible = true;
+            self.select_right_tab(RightTab::Graph, cx);
+        }
+    }
+
+    /// The watching export: a first run starts a background pass over the
+    /// vault, a second stops it. The thread owns its watcher, so the flag
+    /// is all a stop needs; taking the `Arc` out of `site_watch` is what
+    /// makes the command a toggle.
+    pub(crate) fn toggle_site_watch(&mut self, root: PathBuf, out: PathBuf, cx: &mut Context<Self>) {
+        if let Some(stop) = self.site_watch.take() {
+            stop.store(true, Ordering::Relaxed);
+            self.report("Stopped watching the site export.", cx);
+            return;
+        }
+        let stop = Arc::new(AtomicBool::new(false));
+        self.site_watch = Some(stop.clone());
+        std::thread::spawn(move || crate::site::watch_loop(root, out, stop));
+        self.report("Watching the vault — the site re-exports on change.", cx);
+    }
+
+    /// `silica:open-exported-site`: the last export's index.html in the
+    /// default browser — the "preview" half of the site export, with no
+    /// re-export and no temp server to leave running.
+    pub(crate) fn open_exported_site(&mut self, cx: &mut Context<Self>) {
+        let Some(out) = self.last_site_export.clone() else {
+            self.report(
+                "No export to open yet — run Export vault as site first.",
+                cx,
+            );
+            return;
+        };
+        let index = out.join("index.html");
+        if !index.exists() {
+            self.report(
+                format!("No index.html in {} — export it again.", out.display()),
+                cx,
+            );
+            return;
+        }
+        cx.open_url(&crate::site::index_url(&out));
+        self.report(format!("Opening {} in the browser.", index.display()), cx);
     }
 
     pub(crate) fn start_move(&mut self, path: &str, window: &mut Window, cx: &mut Context<Self>) {
@@ -1207,6 +1299,7 @@ link to it is rewritten. The current note is deleted."
             return;
         };
         let value = value.trim();
+        let watch = matches!(op, PendingOp::ExportSiteWatch);
         match op {
             PendingOp::Rename(from) => {
                 // * The box holds the stem, which is what `renamed_path`
@@ -1236,7 +1329,7 @@ link to it is rewritten. The current note is deleted."
                 self.close_modal(window, cx);
                 self.delete_now(&path, window, cx);
             }
-            PendingOp::ExportSite => {
+            PendingOp::ExportSite | PendingOp::ExportSiteWatch => {
                 self.pending = None;
                 self.close_modal(window, cx);
                 // * The export reads the vault through its own borrow, so
@@ -1269,17 +1362,23 @@ link to it is rewritten. The current note is deleted."
                     return;
                 };
                 match crate::site::export(&vault_root, &files, &out) {
-                    Ok(done) => self.report(
-                        format!(
-                            "Exported {} note{}, {} link{} to {}",
-                            done.notes,
-                            if done.notes == 1 { "" } else { "s" },
-                            done.links,
-                            if done.links == 1 { "" } else { "s" },
-                            done.output.display()
-                        ),
-                        cx,
-                    ),
+                    Ok(done) => {
+                        self.last_site_export = Some(done.output.clone());
+                        self.report(
+                            format!(
+                                "Exported {} note{}, {} link{} to {}",
+                                done.notes,
+                                if done.notes == 1 { "" } else { "s" },
+                                done.links,
+                                if done.links == 1 { "" } else { "s" },
+                                done.output.display()
+                            ),
+                            cx,
+                        );
+                        if watch {
+                            self.toggle_site_watch(vault_root, out, cx);
+                        }
+                    }
                     Err(err) => self.report(err, cx),
                 }
             }

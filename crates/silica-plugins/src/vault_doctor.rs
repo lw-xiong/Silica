@@ -51,7 +51,7 @@ impl Plugin for VaultDoctor {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         if id != "vault-doctor:run" {
-            return Err(format!("'{id}' is not a command this plugin registered"));
+            return Err(crate::native::unknown_command(id));
         }
         let report = build_report(ctx)?;
         const REPORT: &str = "Vault doctor.md";

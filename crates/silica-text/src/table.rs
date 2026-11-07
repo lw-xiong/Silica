@@ -21,12 +21,16 @@ pub enum TableCommand {
     RowUp,
     RowDown,
     RowCopy,
+    // ! Obsidian 1.14.4 renamed the duplicate ids from `-copy` to
+    // `-duplicate` and kept both runnable, so the old ids stay.
+    RowDuplicate,
     RowDelete,
     ColBefore,
     ColAfter,
     ColLeft,
     ColRight,
     ColCopy,
+    ColDuplicate,
     ColDelete,
     AlignLeft,
     AlignCenter,
@@ -42,12 +46,14 @@ impl TableCommand {
             "editor:table-row-up" => TableCommand::RowUp,
             "editor:table-row-down" => TableCommand::RowDown,
             "editor:table-row-copy" => TableCommand::RowCopy,
+            "editor:table-row-duplicate" => TableCommand::RowDuplicate,
             "editor:table-row-delete" => TableCommand::RowDelete,
             "editor:table-col-before" => TableCommand::ColBefore,
             "editor:table-col-after" => TableCommand::ColAfter,
             "editor:table-col-left" => TableCommand::ColLeft,
             "editor:table-col-right" => TableCommand::ColRight,
             "editor:table-col-copy" => TableCommand::ColCopy,
+            "editor:table-col-duplicate" => TableCommand::ColDuplicate,
             "editor:table-col-delete" => TableCommand::ColDelete,
             "editor:table-col-align-left" => TableCommand::AlignLeft,
             "editor:table-col-align-center" => TableCommand::AlignCenter,
@@ -306,7 +312,9 @@ pub fn apply(at: &TableAt, cmd: TableCommand) -> Option<TableEdit> {
             t.rows.swap(row, row + 1);
             row += 1;
         }
-        TableCommand::RowCopy => {
+        // * Obsidian 1.14.4 spells the same edit `-copy` or `-duplicate`,
+        //   so both ids run the one arm.
+        TableCommand::RowCopy | TableCommand::RowDuplicate => {
             let copy = t.rows[row].clone();
             t.rows.insert(row + 1, copy);
             row += 1;
@@ -341,7 +349,7 @@ pub fn apply(at: &TableAt, cmd: TableCommand) -> Option<TableEdit> {
             swap_columns(&mut t, col, col + 1);
             col += 1;
         }
-        TableCommand::ColCopy => {
+        TableCommand::ColCopy | TableCommand::ColDuplicate => {
             let cells: Vec<String> = t.rows.iter().map(|r| r[col].clone()).collect();
             let align = t.alignments[col];
             insert_column(&mut t, col + 1, align, Some(cells));
@@ -480,6 +488,12 @@ mod tests {
             run(PADDED, "1", TableCommand::RowDelete),
             "| A   | B   |\n| --- | --- |\n| 3   | 4   |\n"
         );
+        // * Obsidian 1.14.4 spells the same edit `-duplicate` as well as
+        //   `-copy`, and both write the identical table.
+        assert_eq!(
+            run(PADDED, "1", TableCommand::RowDuplicate),
+            run(PADDED, "1", TableCommand::RowCopy)
+        );
         // * Deleting the header promotes the row below it.
         assert_eq!(
             run(PADDED, "A", TableCommand::RowDelete),
@@ -512,6 +526,10 @@ mod tests {
         assert_eq!(
             run(PADDED, "A", TableCommand::ColDelete),
             "| B   |\n| --- |\n| 2   |\n| 4   |\n"
+        );
+        assert_eq!(
+            run(PADDED, "A", TableCommand::ColDuplicate),
+            run(PADDED, "A", TableCommand::ColCopy)
         );
     }
 

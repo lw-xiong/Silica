@@ -258,6 +258,10 @@ impl Backend {
                 )
             })?;
         let (text, thought_bytes) = strip_thought(raw);
+        // * A `json` ask is a contract: the caller parses what it is handed.
+        if ask.json {
+            json_answer(&text)?;
+        }
         Ok(Answer {
             text,
             model: value["model"].as_str().unwrap_or(model).to_string(),
@@ -286,6 +290,35 @@ fn strip_thought(raw: &str) -> (String, usize) {
         // * thinking: say so rather than returning an empty answer.
         None => (String::new(), trimmed.len()),
     }
+}
+
+/// A `json` ask that came back prose is a failure, not an answer: the
+/// caller hands what it is given to something that parses it, and a server
+/// that ignores `response_format` (Ollama does, llama.cpp does not) would
+/// otherwise pass a sentence along with no sign anything went wrong. A
+/// fenced or embedded object still counts — the model answered.
+fn json_answer(text: &str) -> Result<Value, String> {
+    let trimmed = text.trim();
+    if trimmed.is_empty() {
+        return Err("`json` was asked for and the model answered nothing".to_string());
+    }
+    let direct = serde_json::from_str::<Value>(trimmed);
+    if direct.is_ok() {
+        return direct.map_err(|e| e.to_string());
+    }
+    // * The same object wearing a markdown fence, or with a sentence of
+    //   commentary around it: the first `{` to the last `}`.
+    if let (Some(start), Some(end)) = (trimmed.find('{'), trimmed.rfind('}')) {
+        if start < end {
+            if let Ok(value) = serde_json::from_str::<Value>(&trimmed[start..=end]) {
+                return Ok(value);
+            }
+        }
+    }
+    Err(format!(
+        "`json` was asked for and the answer is not JSON: {}",
+        truncate(trimmed, 200)
+    ))
 }
 
 fn truncate(text: &str, max: usize) -> String {
@@ -329,6 +362,29 @@ mod tests {
     fn truncate_keeps_char_boundaries() {
         assert_eq!(truncate("abc", 10), "abc");
         assert!(truncate("é".repeat(100).as_str(), 7).starts_with("ééé"));
+    }
+
+    /// A `json` ask answered with prose is refused, not passed along: the
+    /// caller parses what it is handed, so a server that ignored
+    /// `response_format` would otherwise hand it a sentence it cannot parse
+    /// with no sign anything went wrong.
+    #[test]
+    fn a_json_ask_answered_with_prose_is_refused() {
+        let e = json_answer("Here are the findings: two bugs.").unwrap_err();
+        assert!(e.contains("not JSON"), "{e}");
+        // * An object with commentary around it still counts.
+        assert_eq!(
+            json_answer("Sure:\n{\"a\": 1}\nDone.").unwrap(),
+            serde_json::json!({"a": 1})
+        );
+        // * The same object wearing a markdown fence.
+        assert_eq!(
+            json_answer("```json\n{\"a\": 1}\n```").unwrap(),
+            serde_json::json!({"a": 1})
+        );
+        // * An object that never closes is not JSON either.
+        assert!(json_answer("{\"a\": 1").is_err());
+        assert!(json_answer("   ").unwrap_err().contains("answered nothing"));
     }
 
     #[test]
