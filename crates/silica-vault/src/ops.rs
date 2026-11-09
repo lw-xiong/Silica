@@ -204,8 +204,24 @@ pub fn backup_vault(root: &Path, backups: &Path, keep: usize) -> Result<BackupRe
     //   prune can tell a useless half-copy from a good one.
     std::fs::File::create(dest.join(".complete")).map_err(io("create completion marker", &dest))?;
     // fsync the directory so the marker and its entries are durable.
-    let dir = std::fs::File::open(&dest).map_err(io("open backup dir", &dest))?;
-    dir.sync_all().map_err(io("sync backup dir", &dest))?;
+    // * Windows cannot File::open a directory at all (a directory handle
+    //   needs FILE_FLAG_BACKUP_SEMANTICS), which is exactly the
+    //   PermissionDenied the CI backup tests hit. There the marker file is
+    //   what prune and restore read, so syncing it is the guarantee that
+    //   matters; NTFS journals the namespace change itself.
+    #[cfg(windows)]
+    {
+        let marker = std::fs::File::open(dest.join(".complete"))
+            .map_err(io("open completion marker", &dest))?;
+        marker
+            .sync_all()
+            .map_err(io("sync completion marker", &dest))?;
+    }
+    #[cfg(not(windows))]
+    {
+        let dir = std::fs::File::open(&dest).map_err(io("open backup dir", &dest))?;
+        dir.sync_all().map_err(io("sync backup dir", &dest))?;
+    }
     let keep = keep.max(1);
     prune_backups(backups, keep);
     Ok(report)
