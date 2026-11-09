@@ -10,6 +10,8 @@
 use silica_formats::config::{Hotkey, Hotkeys};
 use std::collections::{BTreeMap, HashMap};
 
+pub mod verify;
+
 /// Every known command id, one per line, `#` comments allowed.
 pub const COMMAND_IDS: &str = include_str!("../data/commands.txt");
 

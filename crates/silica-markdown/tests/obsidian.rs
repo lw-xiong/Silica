@@ -652,6 +652,37 @@ fn comments() {
 }
 
 #[test]
+fn inline_html_carries_its_tag() {
+    // * An element tag is parsed into HtmlInline with its lower-cased name
+    //   and the source exactly as written, so the reading view can draw it
+    //   by tag: `<br>` breaks, `<u>` underlines, `<kbd>` boxes, `<sup>` and
+    //   `<sub>` offset.
+    let inlines = paragraph_inlines("a <b>x</b> <BR> c");
+    let tags: Vec<&str> = inlines
+        .iter()
+        .filter_map(|i| match &i.kind {
+            InlineKind::HtmlInline { tag, .. } => Some(tag.as_ref()),
+            _ => None,
+        })
+        .collect();
+    assert_eq!(tags, vec!["b", "b", "br"]);
+    assert!(matches!(
+        &inlines[1].kind,
+        InlineKind::HtmlInline { html, .. } if html == "<b>"
+    ));
+    assert!(matches!(
+        &inlines[5].kind,
+        InlineKind::HtmlInline { html, .. } if html == "<BR>"
+    ));
+
+    // * A comment, declaration or processing instruction has no element
+    //   name and stays Html with its source verbatim.
+    let inlines = paragraph_inlines("a <!-- c --> b");
+    assert!(matches!(&inlines[1].kind, InlineKind::Html(h) if h == "<!-- c -->"));
+    assert_eq!(html("a <b>x</b> c"), "<p>a <b>x</b> c</p>\n");
+}
+
+#[test]
 fn tables_with_escaped_pipes() {
     let src = "| a | b |\n| :- | -: |\n| [[x\\|y]] | `c\\|d` |\n";
     let doc = parse(src);

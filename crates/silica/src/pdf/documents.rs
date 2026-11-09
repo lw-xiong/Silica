@@ -307,7 +307,9 @@ pub fn page_source(absolute: PathBuf, page: usize, scale: f32) -> ImageSource {
 
 fn load(path: &Path) -> DocState {
     let bytes = match std::fs::metadata(path)
-        .and_then(|m| check_pdf_size(&m).map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidInput, e)))
+        .and_then(|m| {
+            check_pdf_size(&m).map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidInput, e))
+        })
         .and_then(|_| std::fs::read(path))
     {
         Ok(bytes) => bytes,

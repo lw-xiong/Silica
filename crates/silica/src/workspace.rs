@@ -18,8 +18,10 @@ use crate::chooser::{Chooser, ChooserEvent, Row as ChooserRow};
 use crate::copy_results::{CopyResults, CopyResultsEvent};
 use crate::editor::{Editor, EditorEvent};
 use crate::explorer::{display_name, kind_name, ExplorerEvent, FileExplorer, FileTree, SortOrder};
+use crate::export_pdf;
 use crate::fold;
-use crate::graph::{GraphEvent, GraphView};
+use crate::footnotes::footnote_rows;
+use crate::graph::{GraphEvent, GraphView, LocalGraph};
 use crate::help::HelpWindow;
 use crate::mentions::{Finder, Name};
 use crate::palette::{CommandPalette, PaletteCommand, PaletteEvent};
@@ -29,6 +31,7 @@ use crate::popout::PopoutWindow;
 use crate::prompt::{Prompt, PromptEvent, PromptSpec};
 use crate::quick_capture::QuickCaptureWindow;
 use crate::reading::{self, LinkTarget, ReadingEvent, ReadingView, TaskMarker, TaskToggled};
+use crate::reminder;
 use crate::task_dashboard::TaskDashboardWindow;
 use silica_bases::FileData;
 
@@ -49,6 +52,13 @@ thread_local! {
     /// return value to put it in, so it hands the line over here and the
     /// render pass reports it like any other notice.
     static PLUGIN_NOTICE_QUEUE: std::cell::RefCell<Vec<String>> =
+        const { std::cell::RefCell::new(Vec::new()) };
+
+    /// Teks yang akan ditempelkan ke kursor editor aktif oleh perintah plugin
+    /// native (misalnya embed catatan suara). Dipush oleh `insert_text` dan
+    /// di-insert ke editor aktif di akhir `run_command`, di mana `cx` dan
+    /// `window` masih tersedia.
+    static PLUGIN_INSERT_QUEUE: std::cell::RefCell<Vec<String>> =
         const { std::cell::RefCell::new(Vec::new()) };
 }
 use crate::search::{CopyEntry, SearchEvent, SearchPane};
@@ -74,8 +84,8 @@ use gpui::{
 use rayon::prelude::*;
 use serde_json::{json, Map, Value};
 use silica_cache::{
-    basename, frontmatter_aliases, index_markdown, CachedMetadata, LinkFormat, MetadataCache,
-    PropertyEntry, index::TermIndex,
+    basename, frontmatter_aliases, index::TermIndex, index_markdown, CachedMetadata, LinkFormat,
+    MetadataCache, PropertyEntry,
 };
 use silica_commands::{hotkey_label, keystroke, CommandRegistry};
 use silica_formats::bookmarks::{Bookmark, Bookmarks};
@@ -98,13 +108,17 @@ use std::path::{Component, Path, PathBuf};
 use std::sync::{Arc, RwLock, RwLockReadGuard};
 use std::time::{Duration, Instant};
 
+use chrono::{Datelike, NaiveDate};
+
 mod bookmarks;
+mod calendar;
 mod files;
 mod record;
 mod render;
 mod right_panes;
 mod socket;
 mod tabs;
+mod tasks;
 
 actions!(
     workspace,
@@ -137,12 +151,82 @@ pub(crate) enum SidePaneTarget {
 /// view's own context, and mutates the view in place.
 type RightClickHandler<V> = Box<dyn Fn(&mut V, gpui::Point<Pixels>, &mut Context<V>)>;
 
+/// A match's \"Show more context\" text: its line with the lines either
+/// side of it, the match's range moved into the expanded text. `None` when
+/// the match has no range to grow from (a property key, say).
+fn expand_match(text: &str, m: &PaneMatch) -> Option<PaneMatch> {
+    let range = m.ranges.first().cloned().or(m.mention.clone())?;
+    let len = range.end - range.start;
+    if len == 0 {
+        return None;
+    }
+    let offset = m.offset?;
+    let (expanded, mapped) = backlinks::context(text, offset..offset.saturating_add(len), true);
+    (!expanded.is_empty()).then_some(PaneMatch {
+        text: expanded,
+        ranges: vec![mapped],
+        offset: Some(offset),
+        mention: m.mention.clone(),
+        target: m.target.clone(),
+    })
+}
+
 /// One row of a side-pane context menu: what Obsidian draws, and the action
 /// Silica emits when it is clicked.
 struct SidePaneMenuItem {
     label: &'static str,
     icon: &'static str,
     action: SidePaneAction,
+}
+
+fn side_menu_item(
+    label: &'static str,
+    icon: &'static str,
+    action: SidePaneAction,
+) -> SidePaneMenuItem {
+    SidePaneMenuItem {
+        label,
+        icon,
+        action,
+    }
+}
+
+/// The file menu's items on a right-dock row, in the order the capture
+/// draws them: Rename..., Move file to..., Bookmark... and Delete.
+///
+/// Every one of them opens a prompt or a confirm, which needs the window a
+/// row's own mouse-down closure does not carry — which is why they are
+/// emitted as actions and answered by `handle_side_menu_action`, where the
+/// workspace already has one. A row standing for a note that does not exist
+/// (an unresolved link) gets none of them: there is nothing to rename, move,
+/// bookmark or delete yet.
+fn right_dock_file_items(path: &str) -> Vec<SidePaneMenuItem> {
+    use SidePaneAction as A;
+    if path.is_empty() {
+        return Vec::new();
+    }
+    vec![
+        side_menu_item(
+            crate::i18n::t("Rename..."),
+            "pen-line",
+            A::RenameFile(path.to_string()),
+        ),
+        side_menu_item(
+            crate::i18n::t("Move file to..."),
+            "folder-tree",
+            A::MoveFile(path.to_string()),
+        ),
+        side_menu_item(
+            crate::i18n::t("Bookmark..."),
+            "bookmark",
+            A::BookmarkFile(path.to_string()),
+        ),
+        side_menu_item(
+            crate::i18n::t("Delete"),
+            "trash-2",
+            A::DeleteFile(path.to_string()),
+        ),
+    ]
 }
 
 /// A context menu over a side-pane row.
@@ -154,11 +238,7 @@ struct SidePaneMenu {
 /// The menu for a side-pane target, in Obsidian's order.
 fn side_menu_items(target: &SidePaneTarget) -> Vec<SidePaneMenuItem> {
     use SidePaneAction as A;
-    let item = |label, icon, action| SidePaneMenuItem {
-        label,
-        icon,
-        action,
-    };
+    let item = side_menu_item;
     match target {
         SidePaneTarget::Tag(tag) => vec![
             item("Search for \"#tag\"", "search", A::SearchTag(tag.clone())),
@@ -180,9 +260,24 @@ fn side_menu_items(target: &SidePaneTarget) -> Vec<SidePaneMenuItem> {
                 A::SearchProperty(key.clone()),
             ),
             item(
+                crate::i18n::t("Rename property"),
+                "pen-line",
+                A::RenameProperty(key.clone()),
+            ),
+            item(
+                crate::i18n::t("Property type"),
+                "type",
+                A::SetPropertyType(key.clone()),
+            ),
+            item(
                 crate::i18n::t("Copy property"),
                 "clipboard",
                 A::CopyProperty(key.clone()),
+            ),
+            item(
+                crate::i18n::t("Delete property"),
+                "trash-2",
+                A::DeleteProperty(key.clone()),
             ),
         ],
         SidePaneTarget::Heading { path, offset } => vec![
@@ -213,7 +308,7 @@ fn side_menu_items(target: &SidePaneTarget) -> Vec<SidePaneMenuItem> {
             } else {
                 path.clone()
             };
-            vec![
+            let mut items = vec![
                 item(
                     crate::i18n::t("Open note"),
                     "file-text",
@@ -238,7 +333,13 @@ fn side_menu_items(target: &SidePaneTarget) -> Vec<SidePaneMenuItem> {
                         path.clone()
                     }),
                 ),
-            ]
+            ];
+            // * The row stands for a note, so the file menu's own items
+            //   come after the open trio, in the order the capture draws
+            //   them. A row for a note that does not exist gets none of
+            //   them — the helper holds that rule.
+            items.extend(right_dock_file_items(path));
+            items
         }
     }
 }
@@ -252,6 +353,12 @@ pub enum SidePaneAction {
     CopyTag(String),
     SearchProperty(String),
     CopyProperty(String),
+    /// Rename a property key across every note that carries it.
+    RenameProperty(String),
+    /// Assign a type to a property key: recorded in `types.json`.
+    SetPropertyType(String),
+    /// Delete a property key from every note that carries it.
+    DeleteProperty(String),
     OpenHeading(String, usize),
     OpenHeadingInNewTab(String),
     OpenHeadingToRight(String),
@@ -262,6 +369,18 @@ pub enum SidePaneAction {
     OpenLinkToRight(String),
     /// Copy the row's vault-relative path.
     CopyLinkPath(String),
+    /// The row's note file menu: Rename... asks the new name over the
+    /// vault's own rename, which rewrites the links that pointed at the
+    /// old one across the vault.
+    RenameFile(String),
+    /// Move file to... asks the folder over the vault's own move.
+    MoveFile(String),
+    /// Bookmark... asks the bookmark's title, the way the pane's first
+    /// button and `bookmarks:bookmark-current-view` do.
+    BookmarkFile(String),
+    /// Delete moves the file to the trash the settings name — or past
+    /// the confirm, straight there when confirmations are off.
+    DeleteFile(String),
 }
 
 /// The command registry with the vault's `hotkeys.json` applied.
@@ -326,6 +445,9 @@ pub const EDITOR_ONLY: &[&str] = &[
     "editor:insert-wikilink",
     "editor:open-link-in-new-leaf",
     "editor:open-link-in-new-split",
+    "silica:insert-image",
+    "silica:attach-file",
+    "silica:remove-attachment",
     "editor:set-heading",
     "editor:set-heading-0",
     "editor:set-heading-1",
@@ -404,6 +526,7 @@ pub const RUNNABLE: &[&str] = &[
     "editor:toggle-highlight-blue",
     "editor:toggle-highlight-purple",
     "editor:clear-formatting",
+    "editor:toggle-spellcheck",
     "editor:insert-callout",
     "editor:insert-codeblock",
     "editor:insert-mathblock",
@@ -431,6 +554,9 @@ pub const RUNNABLE: &[&str] = &[
     "editor:insert-link",
     "editor:insert-wikilink",
     "editor:insert-embed",
+    "silica:insert-image",
+    "silica:attach-file",
+    "silica:remove-attachment",
     "editor:follow-link",
     "editor:open-link-in-new-leaf",
     "editor:copy",
@@ -444,7 +570,14 @@ pub const RUNNABLE: &[&str] = &[
     "graph:open-local",
     // * Silica's own extension, not an Obsidian id: the `silica:` prefix is
     //   what the repo marks its native additions with.
+    "silica:calendar",
     "silica:export-site",
+    "silica:footnotes",
+    "silica:file-recovery",
+    "silica:export-pdf",
+    "silica:workspace-save",
+    "silica:workspace-load",
+    "silica:workspace-delete",
     "canvas:new-file",
     "canvas:export-as-image",
     "canvas:jump-to-group",
@@ -463,6 +596,7 @@ pub const RUNNABLE: &[&str] = &[
     "insert-template",
     "insert-current-date",
     "insert-current-time",
+    "silica:voice-note",
     "daily-notes",
     "daily-notes:goto-prev",
     "daily-notes:goto-next",
@@ -471,12 +605,14 @@ pub const RUNNABLE: &[&str] = &[
     "editor:table-row-up",
     "editor:table-row-down",
     "editor:table-row-copy",
+    "editor:table-row-duplicate",
     "editor:table-row-delete",
     "editor:table-col-before",
     "editor:table-col-after",
     "editor:table-col-left",
     "editor:table-col-right",
     "editor:table-col-copy",
+    "editor:table-col-duplicate",
     "editor:table-col-delete",
     "editor:table-col-align-left",
     "editor:table-col-align-center",
@@ -486,12 +622,17 @@ pub const RUNNABLE: &[&str] = &[
     "app:reload",
     "audio-recorder:start",
     "audio-recorder:stop",
+    "silica:voice-note",
     "quick-capture:open",
     "task-dashboard:open",
     "app:increase-font-size",
     "app:decrease-font-size",
     "silica:vault-backup",
+    "silica:reminder-add",
     "silica:toggle-graph-pane",
+    "silica:pin-tab",
+    "silica:palette-verify",
+    "silica:template-gallery",
     "workspace:copy-path",
     "workspace:copy-full-path",
     "app:open-settings",
@@ -941,6 +1082,97 @@ impl VaultState {
         Ok(types.clone())
     }
 
+    /// Applies one frontmatter edit to the property key in every note that
+    /// carries it, writing each changed note atomically (`write_no_follow`).
+    /// Notes the vault can no longer read are skipped. Returns the
+    /// vault-relative paths of the notes rewritten. The cache and `texts`
+    /// go stale for rewritten notes: the caller must run `after_changes`
+    /// so the watcher re-indexes them. A write that fails ends the run
+    /// with an error and leaves the notes already rewritten in place: the
+    /// run is not rolled back.
+    fn rewrite_property_frontmatter(
+        &self,
+        key: &str,
+        change: Change,
+    ) -> Result<Vec<String>, String> {
+        let vault_root = self.vault().root().to_path_buf();
+        let mut changed = Vec::new();
+        for (path, meta) in self.cache().files() {
+            let has_key = meta
+                .frontmatter
+                .as_ref()
+                .is_some_and(|v| v.as_mapping().is_some_and(|m| m.contains_key(key)));
+            if !has_key {
+                continue;
+            }
+            let Ok(text) = std::fs::read_to_string(vault_root.join(path)) else {
+                continue;
+            };
+            let Some(props) = silica_cache::note_properties(&text) else {
+                continue;
+            };
+            // * A note that already carries the target key is left alone:
+            //   merging values is not defined here, and writing a duplicate
+            //   key would corrupt the block.
+            if matches!(&change, Change::Rename { to, .. } if props.get(to).is_some()) {
+                continue;
+            }
+            let Some(edits) =
+                silica_formats::properties::plan(&text, &props, std::slice::from_ref(&change))
+            else {
+                continue;
+            };
+            let next = silica_formats::properties::apply(&text, &edits);
+            silica_vault::write_no_follow(&vault_root.join(path), next.as_bytes())
+                .map_err(|e| e.to_string())?;
+            changed.push(path.to_string());
+        }
+        Ok(changed)
+    }
+
+    /// Renames property key `from` to `to` in every note's frontmatter that
+    /// has it, and moves the key's entry in `types.json` when one exists.
+    /// See [`VaultState::rewrite_property_frontmatter`] for the staleness
+    /// caveat.
+    pub fn rename_property(&self, from: &str, to: &str) -> Result<Vec<String>, String> {
+        if from == to {
+            return Ok(Vec::new());
+        }
+        let changed = self.rewrite_property_frontmatter(
+            from,
+            Change::Rename {
+                from: from.to_string(),
+                to: to.to_string(),
+            },
+        )?;
+        let mut types = self.property_types.write().expect("property types lock");
+        if let Some(ty) = types.types.shift_remove(from) {
+            types.types.insert(to.to_string(), ty);
+            self.vault()
+                .replace_config("types.json", &*types)
+                .map_err(|e| e.to_string())?;
+        }
+        Ok(changed)
+    }
+
+    /// Removes property `key` from every note's frontmatter that has it,
+    /// and drops the key from `types.json` when it has an entry.
+    pub fn remove_property(&self, key: &str) -> Result<Vec<String>, String> {
+        let changed = self.rewrite_property_frontmatter(
+            key,
+            Change::Remove {
+                key: key.to_string(),
+            },
+        )?;
+        let mut types = self.property_types.write().expect("property types lock");
+        if types.types.shift_remove(key).is_some() {
+            self.vault()
+                .replace_config("types.json", &*types)
+                .map_err(|e| e.to_string())?;
+        }
+        Ok(changed)
+    }
+
     pub fn vault(&self) -> RwLockReadGuard<'_, Vault> {
         self.vault.read().unwrap_or_else(|e| e.into_inner())
     }
@@ -958,9 +1190,16 @@ impl VaultState {
     /// still searchable and link-rewritable because their text is read
     /// back from the vault rather than skipped.
     pub fn text_for(&self, path: &str) -> Option<Arc<String>> {
-        self.texts.read().unwrap_or_else(|e| e.into_inner()).get(path).cloned().or_else(|| {
-            std::fs::read_to_string(self.root.join(path)).ok().map(Arc::new)
-        })
+        self.texts
+            .read()
+            .unwrap_or_else(|e| e.into_inner())
+            .get(path)
+            .cloned()
+            .or_else(|| {
+                std::fs::read_to_string(self.root.join(path))
+                    .ok()
+                    .map(Arc::new)
+            })
     }
 
     pub fn build_options(&self) -> reading::BuildOptions {
@@ -1051,6 +1290,17 @@ impl VaultState {
 
     pub fn trash_option(&self) -> TrashOption {
         TrashOption::from_config(self.app().trash_option.as_deref())
+    }
+
+    /// `attachmentDelete`: `always`/`ask`/`never` — what happens to a
+    /// deleted note's attachments that no other note refers to. Absent
+    /// means ask.
+    pub fn attachment_delete(&self) -> AttachmentDelete {
+        match self.app().attachment_delete.as_deref() {
+            Some("always") => AttachmentDelete::Always,
+            Some("never") => AttachmentDelete::Never,
+            _ => AttachmentDelete::Ask,
+        }
     }
 
     /// `alwaysUpdateLinks`: on by default; off means ask before rewriting.
@@ -1336,6 +1586,30 @@ impl VaultState {
         Ok(changes)
     }
 
+    /// Like `trash`, but always moves the file into the vault's own
+    /// `.trash` folder, no matter what `trashOption` says, and drops it
+    /// from the index.
+    pub(crate) fn trash_local(&self, path: &str) -> Result<Changes, String> {
+        let removed = self
+            .vault
+            .write()
+            .unwrap_or_else(|e| e.into_inner())
+            .trash(path, TrashOption::Local)
+            .map_err(|e| e.to_string())?;
+        let mut changes = Changes::default();
+        let mut cache = self.cache.write().unwrap_or_else(|e| e.into_inner());
+        let mut texts = self.texts.write().unwrap_or_else(|e| e.into_inner());
+        for p in removed {
+            if texts.remove(&p).is_some() {
+                changes.removed_notes.push(p.clone());
+            }
+            cache.forget_path(&p);
+            changes.files.push(FileChange::Removed(p));
+        }
+        cache.reresolve();
+        Ok(changes)
+    }
+
     /// Note names and aliases, for unlinked mentions.
     fn names(&self) -> Vec<(String, String)> {
         let cache = self.cache();
@@ -1368,6 +1642,14 @@ impl reading::EmbedSource for VaultState {
 
     fn absolute(&self, path: &str) -> PathBuf {
         self.vault().absolute(path)
+    }
+
+    /// An image whose file is gone resolves as a missing attachment rather
+    /// than as a blank the reader cannot explain, so the reading model asks
+    /// whether the path is still there. The read never follows a link out
+    /// of the vault, which `absolute` guarantees by joining only.
+    fn exists(&self, path: &str) -> bool {
+        self.vault().absolute(path).is_file()
     }
 
     /// An embedded `![[x.base]]`: the file resolved against this vault, on
@@ -1493,9 +1775,22 @@ pub(crate) enum RightTab {
     /// The graph, in the dock: the same view the ribbon opens full screen,
     /// kept beside the note.
     Graph,
+    /// Kalender: grid bulan untuk membuka daily note tanggal yang diklik.
+    Calendar,
+    /// The local graph: the open note at the centre with the notes one hop
+    /// out, the pane Obsidian keeps beside the graph view in the dock.
+    LocalGraph,
     /// All properties: every key in the vault with its type and count.
     Properties,
     Outline,
+    /// Footnotes of the active note: one row per footnote, numbered in
+    /// section order; a row reveals its definition's line.
+    Footnotes,
+    /// File recovery: every snapshot Silica has taken of every note, with a
+    /// way to restore one. Silica's own pane, not an Obsidian core plugin.
+    FileRecovery,
+    /// The Task inbox: every checkbox in the vault, in one pane.
+    Tasks,
 }
 
 /// The Outline pane's headings for one note's metadata, whether that
@@ -1585,6 +1880,20 @@ struct OutlinePaneState {
     scroll: ScrollHandle,
 }
 
+/// The Task inbox leaf's state: `showSearch` (the query itself lives in
+/// the filter field), whether the completed tasks are listed, and the row
+/// the arrow keys are on. None of it belongs in `workspace.json` — the
+/// pane reads the vault's own index every draw.
+#[derive(Default)]
+struct TaskPaneState {
+    show_search: bool,
+    /// Whether a completed task is listed too. A fresh pane shows only
+    /// what is still to do, the way Obsidian's task list opens.
+    show_done: bool,
+    /// The row the arrow keys are on, when the pane has the keyboard.
+    selected: Option<usize>,
+}
+
 /// Mentions computed off the UI thread for one open note.
 struct MentionSections {
     path: String,
@@ -1611,6 +1920,10 @@ struct BacklinkState {
     /// Groups toggled away from what `collapse_all` says, by
     /// [`Section::group_key`].
     toggled: HashSet<String>,
+    /// Matches whose \"Show more context\" chevron is on: the match's line
+    /// with the lines either side of it, keyed by file and byte offset.
+    /// Ephemeral: cleared whenever the panes are rebuilt for a note.
+    expanded: HashMap<(String, usize), PaneMatch>,
     sort_menu_open: bool,
 }
 
@@ -1625,6 +1938,7 @@ impl Default for BacklinkState {
             // * Obsidian's fresh leaf starts with the section folded.
             unlinked_collapsed: true,
             toggled: HashSet::new(),
+            expanded: HashMap::new(),
             sort_menu_open: false,
         }
     }
@@ -1650,9 +1964,17 @@ impl Default for OutgoingState {
     }
 }
 
-/// How long a transient message stays on screen. Obsidian reports what a
-/// command did with a Notice that fades on its own after a few seconds;
-/// the exact duration there has not been probed.
+/// What to do with a deleted note's attachments that no other note refers
+/// to: move them to the vault's `.trash` folder, ask every time, or leave
+/// them alone.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum AttachmentDelete {
+    Always,
+    Ask,
+    Never,
+}
+
+/// How long a transient message stays on screen.
 const NOTICE_LIFETIME: Duration = Duration::from_secs(5);
 
 /// A message on screen, with the id its expiry timer names it by.
@@ -1723,6 +2045,12 @@ pub(crate) enum PendingOp {
     Rename(String),
     Move(String),
     Delete(String),
+    /// The delete confirmation was accepted; the attachment-cleanup
+    /// prompt (`ask`) named the note whose unreferenced attachments may
+    /// go to `.trash`.
+    DeleteAttachments {
+        path: String,
+    },
     NewFolder {
         parent: String,
     },
@@ -1739,6 +2067,14 @@ pub(crate) enum PendingOp {
     /// `silica:export-site`: the folder the site is written to. An empty
     /// box takes the vault's sibling default.
     ExportSite,
+    /// `silica:workspace-save`: the name the layout on screen is recorded
+    /// under.
+    SaveWorkspace,
+    /// `silica:workspace-load`: the saved layout the session switches to.
+    LoadWorkspace,
+    /// `silica:workspace-delete`: the saved layout taken out of the
+    /// vault's `workspaces.json`.
+    DeleteWorkspace,
     /// "Merge entire file with...": the open note takes `other` in.
     Merge {
         file: String,
@@ -1754,6 +2090,18 @@ pub(crate) enum PendingOp {
     /// "Rename tag...": the value names the tag the old one becomes.
     RenameTag {
         from: String,
+    },
+    /// "Rename property...": the value names the key the old one becomes.
+    RenameProperty {
+        from: String,
+    },
+    /// "Set property type": the value names the type the key becomes.
+    SetPropertyType {
+        key: String,
+    },
+    /// "Delete property": the key is removed from every note that carries it.
+    DeleteProperty {
+        key: String,
     },
 }
 
@@ -1795,6 +2143,9 @@ pub(crate) struct Tab {
     mode: ViewMode,
     history: Vec<HistoryEntry>,
     history_ix: usize,
+    /// Pinned from the header's "More options" menu: kept in the strip for
+    /// the session. Not written to workspace.json yet.
+    pinned: bool,
     /// The `workspace.json` leaf this tab was restored from, so a layout
     /// nothing changed is written back with the keys Obsidian gave it.
     leaf: Option<Value>,
@@ -1815,6 +2166,7 @@ impl Tab {
             mode,
             history: Vec::new(),
             history_ix: 0,
+            pinned: false,
             leaf: None,
             view_state: None,
         }
@@ -1837,6 +2189,9 @@ enum ChooserPurpose {
     CanvasGroup,
     /// `bases:change-view`: the showing base's views, by index.
     BasesView,
+    /// `silica:template-gallery`: one of Silica's own built-in templates,
+    /// to install into the template folder and possibly insert into a note.
+    TemplateGallery,
 }
 
 /// How Obsidian names a split's axis: a `vertical` split lays its children
@@ -2961,6 +3316,9 @@ pub struct Workspace {
     /// when that is a `.pdf`.
     pdf: Entity<PdfView>,
     graph: Entity<GraphView>,
+    /// The local graph pane in the right dock: the open note and its
+    /// immediate neighbours, with no controls and no pan or zoom.
+    local_graph: Entity<LocalGraph>,
     /// `![[Board.canvas]]` embeds, made once per path and reused: a canvas
     /// view holds a parsed scene, a viewport and a card cache, so making a
     /// new one on every paint would drop all three.
@@ -3016,6 +3374,8 @@ pub struct Workspace {
     title_focus: FocusHandle,
     /// The header title being renamed in place, if any.
     title_edit: Option<TitleEdit>,
+    /// The active group's header "More options" menu is open.
+    header_more_options: bool,
     /// The right-dock context menu: the file path it was opened on, for
     /// backlinks/outgoing links/tags/outline rows.
     right_dock_context_menu: Option<String>,
@@ -3036,6 +3396,13 @@ pub struct Workspace {
     /// `editor:open-link-in-new-leaf`. Taken by [`Workspace::follow_link`].
     link_in_new_tab: bool,
     right_tab: RightTab,
+    /// Kalender: bulan yang ditampilkan (pertama tanggalnya) dan tanggal
+    /// yang dipilih panah kalender; `None` berarti belum ada pilihan.
+    calendar_viewed: NaiveDate,
+    calendar_selected: Option<NaiveDate>,
+    /// Fokus grid kalender: saat tab kanan aktif kalender, panah gerak di
+    /// dalam grid ini bukan di antara baris pane sebelah kanan.
+    calendar_focus: FocusHandle,
     /// The open note's headings, which the Outline pane draws as a tree.
     outline: Vec<panes::Heading>,
     outline_state: OutlinePaneState,
@@ -3065,6 +3432,11 @@ pub struct Workspace {
     property_entries: Vec<PropertyEntry>,
     property_state: PropertyPaneState,
     property_filter: Entity<TextInput>,
+    /// The Task inbox: the filter field's text, the completed-tasks flag
+    /// and the row the arrow keys are on.
+    task_state: TaskPaneState,
+    /// The Task inbox's search filter.
+    task_filter: Entity<TextInput>,
     /// Matcher over every note name and alias, rebuilt when files change.
     name_finder: Option<Arc<Finder>>,
     mention_generation: u64,
@@ -3214,6 +3586,7 @@ impl Workspace {
         let tag_filter = cx.new(pane_filter_input);
         let property_filter = cx.new(pane_filter_input);
         let outline_filter = cx.new(pane_filter_input);
+        let task_filter = cx.new(pane_filter_input);
         let bookmarks = cx.new(BookmarksPane::new);
         let switcher = cx.new(QuickSwitcher::new);
         let chooser = cx.new(Chooser::new);
@@ -3227,6 +3600,7 @@ impl Workspace {
         let bases = cx.new(BasesView::new);
         let pdf = cx.new(PdfView::new);
         let graph = cx.new(GraphView::new);
+        let local_graph = cx.new(LocalGraph::new);
         let subscriptions = vec![
             // * The filter is applied as the pane is drawn; a keystroke only
             //   has to ask for a draw.
@@ -3262,6 +3636,15 @@ impl Workspace {
                 |this, _, event: &InputEvent, window, cx| match event {
                     InputEvent::Changed => cx.notify(),
                     InputEvent::Cancel => this.hide_pane_search(RightTab::Outline, window, cx),
+                    _ => {}
+                },
+            ),
+            cx.subscribe_in(
+                &task_filter,
+                window,
+                |this, _, event: &InputEvent, window, cx| match event {
+                    InputEvent::Changed => cx.notify(),
+                    InputEvent::Cancel => this.hide_pane_search(RightTab::Tasks, window, cx),
                     _ => {}
                 },
             ),
@@ -3534,6 +3917,12 @@ impl Workspace {
                             this.focus_main(window, cx);
                             cx.notify();
                         }
+                        ChooserPurpose::TemplateGallery => {
+                            this.modal = Modal::None;
+                            this.install_template_gallery(value, window, cx);
+                            this.focus_main(window, cx);
+                            cx.notify();
+                        }
                     },
                     ChooserEvent::Close => {
                         this.modal = Modal::None;
@@ -3613,6 +4002,7 @@ impl Workspace {
             bases,
             pdf,
             graph,
+            local_graph,
             embedded_canvases: std::rc::Rc::new(std::cell::RefCell::new(
                 std::collections::HashMap::new(),
             )),
@@ -3638,6 +4028,7 @@ impl Workspace {
             tab_bounds: HashMap::new(),
             title_focus: cx.focus_handle(),
             title_edit: None,
+            header_more_options: false,
             right_dock_context_menu: None,
             title_layout: HashMap::new(),
             layout: None,
@@ -3646,6 +4037,12 @@ impl Workspace {
             window_title: SharedString::default(),
             link_in_new_tab: false,
             right_tab: RightTab::Backlinks,
+            calendar_viewed: chrono::Local::now()
+                .date_naive()
+                .with_day(1)
+                .expect("first of month"),
+            calendar_selected: None,
+            calendar_focus: cx.focus_handle(),
             outline: Vec::new(),
             outline_state: OutlinePaneState::default(),
             outline_filter,
@@ -3663,6 +4060,8 @@ impl Workspace {
             property_entries: Vec::new(),
             property_state: PropertyPaneState::default(),
             property_filter,
+            task_state: TaskPaneState::default(),
+            task_filter,
             name_finder: None,
             mention_generation: 0,
             status: "Pass a vault folder as the first argument".into(),
@@ -3677,6 +4076,7 @@ impl Workspace {
         if let Some(root) = root {
             ws.load_vault(root, window, cx);
         }
+        ws.start_reminder_poll(cx);
         ws
     }
 
@@ -4057,7 +4457,7 @@ impl Workspace {
         let Some(state) = self.state.clone() else {
             return;
         };
-        let (format, folder, template) = {
+        let (format, folder, _template) = {
             let daily = state.daily_notes();
             (
                 non_empty(daily.format.as_deref())
@@ -4096,6 +4496,38 @@ impl Workspace {
             return;
         }
         let (path, exists) = match state.vault().daily_note(&format, &folder, &today) {
+            Ok(found) => found,
+            Err(err) => return self.report(err.to_string(), cx),
+        };
+        if exists {
+            // * An existing note is opened and not touched, bytes or times.
+            self.open_file(path, None, cx);
+            let mode = self.editing_mode();
+            self.set_mode(mode, window, cx);
+            return;
+        }
+        self.open_daily_at(today, window, cx);
+    }
+
+    /// Buka daily note untuk tanggal `at`, membuatnya jika belum ada, tanpa
+    /// tergantung pada note yang sedang dibuka atau tanggal hari ini. Dipakai
+    /// oleh `daily-notes` (hari ini) dan oleh pane Kalender (tanggal yang
+    /// diklik). Perintah `daily-notes` itu sendiri tidak diubah.
+    fn open_daily_at(&mut self, at: templates::Stamp, window: &mut Window, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        let (format, folder, template) = {
+            let daily = state.daily_notes();
+            (
+                non_empty(daily.format.as_deref())
+                    .unwrap_or(config::DAILY_NOTE_DEFAULT_FORMAT)
+                    .to_string(),
+                daily.folder.clone().unwrap_or_default(),
+                daily.template.clone().unwrap_or_default(),
+            )
+        };
+        let (path, exists) = match state.vault().daily_note(&format, &folder, &at) {
             Ok(found) => found,
             Err(err) => return self.report(err.to_string(), cx),
         };
@@ -4199,6 +4631,51 @@ impl Workspace {
         self.modal = Modal::Chooser;
         self.chooser.update(cx, |c, cx| {
             c.open(rows, "Type name of a template...", empty, window, cx)
+        });
+        cx.notify();
+    }
+
+    /// The offline template gallery: Silica's own generic templates (a daily
+    /// note, a meeting note, a project brief), offered for picking. A pick
+    /// installs the template into the vault's template folder
+    /// (`templates.json`'s `folder`) as `{id}.md` unless it exists already,
+    /// and inserts its expanded text at the cursor exactly like
+    /// `insert-template`. An unset folder is reported instead.
+    fn open_template_gallery(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        if !self.mode.is_editing() {
+            return;
+        }
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        let folder = state
+            .templates()
+            .folder
+            .clone()
+            .unwrap_or_default()
+            .trim_matches('/')
+            .to_string();
+        if folder.is_empty() {
+            return self.report("No template folder is set in Settings", cx);
+        }
+        let rows: Vec<ChooserRow> = silica_templates::GALLERY
+            .iter()
+            .map(|t| ChooserRow {
+                label: t.name.to_string(),
+                value: t.id.to_string(),
+            })
+            .collect();
+        self.close_editor_suggest(cx);
+        self.chooser_purpose = ChooserPurpose::TemplateGallery;
+        self.modal = Modal::Chooser;
+        self.chooser.update(cx, |c, cx| {
+            c.open(
+                rows,
+                "Type name of a template...",
+                "No templates in the gallery",
+                window,
+                cx,
+            )
         });
         cx.notify();
     }
@@ -4410,6 +4887,59 @@ impl Workspace {
         }
     }
 
+    /// `silica:export-pdf`: write the open note to a PDF beside it, and name
+    /// the file it landed in.
+    ///
+    /// What is exported is the note as it stands on screen -- the buffer when
+    /// it holds the note, because a note with unsaved edits is the note the
+    /// user is looking at, and the file otherwise. Asked with no note open,
+    /// or with something that is not a note, it says so rather than writing
+    /// a file nobody asked for.
+    fn export_active_pdf(&mut self, cx: &mut Context<Self>) {
+        let Some(current) = self.current.clone() else {
+            self.report("Export PDF: no note is open", cx);
+            return;
+        };
+        let source = match self.vault_path(&current) {
+            Ok(path) => path,
+            Err(err) => return self.report(format!("Export PDF: {err}"), cx),
+        };
+        if source.extension().and_then(|ext| ext.to_str()) != Some("md") {
+            self.report("Export PDF: the open file is not a note", cx);
+            return;
+        }
+        let text = {
+            let editor = self.editor.read(cx);
+            if editor.name.as_ref() == current.as_str() {
+                editor.text().to_string()
+            } else {
+                match std::fs::read_to_string(&source) {
+                    Ok(text) => text,
+                    Err(err) => {
+                        return self
+                            .report(format!("Export PDF: cannot read {current}: {err}"), cx);
+                    }
+                }
+            }
+        };
+        let title = source
+            .file_stem()
+            .map(|stem| stem.to_string_lossy().to_string())
+            .unwrap_or_else(|| current.clone());
+        let target = export_pdf::pdf_target(&current);
+        let absolute = match self.vault_path(&target) {
+            Ok(path) => path,
+            Err(err) => return self.report(format!("Export PDF: {err}"), cx),
+        };
+        let bytes = export_pdf::note_to_pdf(&title, &text);
+        match std::fs::write(&absolute, &bytes) {
+            Ok(()) => self.report(format!("Export PDF: wrote {target}"), cx),
+            Err(err) => {
+                self.report(format!("Export PDF: cannot write {target}: {err}"), cx);
+            }
+        }
+    }
+
     /// Opens the chooser and picks `query` out of it, for `--template`.
     pub fn pick_template(&mut self, query: &str, window: &mut Window, cx: &mut Context<Self>) {
         self.open_template_chooser(window, cx);
@@ -4451,6 +4981,39 @@ impl Workspace {
         self.editor
             .update(cx, |e, cx| e.insert_at_cursors(&expanded, window, cx));
         window.focus(&self.editor.focus_handle(cx), cx);
+        cx.notify();
+    }
+
+    /// Installs gallery template `id` into the vault's template folder and,
+    /// when a note is being edited, expands it and inserts it at the cursor.
+    /// A template already in the folder is left as it is.
+    fn install_template_gallery(&mut self, id: &str, window: &mut Window, cx: &mut Context<Self>) {
+        let Some(template) = silica_templates::find(id) else {
+            return self.report(format!("Template {id} is not in the gallery"), cx);
+        };
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        let root = state.root.clone();
+        let folder = state
+            .templates()
+            .folder
+            .clone()
+            .unwrap_or_default()
+            .trim_matches('/')
+            .to_string();
+        let installed = match silica_templates::install(template, &folder, &root) {
+            Ok(dest) => dest,
+            Err(err) => {
+                self.report(format!("Could not install {id}: {err}"), cx);
+                return;
+            }
+        };
+        if self.mode.is_editing() {
+            self.insert_template(installed.to_string_lossy().to_string(), window, cx);
+        } else {
+            self.report(format!("Installed {id} to {folder}"), cx);
+        }
         cx.notify();
     }
 
@@ -4519,6 +5082,8 @@ impl Workspace {
         self.search
             .update(cx, |s, cx| s.set_state(state.clone(), cx));
         self.graph
+            .update(cx, |g, cx| g.set_state(state.clone(), cx));
+        self.local_graph
             .update(cx, |g, cx| g.set_state(state.clone(), cx));
         self.settings
             .update(cx, |s, cx| s.set_state(state.clone(), cx));
@@ -4751,7 +5316,10 @@ impl Workspace {
             "outgoing" => RightTab::Outgoing,
             "outline" => RightTab::Outline,
             "tags" => RightTab::Tags,
+            "tasks" => RightTab::Tasks,
             "properties" => RightTab::Properties,
+            "file-recovery" => RightTab::FileRecovery,
+            "local-graph" | "localgraph" => RightTab::LocalGraph,
             _ => RightTab::Backlinks,
         };
         self.select_right_tab(which, cx);
@@ -5075,9 +5643,28 @@ impl Workspace {
             notify: Box::new(|line: &str| {
                 PLUGIN_NOTICE_QUEUE.with(|q| q.borrow_mut().push(line.to_string()));
             }),
+            insert_text: Box::new(|text| {
+                PLUGIN_INSERT_QUEUE.with(|q| q.borrow_mut().push(text.to_string()));
+                Ok(())
+            }),
         };
 
         if let Some((outcome, _notices)) = silica_plugins::live::run(id, None, &ctx) {
+            // * Teks yang di-antre oleh `insert_text` (misalnya embed
+            //   catatan suara) ditulis ke editor aktif di sini, tepat setelah
+            //   perintah selesai, di mana `cx` dan `window` masih tersedia.
+            PLUGIN_INSERT_QUEUE.with(|q| {
+                let mut queue = q.borrow_mut();
+                if !queue.is_empty() {
+                    let texts = std::mem::take(&mut *queue);
+                    drop(queue);
+                    self.editor.update(cx, |e, cx| {
+                        for text in texts {
+                            e.insert_at_cursors(&text, window, cx);
+                        }
+                    });
+                }
+            });
             if let Err(reason) = outcome {
                 self.report(reason, cx);
             }
@@ -5242,6 +5829,8 @@ impl Workspace {
             "global-search:open" => self.open_search_action(&OpenSearch, window, cx),
             "graph:open" => self.open_graph_action(&OpenGraph, window, cx),
             "silica:export-site" => self.start_export_site(window, cx),
+            "silica:footnotes" => self.select_right_tab(RightTab::Footnotes, cx),
+            "silica:export-pdf" => self.export_active_pdf(cx),
             // * Asked for by id with no file open -- the palette does not offer
             //   it, and `can_run` says so -- this opens nothing, which is what
             //   Obsidian's `checkCallback` does rather than falling back to the
@@ -5387,6 +5976,11 @@ impl Workspace {
                         .update(cx, |e, cx| e.clear_formatting(window, cx));
                 }
             }
+            "editor:toggle-spellcheck" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor.update(cx, |e, _cx| e.toggle_spellcheck());
+                }
+            }
             "editor:insert-callout"
             | "editor:insert-codeblock"
             | "editor:insert-mathblock"
@@ -5456,6 +6050,17 @@ impl Workspace {
                         .update(cx, |e, cx| e.insert_link(kind, window, cx));
                 }
             }
+            // * The attachment toolbar's rows, reachable from the palette and
+            //   the control socket as well as from the toolbar itself.
+            "silica:insert-image" | "silica:attach-file" | "silica:remove-attachment" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor.update(cx, |e, cx| match id {
+                        "silica:insert-image" => e.attach_image(window, cx),
+                        "silica:attach-file" => e.attach_file(window, cx),
+                        _ => e.remove_attachment(window, cx),
+                    });
+                }
+            }
             "editor:follow-link" => {
                 if self.editing_or_report(id, window, cx) {
                     self.editor.update(cx, |e, cx| e.follow_link_at_cursor(cx));
@@ -5484,6 +6089,7 @@ impl Workspace {
             "daily-notes" => self.open_daily(None, window, cx),
             "daily-notes:goto-prev" => self.open_daily(Some(false), window, cx),
             "daily-notes:goto-next" => self.open_daily(Some(true), window, cx),
+            "silica:calendar" => self.toggle_calendar_pane(cx),
             _ if TableCommand::from_id(id).is_some() => {
                 let cmd = TableCommand::from_id(id).expect("checked above");
                 if self.editing_or_report(id, window, cx) {
@@ -5557,9 +6163,17 @@ impl Workspace {
                 self.step_font_size(up, window, cx);
             }
             "silica:vault-backup" => self.backup_vault(window, cx),
+            "silica:file-recovery" => self.open_file_recovery(window, cx),
+            "silica:reminder-add" => self.add_reminder(window, cx),
             "silica:toggle-graph-pane" => self.toggle_graph_pane(cx),
+            "silica:palette-verify" => self.verify_palette(window, cx),
+            "silica:template-gallery" => self.open_template_gallery(window, cx),
+            "silica:workspace-save" => self.save_workspace_prompt(window, cx),
+            "silica:workspace-load" => self.load_workspace_prompt(window, cx),
+            "silica:workspace-delete" => self.delete_workspace_prompt(window, cx),
             "workspace:copy-path" => self.copy_current_path(false, cx),
             "workspace:copy-full-path" => self.copy_current_path(true, cx),
+            "silica:pin-tab" => self.pin_tab(cx),
             "app:toggle-left-sidebar" => {
                 self.left_visible = !self.left_visible;
                 if !self.left_visible {
@@ -5906,6 +6520,119 @@ impl Workspace {
         }
     }
 
+    /// `silica:palette-verify`: an audit of the three lists behind the
+    /// palette — the ids the registry knows, the names it shows and the
+    /// ids a `run_command` arm answers for — written to
+    /// [`silica_commands::verify::REPORT_PATH`] at the vault's root. Any
+    /// of the three drifting shows up in the app as a palette row with no
+    /// name, an id offered that does nothing when chosen, or one
+    /// registration silently replacing another, and none of those tell
+    /// the user which list is wrong. This names them, in the file the
+    /// vault already keeps its own notes in.
+    fn verify_palette(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            self.report("No vault is open", cx);
+            return;
+        };
+        // * The ids `can_run` answers for: `RUNNABLE` is what the palette
+        //   offers, and `EDITOR_ONLY` is the same question asked the
+        //   other way round in the gate test below.
+        let runnable: Vec<&str> = RUNNABLE.iter().chain(EDITOR_ONLY).copied().collect();
+        let audit = silica_commands::verify::audit(
+            &silica_commands::known_ids(),
+            &silica_commands::known_names(),
+            &runnable,
+        );
+        let path = match state
+            .vault()
+            .write_path(silica_commands::verify::REPORT_PATH)
+        {
+            Ok(path) => path,
+            Err(err) => {
+                self.report(format!("Palette check not written: {err}"), cx);
+                return;
+            }
+        };
+        if let Err(err) = std::fs::write(&path, audit.text()) {
+            self.report(format!("Palette check not written: {err}"), cx);
+            return;
+        }
+        self.report(
+            format!(
+                "Palette check written: {} finding(s) over {} registered id(s)",
+                audit.issues.len(),
+                audit.registered
+            ),
+            cx,
+        );
+    }
+
+    /// `silica:reminder-add`: the reminder for the task at the cursor.
+    /// A task line carries its date — `📅 2026-11-10` or
+    /// `[due:: 2026-11-10]` — and the command fires the reminder for
+    /// that date now rather than waiting for the next poll, which is
+    /// what makes it worth a command: the poll is a minute out, and the
+    /// user is looking at the task right now.
+    ///
+    /// The date is read off the line the way the poll reads it, so the
+    /// same task is never announced twice for the same date.
+    fn add_reminder(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            self.report("Reminder: no vault is open", cx);
+            return;
+        };
+        let Some(path) = self.current.clone() else {
+            self.report("Reminder: open a note with a task first", cx);
+            return;
+        };
+        let (line, raw) = {
+            let editor = self.editor.read(cx);
+            let line = editor.cursor().line;
+            let text = editor.text().to_string();
+            (line, text.lines().nth(line).unwrap_or("").to_string())
+        };
+        match reminder::register_line(&state, &path, line, &raw) {
+            Ok(reminder::Added::Fired(notice)) => self.report(notice, cx),
+            Ok(reminder::Added::Waiting(due)) => self.report(
+                format!("Reminder set for {due}. It fires while the app is open."),
+                cx,
+            ),
+            Ok(reminder::Added::Already) => {
+                self.report("Reminder: that task was already announced", cx)
+            }
+            Err(why) => self.report(format!("Reminder: {why}"), cx),
+        }
+    }
+
+    /// One due-task scan, on the timer the module sets. Nothing is
+    /// promised here about the app being closed: the loop runs with the
+    /// workspace, so a vault that goes overdue while Silica is shut is
+    /// noticed on the next open.
+    fn poll_reminders(&mut self, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        for notice in reminder::poll(&state) {
+            self.report(notice, cx);
+        }
+    }
+
+    /// Starts the due-task poll. The loop lives as long as the
+    /// workspace does — the `update` failing is the entity going away —
+    /// and each tick is one walk of the in-memory index, so a vault
+    /// with no tasks costs a timer and nothing else.
+    fn start_reminder_poll(&mut self, cx: &mut Context<Self>) {
+        cx.spawn(async move |ws, cx| loop {
+            cx.background_executor()
+                .timer(reminder::POLL_INTERVAL)
+                .await;
+            if ws.update(cx, |ws, cx| ws.poll_reminders(cx)).is_err() {
+                break;
+            }
+        })
+        .detach();
+    }
+
     /// Obsidian's `workspace:copy-path` and `workspace:copy-full-path`:
     /// the open note's path, vault-relative or the host path. Obsidian
     /// offers them only as menu items, but a command in every sense —
@@ -5927,6 +6654,22 @@ impl Workspace {
         cx.write_to_clipboard(ClipboardItem::new_string(text));
     }
 
+    /// `silica:pin-tab`: the active tab of the group, pinned for the
+    /// session. Toggled from the header's "More options" menu.
+    fn pin_tab(&mut self, cx: &mut Context<Self>) {
+        let Some(tab) = self.tabs.get_mut(self.active_tab) else {
+            return;
+        };
+        tab.pinned = !tab.pinned;
+        cx.notify();
+    }
+
+    /// The active group's header "More options" menu: open or closed.
+    fn toggle_header_more_options(&mut self, cx: &mut Context<Self>) {
+        self.header_more_options = !self.header_more_options;
+        cx.notify();
+    }
+
     /// `silica:toggle-graph-pane`: the graph in the right dock, beside the
     /// note — Obsidian's graph side pane. Asked for with the pane already
     /// showing it, the command is a toggle, because a command that opens
@@ -5938,6 +6681,41 @@ impl Workspace {
         } else {
             self.right_visible = true;
             self.select_right_tab(RightTab::Graph, cx);
+        }
+    }
+
+    /// `silica:calendar`: Kalender di dock kanan — grid bulan yang tanggal
+    /// tanggalnya membuka daily note. Toggle seperti pane graph.
+    fn toggle_calendar_pane(&mut self, cx: &mut Context<Self>) {
+        if self.right_tab == RightTab::Calendar && self.right_visible {
+            self.right_visible = false;
+            cx.notify();
+        } else {
+            self.right_visible = true;
+            self.select_right_tab(RightTab::Calendar, cx);
+        }
+    }
+
+    /// `silica:file-recovery`: opens the file-recovery pane in the right dock,
+    /// listing every snapshot Silica has taken of every note so one can be
+    /// reviewed and restored.
+    fn open_file_recovery(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
+        self.right_visible = true;
+        self.select_right_tab(RightTab::FileRecovery, cx);
+    }
+
+    /// Restores the snapshot taken at `at` of `path` through the vault's own
+    /// write path, reporting the outcome in the status bar.
+    fn file_recovery_restore(&mut self, path: &str, at: u64, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            self.report("No vault is open", cx);
+            return;
+        };
+        let root = state.root.clone();
+        let vault = state.vault();
+        match crate::file_recovery::restore(&vault, &root, path, at) {
+            Ok(p) => self.report(format!("Restored {p}"), cx),
+            Err(err) => self.report(format!("Restore failed: {err}"), cx),
         }
     }
 
@@ -6093,6 +6871,12 @@ impl Workspace {
         //   local` is not offered with no file open]]). Only the no-file case
         //   was observed, so that is all this refuses.
         if id == "graph:open-local" {
+            return self.current.is_some();
+        }
+        // * Exporting has nothing to work on with no note open, so the
+        //   palette does not offer it there rather than offering a command
+        //   that would only refuse.
+        if id == "silica:export-pdf" {
             return self.current.is_some();
         }
         if EDITOR_ONLY.contains(&id) {
@@ -6531,6 +7315,8 @@ impl Workspace {
         self.explorer.update(cx, |e, cx| e.follow(path, cx));
         self.graph
             .update(cx, |g, cx| g.set_current(Some(path.to_string()), cx));
+        self.local_graph
+            .update(cx, |g, cx| g.set_current(Some(path.to_string()), cx));
         let kind = FileKind::from_path(path);
         if kind != FileKind::Canvas {
             self.release_canvas(cx);
@@ -6628,7 +7414,11 @@ impl Workspace {
                     // * Cache the note's text so search, backlinks, and link
                     //   rewriting can find it even after a previous tab close
                     //   evicted it from the unbounded map.
-                    state.texts.write().unwrap_or_else(|e| e.into_inner()).insert(path.to_string(), Arc::new(text.clone()));
+                    state
+                        .texts
+                        .write()
+                        .unwrap_or_else(|e| e.into_inner())
+                        .insert(path.to_string(), Arc::new(text.clone()));
                     self.words = text.split_whitespace().count();
                     self.chars = text.chars().count();
                     // * The reading view's model is built for the mode
@@ -6814,7 +7604,10 @@ impl Workspace {
         match self.current.clone() {
             Some(back) => {
                 self.explorer.update(cx, |e, cx| e.follow(&back, cx));
-                self.graph.update(cx, |g, cx| g.set_current(Some(back), cx));
+                self.graph
+                    .update(cx, |g, cx| g.set_current(Some(back.clone()), cx));
+                self.local_graph
+                    .update(cx, |g, cx| g.set_current(Some(back), cx));
             }
             None => self.detach_current(true, state, cx),
         }
@@ -6922,6 +7715,7 @@ impl Workspace {
         //   keep painting a path the vault no longer has.
         self.explorer.update(cx, |e, cx| e.clear_active(cx));
         self.graph.update(cx, |g, cx| g.set_current(None, cx));
+        self.local_graph.update(cx, |g, cx| g.set_current(None, cx));
         self.clear_panes(cx);
     }
 
@@ -6936,6 +7730,7 @@ impl Workspace {
         self.outline_state.active = None;
         self.backlink_sections.clear();
         self.outgoing_sections.clear();
+        self.backlink_state.expanded.clear();
         let current = self.current.clone();
         self.bookmarks.update(cx, |b, cx| b.set_active(current, cx));
         cx.notify();
@@ -6971,6 +7766,9 @@ impl Workspace {
         //   it was written in; Links: the ones this file writes, properties
         //   included. Unlinked mentions take a search of every note and come
         //   in from the background executor.
+        // * A match expanded per note has no meaning once the sections are
+        //   rebuilt: drop every per-match expansion first.
+        self.backlink_state.expanded.clear();
         let extra = self.backlink_state.extra_context;
         let linked = backlinks::linked_mentions(&cache, &texts, &path, extra);
         let links = backlinks::outgoing_links(&cache, &path);
@@ -7009,6 +7807,45 @@ impl Workspace {
         if let Some(state) = self.state.clone() {
             self.refresh_panes(&state, cx);
         }
+        cx.notify();
+    }
+
+    /// The match at `offset` in the file at `path`, across the sections
+    /// currently drawn; `None` while the sections are still being built.
+    fn backlink_match(&self, path: &str, offset: usize) -> Option<&PaneMatch> {
+        self.backlink_sections
+            .iter()
+            .flat_map(|section| section.groups.iter())
+            .filter(|group| group.path.as_deref() == Some(path))
+            .flat_map(|group| group.matches.iter())
+            .find(|m| m.offset == Some(offset))
+    }
+
+    /// One match's "Show more context": its line with the lines either
+    /// side of it, kept only until the panes are rebuilt for this note.
+    fn toggle_backlink_match(&mut self, path: String, offset: usize, cx: &mut Context<Self>) {
+        let key = (path.clone(), offset);
+        if self.backlink_state.expanded.remove(&key).is_some() {
+            cx.notify();
+            return;
+        }
+        let Some(m) = self.backlink_match(&path, offset) else {
+            cx.notify();
+            return;
+        };
+        let Some(texts) = self.state.as_ref().map(|state| state.texts()) else {
+            cx.notify();
+            return;
+        };
+        let Some(text) = texts.get(&path).map(|text| text.as_str()) else {
+            cx.notify();
+            return;
+        };
+        let Some(expanded) = expand_match(text, m) else {
+            cx.notify();
+            return;
+        };
+        self.backlink_state.expanded.insert(key, expanded);
         cx.notify();
     }
 
@@ -8058,6 +8895,7 @@ fn tab_from_leaf(
                 mode,
                 history: vec![HistoryEntry::new(file.to_string(), mode)],
                 history_ix: 1,
+                pinned: false,
                 leaf: Some(leaf.clone()),
                 view_state: inner.and_then(|s| s.get("viewState")).cloned(),
             }
@@ -9158,6 +9996,70 @@ mod tests {
         assert!(!tab_in_strip(2, 1, true));
     }
 
+    /// A Backlinks row that stands for a note gets the open trio and then
+    /// the file menu's own four, in the capture's order; a row for a
+    /// note that does not exist yet gets the trio and no file items.
+    #[test]
+    fn a_link_row_of_an_existing_note_carries_the_file_menu_items() {
+        let items = side_menu_items(&SidePaneTarget::Link {
+            path: "Notes/Bills.md".to_string(),
+            link: Some("Bills".to_string()),
+        });
+        let labels: Vec<&str> = items.iter().map(|i| i.label).collect();
+        assert_eq!(
+            labels,
+            [
+                "Open note",
+                "Open note in new tab",
+                "Open note to the right",
+                "Copy path",
+                "Rename...",
+                "Move file to...",
+                "Bookmark...",
+                "Delete",
+            ]
+        );
+        let file = |label: &str| {
+            items
+                .iter()
+                .find(|i| i.label == label)
+                .map(|i| i.action.clone())
+                .unwrap_or_else(|| panic!("{label} is on the menu"))
+        };
+        assert_eq!(
+            file("Rename..."),
+            SidePaneAction::RenameFile("Notes/Bills.md".to_string())
+        );
+        assert_eq!(
+            file("Move file to..."),
+            SidePaneAction::MoveFile("Notes/Bills.md".to_string())
+        );
+        assert_eq!(
+            file("Bookmark..."),
+            SidePaneAction::BookmarkFile("Notes/Bills.md".to_string())
+        );
+        assert_eq!(
+            file("Delete"),
+            SidePaneAction::DeleteFile("Notes/Bills.md".to_string())
+        );
+
+        let unresolved = side_menu_items(&SidePaneTarget::Link {
+            path: String::new(),
+            link: Some("Gone".to_string()),
+        });
+        let labels: Vec<&str> = unresolved.iter().map(|i| i.label).collect();
+        assert_eq!(
+            labels,
+            [
+                "Open note",
+                "Open note in new tab",
+                "Open note to the right",
+                "Copy path"
+            ],
+            "an unresolved link has no note to rename, move, bookmark or delete"
+        );
+    }
+
     /// A symlink to a folder or a file on either platform. Windows refuses
     /// to make one without Developer Mode or elevation, so a test that
     /// needs one skips that part when creation is denied there.
@@ -9532,6 +10434,7 @@ mod tests {
                 ViewMode::LivePreview,
             )],
             history_ix: 1,
+            pinned: false,
             leaf: Some(read.clone()),
             view_state: None,
         };
@@ -9546,6 +10449,7 @@ mod tests {
             mode: ViewMode::Reading,
             history: Vec::new(),
             history_ix: 0,
+            pinned: false,
             leaf: Some(read.clone()),
             view_state: None,
         };
@@ -9573,6 +10477,7 @@ mod tests {
             mode: ViewMode::LivePreview,
             history: Vec::new(),
             history_ix: 0,
+            pinned: false,
             leaf: None,
             view_state: Some(json!({"x": 100, "y": -20, "zoom": -1})),
         };
@@ -9603,6 +10508,7 @@ mod tests {
             mode: ViewMode::LivePreview,
             history: Vec::new(),
             history_ix: 0,
+            pinned: false,
             leaf: None,
             view_state: None,
         };
@@ -9645,6 +10551,7 @@ mod tests {
             mode: ViewMode::LivePreview,
             history: Vec::new(),
             history_ix: 0,
+            pinned: false,
             leaf: None,
             view_state: None,
         };
@@ -9686,6 +10593,7 @@ mod tests {
             mode: ViewMode::LivePreview,
             history: Vec::new(),
             history_ix: 0,
+            pinned: false,
             leaf: Some(read),
             view_state: None,
         };
@@ -11319,5 +12227,178 @@ mod tests {
         n.clear();
         assert!(n.latest().is_none());
         assert_eq!(n.push("three".into()), 3, "ids keep counting up");
+    }
+
+    /// A match's \"Show more context\" chevron grows the match to its line
+    /// with the lines either side of it, the match's range moved into the
+    /// expanded text; a match without a range cannot grow.
+    #[test]
+    fn a_match_expands_to_its_line_with_the_lines_either_side() {
+        let text = "intro\nabove\nthe [[Plan]] line\nbelow\ntail";
+        let at = text.find("[[Plan]]").unwrap();
+        let m = PaneMatch {
+            text: "the [[Plan]] line".into(),
+            ranges: vec![Range { start: 4, end: 12 }],
+            offset: Some(at),
+            mention: None,
+            target: None,
+        };
+        let expanded = expand_match(text, &m).unwrap();
+        assert_eq!(expanded.text, "above\nthe [[Plan]] line\nbelow");
+        assert_eq!(expanded.ranges, vec![10..18]);
+        assert_eq!(expanded.offset, Some(at));
+    }
+
+    #[test]
+    fn a_match_without_a_range_does_not_expand() {
+        let text = "see the key\n";
+        let m = PaneMatch {
+            text: "related".into(),
+            ranges: vec![],
+            offset: Some(4),
+            mention: None,
+            target: None,
+        };
+        assert!(expand_match(text, &m).is_none());
+    }
+}
+
+#[cfg(test)]
+mod property_menu_tests {
+    use super::*;
+    use std::fs;
+
+    fn write_note(root: &std::path::Path, name: &str, block: &str, body: &str) {
+        fs::write(root.join(name), format!("{block}{body}")).expect("write note");
+    }
+
+    #[test]
+    fn rename_property_rewrites_every_note_that_carries_the_key() {
+        let dir = tempfile::tempdir().expect("temp dir");
+        fs::create_dir_all(dir.path().join(".obsidian")).expect("config folder");
+        // * `types.json` as the vault layer reads it back: the map sits
+        //   under `types`, the shape `assign_property_type` writes.
+        fs::write(
+            dir.path().join(".obsidian/types.json"),
+            r#"{"types":{"tags":"aliases","other":"number"}}"#,
+        )
+        .expect("types.json");
+        write_note(
+            dir.path(),
+            "A.md",
+            r#"---
+tags:
+  - a
+  - b
+---
+"#,
+            r#"body A
+"#,
+        );
+        write_note(
+            dir.path(),
+            "B.md",
+            r#"---
+tags: x
+other: 1
+---
+"#,
+            r#"body B
+"#,
+        );
+        // This note already carries the target key: left as it is (values
+        // are not merged here).
+        write_note(
+            dir.path(),
+            "D.md",
+            r#"---
+tags: z
+labels: y
+---
+"#,
+            r#"body D
+"#,
+        );
+        // This note never had `tags`.
+        write_note(
+            dir.path(),
+            "C.md",
+            r#"---
+other: 2
+---
+"#,
+            r#"body C
+"#,
+        );
+
+        let state = VaultState::load(&dir.path().to_path_buf()).expect("load vault");
+        let changed = state.rename_property("tags", "labels").expect("rename");
+        assert_eq!(changed, vec!["A.md".to_string(), "B.md".to_string()]);
+
+        let read = |name: &str| fs::read_to_string(dir.path().join(name)).expect("read note");
+        assert_eq!(
+            read("A.md"),
+            r#"---
+labels:
+  - a
+  - b
+---
+body A
+"#
+        );
+        assert_eq!(
+            read("B.md"),
+            r#"---
+labels: x
+other: 1
+---
+body B
+"#
+        );
+        assert_eq!(
+            read("D.md"),
+            r#"---
+tags: z
+labels: y
+---
+body D
+"#
+        );
+        assert_eq!(
+            read("C.md"),
+            r#"---
+other: 2
+---
+body C
+"#
+        );
+
+        let types =
+            fs::read_to_string(dir.path().join(".obsidian/types.json")).expect("read types");
+        assert!(types.contains(r#""labels""#), "{types}");
+        assert!(!types.contains(r#""tags""#), "{types}");
+
+        drop(state);
+        let state = VaultState::load(&dir.path().to_path_buf()).expect("reload vault");
+        let changed = state.remove_property("other").expect("remove");
+        assert_eq!(changed, vec!["B.md".to_string(), "C.md".to_string()]);
+        assert_eq!(
+            read("B.md"),
+            r#"---
+labels: x
+---
+body B
+"#
+        );
+        // Removing the last property also drops the frontmatter fence.
+        assert_eq!(
+            read("C.md"),
+            r#"body C
+"#
+        );
+
+        let types =
+            fs::read_to_string(dir.path().join(".obsidian/types.json")).expect("read types");
+        assert!(!types.contains(r#""other""#), "{types}");
     }
 }

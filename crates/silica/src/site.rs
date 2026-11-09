@@ -89,15 +89,15 @@ fn output_is_safe(out: &Path, root: &Path) -> Result<(), String> {
 /// pieces behind (`<scr<script>x</script>ipt>` emits `<scr` + `ipt>`, a
 /// whole live `<script>` in the output).
 fn strip_active(html: &str) -> String {
-let mut out = html.to_string();
-loop {
-    let stripped = strip_active_once(&out);
-    let done = stripped == out;
-    out = stripped;
-    if done {
-        return strip_meta_refresh(&strip_event_attributes(&out));
+    let mut out = html.to_string();
+    loop {
+        let stripped = strip_active_once(&out);
+        let done = stripped == out;
+        out = stripped;
+        if done {
+            return strip_meta_refresh(&strip_event_attributes(&out));
+        }
     }
-}
 }
 
 /// One sweep: every `<script`/`<iframe` element found in `html`, dropped
@@ -108,10 +108,12 @@ fn strip_active_once(html: &str) -> String {
     let mut rest = html;
     loop {
         let lower = rest.to_ascii_lowercase();
-        let open = ["<script", "<iframe", "<object", "<embed", "<applet", "<style", "<base"]
-            .iter()
-            .filter_map(|tag| lower.find(tag).map(|at| (at, *tag)))
-            .min_by_key(|(at, _)| *at);
+        let open = [
+            "<script", "<iframe", "<object", "<embed", "<applet", "<style", "<base",
+        ]
+        .iter()
+        .filter_map(|tag| lower.find(tag).map(|at| (at, *tag)))
+        .min_by_key(|(at, _)| *at);
         let Some((at, tag)) = open else {
             out.push_str(rest);
             return out;
@@ -284,8 +286,7 @@ fn strip_meta_refresh(html: &str) -> String {
         };
         let tag = &rest[at..end];
         let tag_lower = tag.to_ascii_lowercase();
-        let is_refresh = tag_lower.contains("http-equiv")
-            && tag_lower.contains("refresh");
+        let is_refresh = tag_lower.contains("http-equiv") && tag_lower.contains("refresh");
         if is_refresh {
             // Drop the whole tag.
         } else {

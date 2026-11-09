@@ -71,6 +71,9 @@ pub enum BlockKind<'a> {
     HtmlBlock {
         /// Raw lines, newline-terminated, written to the output verbatim.
         content: Cow<'a, str>,
+        /// CommonMark HTML block kind (1–8): 1 raw (`script`/`style`/`textarea`),
+        /// 2 comment, 6 block tag (`div`…), 8 preformatted (`pre`).
+        kind: u8,
     },
     BlockQuote {
         children: Vec<Block<'a>>,
@@ -179,8 +182,18 @@ pub enum InlineKind<'a> {
     HardBreak,
     /// `` `code` `` with the content normalized as CommonMark specifies.
     Code(Cow<'a, str>),
-    /// Raw inline HTML, emitted verbatim.
+    /// Raw inline HTML with no element name — a comment, declaration or
+    /// CDATA section — emitted verbatim as muted source.
     Html(Cow<'a, str>),
+    /// Inline HTML with an element name: the tag, lower-cased, plus the raw
+    /// source exactly as written. The reading view draws `br`, `u`, `kbd`,
+    /// `sup` and `sub` from this; `b`, `i`, `a` and block containers come
+    /// through the raw-html pass, and anything it cannot draw keeps its own
+    /// source and is never silently dropped.
+    HtmlInline {
+        tag: Cow<'a, str>,
+        html: Cow<'a, str>,
+    },
     Emphasis(Vec<Inline<'a>>),
     Strong(Vec<Inline<'a>>),
     Strikethrough(Vec<Inline<'a>>),
@@ -422,7 +435,7 @@ fn push_plain_text(inlines: &[Inline<'_>], out: &mut String) {
         match &inline.kind {
             InlineKind::Text(t) | InlineKind::Code(t) => out.push_str(t),
             InlineKind::SoftBreak | InlineKind::HardBreak => out.push(' '),
-            InlineKind::Html(h) => out.push_str(h),
+            InlineKind::Html(h) | InlineKind::HtmlInline { html: h, .. } => out.push_str(h),
             InlineKind::Emphasis(c)
             | InlineKind::Strong(c)
             | InlineKind::Strikethrough(c)

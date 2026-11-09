@@ -41,7 +41,8 @@
 use std::path::PathBuf;
 
 use crate::bases::cells::{
-    body_of, group_header, image_ref, renders_title_as_link, title_of, ImageRef, CELL_PAD,
+    body_of, collapsed_in, group_header, image_ref, renders_title_as_link, title_of, ImageRef,
+    CELL_PAD,
 };
 use crate::bases::view::BasesView;
 use crate::theme::{Theme, FONT_UI_SMALL, FONT_UI_SMALLER};
@@ -215,7 +216,7 @@ impl BasesView {
             rows = table.rows.len();
             let columns = &table.columns;
             let mut drawn = 0;
-            for section in sections(table, grouped) {
+            for section in sections(table, grouped, &[]) {
                 if drawn >= MAX_CARDS {
                     capped = true;
                     break;
@@ -414,8 +415,15 @@ pub fn metrics(layout: &CardsLayout) -> CardMetrics {
 /// caller says whether the view groups rather than this guessing from the
 /// shape; a grouped view whose groups came back empty falls back to the flat
 /// rows so nothing disappears. Both are the table layout's own rules, which
-/// is the point: every layout draws the same resolved table.
-pub fn sections(table: &Table, grouped: bool) -> Vec<Section<'_>> {
+/// is the point: every layout draws the same resolved table. A group whose
+/// key is one of the `collapsed` ones keeps its header with no rows under
+/// it, the way [`lines_for`](crate::bases::cells::lines_for) keeps the
+/// header and drops the lines.
+pub fn sections<'t>(
+    table: &'t Table,
+    grouped: bool,
+    collapsed: &[Option<String>],
+) -> Vec<Section<'t>> {
     if grouped && !table.groups.is_empty() {
         table
             .groups
@@ -425,7 +433,11 @@ pub fn sections(table: &Table, grouped: bool) -> Vec<Section<'_>> {
                     key: group.key.clone(),
                     rows: group.rows.len(),
                 }),
-                rows: &group.rows,
+                rows: if collapsed_in(collapsed, &group.key) {
+                    &[]
+                } else {
+                    &group.rows
+                },
             })
             .collect()
     } else {
@@ -501,6 +513,33 @@ mod tests {
             limited: false,
             unknown_kind: None,
         }
+    }
+
+    #[test]
+    fn a_collapsed_group_keeps_its_header_and_draws_no_cards() {
+        let rows = vec![row("A.md", &["Alpha"]), row("B.md", &["Beta"])];
+        let table = table_of(
+            vec![row("C.md", &["Gamma"])],
+            vec![
+                Group {
+                    key: Some("rock".to_string()),
+                    rows: rows.clone(),
+                },
+                Group {
+                    key: Some("sand".to_string()),
+                    rows: vec![row("C.md", &["Gamma"])],
+                },
+            ],
+            &["file.name"],
+        );
+        let got = sections(&table, true, &[Some("rock".to_string())]);
+        assert_eq!(got.len(), 2, "one section per group, collapsed or not");
+        assert_eq!(
+            got[0].header.as_ref().and_then(|h| h.key.clone()),
+            Some("rock".to_string())
+        );
+        assert_eq!(got[0].rows.len(), 0, "a collapsed section draws no cards");
+        assert_eq!(got[1].rows.len(), 1);
     }
 
     #[test]
@@ -588,7 +627,7 @@ mod tests {
             }],
             &["file.name"],
         );
-        let got = sections(&table, false);
+        let got = sections(&table, false, &[]);
         assert_eq!(got.len(), 1);
         assert_eq!(got[0].header, None);
         assert_eq!(got[0].rows.len(), 2);
@@ -614,7 +653,7 @@ mod tests {
             ],
             &["file.name"],
         );
-        let got = sections(&table, true);
+        let got = sections(&table, true, &[]);
         assert_eq!(got.len(), 2);
         assert_eq!(
             got[0].header,
@@ -634,7 +673,7 @@ mod tests {
     #[test]
     fn a_grouped_view_with_no_groups_falls_back_to_the_flat_rows() {
         let table = table_of(vec![row("A.md", &["A"])], Vec::new(), &["file.name"]);
-        let got = sections(&table, true);
+        let got = sections(&table, true, &[]);
         assert_eq!(got.len(), 1);
         assert_eq!(got[0].header, None);
         assert_eq!(got[0].rows.len(), 1);

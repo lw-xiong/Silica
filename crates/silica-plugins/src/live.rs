@@ -358,6 +358,7 @@ module.exports = Counter;
             open_note: Box::new(|_| Err("no vault".to_string())),
             current_note: Box::new(|| None),
             notify: Box::new(|_| {}),
+            insert_text: Box::new(|_| Ok(())),
         };
         let (outcome, _) = run("counter:hello", None, &ctx).expect("the plugin owns this command");
         outcome.expect("the command ran");
@@ -382,6 +383,7 @@ module.exports = Counter;
             open_note: Box::new(|_| Err("no vault".to_string())),
             current_note: Box::new(|| None),
             notify: Box::new(|_| {}),
+            insert_text: Box::new(|_| Ok(())),
         };
         assert!(run("silica:open-settings", None, &ctx).is_none());
         // * A second ask for the same vault keeps the same runtime.
@@ -411,6 +413,7 @@ module.exports = Counter;
             open_note: Box::new(|_| Err("no vault".to_string())),
             current_note: Box::new(|| None),
             notify: Box::new(|_| {}),
+            insert_text: Box::new(|_| Ok(())),
         };
 
         // * Native plugins are global: they run without a vault loaded.
@@ -484,6 +487,7 @@ module.exports = W;
             open_note: Box::new(|_| Ok(())),
             current_note: Box::new(move || Some(open.clone())),
             notify: Box::new(|_| {}),
+            insert_text: Box::new(|_| Ok(())),
         };
         let (outcome, _) = run("w:hit", None, &ctx).expect("the plugin owns it");
         assert!(outcome.is_err(), "the write was allowed: {outcome:?}");
@@ -556,9 +560,11 @@ module.exports = W;
             metadata_cache: Box::new(|_| Err("no vault".to_string())),
             open_note: Box::new(|_| Ok(())),
             current_note: Box::new(|| None),
+            insert_text: Box::new(|_| Ok(())),
         };
 
-        let (outcome, _) = run("vault-doctor:run", None, &ctx).expect("the native plugin owns it");
+        let (outcome, _) =
+            run("silica:vault-doctor", None, &ctx).expect("the native plugin owns it");
         outcome.expect("the command ran");
 
         let report = fs::read_to_string(root.join("Vault doctor.md")).expect("the report");

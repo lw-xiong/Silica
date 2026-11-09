@@ -5,8 +5,10 @@
 //! per run of text, with the styled ranges from the model and clickable
 //! ranges for links, tags and footnote references.
 
+use super::folds::ReadingFoldStore;
 use super::model::{
-    Embed, EmbedKind, InlineStyle, LinkTarget, Model, RBlock, RItem, RichText, Segment, TaskMarker,
+    Embed, EmbedKind, HtmlBlockKind, InlineStyle, LinkTarget, Model, RBlock, RItem, RichText,
+    Segment, TaskMarker,
 };
 use crate::assets::{callout_icon, icon};
 use crate::fold::{self, FoldKey};
@@ -241,6 +243,33 @@ pub(crate) fn missing_canvas(path: &str, _w: f32, _h: f32) -> AnyElement {
         .into_any_element()
 }
 
+/// A local image the vault holds no file for: a card naming it, the way
+/// every other missing attachment reads. gpui paints nothing at all for a
+/// source it cannot read — no image, no error — which leaves a blank the
+/// reader cannot explain, so the fallback names the file instead.
+pub(crate) fn missing_image(path: &std::path::Path) -> AnyElement {
+    let label = path
+        .file_name()
+        .map(|n| n.to_string_lossy().into_owned())
+        .unwrap_or_else(|| path.display().to_string());
+    div()
+        .id(SharedString::from(format!("image-embed-{label}")))
+        .my_1()
+        .px_3()
+        .py_2()
+        .rounded_md()
+        .border_1()
+        .border_color(gpui::Hsla {
+            h: 0.0,
+            s: 0.0,
+            l: 0.0,
+            a: 0.12,
+        })
+        .cursor_pointer()
+        .child(SharedString::from(label))
+        .into_any_element()
+}
+
 /// A click on a video embed: the file, and `Some(share)` when the click was
 /// on the position bar (a seek) rather than the picture or the button.
 pub type VideoHandler = Rc<dyn Fn(&std::path::Path, Option<f32>, &mut Window, &mut App)>;
@@ -279,6 +308,9 @@ pub struct ReadingView {
     pub path: Option<String>,
     model: Arc<Model>,
     list: ListState,
+    /// The fold store of this vault's notes, opened once at startup. The
+    /// record lives outside the vault, keyed by vault-relative path.
+    fold_store: ReadingFoldStore,
     /// Callouts whose fold state the reader flipped, by title id.
     toggled: HashSet<usize>,
     /// The note's heading and list folds, by key — the same keys the
@@ -409,6 +441,7 @@ impl ReadingView {
             list: ListState::new(0, ListAlignment::Top, px(1200.)),
             toggled: HashSet::new(),
             folds: Vec::new(),
+            fold_store: ReadingFoldStore::open(),
             fold_headings: true,
             hidden: Vec::new(),
             readable_line_length: true,
@@ -765,7 +798,7 @@ impl ReadingView {
             }
             RBlock::ThematicBreak => {}
             RBlock::Code { .. } => {}
-            RBlock::Html(rt) => {
+            RBlock::Html { text: rt, .. } => {
                 out.push((ix, rt.id, 0, rt.text.len()));
             }
             RBlock::Quote(children) => {
@@ -848,7 +881,7 @@ impl ReadingView {
             RBlock::Heading { text, .. } => out.push_str(&text.text),
             RBlock::ThematicBreak => out.push_str("---"),
             RBlock::Code { text, .. } => out.push_str(text),
-            RBlock::Html(rt) => out.push_str(&rt.text),
+            RBlock::Html { text: rt, .. } => out.push_str(&rt.text),
             RBlock::Quote(children) => {
                 for child in children {
                     out.push_str("> ");
@@ -926,7 +959,7 @@ impl ReadingView {
             RBlock::Heading { text, .. } => {
                 return text.text.get(start..end).map(|s| s.to_string());
             }
-            RBlock::Html(rt) => {
+            RBlock::Html { text: rt, .. } => {
                 return rt.text.get(start..end).map(|s| s.to_string());
             }
             _ => {}
@@ -1136,6 +1169,7 @@ impl ReadingView {
         let top = self.list.logical_scroll_top();
         self.path = path;
         self.list.reset(model.blocks.len());
+        let real_model = !model.blocks.is_empty();
         if same {
             // * A reload after a change on disk keeps the reader's place.
             self.list.scroll_to(top);
@@ -1151,10 +1185,57 @@ impl ReadingView {
             //   expanded callout 1.5 s after any save of the note being read.
             self.toggled.clear();
             self.folds.clear();
+            if real_model {
+                // * The real model landed: restore this note's saved folds.
+                self.load_folds();
+            }
+        } else if real_model && self.folds.is_empty() {
+            // * A placeholder model was replaced by the real one for the
+            //   same note (a mode switch into Reading): restore what was
+            //   saved for it.
+            self.load_folds();
         }
         self.recompute_hidden();
         self.copied = None;
         cx.notify();
+    }
+
+    /// The saved folded headings of the note on screen, by their index in
+    /// the view's heading order. A heading that moved or went away simply
+    /// fails to resolve and stays unfolded; nothing is written to the note.
+    fn load_folds(&mut self) {
+        let Some(path) = self.path.as_deref() else {
+            return;
+        };
+        let heads = self.headings();
+        self.folds = self
+            .fold_store
+            .get(path)
+            .map(|saved| {
+                heads
+                    .iter()
+                    .enumerate()
+                    .filter_map(|(ix, (_, _, key))| saved.contains(&ix).then_some(key.clone()))
+                    .collect()
+            })
+            .unwrap_or_default();
+    }
+
+    /// The indexes of this note's currently folded headings, written to
+    /// the store outside the vault whenever a fold changes. An empty set
+    /// drops the note's entry.
+    fn save_folds(&mut self) {
+        let Some(path) = self.path.as_deref() else {
+            return;
+        };
+        let heads = self.headings();
+        let saved: HashSet<usize> = heads
+            .iter()
+            .enumerate()
+            .filter(|(_, (_, _, key))| self.folds.contains(key))
+            .map(|(ix, _)| ix)
+            .collect();
+        self.fold_store.put(path, saved);
     }
 
     // ----- heading folds --------------------------------------------------------
@@ -1209,6 +1290,7 @@ impl ReadingView {
             None => self.folds.push(key),
         }
         self.recompute_hidden();
+        self.save_folds();
         cx.notify();
     }
 
@@ -1220,6 +1302,7 @@ impl ReadingView {
     pub fn set_fold_keys(&mut self, keys: Vec<FoldKey>, cx: &mut Context<Self>) {
         self.folds = keys;
         self.recompute_hidden();
+        self.save_folds();
         cx.notify();
     }
 
@@ -1269,6 +1352,7 @@ impl ReadingView {
                 .collect();
             self.folds.retain(|k| !hiding.contains(k));
             self.recompute_hidden();
+            self.save_folds();
         }
         if ix < self.model.blocks.len() {
             self.list.scroll_to(ListOffset {

@@ -16,6 +16,35 @@
 /// converting — a plain string that happens to be on the clipboard as
 /// `text/html`, or an empty document.
 pub fn convert(html: &str) -> Option<String> {
+    read(html)
+        .filter(|page| !page.markdown.is_empty())
+        .map(|page| page.markdown)
+}
+
+/// A page read for more than its text: the title it declares, the Markdown
+/// its body becomes, and the files that body names.
+///
+/// An import needs all three. The note is named after the page's title
+/// rather than after whatever the file was called, and every image the page
+/// shows is a file sitting next to it that has to be copied across, or the
+/// note points at a picture the vault does not have.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Page {
+    /// The title the page declares — its `<title>`, else its first
+    /// heading. `None` when it declares neither.
+    pub title: Option<String>,
+    /// The body as Markdown, exactly what [`convert`] answers.
+    pub markdown: String,
+    /// Every local file the body's markup names, in document order, once
+    /// each, spelled the way the markup spells it: `pictures/a.png`,
+    /// `../files/b.png`. A remote target is not a file on this machine, so
+    /// it stays in the Markdown as it is and is not listed.
+    pub assets: Vec<String>,
+}
+
+/// Read `html` as a page. `None` when the input is not markup, or when it
+/// says nothing at all — no title, no body, no file.
+pub fn read(html: &str) -> Option<Page> {
     if !looks_like_html(html) {
         return None;
     }
@@ -23,8 +52,15 @@ pub fn convert(html: &str) -> Option<String> {
     let nodes = p.parse_nodes(None);
     let mut out = String::new();
     write_blocks(&nodes, &mut out, 0);
-    let trimmed = tidy(&out);
-    (!trimmed.is_empty()).then_some(trimmed)
+    let markdown = tidy(&out);
+    let assets = assets_of(&nodes);
+    let title = title_of(html, &nodes);
+    let empty = markdown.is_empty() && assets.is_empty() && title.is_none();
+    (!empty).then_some(Page {
+        title,
+        markdown,
+        assets,
+    })
 }
 
 /// Whether `s` is markup rather than a string that merely arrived as
@@ -33,6 +69,114 @@ pub fn convert(html: &str) -> Option<String> {
 fn looks_like_html(s: &str) -> bool {
     let s = s.trim_start();
     s.starts_with('<') && s.contains('>')
+}
+
+/// Every local file the body's markup names, in document order, once each.
+///
+/// A target with a scheme — `https:`, `data:` — is a file somewhere else:
+/// it stays in the Markdown as it is and is not a file to copy. A relative
+/// path is a file sitting next to the page, and the note that points at it
+/// is broken until that file is copied across too.
+fn assets_of(nodes: &[Node]) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+    collect_assets(nodes, &mut out);
+    out
+}
+
+/// Walks the tree in document order, taking each image's local file once.
+fn collect_assets(nodes: &[Node], out: &mut Vec<String>) {
+    for node in nodes {
+        let Node::Element(el) = node else { continue };
+        if el.tag == "img" {
+            if let Some(src) = el.attr("src") {
+                let src = src.trim();
+                if !src.is_empty() && is_local_target(src) && !out.iter().any(|a| a == src) {
+                    out.push(src.to_string());
+                }
+            }
+        }
+        collect_assets(&el.children, out);
+    }
+}
+
+/// Whether a target names a file on this machine. A scheme says otherwise —
+/// `https:` and `data:` are somewhere else — while a colon inside a path
+/// segment (`pics/2:30.png`) is still this machine.
+fn is_local_target(target: &str) -> bool {
+    if target.starts_with("//") {
+        // * A scheme-relative URL: the file is on a host, not next to the page.
+        return false;
+    }
+    match target.split_once(':') {
+        Some((scheme, _)) => {
+            let scheme = scheme.trim();
+            scheme.is_empty()
+                || scheme.contains('/')
+                || scheme.contains('?')
+                || scheme.contains('#')
+        }
+        None => true,
+    }
+}
+
+/// The title the page declares — its `<title>`, else its first heading.
+/// `None` when it declares neither.
+///
+/// The tree drops `<head>` whole, so the `<title>` is read out of the
+/// source itself; the heading is already in the tree.
+fn title_of(html: &str, nodes: &[Node]) -> Option<String> {
+    html_title(html).or_else(|| first_heading(nodes))
+}
+
+/// The `<title>`'s text, when the source declares one. The name has to end
+/// at the tag's end — a space, the `>` or a `/` — so a `<titles>` is not
+/// read as a title.
+fn html_title(html: &str) -> Option<String> {
+    let lower = html.to_ascii_lowercase();
+    let open = find_open_tag(&lower, "title")?;
+    let name = "<title".len();
+    let gt = lower[open + name..].find('>')?;
+    let body = open + name + gt + 1;
+    let end = lower[body..].find("</title>")? + body;
+    let text = collapse(&decode_entities(&html[body..end]));
+    let text = text.trim();
+    (!text.is_empty()).then(|| text.to_string())
+}
+
+/// The offset of `<tag` in a lowercased source, when the tag name ends
+/// there. Lowercasing leaves every other byte alone, so the offsets still
+/// point into the original.
+fn find_open_tag(lower: &str, tag: &str) -> Option<usize> {
+    let needle = format!("<{tag}");
+    let mut at = 0usize;
+    while let Some(hit) = lower[at..].find(needle.as_str()) {
+        let start = at + hit;
+        let end = start + needle.len();
+        match lower.as_bytes().get(end) {
+            Some(b) if is_space(*b) || *b == b'>' || *b == b'/' => return Some(start),
+            _ => at = end,
+        }
+    }
+    None
+}
+
+/// The first heading with text, in document order.
+fn first_heading(nodes: &[Node]) -> Option<String> {
+    for node in nodes {
+        let Node::Element(el) = node else { continue };
+        if matches!(el.tag.as_str(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+            let text = inline_of(&el.children);
+            let text = text.trim();
+            if !text.is_empty() {
+                return Some(text.to_string());
+            }
+            continue;
+        }
+        if let Some(found) = first_heading(&el.children) {
+            return Some(found);
+        }
+    }
+    None
 }
 
 // ---------------------------------------------------------------- the tree
@@ -1238,5 +1382,65 @@ mod tests {
         assert_eq!(md("<p>a\n      b</p>"), "a b");
         // * But a <br> is a real break.
         assert_eq!(md("<p>a<br>\n     b</p>"), "a\nb");
+    }
+
+    #[test]
+    fn a_page_is_read_for_more_than_its_text() {
+        let html = r#"<title>Page Title</title><h1>Heading</h1><p>Body.</p><img src="pics/a.png">"#;
+        let page = read(html).expect("markup was not recognised");
+        // * The declared title wins over the heading the body opens with.
+        assert_eq!(page.title.as_deref(), Some("Page Title"));
+        assert_eq!(page.markdown, "# Heading\n\nBody.\n\n![](pics/a.png)");
+        assert_eq!(page.assets, vec!["pics/a.png".to_string()]);
+    }
+
+    #[test]
+    fn the_title_falls_back_to_the_first_heading() {
+        let page = read("<h2>Section</h2><p>text</p>").expect("markup was recognised");
+        assert_eq!(page.title.as_deref(), Some("Section"));
+        // * A heading with no text is not a title, and neither is nothing.
+        assert_eq!(read("<h1></h1><p>text</p>").unwrap().title, None);
+        assert_eq!(read("<p>text</p>").unwrap().title, None);
+        // * A `<title>` with attributes is still a title.
+        assert_eq!(
+            read(r#"<title id="x">Named</title><p>text</p>"#)
+                .unwrap()
+                .title
+                .as_deref(),
+            Some("Named")
+        );
+    }
+
+    #[test]
+    fn the_assets_are_the_local_files_in_document_order() {
+        let html = r#"<div><img src="pictures/a.png"><img src="../files/b.png"></div>
+            <p><img src="pictures/a.png"></p>
+            <img src="https://example.com/c.png">
+            <img src="//cdn.example.com/d.png">"#;
+        let page = read(html).expect("markup was recognised");
+        // * Once each, spelled the way the markup spells it. A remote
+        //   target stays in the Markdown and is not a file to copy.
+        assert_eq!(
+            page.assets,
+            vec!["pictures/a.png".to_string(), "../files/b.png".to_string()]
+        );
+    }
+
+    #[test]
+    fn a_page_of_one_image_still_names_its_file() {
+        let page = read(r#"<img src="only.png">"#).expect("markup was recognised");
+        assert_eq!(page.assets, vec!["only.png".to_string()]);
+        assert_eq!(page.title, None);
+    }
+
+    #[test]
+    fn a_page_with_nothing_to_say_is_not_a_page() {
+        // * A document whose only content is a title has no body to import,
+        //   so there is nothing to paste either.
+        assert_eq!(convert("<title>Only a title</title>"), None);
+        // * A plain string, an empty document: not markup at all.
+        assert_eq!(read("just text"), None);
+        assert_eq!(read("<title> </title>"), None);
+        assert_eq!(read("<style>a{}</style>"), None);
     }
 }

@@ -60,6 +60,17 @@ pub const LAYOUTS: &[(&str, &str, &str)] = &[
 /// **Unprobed**, see the module note.
 pub const INDENT_PROPERTIES_KEY: &str = "indentProperties";
 
+/// `orderProperty`: the property a kanban card's manual position is written
+/// to. **Unprobed** — no kanban order was ever observed, in either the
+/// registrations or the Configure view page — so the spelling is this
+/// build's own, chosen because it reads as what it does.
+pub const ORDER_PROPERTY_KEY: &str = "orderProperty";
+
+/// `swimlane`: the property a kanban board's second grouping bands the
+/// cards into. **Unprobed**, for the same reason as
+/// [`ORDER_PROPERTY_KEY`].
+pub const SWIMLANE_KEY: &str = "swimlane";
+
 /// Obsidian's label for a layout, when it is one of the four registered.
 pub fn kind_label(kind: &str) -> Option<&'static str> {
     LAYOUTS
@@ -366,6 +377,16 @@ impl ListLayout {
 }
 
 /// The `kanban` layout: one column per `groupBy` value.
+///
+/// Two of its keys are this build's own reading rather than Obsidian's, and
+/// both are named after what they do rather than after a control the run
+/// never saw: **`orderProperty`**, the frontmatter property a card's manual
+/// position is written to, and **`swimlane`**, the property a second
+/// grouping bands the board into. Neither is in the registrations' table and
+/// neither was ever written by the Configure view page, so both are absent
+/// by default and both are read only off the file — a hand-written key is
+/// what turns them on, and a layout key is a preserved key, so one survives
+/// the round trip. See [`set_order_property`] and [`set_swimlane`].
 #[derive(Debug, Clone, PartialEq)]
 pub struct KanbanLayout {
     /// `columnWidth`, 200 to 500 step 10, default 280.
@@ -375,6 +396,14 @@ pub struct KanbanLayout {
     /// `imageAspectRatio`, 0.25 to 2.5 step 0.05, default **0.5** — the one
     /// key whose default differs from the cards layout's.
     pub image_aspect_ratio: f64,
+    /// `orderProperty`: the qualified id of the frontmatter property a
+    /// card's manual position is written to. `None` and the board is ordered
+    /// by the view's own `sort` alone.
+    pub order_property: Option<String>,
+    /// `swimlane`: the qualified id of the property a second grouping bands
+    /// the board into — one band per value, every column's cards split
+    /// between them. `None` and the board has one row of cards per column.
+    pub swimlane: Option<String>,
 }
 
 impl Default for KanbanLayout {
@@ -384,6 +413,8 @@ impl Default for KanbanLayout {
             image: None,
             image_fit: ImageFit::default(),
             image_aspect_ratio: KANBAN_ASPECT_DEFAULT,
+            order_property: None,
+            swimlane: None,
         }
     }
 }
@@ -396,6 +427,8 @@ impl KanbanLayout {
             image_fit: ImageFit::of(str_key(view, "imageFit")),
             image_aspect_ratio: number_key(view, "imageAspectRatio")
                 .unwrap_or(KANBAN_ASPECT_DEFAULT),
+            order_property: property_key(view, ORDER_PROPERTY_KEY),
+            swimlane: property_key(view, SWIMLANE_KEY),
         }
     }
 }
@@ -503,11 +536,36 @@ pub fn set_image(view: &mut View, property: Option<&str>) {
     }
 }
 
-/// `imageFit`. Cover is the default and its key is absent.
+/// `imageFit`. Cover is the default and the key is absent.
 pub fn set_image_fit(view: &mut View, fit: ImageFit) {
     match fit {
         ImageFit::Cover => drop_key(view, "imageFit"),
         ImageFit::Contain => set_str(view, "imageFit", fit.key()),
+    }
+}
+
+/// `orderProperty`: the property a kanban card's manual position is written
+/// to, as a qualified id the way the `image` picker writes one. `None` drops
+/// the key, which turns the board's manual ordering off — nothing is ever
+/// written into a note by a board that names no property to write.
+///
+/// **Unprobed**: no control was ever observed writing this key, so the
+/// qualified spelling this build writes for itself is the `image` picker's
+/// own rule rather than an observation.
+pub fn set_order_property(view: &mut View, property: Option<&str>) {
+    match property {
+        None => drop_key(view, ORDER_PROPERTY_KEY),
+        Some(id) => set_str(view, ORDER_PROPERTY_KEY, &qualify(id)),
+    }
+}
+
+/// `swimlane`: the property a board's second grouping bands the cards into,
+/// in the same qualified spelling. `None` drops the key, which is the
+/// default — a board without one is one row of cards per column.
+pub fn set_swimlane(view: &mut View, property: Option<&str>) {
+    match property {
+        None => drop_key(view, SWIMLANE_KEY),
+        Some(id) => set_str(view, SWIMLANE_KEY, &qualify(id)),
     }
 }
 
@@ -576,7 +634,13 @@ fn number_key(view: &View, key: &str) -> Option<f64> {
 /// `image` is a property id, and an empty string is no image rather than a
 /// property with no name.
 fn image_key(view: &View) -> Option<String> {
-    str_key(view, "image")
+    property_key(view, "image")
+}
+
+/// A candidate-property key: an empty string is no property rather than a
+/// property with no name — the same rule the `image` picker reads by.
+fn property_key(view: &View, key: &str) -> Option<String> {
+    str_key(view, key)
         .filter(|s| !s.is_empty())
         .map(str::to_string)
 }
@@ -623,6 +687,36 @@ mod tests {
         };
         assert_eq!(k.image_aspect_ratio, 0.5);
         assert_eq!(k.column_width, 280.);
+    }
+
+    #[test]
+    fn a_kanban_boards_order_and_swimlane_keys_round_trip() {
+        // * The board's manual order and its swimlanes are read only off
+        //   the file, and written back qualified the way the image picker
+        //   writes a property: a bare id leaves with `note.` in front.
+        let mut v = view_of("views:\n  - type: kanban\n    name: V\n");
+        let Layout::Kanban(k) = Layout::of(&v) else {
+            panic!("kanban");
+        };
+        assert_eq!(k.order_property, None, "absent by default");
+        assert_eq!(k.swimlane, None, "absent by default");
+
+        set_order_property(&mut v, Some("Priority"));
+        set_swimlane(&mut v, Some("Status"));
+        let Layout::Kanban(k) = Layout::of(&v) else {
+            panic!("kanban");
+        };
+        assert_eq!(k.order_property.as_deref(), Some("note.Priority"));
+        assert_eq!(k.swimlane.as_deref(), Some("note.Status"));
+
+        set_order_property(&mut v, None);
+        let Layout::Kanban(k) = Layout::of(&v) else {
+            panic!("kanban");
+        };
+        assert_eq!(
+            k.order_property, None,
+            "dropping the key turns the board's manual ordering off"
+        );
     }
 
     #[test]

@@ -1076,6 +1076,17 @@ impl BasesView {
     }
 }
 
+/// The results panel's own count: *Showing 4 of 12* — how many rows the
+/// view draws of how many the filters matched. Nothing matched is nothing to
+/// say, which is why `matched == 0` answers `None` while `shown == 0` over
+/// a non-zero `matched` still says "0 of n".
+// * No panel draws the readout yet, this is the shape the tests fix; see
+//   `cells::toggle_collapsed`.
+#[allow(dead_code)]
+pub fn showing_text(shown: usize, matched: usize) -> Option<String> {
+    (matched != 0).then(|| format!("Showing {shown} of {matched}"))
+}
+
 /// The class Obsidian puts on a rule's mode button, spelled as Obsidian
 /// spells it — `filer`, not `filter`.
 pub const EXPRESSION_MODE_TOGGLE: &str = "filer-expression-mode-toggle";
@@ -1297,6 +1308,14 @@ mod tests {
 
     fn yaml_of(base: &Base) -> String {
         base.to_yaml()
+    }
+
+    #[test]
+    fn the_showing_readout_counts_the_rows_drawn_of_the_rows_matched() {
+        assert_eq!(showing_text(4, 12), Some("Showing 4 of 12".to_string()));
+        assert_eq!(showing_text(12, 12), Some("Showing 12 of 12".to_string()));
+        assert_eq!(showing_text(0, 0), None, "nothing matched, nothing to say");
+        assert_eq!(showing_text(0, 3), Some("Showing 0 of 3".to_string()));
     }
 
     #[test]

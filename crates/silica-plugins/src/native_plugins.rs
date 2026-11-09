@@ -41,7 +41,7 @@ impl Plugin for DailyNotes {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "daily-notes:open".into(),
+            id: "silica:daily-notes".into(),
             name: "Open daily note".into(),
         }]
     }
@@ -53,7 +53,7 @@ impl Plugin for DailyNotes {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "daily-notes:open" => {
+            "silica:daily-notes" => {
                 let today = today_local();
 
                 let path = format!("{today}.md");
@@ -85,8 +85,8 @@ impl Plugin for Backlink {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "backlink:show".into(),
-            name: "Show backlinks".into(),
+            id: "silica:backlink-count".into(),
+            name: "Count backlinks".into(),
         }]
     }
 
@@ -97,7 +97,7 @@ impl Plugin for Backlink {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "backlink:show" => {
+            "silica:backlink-count" => {
                 let current = (ctx.current_note)().unwrap_or_default();
                 if current.is_empty() {
                     return Err("No note is open".to_string());
@@ -132,12 +132,7 @@ impl Plugin for Backlink {
                     0 => (ctx.notify)("No backlinks"),
                     1 => (ctx.notify)(&format!("1 backlink: {}", backlinks[0])),
                     n => {
-                        let mut names = backlinks.join(", ");
-                        if names.len() > 200 {
-                            names.truncate(200);
-                            names.push('…');
-                        }
-                        (ctx.notify)(&format!("{n} backlinks: {names}"));
+                        (ctx.notify)(&format!("{n} backlinks: {}", list_line(&backlinks)));
                     }
                 }
                 Ok(())
@@ -161,8 +156,8 @@ impl Plugin for OutgoingLink {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "outgoing-link:show".into(),
-            name: "Show outgoing links".into(),
+            id: "silica:outgoing-link-count".into(),
+            name: "Count outgoing links".into(),
         }]
     }
 
@@ -173,7 +168,7 @@ impl Plugin for OutgoingLink {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "outgoing-link:show" => {
+            "silica:outgoing-link-count" => {
                 let current = (ctx.current_note)().unwrap_or_default();
                 if current.is_empty() {
                     return Err("No note is open".to_string());
@@ -199,12 +194,7 @@ impl Plugin for OutgoingLink {
                     0 => (ctx.notify)("No outgoing links"),
                     1 => (ctx.notify)(&format!("1 outgoing link: {}", links[0])),
                     n => {
-                        let mut names = links.join(", ");
-                        if names.len() > 200 {
-                            names.truncate(200);
-                            names.push('…');
-                        }
-                        (ctx.notify)(&format!("{n} outgoing links: {names}"));
+                        (ctx.notify)(&format!("{n} outgoing links: {}", list_line(&links)));
                     }
                 }
                 Ok(())
@@ -228,7 +218,7 @@ impl Plugin for Templates {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "templates:insert".into(),
+            id: "silica:insert-template".into(),
             name: "Insert template".into(),
         }]
     }
@@ -240,7 +230,7 @@ impl Plugin for Templates {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "templates:insert" => {
+            "silica:insert-template" => {
                 let template_name = value.and_then(|v| v.as_str()).unwrap_or("default");
                 let path = format!("templates/{template_name}.md");
                 if !(ctx.file_exists)(&path)? {
@@ -270,7 +260,7 @@ impl Plugin for RandomNote {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "random-note:open".into(),
+            id: "silica:random-note".into(),
             name: "Open random note".into(),
         }]
     }
@@ -282,7 +272,7 @@ impl Plugin for RandomNote {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "random-note:open" => {
+            "silica:random-note" => {
                 let files = (ctx.list_dir)("")?;
                 let md_files: Vec<String> =
                     files.into_iter().filter(|f| f.ends_with(".md")).collect();
@@ -315,8 +305,8 @@ impl Plugin for WordCount {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "word-count:show".into(),
-            name: "Show word count".into(),
+            id: "silica:word-count".into(),
+            name: "Word count".into(),
         }]
     }
 
@@ -327,7 +317,7 @@ impl Plugin for WordCount {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "word-count:show" => {
+            "silica:word-count" => {
                 let current = (ctx.current_note)().unwrap_or_default();
                 if current.is_empty() {
                     return Err("No note is open".to_string());
@@ -363,7 +353,7 @@ impl Plugin for NoteComposer {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "note-composer:merge".into(),
+            id: "silica:note-composer-merge".into(),
             name: "Merge notes".into(),
         }]
     }
@@ -375,7 +365,7 @@ impl Plugin for NoteComposer {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "note-composer:merge" => {
+            "silica:note-composer-merge" => {
                 let target = value.and_then(|v| v.as_str()).unwrap_or("");
                 if target.is_empty() {
                     return Err("No target note specified".to_string());
@@ -409,7 +399,7 @@ impl Plugin for ZkPrefixer {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "zk-prefixer:create".into(),
+            id: "silica:zk-prefixer".into(),
             name: "Create zettelkasten note".into(),
         }]
     }
@@ -421,7 +411,7 @@ impl Plugin for ZkPrefixer {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "zk-prefixer:create" => {
+            "silica:zk-prefixer" => {
                 let title = value.and_then(|v| v.as_str()).unwrap_or("note");
                 let now = today_local();
                 let path = format!("{now}-{title}.md");
@@ -522,7 +512,7 @@ impl Plugin for Publish {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "publish:publish".into(),
+            id: "silica:publish-vault".into(),
             name: "Publish vault".into(),
         }]
     }
@@ -534,7 +524,7 @@ impl Plugin for Publish {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match _id {
-            "publish:publish" => {
+            "silica:publish-vault" => {
                 let root = ctx.vault_root;
                 let publish_dir = root.join("publish");
                 std::fs::create_dir_all(&publish_dir)
@@ -595,7 +585,7 @@ impl Plugin for Publish {
 
                 Ok(())
             }
-            _ => Err("'publish:publish' is not a command this plugin registered".to_string()),
+            _ => Err("'silica:publish-vault' is not a command this plugin registered".to_string()),
         }
     }
 }
@@ -622,7 +612,7 @@ impl Plugin for Slides {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "slides:create".into(),
+            id: "silica:slides-create".into(),
             name: "Create slides".into(),
         }]
     }
@@ -634,7 +624,7 @@ impl Plugin for Slides {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "slides:create" => {
+            "silica:slides-create" => {
                 let current = (ctx.current_note)().unwrap_or_default();
                 if current.is_empty() {
                     return Err("No note is open".to_string());
@@ -670,7 +660,7 @@ impl Plugin for FileRecovery {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "file-recovery:restore".into(),
+            id: "silica:file-recovery-restore".into(),
             name: "Restore snapshot".into(),
         }]
     }
@@ -682,7 +672,7 @@ impl Plugin for FileRecovery {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "file-recovery:restore" => {
+            "silica:file-recovery-restore" => {
                 let root = ctx.vault_root;
                 let trash_dir = root.join(".trash");
                 if !trash_dir.exists() {
@@ -752,8 +742,10 @@ impl Default for AudioRecorder {
         Self {
             state: Arc::new(Mutex::new(RecorderState {
                 recording: false,
+                voice_note: false,
                 writer: None,
                 output_path: None,
+                output_name: None,
             })),
             stream: Mutex::new(None),
         }
@@ -762,8 +754,14 @@ impl Default for AudioRecorder {
 
 struct RecorderState {
     recording: bool,
+    /// True when the recording was started by `silica:voice-note`, so only
+    /// that command stops it and embeds the result in the active note.
+    voice_note: bool,
     writer: Option<hound::WavWriter<BufWriter<std::fs::File>>>,
     output_path: Option<PathBuf>,
+    /// Vault-relative path of the recording, e.g. `.obsidian/attachments/recording-20260101-000000.wav`,
+    /// stored so `silica:voice-note` can embed `![[name]]` without reconstructing it.
+    output_name: Option<String>,
 }
 
 impl Plugin for AudioRecorder {
@@ -785,6 +783,10 @@ impl Plugin for AudioRecorder {
                 id: "audio-recorder:stop".into(),
                 name: "Stop recording audio".into(),
             },
+            NativeCommand {
+                id: "silica:voice-note".into(),
+                name: "Voice note".into(),
+            },
         ]
     }
 
@@ -797,6 +799,7 @@ impl Plugin for AudioRecorder {
         match id {
             "audio-recorder:start" => self.start_recording(ctx),
             "audio-recorder:stop" => self.stop_recording(ctx),
+            "silica:voice-note" => self.voice_note(ctx),
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
@@ -814,6 +817,7 @@ impl AudioRecorder {
         let vault_root = ctx.vault_root;
         let timestamp = chrono::Utc::now().format("%Y%m%d-%H%M%S");
         let file_name = format!("recording-{timestamp}.wav");
+        let output_name = format!(".obsidian/attachments/{file_name}");
         let output_path = vault_root
             .join(".obsidian")
             .join("attachments")
@@ -868,12 +872,14 @@ impl AudioRecorder {
             .map_err(|e| format!("Cannot start stream: {e}"))?;
 
         state.recording = true;
+        state.voice_note = false;
         *self
             .stream
             .lock()
             .map_err(|e| format!("the recorder\u{2019}s stream lock failed: {e}"))? = Some(stream);
         state.writer = Some(writer);
         state.output_path = Some(output_path);
+        state.output_name = Some(output_name);
 
         (ctx.notify)(&format!(
             "Recording started: {}",
@@ -883,7 +889,10 @@ impl AudioRecorder {
         Ok(())
     }
 
-    fn stop_recording(&self, ctx: &PluginContext<'_>) -> Result<(), String> {
+    /// Pauses the stream, finalizes the WAV file, and returns its vault path.
+    /// `stop_recording` and `silica:voice-note` share this so a recording is
+    /// finalized exactly once, whichever command stops it.
+    fn finish_recording(&self) -> Result<PathBuf, String> {
         let state = self.state.lock().map_err(|e| format!("{e}"))?;
 
         if !state.recording {
@@ -914,9 +923,50 @@ impl AudioRecorder {
         let output_path = state.output_path.take().unwrap();
         state.recording = false;
 
-        (ctx.notify)(&format!("Recording saved: {}", output_path.display()));
+        Ok(output_path)
+    }
 
+    fn stop_recording(&self, ctx: &PluginContext<'_>) -> Result<(), String> {
+        let output_path = self.finish_recording()?;
+        (ctx.notify)(&format!("Recording saved: {}", output_path.display()));
         Ok(())
+    }
+
+    /// Voice note: the first run starts the recording; the next run stops it
+    /// and inserts `![[path]]` at the cursor of the active note. Only a
+    /// recording this command itself started may be stopped by it.
+    fn voice_note(&self, ctx: &PluginContext<'_>) -> Result<(), String> {
+        let state = self.state.lock().map_err(|e| format!("{e}"))?;
+        if state.recording {
+            let mine = state.voice_note;
+            drop(state);
+            if !mine {
+                return Err(
+                    "A recording started by audio-recorder:start is in progress; \
+stop it with audio-recorder:stop first."
+                        .to_string(),
+                );
+            }
+            let output_path = self.finish_recording()?;
+            let relative = output_path
+                .strip_prefix(ctx.vault_root)
+                .map(|path| path.to_string_lossy().replace('\\', "/"))
+                .unwrap_or_else(|_| output_path.to_string_lossy().replace('\\', "/"));
+            let embed = format!("![[{relative}]]");
+            (ctx.insert_text)(&embed)?;
+            (ctx.notify)(&format!("Voice note inserted: {embed}"));
+            Ok(())
+        } else {
+            drop(state);
+            self.start_recording(ctx)?;
+            let mut state = self.state.lock().map_err(|e| format!("{e}"))?;
+            state.voice_note = true;
+            drop(state);
+            (ctx.notify)(
+                "Voice note recording started; run this again to stop and insert the embed.",
+            );
+            Ok(())
+        }
     }
 }
 
@@ -934,7 +984,7 @@ impl Plugin for Bookmarks {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "bookmarks:show".into(),
+            id: "silica:bookmarks".into(),
             name: "Show bookmarks".into(),
         }]
     }
@@ -946,7 +996,7 @@ impl Plugin for Bookmarks {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "bookmarks:show" => {
+            "silica:bookmarks" => {
                 let current = (ctx.current_note)().unwrap_or_default();
                 if current.is_empty() {
                     return Err("No note is open".to_string());
@@ -978,7 +1028,7 @@ impl Plugin for Bookmarks {
     }
 }
 
-/// Footnotes: show footnotes from the current note.
+/// Footnotes: show the footnotes the current note defines.
 pub struct Footnotes;
 
 impl Plugin for Footnotes {
@@ -992,7 +1042,7 @@ impl Plugin for Footnotes {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "footnotes:show".into(),
+            id: "footnotes:open".into(),
             name: "Show footnotes".into(),
         }]
     }
@@ -1004,16 +1054,117 @@ impl Plugin for Footnotes {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "footnotes:show" => {
+            // * The id is Obsidian's own, so a `hotkeys.json` from a vault
+            //   that binds it reaches this. It used to answer only
+            //   "no note is open" and otherwise report success without
+            //   showing anything, which is what the tests below cover.
+            "footnotes:open" => {
                 let current = (ctx.current_note)().unwrap_or_default();
                 if current.is_empty() {
                     return Err("No note is open".to_string());
+                }
+                let text = (ctx.read_file)(&current)?;
+                let labels = footnote_labels(&text);
+                match labels.len() {
+                    0 => (ctx.notify)("No footnotes in this note"),
+                    1 => (ctx.notify)(&format!("1 footnote: {}", labels[0])),
+                    n => {
+                        (ctx.notify)(&format!("{n} footnotes: {}", list_line(&labels)));
+                    }
                 }
                 Ok(())
             }
             _ => Err(format!("'{id}' is not a command this plugin registered")),
         }
     }
+}
+
+/// The labels of the footnotes a note defines, in the order it defines them.
+///
+/// A definition is `[^label]: text` at the start of a line. The same
+/// brackets in the prose are a reference to a footnote rather than a
+/// definition of one, which is why the line has to start with it.
+fn footnote_labels(text: &str) -> Vec<String> {
+    text.lines()
+        .filter_map(|line| {
+            let rest = line.trim_start().strip_prefix("[^")?;
+            let (label, _) = rest.split_once("]:")?;
+            let label = label.trim();
+            (!label.is_empty()).then(|| label.to_string())
+        })
+        .collect()
+}
+
+/// Open with default app: hand the current note to the desktop's opener.
+///
+/// Both ids are Obsidian's own, so a vault's `hotkeys.json` can name them;
+/// Silica answered neither before this. `:show` is the inventory's "Show in
+/// system explorer" — revealing where the note lives is the same hand-off,
+/// so it answers to the same code.
+pub struct OpenWithDefaultApp;
+
+impl Plugin for OpenWithDefaultApp {
+    fn id(&self) -> &'static str {
+        "silica:open-with-default-app"
+    }
+
+    fn name(&self) -> &'static str {
+        "Open with default app"
+    }
+
+    fn commands(&self) -> Vec<NativeCommand> {
+        vec![
+            NativeCommand {
+                id: "open-with-default-app:open".into(),
+                name: "Open in default app".into(),
+            },
+            NativeCommand {
+                id: "open-with-default-app:show".into(),
+                name: "Show in system explorer".into(),
+            },
+        ]
+    }
+
+    fn run_command(
+        &self,
+        id: &str,
+        _value: Option<&Value>,
+        ctx: &PluginContext<'_>,
+    ) -> Result<(), String> {
+        match id {
+            "open-with-default-app:open" | "open-with-default-app:show" => {
+                let current = (ctx.current_note)().unwrap_or_default();
+                if current.is_empty() {
+                    return Err("No note is open".to_string());
+                }
+                // * Read first: it is the only check that says a named note
+                //   is really in the vault, and a path that reads is a path
+                //   the desktop can be handed.
+                (ctx.read_file)(&current)?;
+                let path = ctx.vault_root.join(&current);
+                // * No shell in the way: `launch` takes the path as an
+                //   argument, so a note's name is never a command.
+                crate::launch::open_path(&path).map_err(|error| error.to_string())
+            }
+            _ => Err(format!("'{id}' is not a command this plugin registered")),
+        }
+    }
+}
+
+/// The one line a gathered list of names is shown on: the whole list, or
+/// its first 200 characters with an ellipsis after them.
+///
+/// Cut between characters, not between bytes. `String::truncate` takes a
+/// byte offset and panics on a boundary that splits a `char`, and a note
+/// path, tag or label with an accent lands on such a boundary often: a
+/// vault with one non-ASCII note past the cut took the command down.
+fn list_line(names: &[String]) -> String {
+    let mut listed = names.join(", ");
+    if listed.chars().count() > 200 {
+        listed = listed.chars().take(200).collect();
+        listed.push('…');
+    }
+    listed
 }
 
 /// Tag pane: show all tags from all notes.
@@ -1030,7 +1181,7 @@ impl Plugin for TagPane {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "tag-pane:show".into(),
+            id: "silica:tag-pane".into(),
             name: "Show tags".into(),
         }]
     }
@@ -1042,7 +1193,7 @@ impl Plugin for TagPane {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "tag-pane:show" => {
+            "silica:tag-pane" => {
                 let all_files = (ctx.list_dir)("")?;
                 let mut tags: std::collections::BTreeSet<String> =
                     std::collections::BTreeSet::new();
@@ -1071,13 +1222,8 @@ impl Plugin for TagPane {
                 if tags.is_empty() {
                     (ctx.notify)("No tags in this vault");
                 } else {
-                    let names: Vec<&str> = tags.iter().map(String::as_str).collect();
-                    let mut listed = names.join(", ");
-                    if listed.len() > 200 {
-                        listed.truncate(200);
-                        listed.push('…');
-                    }
-                    (ctx.notify)(&format!("{} tags: {listed}", tags.len()));
+                    let names: Vec<String> = tags.iter().cloned().collect();
+                    (ctx.notify)(&format!("{} tags: {}", tags.len(), list_line(&names)));
                 }
                 Ok(())
             }
@@ -1173,7 +1319,7 @@ impl Plugin for SlashCommand {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "slash-command:trigger".into(),
+            id: "silica:slash-command".into(),
             name: "Trigger slash command".into(),
         }]
     }
@@ -1185,7 +1331,7 @@ impl Plugin for SlashCommand {
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
         match id {
-            "slash-command:trigger" => {
+            "silica:slash-command" => {
                 let input = value.and_then(|v| v.as_str()).unwrap_or("");
                 if !input.starts_with('/') {
                     return Err("Not a slash command".to_string());
@@ -1213,27 +1359,40 @@ impl Plugin for SlashCommand {
     }
 }
 
+/// Every native plugin Silica ships with, in a stable order.
+///
+/// The registration and the tests below read one list, so a new plugin
+/// cannot be added to one and missed by the other.
+pub fn every_plugin() -> Vec<Box<dyn Plugin>> {
+    vec![
+        Box::new(DailyNotes),
+        Box::new(Backlink),
+        Box::new(OutgoingLink),
+        Box::new(Templates),
+        Box::new(RandomNote),
+        Box::new(WordCount),
+        Box::new(NoteComposer),
+        Box::new(ZkPrefixer),
+        Box::new(WebViewer),
+        Box::new(Publish),
+        Box::new(Slides),
+        Box::new(FileRecovery),
+        Box::new(AudioRecorder::default()),
+        Box::new(Bookmarks),
+        Box::new(Footnotes),
+        Box::new(TagPane),
+        Box::new(Workspaces),
+        Box::new(SlashCommand),
+        Box::new(OpenWithDefaultApp),
+        Box::new(crate::vault_doctor::VaultDoctor),
+    ]
+}
+
 /// All native plugins registered at startup.
 pub fn register_all() {
-    register_native(Box::new(DailyNotes));
-    register_native(Box::new(Backlink));
-    register_native(Box::new(OutgoingLink));
-    register_native(Box::new(Templates));
-    register_native(Box::new(RandomNote));
-    register_native(Box::new(WordCount));
-    register_native(Box::new(NoteComposer));
-    register_native(Box::new(ZkPrefixer));
-    register_native(Box::new(WebViewer));
-    register_native(Box::new(Publish));
-    register_native(Box::new(Slides));
-    register_native(Box::new(FileRecovery));
-    register_native(Box::new(AudioRecorder::default()));
-    register_native(Box::new(Bookmarks));
-    register_native(Box::new(Footnotes));
-    register_native(Box::new(TagPane));
-    register_native(Box::new(Workspaces));
-    register_native(Box::new(SlashCommand));
-    register_native(Box::new(crate::vault_doctor::VaultDoctor));
+    for plugin in every_plugin() {
+        register_native(plugin);
+    }
 }
 
 #[cfg(test)]
@@ -1357,6 +1516,7 @@ mod report_tests {
                 open_note: Box::new(|_| Ok(())),
                 current_note: Box::new(move || Some(current.clone())),
                 notify: Box::new(move |line: &str| shown.borrow_mut().push(line.to_string())),
+                insert_text: Box::new(|_| Ok(())),
             };
             (Self { notices }, ctx)
         }
@@ -1371,7 +1531,9 @@ mod report_tests {
         );
         meta.insert("B.md".to_string(), r#"{"links":[]}"#.to_string());
         let (h, ctx) = Harness::new(&[("A.md", ""), ("B.md", "")], meta, "B.md");
-        Backlink.run_command("backlink:show", None, &ctx).unwrap();
+        Backlink
+            .run_command("silica:backlink-count", None, &ctx)
+            .unwrap();
 
         let shown = h.notices.borrow();
         assert_eq!(shown.len(), 1, "one line is shown");
@@ -1384,7 +1546,9 @@ mod report_tests {
         let mut meta = HashMap::new();
         meta.insert("B.md".to_string(), r#"{"links":[]}"#.to_string());
         let (h, ctx) = Harness::new(&[("B.md", "")], meta, "B.md");
-        Backlink.run_command("backlink:show", None, &ctx).unwrap();
+        Backlink
+            .run_command("silica:backlink-count", None, &ctx)
+            .unwrap();
         assert_eq!(h.notices.borrow().as_slice(), ["No backlinks"]);
     }
 
@@ -1397,7 +1561,7 @@ mod report_tests {
         );
         let (h, ctx) = Harness::new(&[("A.md", "")], meta, "A.md");
         OutgoingLink
-            .run_command("outgoing-link:show", None, &ctx)
+            .run_command("silica:outgoing-link-count", None, &ctx)
             .unwrap();
 
         let shown = h.notices.borrow();
@@ -1414,7 +1578,7 @@ mod report_tests {
             "A.md",
         );
         WordCount
-            .run_command("word-count:show", None, &ctx)
+            .run_command("silica:word-count", None, &ctx)
             .unwrap();
 
         let shown = h.notices.borrow();
@@ -1429,11 +1593,174 @@ mod report_tests {
             HashMap::new(),
             "A.md",
         );
-        TagPane.run_command("tag-pane:show", None, &ctx).unwrap();
+        TagPane.run_command("silica:tag-pane", None, &ctx).unwrap();
 
         let shown = h.notices.borrow();
         assert_eq!(shown.len(), 1);
         assert!(shown[0].contains("2 tags"), "{}", shown[0]);
         assert!(shown[0].contains("alpha") && shown[0].contains("beta"));
+    }
+
+    /// A cut between bytes is not a cut between characters: the list is cut
+    /// at the 200th byte by some of these, and a note path with an accent
+    /// straddling that offset splits a `char` in half — `String::truncate`
+    /// panics on the boundary rather than producing a mangled line.
+    #[test]
+    fn a_long_list_of_names_with_accents_is_cut_between_characters() {
+        let mut meta = HashMap::new();
+        // * 197 bytes before the separator, so the next name's first accent
+        //   straddles the 200th byte.
+        let plain = format!("{}.md", "a".repeat(194));
+        let accented = format!("{}.md", "é".repeat(50));
+        for note in [&plain, &accented] {
+            meta.insert(note.clone(), r#"{"links":[{"link":"A.md"}]}"#.to_string());
+        }
+        meta.insert("A.md".to_string(), r#"{"links":[]}"#.to_string());
+        let (h, ctx) = Harness::new(
+            &[(plain.as_str(), ""), (accented.as_str(), "")],
+            meta,
+            "A.md",
+        );
+        Backlink
+            .run_command("silica:backlink-count", None, &ctx)
+            .unwrap();
+
+        let shown = h.notices.borrow();
+        assert_eq!(shown.len(), 1, "one line is shown");
+        assert!(shown[0].starts_with("2 backlinks"), "{}", shown[0]);
+        assert!(shown[0].ends_with('…'), "{}", shown[0]);
+    }
+
+    /// The footnotes command answered success and showed nothing: it checked
+    /// that a note was open and stopped. Obsidian's id for it is
+    /// `footnotes:open`, so that is what it answers to now.
+    #[test]
+    fn the_footnotes_of_the_note_are_shown() {
+        let (h, ctx) = Harness::new(
+            &[(
+                "A.md",
+                "Text[^one], more text[^two].\n\n[^one]: First note.\n[^two]: Second note.\n",
+            )],
+            HashMap::new(),
+            "A.md",
+        );
+        Footnotes.run_command("footnotes:open", None, &ctx).unwrap();
+
+        let shown = h.notices.borrow();
+        assert_eq!(shown.len(), 1, "one line is shown");
+        assert!(shown[0].starts_with("2 footnotes"), "{}", shown[0]);
+        assert!(shown[0].contains("one") && shown[0].contains("two"));
+    }
+
+    /// A `[^label]` in the prose is a reference to a footnote, not a
+    /// definition of one; a note holding only references has no footnotes.
+    #[test]
+    fn a_reference_in_the_prose_is_not_a_definition() {
+        let (h, ctx) = Harness::new(&[("A.md", "Text[^one] only.\n")], HashMap::new(), "A.md");
+        Footnotes.run_command("footnotes:open", None, &ctx).unwrap();
+        assert_eq!(h.notices.borrow().as_slice(), ["No footnotes in this note"]);
+    }
+
+    /// A long list is cut at a character boundary, not a byte one: a label
+    /// with an accent would otherwise split a `char` in half.
+    #[test]
+    fn a_long_footnote_list_is_cut_between_characters() {
+        // * Labels the length of a heading, so the joined list is well past
+        //   the cut.
+        let body: String = (0..40)
+            .map(|n| {
+                let label = "é".repeat(20);
+                format!("Text[^{label}].\n\n[^{label}]: note {n}\n")
+            })
+            .collect();
+        let (h, ctx) = Harness::new(&[("A.md", &body)], HashMap::new(), "A.md");
+        Footnotes.run_command("footnotes:open", None, &ctx).unwrap();
+
+        let shown = h.notices.borrow();
+        assert_eq!(shown.len(), 1);
+        assert!(shown[0].starts_with("40 footnotes"), "{}", shown[0]);
+        assert!(shown[0].ends_with('…'), "{}", shown[0]);
+    }
+
+    /// With no note open there is no file to hand the desktop, and the
+    /// command says so instead of handing over the vault root.
+    #[test]
+    fn the_desktop_commands_ask_for_an_open_file() {
+        let (h, ctx) = Harness::new(&[("A.md", "text\n")], HashMap::new(), "");
+        for id in ["open-with-default-app:open", "open-with-default-app:show"] {
+            let refused = OpenWithDefaultApp
+                .run_command(id, None, &ctx)
+                .expect_err(id);
+            assert!(refused.contains("No note is open"), "{id}: {refused}");
+        }
+        // * Nothing was shown and nothing was launched.
+        assert!(h.notices.borrow().is_empty());
+    }
+
+    /// A note the vault no longer has is not a file to open either.
+    #[test]
+    fn a_note_the_vault_does_not_have_is_refused() {
+        let (_h, ctx) = Harness::new(&[("A.md", "text\n")], HashMap::new(), "Gone.md");
+        for id in ["open-with-default-app:open", "open-with-default-app:show"] {
+            let refused = OpenWithDefaultApp
+                .run_command(id, None, &ctx)
+                .expect_err(id);
+            assert!(refused.contains("Gone.md"), "{id}: {refused}");
+        }
+    }
+
+    /// An id Silica invents itself carries the `silica:` prefix, so it can
+    /// never collide with an id a vault's `hotkeys.json` means for Obsidian.
+    /// The ids that are Obsidian's own are the ones its command inventory
+    /// names, spelled its way; anything else this app registers is its own
+    /// behaviour and must be marked, so a future plugin that invents
+    /// `editor:save-file` fails here rather than shadowing it.
+    #[test]
+    fn an_invented_id_is_marked_with_the_silica_prefix() {
+        const INVENTORY_IDS: &[&str] = &[
+            "audio-recorder:start",
+            "audio-recorder:stop",
+            "footnotes:open",
+            "open-with-default-app:open",
+            "open-with-default-app:show",
+            "webviewer:open",
+            "workspaces:load",
+            "workspaces:save",
+        ];
+        for plugin in every_plugin() {
+            for command in plugin.commands() {
+                assert!(
+                    command.id.starts_with("silica:")
+                        || INVENTORY_IDS.contains(&command.id.as_str()),
+                    "{:?} is invented and not marked `silica:`",
+                    command.id
+                );
+            }
+        }
+    }
+
+    /// Every command a native plugin registers spells its id the way
+    /// `hotkeys.json` from an Obsidian vault does — lowercase, hyphens and
+    /// colons only — so a vault's own binding can name it.
+    #[test]
+    fn every_registered_command_is_well_formed() {
+        for plugin in every_plugin() {
+            let registered = plugin.commands();
+            assert!(
+                !registered.is_empty(),
+                "{} registered nothing",
+                plugin.name()
+            );
+            for command in registered {
+                assert!(
+                    command.id.chars().all(|c| c.is_ascii_lowercase()
+                        || c.is_ascii_digit()
+                        || c == '-'
+                        || c == ':'),
+                    "{:?} is not an id a vault's hotkeys.json could spell",
+                    command.id
+                );
+            }
+        }
     }
 }

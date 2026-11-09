@@ -70,6 +70,18 @@ pub trait EmbedSource {
     fn read(&self, path: &str) -> Option<String>;
     /// Absolute path of a vault file, for images.
     fn absolute(&self, path: &str) -> PathBuf;
+    /// Whether the vault holds a file at this path.
+    ///
+    /// A link can resolve to a path whose file is gone — deleted after the
+    /// index was built, or never written — and an image the vault cannot
+    /// serve is a missing attachment rather than a silent blank: the
+    /// placeholder the reading view draws then names the path, which is
+    /// Obsidian's own behaviour for a missing file. The default answers
+    /// yes, which is what a source with no vault behind it (a test's stub)
+    /// has to answer.
+    fn exists(&self, _path: &str) -> bool {
+        true
+    }
     /// An embedded `![[x.base]]`, resolved on its first view.
     ///
     /// A base is a view over the whole vault rather than over one file, so
@@ -99,9 +111,14 @@ pub struct InlineStyle {
     pub math: bool,
     pub footnote: bool,
     pub html: bool,
-    /// Superscript text: raised above the baseline with reduced size.
+    /// `<kbd>`: a key box — monospace run over a filled wash. gpui pins no
+    /// per-run border, so the box is fill only; an outline is a gpui limit.
+    pub kbd: bool,
+    /// `<sup>`: raised text, and `<sub>`: lowered text. This gpui's
+    /// `HighlightStyle` has no per-run font size or vertical offset, so the
+    /// run paints at base size for now; the flags stay on the run and the
+    /// offset is a reported gpui limit.
     pub sup: bool,
-    /// Subscript text: lowered below the baseline with reduced size.
     pub sub: bool,
 }
 
@@ -276,7 +293,12 @@ pub enum RBlock {
         /// exactly one trailing newline removed, as Obsidian's copies.
         copy: String,
     },
-    Html(RichText),
+    Html {
+        /// Promoted tags become runs and text; source blocks keep their raw
+        /// text with an `html` run so the renderer paints them as source.
+        text: RichText,
+        kind: HtmlBlockKind,
+    },
     Quote(Vec<RBlock>),
     Callout {
         /// Canonical type, one of Obsidian's built-ins.
@@ -304,6 +326,16 @@ pub enum RBlock {
     },
     /// `(number, body)` in reference order, rendered after a rule.
     Footnotes(Vec<(usize, Vec<RBlock>)>),
+}
+
+/// How the reading view treats an HTML block: `div` and `pre` are promoted
+/// to real blocks, everything else (comments, scripts, unknown tags) stays
+/// raw source painted monospace and muted.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum HtmlBlockKind {
+    Div,
+    Pre,
+    Source,
 }
 
 /// A built note.
@@ -480,7 +512,7 @@ pub fn build_widgets(
             // * Only the raw HTML the renderer can actually draw earns a
             //   widget. Anything else -- a comment, a script, a bare `<div>` --
             //   would fold its source lines away to show the same muted text.
-            BlockKind::HtmlBlock { content } => html_images(content).is_some(),
+            BlockKind::HtmlBlock { content, .. } => html_images(content).is_some(),
             BlockKind::Paragraph { content } => match content.as_slice() {
                 [one] => matches!(
                     &one.kind,
@@ -669,7 +701,7 @@ impl<'v> Builder<'v> {
                     copy: body.strip_suffix('\n').unwrap_or(&body).to_string(),
                 }
             }
-            BlockKind::HtmlBlock { content } => match html_images(content) {
+            BlockKind::HtmlBlock { content, kind } => match html_images(content) {
                 // * Obsidian resolves a raw `<img src>` like a wikilink target
                 //   and renders the run of them as one block, so they go
                 //   through the same embeds a markdown image does.
@@ -691,20 +723,39 @@ impl<'v> Builder<'v> {
                     if let Some(table) = raw_html::parse_table(src) {
                         return Some(self.html_table(table));
                     }
-                    match raw_html::block(src, self.id()) {
-                        Some(rich) => RBlock::Html(rich),
-                        None => RBlock::Html(RichText {
-                            id: self.id(),
-                            text: src.to_string(),
-                            runs: vec![(
-                                0..src.len(),
-                                InlineStyle {
-                                    html: true,
-                                    ..Default::default()
-                                },
-                            )],
-                            links: Vec::new(),
-                        }),
+                    // * Promotion is limited to the safe block containers
+                    //   that become real elements: `div` (CommonMark kind 6)
+                    //   and `pre` (kind 8). A comment (2) and `script` (1),
+                    //   like anything else, stay source: their lines are not
+                    //   folded and not pointed at a rendered tag.
+                    let promotable = matches!(*kind, 6 | 8);
+                    let drawn = promotable
+                        .then_some(())
+                        .and_then(|()| raw_html::block(src, self.id()));
+                    match drawn {
+                        Some(rich) => RBlock::Html {
+                            text: rich,
+                            kind: if *kind == 8 {
+                                HtmlBlockKind::Pre
+                            } else {
+                                HtmlBlockKind::Div
+                            },
+                        },
+                        None => RBlock::Html {
+                            text: RichText {
+                                id: self.id(),
+                                text: src.to_string(),
+                                runs: vec![(
+                                    0..src.len(),
+                                    InlineStyle {
+                                        html: true,
+                                        ..Default::default()
+                                    },
+                                )],
+                                links: Vec::new(),
+                            },
+                            kind: HtmlBlockKind::Source,
+                        },
                     }
                 }
             },
@@ -971,7 +1022,9 @@ impl<'v> Builder<'v> {
             InlineKind::SoftBreak if self.opts.strict_line_breaks => acc.push(" "),
             InlineKind::SoftBreak | InlineKind::HardBreak => acc.push("\n"),
             InlineKind::Code(c) => acc.styled(|s| s.code = true, |a| a.push(c)),
-            InlineKind::Html(h) => raw_html::inline(acc, h),
+            InlineKind::Html(h) | InlineKind::HtmlInline { html: h, .. } => {
+                raw_html::inline(acc, h)
+            }
             InlineKind::Emphasis(c) => self.wrap(acc, c, |s| s.italic = true),
             InlineKind::Strong(c) => self.wrap(acc, c, |s| s.bold = true),
             InlineKind::Strikethrough(c) => self.wrap(acc, c, |s| s.strike = true),
@@ -1199,6 +1252,10 @@ impl<'v> Builder<'v> {
         let kind = match resolved {
             None => EmbedKind::Missing,
             Some(path) => match FileKind::from_path(&path) {
+                // * An image the vault holds no file for is a missing
+                //   attachment: the embed names its path in the placeholder
+                //   instead of painting a blank the reader cannot explain.
+                FileKind::Image if !self.vault.exists(&path) => EmbedKind::Missing,
                 FileKind::Image => EmbedKind::Image(self.vault.absolute(&path)),
                 FileKind::Markdown => {
                     if self.depth + 1 >= MAX_EMBED_DEPTH {
@@ -1906,6 +1963,260 @@ mod tests {
         assert_eq!(seen, vec!["Nester", "Main.base", "Field.pdf"]);
     }
 
+    /// A vault whose resolution is the real one, so a nested image is
+    /// resolved exactly the way the workspace resolves it: against the
+    /// file it is written in.
+    struct NestingStub {
+        files: HashMap<String, String>,
+        absent: Vec<String>,
+        resolver: silica_cache::LinkResolver,
+    }
+
+    impl EmbedSource for NestingStub {
+        fn resolve(&self, linktext: &str, source_path: &str) -> Option<String> {
+            self.resolver
+                .resolve(linktext, source_path)
+                .map(str::to_string)
+        }
+        fn read(&self, path: &str) -> Option<String> {
+            self.files.get(path).cloned()
+        }
+        fn absolute(&self, path: &str) -> PathBuf {
+            PathBuf::from("/vault").join(path)
+        }
+        fn exists(&self, path: &str) -> bool {
+            !self.absent.iter().any(|p| p.eq_ignore_ascii_case(path))
+        }
+    }
+
+    fn nesting_stub(files: &[(&str, &str)]) -> NestingStub {
+        nesting_stub_with_absent(files, &[])
+    }
+
+    fn nesting_stub_with_absent(files: &[(&str, &str)], absent: &[&str]) -> NestingStub {
+        NestingStub {
+            files: files
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect(),
+            absent: absent.iter().map(|p| p.to_string()).collect(),
+            resolver: silica_cache::LinkResolver::new(
+                files.iter().map(|(k, _)| *k).chain(["/etc/passwd"]),
+            ),
+        }
+    }
+
+    /// Every embed of `model`'s blocks, including the ones inside embedded
+    /// notes, in document order.
+    fn every_embed(model: &Model) -> Vec<Embed> {
+        let mut out = Vec::new();
+        each_embed(&model.blocks, &mut |e| out.push(e.clone()));
+        out
+    }
+
+    #[test]
+    fn an_image_written_inside_an_embedded_note_still_renders() {
+        let m = build(
+            "Self.md",
+            "![[Holder]]",
+            &nesting_stub(&[
+                ("Self.md", ""),
+                ("Holder.md", "![[pic.png]]"),
+                ("pic.png", ""),
+            ]),
+        );
+        let embeds = every_embed(&m);
+        assert_eq!(
+            embeds.len(),
+            2,
+            "holder then the image inside it: {embeds:?}"
+        );
+        assert!(matches!(&embeds[0].kind, EmbedKind::Note { .. }));
+        match &embeds[1].kind {
+            EmbedKind::Image(p) => assert_eq!(p, &PathBuf::from("/vault/pic.png")),
+            other => panic!("the nested image was dropped: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_nested_image_resolves_against_the_file_it_is_written_in() {
+        // * `Holder.md` sits in `Media/`, and so does its image: resolution
+        //   has to run against the embedded note, not against the note that
+        //   embedded it, or the image silently goes missing.
+        let m = build(
+            "Self.md",
+            "![[Holder]]",
+            &nesting_stub(&[
+                ("Self.md", ""),
+                ("Media/Holder.md", "![[pic.png]]"),
+                ("Media/pic.png", ""),
+                ("other.png", ""),
+            ]),
+        );
+        let embeds = every_embed(&m);
+        match &embeds[1].kind {
+            EmbedKind::Image(p) => assert_eq!(p, &PathBuf::from("/vault/Media/pic.png")),
+            other => panic!("{other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_nested_image_at_every_depth_of_an_embed_chain() {
+        let m = build(
+            "Self.md",
+            "![[One]]",
+            &nesting_stub(&[
+                ("Self.md", ""),
+                ("One.md", "![[pic.png]]\n\n![[Two]]"),
+                ("Two.md", "![[pic.png]]\n\n![[Three]]"),
+                ("Three.md", "![[pic.png]]"),
+                ("pic.png", ""),
+            ]),
+        );
+        let images = every_embed(&m)
+            .into_iter()
+            .filter(|e| matches!(e.kind, EmbedKind::Image(_)))
+            .count();
+        assert_eq!(images, 3, "one image per level of the chain");
+    }
+
+    #[test]
+    fn a_nested_image_path_the_vault_cannot_hold_is_missing_not_a_panic() {
+        // * A linkpath that escapes the vault, or names it absolutely, has
+        //   nowhere to resolve to: the embed goes Missing, and nothing here
+        //   walks off the end of a byte slice looking for it.
+        for body in [
+            "![[/etc/passwd]]",
+            "![[../outside.png]]",
+            "![[../../pic.png]]",
+            "![alt](../../pic.png)",
+        ] {
+            let m = build(
+                "Self.md",
+                "![[Holder]]",
+                &nesting_stub(&[
+                    ("Self.md", ""),
+                    ("Media/Holder.md", body),
+                    ("Media/pic.png", ""),
+                ]),
+            );
+            let embeds = every_embed(&m);
+            assert!(
+                matches!(embeds[1].kind, EmbedKind::Missing),
+                "{body} resolved instead of going missing: {:?}",
+                embeds[1].kind
+            );
+        }
+    }
+
+    #[test]
+    fn a_missing_nested_image_keeps_the_path_it_named() {
+        let m = build(
+            "Self.md",
+            "![[Holder]]",
+            &nesting_stub(&[
+                ("Self.md", ""),
+                ("Media/Holder.md", "![[gone.png]]"),
+                ("Media/pic.png", ""),
+            ]),
+        );
+        let embeds = every_embed(&m);
+        assert_eq!(embeds[1].link, "gone.png", "the placeholder names the path");
+        assert!(matches!(embeds[1].kind, EmbedKind::Missing));
+    }
+
+    #[test]
+    fn a_nested_image_survives_multibyte_text_before_it() {
+        // * A paragraph that starts with multibyte characters: every span
+        //   the builder takes out of it has to land on a char boundary, or
+        //   the slice panics before the image is ever built.
+        let body = "α ⚠ 日本語 — ![[pic.png]]";
+        let m = build(
+            "Self.md",
+            "![[Holder]]",
+            &nesting_stub(&[
+                ("Self.md", ""),
+                ("Holder.md", body),
+                ("Holder2.md", body),
+                ("pic.png", ""),
+            ]),
+        );
+        let embeds = every_embed(&m);
+        assert!(
+            matches!(embeds[1].kind, EmbedKind::Image(_)),
+            "{:?}",
+            embeds[1].kind
+        );
+    }
+
+    #[test]
+    fn an_html_image_block_with_multibyte_text_keeps_its_spans_on_char_boundaries() {
+        // * A paragraph of multibyte text, then a raw `<img>` whose alt is
+        //   multibyte too: every span the builder takes out of the block has
+        //   to land on a char boundary or the slice panics first.
+        let m = build(
+            "Self.md",
+            "![[Holder]]",
+            &nesting_stub(&[
+                ("Self.md", ""),
+                (
+                    "Holder.md",
+                    "日本語\n\n<img src=\"pic.png\" alt=\"日本語 — OK\">\n",
+                ),
+                ("pic.png", ""),
+            ]),
+        );
+        let embeds = every_embed(&m);
+        match &embeds[1].kind {
+            EmbedKind::Image(p) => assert_eq!(p, &PathBuf::from("/vault/pic.png")),
+            other => panic!("{other:?}"),
+        }
+        assert_eq!(embeds[1].alt, "日本語 — OK");
+    }
+
+    #[test]
+    fn a_nested_image_in_a_list_or_quote_still_renders() {
+        let m = build(
+            "Self.md",
+            "![[Holder]]",
+            &nesting_stub(&[
+                ("Self.md", ""),
+                ("Holder.md", "- ![[pic.png]]\n\n> ![[pic.png]]"),
+                ("pic.png", ""),
+            ]),
+        );
+        let images = every_embed(&m)
+            .into_iter()
+            .filter(|e| matches!(e.kind, EmbedKind::Image(_)))
+            .count();
+        assert_eq!(images, 2, "a list item and a quote both keep the image");
+    }
+
+    #[test]
+    fn an_image_the_vault_has_no_file_for_is_missing_not_blank() {
+        // * A link that resolves but whose file is gone: the placeholder
+        //   names the path instead of the view painting nothing.
+        let m = build(
+            "Self.md",
+            "![[Holder]]",
+            &nesting_stub_with_absent(
+                &[
+                    ("Self.md", ""),
+                    ("Media/Holder.md", "![[pic.png]]"),
+                    ("Media/pic.png", ""),
+                ],
+                &["Media/pic.png"],
+            ),
+        );
+        let embeds = every_embed(&m);
+        assert_eq!(embeds[1].link, "pic.png");
+        assert!(
+            matches!(embeds[1].kind, EmbedKind::Missing),
+            "{:?}",
+            embeds[1].kind
+        );
+    }
+
     #[test]
     fn a_base_nothing_answers_for_is_missing_rather_than_empty() {
         let stub = stub();
@@ -2205,9 +2516,53 @@ mod tests {
             assert!(widgets(src, &stub()).is_empty(), "{src:?} became a widget");
             let m = build("Self.md", src, &stub());
             assert!(
-                matches!(&m.blocks[0], RBlock::Html(_)),
+                matches!(&m.blocks[0], RBlock::Html { .. }),
                 "{src:?} -> {:?}",
                 m.blocks[0]
+            );
+        }
+    }
+
+    #[test]
+    fn div_and_pre_are_promoted_comment_and_script_stay_source() {
+        // * `div` (CommonMark kind 6) and `pre` (kind 8) are promoted
+        //   into drawn blocks; a comment (2) and `script` (1) — a
+        //   different kind entirely — stay source: the raw text whole as
+        //   one `html` run, its lines never folded.
+        let div = build("Self.md", "<div>one</div>\n", &stub());
+        let RBlock::Html { text, kind } = &div.blocks[0] else {
+            panic!("{:?}", div.blocks[0])
+        };
+        assert_eq!(*kind, HtmlBlockKind::Div);
+        assert_eq!(text.text, "one\n");
+        assert!(!text.runs.iter().any(|(_, s)| s.html));
+
+        let pre = build("Self.md", "<pre>line one\nline two</pre>\n", &stub());
+        let RBlock::Html { text, kind } = &pre.blocks[0] else {
+            panic!("{:?}", pre.blocks[0])
+        };
+        assert_eq!(*kind, HtmlBlockKind::Pre);
+        assert_eq!(text.text, "line one\nline two");
+        assert!(text.runs.iter().all(|(_, s)| s.code));
+
+        for src in ["<!-- comment -->\n", "<script>window.x = 1</script>\n"] {
+            let m = build("Self.md", src, &stub());
+            let RBlock::Html { text, kind } = &m.blocks[0] else {
+                panic!("{src:?} -> {:?}", m.blocks[0])
+            };
+            assert_eq!(*kind, HtmlBlockKind::Source, "{src:?}");
+            let want = src.trim_end();
+            assert_eq!(text.text, want, "{src:?}");
+            assert_eq!(
+                text.runs,
+                vec![(
+                    0..want.len(),
+                    InlineStyle {
+                        html: true,
+                        ..Default::default()
+                    }
+                )],
+                "{src:?}"
             );
         }
     }
@@ -2275,7 +2630,7 @@ mod tests {
             "<table><tr><td><table><tr><td>x</td></tr></table></td></tr></table>\n",
             &stub(),
         );
-        assert!(matches!(&m.blocks[0], RBlock::Html(_)));
+        assert!(matches!(&m.blocks[0], RBlock::Html { .. }));
     }
 
     #[test]

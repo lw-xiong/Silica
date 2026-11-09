@@ -21,6 +21,7 @@ enum Effect {
     Underline,
     Strike,
     Code,
+    Kbd,
     Mark,
     /// Superscript: raised above the baseline with reduced size.
     Sup,
@@ -46,7 +47,8 @@ fn effect(name: &str) -> Option<Effect> {
         "i" | "em" | "cite" | "var" | "dfn" | "address" => Effect::Italic,
         "u" | "ins" => Effect::Underline,
         "s" | "del" | "strike" => Effect::Strike,
-        "code" | "tt" | "kbd" | "samp" | "pre" => Effect::Code,
+        "code" | "tt" | "samp" | "pre" => Effect::Code,
+        "kbd" => Effect::Kbd,
         "mark" => Effect::Mark,
         "sup" => Effect::Sup,
         "sub" => Effect::Sub,
@@ -206,6 +208,7 @@ impl RichBuilder {
                 Some(Effect::Underline) => style.underline = true,
                 Some(Effect::Strike) => style.strike = true,
                 Some(Effect::Code) => style.code = true,
+                Some(Effect::Kbd) => style.kbd = true,
                 Some(Effect::Mark) => style.highlight = true,
                 Some(Effect::Sup) => style.sup = true,
                 Some(Effect::Sub) => style.sub = true,
@@ -699,6 +702,26 @@ mod tests {
             .map(|(r, _)| rich.text[r.clone()].to_string())
             .collect();
         assert_eq!(html, vec!["<marquee>".to_string()]);
+    }
+
+    #[test]
+    fn kbd_boxes_and_sup_sub_carry_their_flags() {
+        let mut acc = RichBuilder::default();
+        inline(&mut acc, "<kbd>x</kbd>2<sup>nd</sup> H<sub>2</sub>O");
+        let rich = acc.finish(1);
+        assert_eq!(rich.text, "x2nd H2O");
+        let styled = |flag: fn(&InlineStyle) -> bool| {
+            rich.runs
+                .iter()
+                .filter(|(_, s)| flag(s))
+                .map(|(r, _)| rich.text[r.clone()].to_string())
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(styled(|s| s.kbd), vec!["x"]);
+        assert_eq!(styled(|s| s.sup), vec!["nd"]);
+        assert_eq!(styled(|s| s.sub), vec!["2"]);
+        // * Drawn tags are text, not muted source.
+        assert!(rich.runs.iter().all(|(_, s)| !s.html));
     }
 
     #[test]

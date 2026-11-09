@@ -158,18 +158,44 @@ pub enum Line {
     Row { group: Option<usize>, ix: usize },
 }
 
+/// Whether `key` is one of the collapsed group keys, the no-value group's
+/// own `None` included.
+pub fn collapsed_in(collapsed: &[Option<String>], key: &Option<String>) -> bool {
+    collapsed.iter().any(|seen| seen == key)
+}
+
+/// Collapses `key`, or expands it again when the second press is on the key
+/// already collapsed: a group's header is the toggle, and the key goes in
+/// once and comes out once.
+// * Nothing draws a collapse toggle yet — no layout keeps the set of
+// collapsed keys — so this is the API the tests fix and the view wiring
+// that would call it does not exist. Same reason `showing_text` carries it.
+#[allow(dead_code)]
+pub fn toggle_collapsed(collapsed: &mut Vec<Option<String>>, key: &Option<String>) {
+    if collapsed_in(collapsed, key) {
+        collapsed.retain(|seen| seen != key);
+    } else {
+        collapsed.push(key.clone());
+    }
+}
+
 /// The scroll body of a resolved table: group headers interleaved with rows
 /// when the view groups, and the flat rows when it does not.
 ///
 /// A view with no `groupBy` still has one group holding the same rows, so the
 /// caller says whether the view groups rather than this guessing from the
 /// shape; a grouped view whose groups came back empty falls back to the flat
-/// rows so nothing disappears.
-pub fn lines_for(table: &Table, grouped: bool) -> Vec<Line> {
+/// rows so nothing disappears. A group whose key is one of the `collapsed`
+/// ones keeps its header and drops its rows: the header is the toggle that
+/// brings them back.
+pub fn lines_for(table: &Table, grouped: bool, collapsed: &[Option<String>]) -> Vec<Line> {
     if grouped && !table.groups.is_empty() {
         let mut out = Vec::with_capacity(table.rows.len() + table.groups.len());
         for (g, group) in table.groups.iter().enumerate() {
             out.push(Line::Group(g));
+            if collapsed_in(collapsed, &group.key) {
+                continue;
+            }
             out.extend((0..group.rows.len()).map(|ix| Line::Row { group: Some(g), ix }));
         }
         out
@@ -279,8 +305,9 @@ pub fn group_header(ix: usize, key: Option<&str>, rows: usize, theme: &Theme) ->
 #[cfg(test)]
 mod tests {
     use super::*;
-    use silica_bases::{CellKind, LinkValue};
+    use silica_bases::{CellKind, FileData, Group, LinkValue, Row, Table};
     use std::path::Path;
+    use std::sync::Arc;
 
     struct Vault;
 
@@ -373,5 +400,112 @@ mod tests {
         assert_eq!(cell_text(&c), "Cannot find function \"x\"");
         c.text = "something".to_string();
         assert_eq!(cell_text(&c), "something");
+    }
+
+    fn bare_row(path: &str) -> Row {
+        Row {
+            file: Arc::new(FileData {
+                path: path.to_string(),
+                name: path.to_string(),
+                basename: path.trim_end_matches(".md").to_string(),
+                ..FileData::default()
+            }),
+            cells: Vec::new(),
+            image: None,
+        }
+    }
+
+    fn grouped_table(groups: Vec<Group>, rows: Vec<Row>) -> Table {
+        Table {
+            columns: Vec::new(),
+            rows,
+            groups,
+            limited: false,
+            unknown_kind: None,
+        }
+    }
+
+    #[test]
+    fn a_collapsed_group_keeps_its_header_and_drops_its_rows() {
+        let table = grouped_table(
+            vec![
+                Group {
+                    key: Some("rock".to_string()),
+                    rows: vec![bare_row("A.md"), bare_row("B.md")],
+                },
+                Group {
+                    key: Some("sand".to_string()),
+                    rows: vec![bare_row("C.md")],
+                },
+            ],
+            vec![bare_row("A.md"), bare_row("B.md"), bare_row("C.md")],
+        );
+        assert_eq!(
+            lines_for(&table, true, &[Some("rock".to_string())]),
+            vec![
+                Line::Group(0),
+                Line::Group(1),
+                Line::Row {
+                    group: Some(1),
+                    ix: 0
+                },
+            ]
+        );
+        assert_eq!(
+            row_of(
+                &table,
+                Line::Row {
+                    group: Some(1),
+                    ix: 0
+                }
+            )
+            .map(|r| r.file.path.as_str()),
+            Some("C.md")
+        );
+    }
+
+    #[test]
+    fn the_no_value_group_collapses_like_any_other_key() {
+        let table = grouped_table(
+            vec![Group {
+                key: None,
+                rows: vec![bare_row("A.md"), bare_row("B.md")],
+            }],
+            vec![bare_row("A.md"), bare_row("B.md")],
+        );
+        assert_eq!(
+            lines_for(&table, true, &[None]),
+            vec![Line::Group(0)],
+            "the header stands even with nothing under it"
+        );
+    }
+
+    #[test]
+    fn an_ungrouped_table_ignores_the_collapsed_keys() {
+        let table = grouped_table(
+            vec![Group {
+                key: None,
+                rows: vec![bare_row("A.md"), bare_row("B.md")],
+            }],
+            vec![bare_row("A.md"), bare_row("B.md")],
+        );
+        assert_eq!(
+            lines_for(&table, false, &[None]),
+            vec![
+                Line::Row { group: None, ix: 0 },
+                Line::Row { group: None, ix: 1 },
+            ]
+        );
+    }
+
+    #[test]
+    fn a_collapse_toggle_adds_the_key_once_and_drops_it_on_the_second_press() {
+        let mut collapsed: Vec<Option<String>> = Vec::new();
+        toggle_collapsed(&mut collapsed, &Some("rock".to_string()));
+        assert_eq!(collapsed, vec![Some("rock".to_string())]);
+        assert!(collapsed_in(&collapsed, &Some("rock".to_string())));
+        assert!(!collapsed_in(&collapsed, &Some("sand".to_string())));
+        toggle_collapsed(&mut collapsed, &Some("rock".to_string()));
+        assert!(collapsed.is_empty(), "the second press expands it again");
     }
 }

@@ -248,8 +248,44 @@ insert-unique-link
 random-note
 
 # Silica ids that are not Obsidian commands (marked by the `silica:` prefix).
+silica:calendar
 silica:export-site
+silica:footnotes
+silica:file-recovery
+silica:export-pdf
+silica:reminder-add
 silica:toggle-graph-pane
+silica:pin-tab
 silica:vault-backup
+silica:palette-verify
+silica:template-gallery
+silica:voice-note
+silica:workspace-save
+silica:workspace-load
+silica:workspace-delete
 quick-capture:open
 task-dashboard:open
+silica:insert-image
+silica:attach-file
+silica:remove-attachment
+
+# Silica ids registered by the native plugins ported from Obsidian's core
+# plugins. Each is the Silica behaviour for something Obsidian either keeps
+# in its status bar or spells differently: an id this app invented itself
+# carries the `silica:` prefix, so it can never collide with an id above
+# that a vault's `hotkeys.json` means for Obsidian.
+silica:backlink-count
+silica:outgoing-link-count
+silica:word-count
+silica:slash-command
+silica:publish-vault
+silica:slides-create
+silica:daily-notes
+silica:insert-template
+silica:random-note
+silica:note-composer-merge
+silica:zk-prefixer
+silica:file-recovery-restore
+silica:bookmarks
+silica:tag-pane
+silica:vault-doctor

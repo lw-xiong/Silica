@@ -289,7 +289,7 @@ impl<'r, 'a> Renderer<'r, 'a> {
                 escape_html(content, &mut self.out);
                 self.out.push_str("</code></pre>\n");
             }
-            BlockKind::HtmlBlock { content } => {
+            BlockKind::HtmlBlock { content, .. } => {
                 self.cr();
                 self.out.push_str(content);
                 self.cr();
@@ -497,7 +497,7 @@ impl<'r, 'a> Renderer<'r, 'a> {
                 escape_html(c, &mut self.out);
                 self.out.push_str("</code>");
             }
-            InlineKind::Html(h) => self.out.push_str(h),
+            InlineKind::Html(h) | InlineKind::HtmlInline { html: h, .. } => self.out.push_str(h),
             InlineKind::Emphasis(c) => self.wrap("em", c),
             InlineKind::Strong(c) => self.wrap("strong", c),
             InlineKind::Strikethrough(c) => self.wrap("del", c),

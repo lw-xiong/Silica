@@ -1,5 +1,6 @@
 //! PDF documents for Silica's viewer and `![[x.pdf]]` embeds: page sizes, rendered
-//! pages, the outline, the title, and best-effort page text for find.
+//! pages, the outline, the title, and best-effort page text for find and for the
+//! search index (`[[PdfIndex]]`).
 //!
 //! Rendering is [`hayro`], a pure Rust rasterizer. A [`Document`] is `Send + Sync`,
 //! so the view can render pages on a background thread while the UI thread reads
@@ -8,6 +9,7 @@
 
 #![forbid(unsafe_code)]
 
+mod index;
 mod outline;
 mod subpath;
 mod text;
@@ -24,6 +26,7 @@ use hayro::vello_cpu::color::palette::css::WHITE;
 use hayro::vello_cpu::{Pixmap, RasterizerSettings, RenderContext, Resources, TargetInit};
 use hayro::{render_into, RenderCache, RenderSettings};
 
+pub use index::{page_subpath, PdfIndex};
 pub use subpath::{parse_subpath, Subpath};
 pub use text::PdfGlyph;
 
@@ -210,6 +213,24 @@ impl Document {
     pub fn page_glyphs(&self, index: usize) -> Option<Vec<PdfGlyph>> {
         let page = self.pdf.pages().get(index)?;
         catch_unwind(AssertUnwindSafe(|| text::page_glyphs(page, &self.settings))).ok()
+    }
+
+    /// Every page's text, in order: the page's own string where the
+    /// interpreter read one, `None` where it gave up on the page.
+    pub fn pages_text(&self) -> Vec<Option<String>> {
+        self.pdf
+            .pages()
+            .iter()
+            .map(|page| {
+                catch_unwind(AssertUnwindSafe(|| text::page_text(page, &self.settings))).ok()
+            })
+            .collect()
+    }
+
+    /// The document as one searchable string with the range of each page
+    /// inside it, so a hit can name the page it sits on.
+    pub fn index(&self) -> PdfIndex {
+        PdfIndex::from_pages(self.pages_text())
     }
 }
 

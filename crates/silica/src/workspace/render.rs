@@ -583,10 +583,23 @@ impl Workspace {
     ) -> gpui::Stateful<gpui::Div> {
         let path = group.path.clone();
         let offset = m.offset;
-        let highlights: Vec<(Range<usize>, HighlightStyle)> = m
-            .ranges
+        // * The match's own \"Show more context\": its line with the lines
+        //   either side of it, kept in the pane state keyed by the file and
+        //   the match's byte offset. Collapsed it is the single line the
+        //   sections were built with.
+        let expanded = path
+            .as_ref()
+            .and_then(|p| offset.map(|o| (p.clone(), o)))
+            .and_then(|key| self.backlink_state.expanded.get(&key));
+        let show = expanded
+            .map(|m| SharedString::from(m.text.clone()))
+            .unwrap_or_else(|| SharedString::from(m.text.clone()));
+        let ranges = expanded
+            .map(|m| m.ranges.as_slice())
+            .unwrap_or(m.ranges.as_slice());
+        let highlights: Vec<(Range<usize>, HighlightStyle)> = ranges
             .iter()
-            .filter(|r| r.end <= m.text.len())
+            .filter(|r| r.end <= show.len())
             .map(|r| {
                 (
                     r.clone(),
@@ -598,7 +611,7 @@ impl Workspace {
                 )
             })
             .collect();
-        let text = StyledText::new(SharedString::from(m.text.clone())).with_highlights(highlights);
+        let text = StyledText::new(show).with_highlights(highlights);
         // * Which note the mention is in and which it names depend on the
         //   pane: the Backlinks pane lists other notes mentioning this one,
         //   the Outgoing pane this note mentioning others.
@@ -671,6 +684,36 @@ impl Workspace {
                 }))
                 .child("Link")
         });
+        // * The match's own "Show more context" chevron: expands the match
+        //   to its line with the lines either side of it, clicked again to
+        //   collapse. Hidden when the match has no range to grow from.
+        let chevron = (path.is_some() && offset.is_some() && !m.ranges.is_empty()).then(|| {
+            let path = path.as_ref().unwrap().clone();
+            let offset = offset.unwrap();
+            let on = expanded.is_some();
+            div()
+                .id(("pane-match-more", ix))
+                .absolute()
+                .top(px(8.))
+                .right(px(6.))
+                .px(px(2.))
+                .py(px(1.))
+                .rounded(px(4.))
+                .opacity(if on { 1. } else { 0.6 })
+                .hover(|s| s.opacity(1.))
+                .cursor_pointer()
+                .tooltip(tooltip("Show more context"))
+                .on_click(cx.listener(move |this, _, _, cx| {
+                    let path = path.clone();
+                    this.toggle_backlink_match(path, offset, cx);
+                    cx.stop_propagation();
+                }))
+                .child(icon(
+                    if on { "chevron-down" } else { "chevron-right" },
+                    10.,
+                    theme.text_muted,
+                ))
+        });
         let mut hover = theme.accent;
         hover.a = 0.33;
         let path_for_right_click = path.clone();
@@ -711,6 +754,7 @@ impl Workspace {
                     .line_height(relative(1.3))
                     .child(text),
             )
+            .children(chevron)
             .children(chip)
             .children(button)
     }

@@ -299,7 +299,7 @@ fn lower_block<'a>(cx: &InlineContext<'a, '_>, raw: RawBlock<'a>) -> Block<'a> {
             info,
             content,
         },
-        RawKind::HtmlBlock { content } => BlockKind::HtmlBlock { content },
+        RawKind::HtmlBlock { content, kind } => BlockKind::HtmlBlock { content, kind },
         RawKind::BlockQuote { children } => BlockKind::BlockQuote {
             children: lower_blocks(cx, children),
         },

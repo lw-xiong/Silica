@@ -149,7 +149,7 @@ impl BasesView {
         let grouped = self.view().is_some_and(|v| v.group_by.is_some());
         let (lines, texts) = match self.table() {
             Some(table) => {
-                let lines = lines_for(table, grouped);
+                let lines = lines_for(table, grouped, &[]);
                 let texts = lines
                     .iter()
                     .filter_map(|line| row_of(table, *line))
@@ -437,7 +437,7 @@ mod tests {
             }],
         );
         assert_eq!(
-            lines_for(&table, false),
+            lines_for(&table, false, &[]),
             vec![
                 Line::Row { group: None, ix: 0 },
                 Line::Row { group: None, ix: 1 },
@@ -469,7 +469,7 @@ mod tests {
             ],
         );
         assert_eq!(
-            lines_for(&table, true),
+            lines_for(&table, true, &[]),
             vec![
                 Line::Group(0),
                 Line::Row {
@@ -517,7 +517,7 @@ mod tests {
                 },
             ],
         );
-        let numbers: Vec<Option<String>> = lines_for(&table, true)
+        let numbers: Vec<Option<String>> = lines_for(&table, true, &[])
             .into_iter()
             .filter_map(|line| match line {
                 Line::Group(_) => None,
@@ -535,7 +535,7 @@ mod tests {
     fn a_grouped_view_with_no_groups_falls_back_to_the_flat_rows() {
         let table = table_of(vec![row("A.md", &["A"])], Vec::new());
         assert_eq!(
-            lines_for(&table, true),
+            lines_for(&table, true, &[]),
             vec![Line::Row { group: None, ix: 0 }]
         );
     }

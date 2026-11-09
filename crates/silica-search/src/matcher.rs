@@ -11,6 +11,8 @@ use regex::{Regex, RegexBuilder};
 use std::collections::HashMap;
 use std::ops::Range;
 
+use crate::normalize::{normalize, NormText};
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SearchError {
     Regex(String),
@@ -47,6 +49,9 @@ pub struct SearchFile<'a> {
     /// Ranges between headings (the preamble included), for `section:`.
     pub sections: &'a [Range<usize>],
     pub tasks: &'a [TaskLine],
+    /// Page ranges into `content`, zero-based pages in order, for a PDF's
+    /// page text; empty for a note, whose content has no pages.
+    pub pages: &'a [Range<usize>],
 }
 
 impl SearchFile<'_> {
@@ -58,11 +63,16 @@ impl SearchFile<'_> {
 /// What a query matched in one file. Content ranges are byte ranges into
 /// `SearchFile::content`; name ranges are byte ranges into its base name,
 /// which Obsidian highlights in the result's title rather than in a match
-/// line, so the two kinds never mix.
+/// line, so the two kinds never mix. `pages` parallels `content`: the
+/// zero-based page each content hit sits on, for a PDF's page text, empty
+/// for a note.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct MatchSet {
     pub content: Vec<Range<usize>>,
     pub name: Vec<Range<usize>>,
+    /// The page of each content hit, in the same order; empty unless the
+    /// file's content is a PDF's page text.
+    pub pages: Vec<usize>,
 }
 
 impl MatchSet {
@@ -70,6 +80,29 @@ impl MatchSet {
         self.content.extend(other.content);
         self.name.extend(other.name);
     }
+}
+
+/// The zero-based page an offset into a joined page text belongs to: the
+/// page whose range holds it, or the page that begins at it when the offset
+/// is a separator between pages, or the last page past all of them. `None`
+/// only when `pages` is empty, when the content holds no pages at all.
+///
+/// A page whose range is empty (one the interpreter gave up on) holds no
+/// bytes, so a hit at that offset belongs to the page whose text follows.
+pub fn page_for(pages: &[Range<usize>], offset: usize) -> Option<usize> {
+    // * The page whose own text holds the byte: the one it is read on.
+    if let Some(index) = pages.iter().position(|page| page.contains(&offset)) {
+        return Some(index);
+    }
+    // * Otherwise the offset is a separator between two pages, or past the
+    // * last page's end. A separator belongs to the page that begins after
+    // * it, which also skips a page the interpreter gave up on: an empty
+    // * range holds no byte, so the offset sitting at it is the next
+    // * page's. Past every start it stays on the last page.
+    pages
+        .iter()
+        .position(|page| page.start > offset)
+        .or_else(|| pages.len().checked_sub(1))
 }
 
 /// A query compiled for matching.
@@ -119,20 +152,47 @@ impl Search {
     }
 
     /// Whether `file` matches; on success the ranges to highlight, sorted and
-    /// merged (both empty when only the path, tags or properties matched).
+    /// merged (both empty when only the path, tags or properties matched),
+    /// and the page each content hit sits on for a PDF's page text.
     pub fn matches(&self, file: &SearchFile<'_>) -> Option<MatchSet> {
+        // * Konten dan nama difolding sekali per file: akcent dihilangkan di
+        // * keduanya, sehingga `cafe` temukan `café` dan `strasse` temukan
+        // * `straße`. Semua pencarian berjalan pada salinan terfolding, dan
+        // * range hasil dikonversi ke byte offset asli sebelum kembali.
+        let content = NormText::from(file.content);
+        let name = NormText::from(file.name());
         let scope = Scope {
-            text: file.content,
+            text: &content.text,
             base: 0,
             names_file: true,
+            norm: &content,
+            names: Some(&name),
         };
         let mut hits = MatchSet::default();
         if !eval(&self.node, file, scope, false, &mut hits) {
             return None;
         }
+        let remap = |norm: &NormText, ranges: Vec<Range<usize>>| {
+            ranges
+                .into_iter()
+                .map(|r| norm.origin_range(r.start, r.end))
+                .collect()
+        };
+        let content = merge(remap(&content, hits.content));
+        let name = merge(remap(&name, hits.name));
+        let pages = if file.pages.is_empty() {
+            // * A note has no pages, so no hit names one.
+            Vec::new()
+        } else {
+            content
+                .iter()
+                .filter_map(|r| page_for(file.pages, r.start))
+                .collect()
+        };
         Some(MatchSet {
-            content: merge(hits.content),
-            name: merge(hits.name),
+            content,
+            name,
+            pages,
         })
     }
 }
@@ -173,14 +233,14 @@ fn compile(q: &Query) -> Result<Node, SearchError> {
         Query::CaseInsensitive(c) => Node::Case(false, Box::new(compile(c)?)),
         Query::Field(Field::Tag, c) => match c.as_ref() {
             Query::Text(t) | Query::Exact(t) => Node::Tag(
-                t.trim_start_matches('#')
-                    .trim_end_matches('/')
+                normalize(t.trim_start_matches('#').trim_end_matches('/'))
+                    .0
                     .to_lowercase(),
             ),
             other => Node::Field(Field::Tag, Box::new(compile(other)?)),
         },
         Query::Field(f, c) => Node::Field(*f, Box::new(compile(c)?)),
-        Query::HasProperty(n) => Node::HasProperty(n.to_lowercase()),
+        Query::HasProperty(n) => Node::HasProperty(normalize(&n.to_lowercase()).0),
         Query::PropertyEmpty(n) => Node::PropertyEmpty(n.to_lowercase()),
         Query::PropertyBool(n, b) => Node::PropertyBool(n.to_lowercase(), *b),
         Query::PropertyCompare(n, op, v) => Node::PropertyCompare(n.to_lowercase(), *op, v.clone()),
@@ -189,7 +249,10 @@ fn compile(q: &Query) -> Result<Node, SearchError> {
 }
 
 fn literal(t: &str) -> Result<Node, SearchError> {
-    let escaped = regex::escape(t);
+    // * Folding query sekali di sini (parse time), bukan per karakter pada
+    // * hot path: `cafe` menjadi regex yang cocok `café`, `ß` cocok `ss`.
+    let t = normalize(t).0;
+    let escaped = regex::escape(&t);
     let build = |ci: bool| {
         RegexBuilder::new(&escaped)
             .case_insensitive(ci)
@@ -205,12 +268,17 @@ fn literal(t: &str) -> Result<Node, SearchError> {
 #[derive(Clone, Copy)]
 struct Scope<'a> {
     text: &'a str,
-    /// Offset of `text` inside the file content, for reported ranges.
+    /// Offset of `text` inside the fully normalized content, in normalized
+    /// bytes.
     base: usize,
     /// Whether a bare term here also matches the file name. True only for the
     /// unscoped top level: inside `content:`, `line:`, a property value or any
     /// other operator the user named a scope and the name is not it.
     names_file: bool,
+    /// Peta balik teks terfolding ke teks asli, untuk mengembalikan range.
+    norm: &'a NormText<'a>,
+    /// Peta balik untuk nama file (hanya digunakan pada top level).
+    names: Option<&'a NormText<'a>>,
 }
 
 /// Evaluates `node` in `scope`, appending the ranges it matched to `hits`.
@@ -332,16 +400,18 @@ fn eval_inner(
             if scope.names_file {
                 // * Obsidian matches a bare term against the file name as well
                 // * as the content, and highlights the hit in the result title.
-                found |= find_all(re, file.name(), 0, &mut hits.name);
+                if let Some(names) = scope.names {
+                    found |= find_all(re, &names.text, 0, &mut hits.name);
+                }
             }
             found || (re.as_str().is_empty())
         }
         Node::Case(sensitive, child) => eval(child, file, scope, *sensitive, hits),
         Node::Tag(tag) => {
-            let found = file
-                .tags
-                .iter()
-                .any(|t| t == tag || t.starts_with(&format!("{tag}/")));
+            let found = file.tags.iter().any(|t| {
+                let nt = NormText::from(t);
+                nt.text == *tag || nt.text.starts_with(&format!("{tag}/"))
+            });
             if found {
                 tag_occurrences(tag, scope.text, scope.base, &mut hits.content);
             }
@@ -363,14 +433,16 @@ fn eval_inner(
                 // * an explicit `file:` hit highlights the title the same way a
                 // * bare term's does.
                 let mut local = MatchSet::default();
-                let name = file.name();
+                let name = NormText::from(file.name());
                 let found = eval(
                     child,
                     file,
                     Scope {
-                        text: name,
+                        text: &name.text,
                         base: 0,
                         names_file: false,
+                        norm: &name,
+                        names: None,
                     },
                     case_sensitive,
                     &mut local,
@@ -382,14 +454,16 @@ fn eval_inner(
             }
             Field::Path => {
                 let mut local = MatchSet::default();
-                let path = file.path;
+                let path = NormText::from(file.path);
                 eval(
                     child,
                     file,
                     Scope {
-                        text: path,
+                        text: &path.text,
                         base: 0,
                         names_file: false,
+                        norm: &path,
+                        names: None,
                     },
                     case_sensitive,
                     &mut local,
@@ -399,13 +473,16 @@ fn eval_inner(
                 // * A non-literal tag query (regex, group): match against each tag.
                 file.tags.iter().any(|t| {
                     let mut local = MatchSet::default();
+                    let tn = NormText::from(t);
                     eval(
                         child,
                         file,
                         Scope {
-                            text: t,
+                            text: &tn.text,
                             base: 0,
                             names_file: false,
+                            norm: &tn,
+                            names: None,
                         },
                         case_sensitive,
                         &mut local,
@@ -422,6 +499,8 @@ fn eval_inner(
                         text: trimmed,
                         base: scope.base + at,
                         names_file: false,
+                        norm: scope.norm,
+                        names: None,
                     };
                     if eval(child, file, s, case_sensitive, &mut local) {
                         any = true;
@@ -473,14 +552,17 @@ fn eval_inner(
         }),
         Node::PropertyMatch(name, child) => property(file, name).is_some_and(|v| {
             value_strings(v).iter().any(|s| {
+                let value = NormText::from(s);
                 let mut local = MatchSet::default();
                 eval(
                     child,
                     file,
                     Scope {
-                        text: s,
+                        text: &value.text,
                         base: 0,
                         names_file: false,
+                        norm: &value,
+                        names: None,
                     },
                     case_sensitive,
                     &mut local,
@@ -555,21 +637,26 @@ fn eval_ranges(
     case_sensitive: bool,
     hits: &mut MatchSet,
 ) -> bool {
-    // * Ranges are in content coordinates; only those inside the current scope apply.
-    let scope_end = scope.base + scope.text.len();
+    // * Ranges di sini adalah byte offset teks asli, sementara scope.text
+    // * sudah terfolding: konversi setiap range ke indeks karakter teks
+    // * terfolding baru memotong.
+    let norm = scope.norm;
     let mut any = false;
     for r in ranges {
-        if r.start < scope.base || r.end > scope_end || r.start > r.end {
+        let ns = norm.map.partition_point(|&b| b < r.start);
+        let ne = norm.map.partition_point(|&b| b < r.end);
+        if ns >= ne {
             continue;
         }
-        let Some(text) = scope.text.get(r.start - scope.base..r.end - scope.base) else {
-            continue;
-        };
+        let end_voff = norm.voff.get(ne).copied().unwrap_or(norm.text.len());
+        let text = &norm.text[norm.voff[ns]..end_voff];
         let mut local = MatchSet::default();
         let s = Scope {
             text,
-            base: r.start,
+            base: norm.voff[ns],
             names_file: false,
+            norm,
+            names: None,
         };
         if eval(child, file, s, case_sensitive, &mut local) {
             any = true;
@@ -650,6 +737,7 @@ mod tests {
             blocks,
             sections,
             tasks,
+            pages: &[],
         }
     }
 
@@ -745,6 +833,7 @@ mod tests {
             blocks: &[],
             sections: &[],
             tasks: &[],
+            pages: &[],
         };
         let hits = Search::new("tag:#work").unwrap().matches(&file).unwrap();
         let shown: Vec<&str> = hits.content.iter().map(|r| &text[r.clone()]).collect();
@@ -941,5 +1030,209 @@ mod tests {
         for q in ["foo AND", "foo (", "OR", "("] {
             assert_eq!(results(q), Vec::<&str>::new(), "{q:?} should match nothing");
         }
+    }
+
+    fn run_on(content: &str, q: &str) -> Option<Vec<String>> {
+        let file = SearchFile {
+            path: "x.md",
+            content,
+            tags: &[],
+            frontmatter: None,
+            blocks: &[],
+            sections: &[],
+            tasks: &[],
+            pages: &[],
+        };
+        Search::new(q).unwrap().matches(&file).map(|m| {
+            m.content
+                .iter()
+                .map(|r| content[r.clone()].to_string())
+                .collect()
+        })
+    }
+
+    #[test]
+    fn pencarian_abaikan_akcent_dari_kedua_sisi() {
+        // * Query tanpa akcent temukan dokumen dengan akcent, dan sebaliknya.
+        assert_eq!(run_on("café", "cafe"), Some(vec!["café".into()]));
+        assert_eq!(run_on("cafe", "café"), Some(vec!["cafe".into()]));
+        assert_eq!(
+            run_on("Straße über alles", "strasse"),
+            Some(vec!["Straße".into()])
+        );
+        assert_eq!(run_on("CAFÉ", "cafe"), Some(vec!["CAFÉ".into()]));
+        // * Case tetap dihormati: match-case tidak melintasi akcent yang beda huruf.
+        assert_eq!(run_on("café", "match-case:CAFE"), None);
+        // * ø → o, ł → l (dan ß → ss di kedua arah).
+        assert_eq!(run_on("høl", "hol"), Some(vec!["høl".into()]));
+        assert_eq!(run_on("holm", "høl"), Some(vec!["hol".into()]));
+        assert_eq!(
+            run_on("Straße über alles", "strasse"),
+            Some(vec!["Straße".into()])
+        );
+        assert_eq!(
+            run_on("Straße über alles", "uber"),
+            Some(vec!["über".into()])
+        );
+        assert_eq!(run_on("wisła", "wisla"), Some(vec!["wisła".into()]));
+        assert_eq!(run_on("wisla", "wisła"), Some(vec!["wisla".into()]));
+        assert_eq!(run_on("zebra", "café"), None);
+        assert_eq!(run_on("", "cafe"), None);
+    }
+
+    #[test]
+    fn pencarian_akcent_sama_juga_nama_dan_path_file() {
+        let file = SearchFile {
+            path: "Notes/Café.md",
+            content: "x",
+            tags: &[],
+            frontmatter: None,
+            blocks: &[],
+            sections: &[],
+            tasks: &[],
+            pages: &[],
+        };
+        let m = Search::new("cafe").unwrap().matches(&file).unwrap();
+        assert!(m.content.is_empty());
+        // * Range nama relatif ke base name ("Café.md"), bukan path penuh.
+        assert_eq!(m.name, vec![0..5]);
+        assert_eq!(&"Café.md"[m.name[0].clone()], "Café");
+        assert_eq!(run_on("x", "notes"), None);
+    }
+
+    #[test]
+    fn tag_dengan_akcent_cocok_query_tanpa_akcent() {
+        let mut fm = serde_yaml::Value::Mapping(Default::default());
+        if let serde_yaml::Value::Mapping(map) = &mut fm {
+            map.insert(
+                serde_yaml::Value::String("tags".into()),
+                serde_yaml::Value::Sequence(vec![serde_yaml::Value::String("café".into())]),
+            );
+        }
+        let file = SearchFile {
+            path: "x.md",
+            content: "#café di sini dan #cafe di sana\\n",
+            tags: &["café".to_string()],
+            frontmatter: Some(&fm),
+            blocks: &[],
+            sections: &[],
+            tasks: &[],
+            pages: &[],
+        };
+        assert!(Search::new("tag:cafe").unwrap().matches(&file).is_some());
+        assert!(Search::new("tag:café").unwrap().matches(&file).is_some());
+        assert!(Search::new("tag:coffee").unwrap().matches(&file).is_none());
+    }
+
+    /// A PDF's page text searched as one document: the matcher takes the
+    /// joined text with the range of each page, and answers a hit with the
+    /// page it sits on, which is the locator the result row opens with.
+    const PDF: &str = "alpha on one\nbeta on two\ngamma on three\n";
+
+    /// The page ranges of `PDF` as an index joins them: a newline between
+    /// pages, so a page's range stops before it.
+    fn pdf_pages() -> Vec<Range<usize>> {
+        let lines: Vec<&str> = PDF.split_inclusive('\n').collect();
+        let mut ranges = Vec::new();
+        let mut at = 0;
+        for (page, line) in lines.iter().enumerate() {
+            // * The separator newline belongs to neither page, so a page's
+            // * range stops one byte short of it; the last page has none.
+            let own = if page + 1 < lines.len() {
+                line.len() - 1
+            } else {
+                line.len()
+            };
+            ranges.push(at..at + own);
+            at += line.len();
+        }
+        ranges
+    }
+
+    fn pdf_file<'a>(pages: &'a [Range<usize>]) -> SearchFile<'a> {
+        SearchFile {
+            path: "Attachments/Pages.pdf",
+            content: PDF,
+            tags: &[],
+            frontmatter: None,
+            blocks: &[],
+            sections: &[],
+            tasks: &[],
+            pages,
+        }
+    }
+
+    /// The matched text and the zero-based page each hit sits on.
+    fn pdf_hits(q: &str) -> Option<Vec<(&str, usize)>> {
+        let ranges = pdf_pages();
+        let file = pdf_file(&ranges);
+        let hits = Search::new(q).unwrap().matches(&file)?;
+        Some(
+            hits.content
+                .iter()
+                .zip(hits.pages.iter())
+                .map(|(range, &page)| (&PDF[range.clone()], page))
+                .collect(),
+        )
+    }
+
+    #[test]
+    fn a_hit_names_the_page_it_sits_on() {
+        assert_eq!(pdf_hits("beta"), Some(vec![("beta", 1)]));
+        assert_eq!(pdf_hits("alpha"), Some(vec![("alpha", 0)]));
+        assert_eq!(pdf_hits("gamma"), Some(vec![("gamma", 2)]));
+        // * A term on every page is a hit on every page, in order.
+        assert_eq!(
+            pdf_hits("/one|two|three/"),
+            Some(vec![("one", 0), ("two", 1), ("three", 2)])
+        );
+        // * The whole phrase on one page is one hit, on that page.
+        assert_eq!(pdf_hits("\"beta on two\""), Some(vec![("beta on two", 1)]));
+        // * A term in no page's text matches nothing.
+        assert_eq!(pdf_hits("delta"), None);
+    }
+
+    /// A query that matches only the name, the path or a property reports no
+    /// page, and a note — content with no page ranges — never reports one.
+    #[test]
+    fn a_name_hit_names_no_page_and_a_note_names_none() {
+        let ranges = pdf_pages();
+        let hits = Search::new("file:pages")
+            .unwrap()
+            .matches(&pdf_file(&ranges));
+        let hits = hits.expect("the name holds Pages");
+        assert!(hits.content.is_empty());
+        assert!(hits.pages.is_empty());
+        assert_eq!(hits.name.len(), 1, "{:?}", hits.name);
+        assert!(Search::new("beta")
+            .unwrap()
+            .matches(&SearchFile {
+                path: "A.md",
+                content: "beta in a note\n",
+                ..Default::default()
+            })
+            .expect("beta matches the note")
+            .pages
+            .is_empty());
+    }
+
+    /// The page a byte offset falls on, over the range shapes an index
+    /// produces: a plain hit inside a page, a separator between pages, a
+    /// page the interpreter gave up on (an empty range), and a hit on the
+    /// last page.
+    #[test]
+    fn page_for_looks_the_offset_up_in_the_ranges() {
+        let ranges = vec![0..6, 7..7, 8..14];
+        assert_eq!(page_for(&ranges, 0), Some(0));
+        assert_eq!(page_for(&ranges, 5), Some(0));
+        // * The newline between page one and page two belongs to page two.
+        assert_eq!(page_for(&ranges, 6), Some(1));
+        // * Page two is empty, so a byte at its offset is page three's.
+        assert_eq!(page_for(&ranges, 7), Some(2));
+        assert_eq!(page_for(&ranges, 10), Some(2));
+        // * Past the last page's start stays on the last page.
+        assert_eq!(page_for(&ranges, 14), Some(2));
+        // * No page ranges at all: content with no pages in it.
+        assert_eq!(page_for(&[], 3), None);
     }
 }

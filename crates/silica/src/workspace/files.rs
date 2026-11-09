@@ -4,6 +4,8 @@
 //! file-operations section, unchanged apart from living in their own
 //! module. Split from `workspace.rs` per the audit's module-size finding.
 
+use regex::Regex;
+
 use super::*;
 
 impl Workspace {
@@ -796,7 +798,7 @@ impl Workspace {
             return;
         };
         if !state.confirm_delete() {
-            self.delete_now(path, window, cx);
+            self.finish_delete(path, window, cx);
             return;
         }
         let where_to = match state.trash_option() {
@@ -1033,6 +1035,173 @@ impl Workspace {
         }
     }
 
+    /// The delete confirmation is accepted (or skipped when there is none):
+    /// decide what happens to the note's attachments, then delete the note.
+    fn finish_delete(&mut self, path: &str, window: &mut Window, cx: &mut Context<Self>) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        // * A folder has no attachments of its own.
+        if state.vault().absolute(path).is_dir() {
+            self.delete_now(path, window, cx);
+            return;
+        }
+        match state.attachment_delete() {
+            AttachmentDelete::Never => self.delete_now(path, window, cx),
+            AttachmentDelete::Always => {
+                if let Err(err) = self.trash_attachments(path, cx) {
+                    self.report(err, cx);
+                }
+                self.delete_now(path, window, cx);
+            }
+            AttachmentDelete::Ask => {
+                let n = Self::unreferenced_attachments(&state, path).len();
+                if n == 0 {
+                    self.delete_now(path, window, cx);
+                    return;
+                }
+                let name = path.rsplit('/').next().unwrap_or(path);
+                self.open_prompt(
+                    PendingOp::DeleteAttachments {
+                        path: path.to_string(),
+                    },
+                    PromptSpec {
+                        title: format!("Delete {name}'s attachments too?").into(),
+                        detail: Some(
+                            format!(
+                                "{n} attachment{} would be moved to .trash because no other note refers to them.",
+                                plural(n)
+                            )
+                            .into(),
+                        ),
+                        input: None,
+                        confirm: "Delete attachments".into(),
+                        secondary: Some("Keep attachments".into()),
+                        ..PromptSpec::default()
+                    },
+                    window,
+                    cx,
+                );
+            }
+        }
+    }
+
+    /// Moves `path`'s attachments that no other note refers to into the
+    /// vault's `.trash` folder — the same trash the note itself goes into,
+    /// forced local regardless of `trashOption`. The note itself stays on
+    /// disk; callers delete it afterwards.
+    fn trash_attachments(&mut self, path: &str, cx: &mut Context<Self>) -> Result<(), String> {
+        let Some(state) = self.state.clone() else {
+            return Ok(());
+        };
+        let targets = Self::unreferenced_attachments(&state, path);
+        if targets.is_empty() {
+            return Ok(());
+        }
+        let mut changes = Changes::default();
+        for target in &targets {
+            let ch = state.trash_local(target).map_err(|e| e.to_string())?;
+            for f in ch.files {
+                changes.files.push(f);
+            }
+            for n in ch.removed_notes {
+                changes.removed_notes.push(n);
+            }
+        }
+        self.after_changes(changes, cx);
+        self.report(
+            format!(
+                "Moved {} attachment{} to .trash",
+                targets.len(),
+                plural(targets.len())
+            ),
+            cx,
+        );
+        Ok(())
+    }
+
+    /// The files embedded in `path` (`![[pic.png]]`, `![alt](pic.png)`)
+    /// that exist in the vault and are not notes.
+    fn note_attachments(state: &VaultState, path: &str) -> Vec<String> {
+        let text = match state.texts().get(path).cloned().or_else(|| {
+            std::fs::read_to_string(state.vault().absolute(path))
+                .ok()
+                .map(Arc::new)
+        }) {
+            Some(text) => text,
+            None => return Vec::new(),
+        };
+        // * Both spellings are collected with where they start in the
+        //   note, so the list comes back in the order the note embeds
+        //   them, whichever spelling it used.
+        let mut found: Vec<(usize, String)> = Vec::new();
+        let mut push = |at: usize, target: &str| {
+            let target = target.trim();
+            if target.is_empty()
+                || target.starts_with("http://")
+                || target.starts_with("https://")
+                || target.starts_with("data:")
+            {
+                return;
+            }
+            let target = target.split_once('|').map(|(t, _)| t).unwrap_or(target);
+            let target = target.split_once('#').map(|(t, _)| t).unwrap_or(target);
+            let cache = state.cache();
+            let Some(resolved) = cache.resolve(target, path) else {
+                return;
+            };
+            if FileKind::from_path(resolved).is_markdown() {
+                return;
+            }
+            // * A vault path resolve() names is a file the vault knows:
+            //   notes live in the index, attachments in the resolver.
+            //   One that is gone from disk is not an attachment to clean.
+            if !state.vault().absolute(resolved).is_file() {
+                return;
+            }
+            if !found.iter().any(|(_, p)| p == resolved) {
+                found.push((at, resolved.to_string()));
+            }
+        };
+        // * Wikilink embeds: `![[pic.png]]`, `![[pic.png|alias]]`,
+        //   `![[pic.png#page=2]]`.
+        let wiki = Regex::new(r"!\[\[([^\]]*?)\]\]").unwrap();
+        for cap in wiki.captures_iter(&text) {
+            let m = cap.get(1);
+            push(
+                m.map(|m| m.start()).unwrap_or(0),
+                m.map(|m| m.as_str()).unwrap_or(""),
+            );
+        }
+        // * Markdown images: `![alt](pic.png)`. Web URLs are never vault
+        //   attachments, so there is nothing to clean up for them.
+        let image = Regex::new(r"!\[([^\]]*)\]\(([^)]*?)\)").unwrap();
+        for cap in image.captures_iter(&text) {
+            let m = cap.get(2);
+            push(
+                m.map(|m| m.start()).unwrap_or(0),
+                m.map(|m| m.as_str()).unwrap_or(""),
+            );
+        }
+        found.sort_by_key(|(at, _)| *at);
+        found.into_iter().map(|(_, path)| path).collect()
+    }
+
+    /// `path`'s attachments that nothing else in the vault refers to —
+    /// backlinks from the index, the note itself excluded.
+    fn unreferenced_attachments(state: &VaultState, path: &str) -> Vec<String> {
+        Self::note_attachments(state, path)
+            .into_iter()
+            .filter(|att| {
+                !state
+                    .cache()
+                    .backlinks(att)
+                    .iter()
+                    .any(|backlink| backlink.source != path)
+            })
+            .collect()
+    }
+
     pub(crate) fn duplicate(&mut self, path: &str, cx: &mut Context<Self>) {
         let Some(state) = self.state.clone() else {
             return;
@@ -1191,10 +1360,7 @@ link to it is rewritten. The current note is deleted."
                 }
             }
             if let Err(e) = silica_vault::write_no_follow(&absolute, rw.text.as_bytes()) {
-                merge_write_errors.push(format!(
-                    "Could not update links in {}: {e}",
-                    rw.new_path
-                ));
+                merge_write_errors.push(format!("Could not update links in {}: {e}", rw.new_path));
             }
         }
         drop(index_texts);
@@ -1291,6 +1457,14 @@ link to it is rewritten. The current note is deleted."
             PendingOp::Delete(path) => {
                 self.pending = None;
                 self.close_modal(window, cx);
+                self.finish_delete(&path, window, cx);
+            }
+            PendingOp::DeleteAttachments { path } => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                if let Err(err) = self.trash_attachments(&path, cx) {
+                    self.report(err, cx);
+                }
                 self.delete_now(&path, window, cx);
             }
             PendingOp::ExportSite => {
@@ -1340,6 +1514,9 @@ link to it is rewritten. The current note is deleted."
                     Err(err) => self.report(err, cx),
                 }
             }
+            PendingOp::SaveWorkspace => self.commit_workspace_save(value, window, cx),
+            PendingOp::LoadWorkspace => self.commit_workspace_load(value, window, cx),
+            PendingOp::DeleteWorkspace => self.commit_workspace_delete(value, window, cx),
             PendingOp::NewFolder { parent } => {
                 let path = if parent.is_empty() {
                     value.to_string()
@@ -1472,6 +1649,85 @@ link to it is rewritten. The current note is deleted."
                     self.report("No files to rename", cx);
                 }
             }
+            PendingOp::RenameProperty { from } => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                let Some(state) = self.state.clone() else {
+                    return;
+                };
+                let new = value.trim();
+                if new.is_empty() {
+                    self.report("Property name cannot be empty", cx);
+                    return;
+                }
+                if new == from {
+                    return;
+                }
+                match state.rename_property(&from, new) {
+                    Ok(changed) => {
+                        let n = changed.len();
+                        self.after_changes(
+                            Changes {
+                                files: changed.into_iter().map(FileChange::Modified).collect(),
+                                notes: Vec::new(),
+                                removed_notes: Vec::new(),
+                            },
+                            cx,
+                        );
+                        let s = if n == 1 { "" } else { "s" };
+                        self.report(
+                            format!(
+                                "Renamed property \"{from}\" to \"{new}\" in {n} note{s}",
+                                s = s
+                            ),
+                            cx,
+                        );
+                    }
+                    Err(err) => self.report(format!("Could not rename property: {err}"), cx),
+                }
+            }
+            PendingOp::SetPropertyType { key } => {
+                let ty = match silica_formats::properties::PropertyType::parse(value.trim()) {
+                    Some(ty) => ty,
+                    None => {
+                        self.report(crate::i18n::t("Invalid property type"), cx);
+                        return;
+                    }
+                };
+                self.pending = None;
+                self.close_modal(window, cx);
+                let Some(state) = self.state.clone() else {
+                    return;
+                };
+                match state.assign_property_type(&key, ty) {
+                    Ok(_) => {
+                        self.refresh_property_rows(&state);
+                        self.report(format!("Set \"{key}\" to {}", ty.as_str()), cx);
+                    }
+                    Err(err) => self.report(format!("Could not write types.json: {err}"), cx),
+                }
+            }
+            PendingOp::DeleteProperty { key } => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                let Some(state) = self.state.clone() else {
+                    return;
+                };
+                match state.remove_property(&key) {
+                    Ok(changed) => {
+                        self.after_changes(
+                            Changes {
+                                files: changed.into_iter().map(FileChange::Modified).collect(),
+                                notes: Vec::new(),
+                                removed_notes: Vec::new(),
+                            },
+                            cx,
+                        );
+                        self.report(format!("Deleted property \"{key}\""), cx);
+                    }
+                    Err(err) => self.report(format!("Could not delete property: {err}"), cx),
+                }
+            }
         }
     }
 
@@ -1506,7 +1762,120 @@ link to it is rewritten. The current note is deleted."
                     b.remove_last_file(&path);
                 });
             }
+            Some(PendingOp::DeleteAttachments { path }) => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                self.delete_now(&path, window, cx);
+            }
             _ => {}
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::fs;
+
+    /// A vault whose notes embed attachments in every spelling the note
+    /// reader has to see: a plain wikilink, one with a size alias, one
+    /// with a fragment, a markdown image, a web URL, a missing file, a
+    /// note embed, and a shared attachment another note also embeds.
+    fn vault() -> (tempfile::TempDir, VaultState) {
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path();
+        fs::create_dir_all(root.join(".obsidian")).unwrap();
+        fs::create_dir_all(root.join("sub")).unwrap();
+        fs::write(
+            root.join("A.md"),
+            "![[pic.png]]\n\n![alt](other.png)\n\n![[solo.png|300]]\n\n![[sub/pic2.png#page=3]]\n\n![[https://example.com/web.png]]\n\n![[missing.png]]\n\n![[B]]\n\n![[A.md]]\n",
+        )
+        .unwrap();
+        fs::write(root.join("B.md"), "![[pic.png]]\n").unwrap();
+        fs::write(root.join("pic.png"), b"png").unwrap();
+        fs::write(root.join("other.png"), b"png").unwrap();
+        fs::write(root.join("solo.png"), b"png").unwrap();
+        fs::write(root.join("sub/pic2.png"), b"png").unwrap();
+        let state = VaultState::load(&root.to_path_buf()).unwrap();
+        (dir, state)
+    }
+
+    #[test]
+    fn note_attachments_finds_every_spelling_of_an_embed() {
+        let (_dir, state) = vault();
+        let found = Workspace::note_attachments(&state, "A.md");
+        // * The note embed, the self-embed, the web URL and the missing
+        //   file are not attachments; the size alias and the fragment are
+        //   stripped; the subfolder attachment keeps its folder.
+        assert_eq!(
+            found,
+            vec![
+                "pic.png".to_string(),
+                "other.png".to_string(),
+                "solo.png".to_string(),
+                "sub/pic2.png".to_string(),
+            ]
+        );
+    }
+
+    #[test]
+    fn unreferenced_attachments_keeps_only_what_nothing_else_embeds() {
+        let (_dir, state) = vault();
+        let orphaned = Workspace::unreferenced_attachments(&state, "A.md");
+        // * `pic.png` also lives in `B.md`, so deleting `A.md` must not
+        //   take it to .trash.
+        assert!(!orphaned.contains(&"pic.png".to_string()));
+        assert_eq!(
+            orphaned,
+            vec![
+                "other.png".to_string(),
+                "solo.png".to_string(),
+                "sub/pic2.png".to_string(),
+            ]
+        );
+    }
+
+    #[test]
+    fn an_attachment_delete_setting_reads_absent_as_ask() {
+        let (dir, _) = vault();
+        fs::write(dir.path().join(".obsidian/app.json"), "{}").unwrap();
+        let state = VaultState::load(&dir.path().to_path_buf()).unwrap();
+        assert_eq!(state.attachment_delete(), AttachmentDelete::Ask);
+    }
+
+    #[test]
+    fn an_attachment_delete_setting_reads_always_and_never() {
+        let (dir, _) = vault();
+        let mut state;
+        for (written, want) in [
+            ("always", AttachmentDelete::Always),
+            ("never", AttachmentDelete::Never),
+            ("ask", AttachmentDelete::Ask),
+            ("nonsense", AttachmentDelete::Ask),
+        ] {
+            fs::write(
+                dir.path().join(".obsidian/app.json"),
+                format!(r#"{{"attachmentDelete":"{written}"}}"#),
+            )
+            .unwrap();
+            state = VaultState::load(&dir.path().to_path_buf()).unwrap();
+            assert_eq!(state.attachment_delete(), want, "{written}");
+        }
+    }
+
+    #[test]
+    fn trash_local_moves_an_attachment_into_the_vaults_own_trash() {
+        let (dir, state) = vault();
+        let root = dir.path();
+        assert!(root.join("solo.png").exists());
+        let changes = state.trash_local("solo.png").unwrap();
+        // * Gone from where the note lives, present under `.trash/`,
+        //   whatever `trashOption` says.
+        assert!(!root.join("solo.png").exists());
+        assert!(root.join(".trash").join("solo.png").exists());
+        assert!(changes
+            .files
+            .iter()
+            .any(|f| matches!(f, FileChange::Removed(p) if p == "solo.png")));
     }
 }

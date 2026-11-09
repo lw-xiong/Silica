@@ -6303,6 +6303,7 @@ name = "silica-pdf"
 version = "0.7.7"
 dependencies = [
  "hayro",
+ "silica-search",
 ]
 
 [[package]]

@@ -3,9 +3,20 @@
 //! split-out section, unchanged apart from living in their own module.
 //! Split from `workspace.rs` per the audit's module-size finding.
 
+use super::calendar::render_calendar_pane;
 use super::*;
 
-actions!(pane_keys, [PaneUp, PaneDown, PaneActivate, PaneLeaveFocus]);
+actions!(
+    pane_keys,
+    [
+        PaneUp,
+        PaneDown,
+        PaneActivate,
+        PaneLeaveFocus,
+        PaneFoldLeft,
+        PaneUnfoldRight
+    ]
+);
 
 impl Workspace {
     /// Obsidian's `nav-header`: 40 px, 8 px of padding, the buttons
@@ -28,6 +39,7 @@ impl Workspace {
             RightTab::Tags => &self.tag_filter,
             RightTab::Properties => &self.property_filter,
             RightTab::Outline => &self.outline_filter,
+            RightTab::Tasks => &self.task_filter,
             _ => &self.backlink_filter,
         }
     }
@@ -37,6 +49,7 @@ impl Workspace {
             RightTab::Tags => &mut self.tag_state.show_search,
             RightTab::Properties => &mut self.property_state.show_search,
             RightTab::Outline => &mut self.outline_state.show_search,
+            RightTab::Tasks => &mut self.task_state.show_search,
             _ => &mut self.backlink_state.show_search,
         }
     }
@@ -536,6 +549,88 @@ impl Workspace {
             SidePaneAction::CopyProperty(key) => {
                 self.copy_path(key, cx);
             }
+            SidePaneAction::RenameProperty(key) => {
+                let count = self
+                    .property_entries
+                    .iter()
+                    .find(|e| e.name == *key)
+                    .map(|e| e.count)
+                    .unwrap_or(0);
+                let s = if count == 1 { "" } else { "s" };
+                self.open_prompt(
+                    PendingOp::RenameProperty { from: key.clone() },
+                    PromptSpec {
+                        title: crate::i18n::t("Rename property").into(),
+                        detail: Some(
+                            format!(
+                                "Rename \"{key}\" to what? ({count} note{s} with this property)",
+                                s = s
+                            )
+                            .into(),
+                        ),
+                        input: None,
+                        placeholder: crate::i18n::t("Property name").into(),
+                        confirm: "Rename".into(),
+                        ..PromptSpec::default()
+                    },
+                    window,
+                    cx,
+                );
+            }
+            SidePaneAction::SetPropertyType(key) => {
+                let Some(state) = self.state.clone() else {
+                    return;
+                };
+                let current = state
+                    .property_types()
+                    .types
+                    .get(key)
+                    .cloned()
+                    .unwrap_or_default();
+                let suggestions: Vec<String> =
+                    silica_formats::properties::PropertyType::selectable()
+                        .iter()
+                        .map(|ty| ty.as_str().to_string())
+                        .collect();
+                self.open_prompt(
+                    PendingOp::SetPropertyType { key: key.clone() },
+                    PromptSpec {
+                        title: crate::i18n::t("Property type").into(),
+                        detail: Some(format!("Set the type of \"{key}\"").into()),
+                        input: None,
+                        placeholder: current.into(),
+                        suggestions,
+                        confirm: "Set".into(),
+                        ..PromptSpec::default()
+                    },
+                    window,
+                    cx,
+                );
+            }
+            SidePaneAction::DeleteProperty(key) => {
+                let count = self
+                    .property_entries
+                    .iter()
+                    .find(|e| e.name == *key)
+                    .map(|e| e.count)
+                    .unwrap_or(0);
+                let s = if count == 1 { "" } else { "s" };
+                self.open_prompt(
+                    PendingOp::DeleteProperty { key: key.clone() },
+                    PromptSpec {
+                        title: crate::i18n::t("Delete property").into(),
+                        detail: Some(
+                            format!("Delete \"{key}\" from {count} note{s}", s = s).into(),
+                        ),
+                        input: None,
+                        placeholder: "".into(),
+                        confirm: crate::i18n::t("Delete").into(),
+                        ..PromptSpec::default()
+                    },
+                    window,
+                    cx,
+                );
+            }
             SidePaneAction::OpenHeading(path, offset) => {
                 self.open_file(path.clone(), None, cx);
                 self.reveal_offset(*offset, cx);
@@ -557,6 +652,26 @@ impl Workspace {
             }
             SidePaneAction::CopyLinkPath(path) => {
                 self.copy_path(path, cx);
+            }
+            // * The file menu's own items: each one opens the prompt the
+            //   workspace already asks with, so a row's Rename... is the
+            //   same rename with the same link rewriting the command
+            //   behind it would do.
+            SidePaneAction::RenameFile(path) => {
+                self.start_rename(path, window, cx);
+            }
+            SidePaneAction::MoveFile(path) => {
+                self.start_move(path, window, cx);
+            }
+            SidePaneAction::BookmarkFile(path) => {
+                let draft = BookmarkDraft::File {
+                    path: path.clone(),
+                    subpath: None,
+                };
+                self.start_bookmark(draft, window, cx);
+            }
+            SidePaneAction::DeleteFile(path) => {
+                self.start_delete(path, window, cx);
             }
         }
     }
@@ -910,7 +1025,8 @@ impl Workspace {
                     })),
                 )
                 .on_click(cx.listener(move |this, _, window, cx| {
-                    this.show_search(&format!("[\\\"{name}\\\"]"), Some(window), cx);
+                    this.show_search(&format!("[\"{name}\"]"), Some(window), cx);
+                    this.focus_panes(window, cx);
                 })),
             );
         }
@@ -1088,6 +1204,121 @@ impl Workspace {
             .into_any_element()
     }
 
+    /// The File recovery pane: every markdown note that has at least one
+    /// snapshot, newest snapshot first, each with a button that restores
+    /// that snapshot through the vault's own write path.
+    pub(crate) fn render_file_recovery_pane(
+        &mut self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> gpui::AnyElement {
+        let Some(state) = self.state.clone() else {
+            return div()
+                .flex_1()
+                .px(px(12.))
+                .child(
+                    div()
+                        .my(px(8.))
+                        .px(px(16.))
+                        .py(px(24.))
+                        .text_size(px(FONT_UI_SMALL))
+                        .text_color(theme.text_faint)
+                        .text_center()
+                        .child("No vault is open.")
+                        .into_any_element(),
+                )
+                .into_any_element();
+        };
+        let root = state.root.clone();
+        let vault = state.vault();
+        let entries =
+            crate::file_recovery::collect(&root, vault.markdown_files().map(|f| f.path.as_str()));
+        drop(vault);
+
+        if entries.is_empty() {
+            return div()
+                .flex_1()
+                .px(px(12.))
+                .child(
+                    div()
+                        .my(px(8.))
+                        .px(px(16.))
+                        .py(px(24.))
+                        .text_size(px(FONT_UI_SMALL))
+                        .text_color(theme.text_faint)
+                        .text_center()
+                        .child("No snapshots yet. Save a note to create one.")
+                        .into_any_element(),
+                )
+                .into_any_element();
+        }
+
+        let header = Self::pane_header().child(SharedString::from("File recovery"));
+
+        let mut list = div()
+            .id("file-recovery")
+            .flex()
+            .flex_col()
+            .flex_1()
+            .overflow_y_scroll()
+            .px(px(12.))
+            .pt(px(12.))
+            .pb(px(32.));
+        for entry in &entries {
+            let path = entry.path.clone();
+            list = list.child(
+                div()
+                    .text_size(px(FONT_UI_SMALL))
+                    .text_color(theme.text_muted)
+                    .mb(px(6.))
+                    .child(SharedString::from(path.clone())),
+            );
+            for version in &entry.versions {
+                let path = path.clone();
+                let at = version.at;
+                let label = version.label();
+                let bytes = version.bytes;
+                list = list.child(
+                    div()
+                        .flex()
+                        .flex_row()
+                        .items_center()
+                        .gap(px(6.))
+                        .px(px(8.))
+                        .py(px(4.))
+                        .mb(px(2.))
+                        .rounded(px(6.))
+                        .hover(|s| s.bg(theme.bg_alt))
+                        .child(
+                            div()
+                                .flex_1()
+                                .text_size(px(FONT_UI_SMALL))
+                                .child(SharedString::from(format!("{label}  ·  {bytes} bytes"))),
+                        )
+                        .child(
+                            Self::nav_button(
+                                "file-recovery-restore",
+                                "clock",
+                                "Restore",
+                                false,
+                                theme,
+                            )
+                            .on_click(cx.listener(
+                                move |this, _, _, cx| this.file_recovery_restore(&path, at, cx),
+                            )),
+                        ),
+                );
+            }
+        }
+        div()
+            .flex()
+            .flex_col()
+            .size_full()
+            .child(header)
+            .child(list)
+            .into_any_element()
+    }
+
     /// Whether a left-dock pane's core plugin is on, by its id.
     pub(crate) fn left_pane_enabled(&self, id: &str) -> bool {
         self.state
@@ -1099,15 +1330,38 @@ impl Workspace {
     /// its own plugin in `core-plugins.json`, and a vault with no file has
     /// them all, so the default is what `CORE_PLUGINS` says.
     pub(crate) fn pane_enabled(&self, tab: RightTab) -> bool {
+        // * File recovery is Silica's own pane, not an Obsidian core plugin,
+        //   so it is always on.
+        if matches!(tab, RightTab::FileRecovery) {
+            return true;
+        }
         let id = match tab {
             RightTab::Backlinks => "backlink",
             RightTab::Outgoing => "outgoing-link",
             RightTab::Tags => "tag-pane",
             RightTab::Properties => "properties",
             RightTab::Outline => "outline",
+            RightTab::Footnotes => "footnotes",
             // * The graph's own plugin id, so a vault with the graph core
             //   plugin off takes the tab away with it.
             RightTab::Graph => "graph",
+            // * Kalender bukan core plugin dengan id di `core-plugins.json`;
+            //   ia dihidupkan oleh kunci `calendar` di `daily-notes.json`
+            //   (default on, berkas lama tetap).
+            RightTab::Calendar => {
+                return self
+                    .state
+                    .as_ref()
+                    .is_none_or(|state| state.daily_notes().calendar.unwrap_or(true));
+            }
+            RightTab::FileRecovery => unreachable!("handled above"),
+            // * The local graph rides on the graph's own plugin id: it is
+            //   the same core plugin's second pane, so a vault with the
+            //   graph off loses this tab with the other one.
+            RightTab::LocalGraph => "graph",
+            // * The inbox is this app's own pane, not a core plugin's
+            //   leaf: an id no core plugin owns always answers enabled.
+            RightTab::Tasks => "tasks",
         };
         self.state
             .as_ref()
@@ -1129,7 +1383,11 @@ impl Workspace {
                 RightTab::Tags,
                 RightTab::Properties,
                 RightTab::Outline,
+                RightTab::Footnotes,
                 RightTab::Graph,
+                RightTab::Calendar,
+                RightTab::LocalGraph,
+                RightTab::Tasks,
             ]
             .into_iter()
             .find(|t| self.pane_enabled(*t))
@@ -1144,6 +1402,10 @@ impl Workspace {
             RightTab::Outline => self.render_outline_pane(theme, cx),
             RightTab::Tags => self.render_tags_pane(theme, cx),
             RightTab::Properties => self.render_properties_pane(theme, cx),
+            RightTab::Footnotes => self.render_footnotes_pane(theme, cx),
+            // * Kalender: grid bulan di samping catatan harian.
+            RightTab::Calendar => render_calendar_pane(self, theme, cx).into_any_element(),
+            RightTab::Tasks => self.render_tasks_pane(theme, cx),
             // * The graph side pane: the GraphView entity the ribbon opens
             //   full screen, kept in the dock. While a group's area already
             //   paints it, the dock says so rather than painting it twice.
@@ -1164,6 +1426,15 @@ impl Workspace {
                 .min_h_0()
                 .child(self.graph.clone())
                 .into_any_element(),
+            RightTab::FileRecovery => self.render_file_recovery_pane(theme, cx),
+            // * The local graph side pane: the open note at the centre with
+            //   the notes one hop out. It has no pan or zoom of its own, so
+            //   nothing but the pane itself is offered.
+            RightTab::LocalGraph => div()
+                .size_full()
+                .min_h_0()
+                .child(self.local_graph.clone())
+                .into_any_element(),
         };
         // * A pane whose core plugin is off is not offered: Obsidian takes
         //   the view away with the plugin.
@@ -1180,9 +1451,12 @@ impl Workspace {
                     theme,
                     move |this, window, cx| {
                         this.select_right_tab(which, cx);
-                        // * The dock tab takes the keyboard, the way a row
-                        //   click does: the arrows then walk the pane.
-                        this.focus_panes(window, cx);
+                        match which {
+                            RightTab::Calendar => window.focus(&this.calendar_focus, cx),
+                            // * The dock tab takes the keyboard, the way a row
+                            //   click does: the arrows then walk the pane.
+                            _ => this.focus_panes(window, cx),
+                        }
                     },
                     cx,
                 )
@@ -1206,6 +1480,8 @@ impl Workspace {
             .on_action(cx.listener(Self::pane_up))
             .on_action(cx.listener(Self::pane_down))
             .on_action(cx.listener(Self::pane_on_enter))
+            .on_action(cx.listener(Self::pane_on_left))
+            .on_action(cx.listener(Self::pane_on_right))
             .on_action(cx.listener(Self::pane_on_escape))
             .map(|d| self.corners.right().apply(d))
             .child(
@@ -1246,7 +1522,42 @@ impl Workspace {
                         cx,
                     ))
                     .children(tab_button(self, "Outline", "list", RightTab::Outline, cx))
+                    .children(tab_button(
+                        self,
+                        "Footnotes",
+                        "list",
+                        RightTab::Footnotes,
+                        cx,
+                    ))
+                    .children(tab_button(
+                        self,
+                        "Kalender",
+                        "calendar",
+                        RightTab::Calendar,
+                        cx,
+                    ))
+                    .children(tab_button(
+                        self,
+                        "Tasks",
+                        "square-check",
+                        RightTab::Tasks,
+                        cx,
+                    ))
                     .children(tab_button(self, "Graph", "git-fork", RightTab::Graph, cx))
+                    .children(tab_button(
+                        self,
+                        "File recovery",
+                        "clock",
+                        RightTab::FileRecovery,
+                        cx,
+                    ))
+                    .children(tab_button(
+                        self,
+                        crate::i18n::t("Local graph"),
+                        "binary",
+                        RightTab::LocalGraph,
+                        cx,
+                    ))
                     .child(window_handle(
                         div().id("right-dock-space").flex_1().h_full(),
                         frameless,
@@ -1381,12 +1692,25 @@ impl Workspace {
         }
     }
 
+    fn pane_on_left(&mut self, _: &PaneFoldLeft, window: &mut Window, cx: &mut Context<Self>) {
+        if self.panes_focused(window) {
+            self.pane_fold_left(cx);
+        }
+    }
+
+    fn pane_on_right(&mut self, _: &PaneUnfoldRight, window: &mut Window, cx: &mut Context<Self>) {
+        if self.panes_focused(window) {
+            self.pane_fold_right(cx);
+        }
+    }
+
     /// How many rows the visible pane has, for clamping the arrow keys.
     pub(crate) fn pane_row_count(&self, cx: &App) -> usize {
         match self.right_tab {
             RightTab::Tags => self.tag_rows(cx).len(),
             RightTab::Properties => self.property_rows(cx).len(),
             RightTab::Outline => self.outline_rows(cx).len(),
+            RightTab::Tasks => self.visible_task_rows(cx).len(),
             // * Backlinks and Outgoing are card lists without a row model
             //   the arrows could walk; their rows stay click-only.
             _ => 0,
@@ -1396,38 +1720,149 @@ impl Workspace {
     /// The selection of the pane that has the keyboard, moved by `delta`
     /// rows and clamped to the pane's row count.
     pub(crate) fn pane_move(&mut self, delta: isize, cx: &mut Context<Self>) {
+        let current = match self.right_tab {
+            RightTab::Tags => self.tag_state.selected,
+            RightTab::Properties => self.property_state.selected,
+            RightTab::Outline => self.outline_state.selected,
+            RightTab::Tasks => self.task_state.selected,
+            _ => None,
+        };
         let count = self.pane_row_count(cx);
         if count == 0 {
             return;
         }
-        let selected = match self.right_tab {
-            RightTab::Tags => &mut self.tag_state.selected,
-            RightTab::Properties => &mut self.property_state.selected,
-            RightTab::Outline => &mut self.outline_state.selected,
-            _ => return,
+        let Some(next) = next_row_selection(current, self.pane_row_count(cx), delta) else {
+            return;
         };
-        let next = match selected {
-            Some(ix) => (*ix as isize + delta).clamp(0, count as isize - 1) as usize,
-            None => {
-                if delta >= 0 {
-                    0
-                } else {
-                    count - 1
+        match self.right_tab {
+            RightTab::Tags => self.tag_state.selected = Some(next),
+            RightTab::Properties => self.property_state.selected = Some(next),
+            RightTab::Outline => self.outline_state.selected = Some(next),
+            _ => {}
+        }
+        cx.notify();
+    }
+
+    /// Left on the marked row: folds the group it sits on, or — a group
+    /// that is already folded hands the mark to its parent, as Obsidian's
+    /// `tree-item-self` keyboard contract has it. Properties have no
+    /// groups to fold, so Left does nothing there.
+    pub(crate) fn pane_fold_left(&mut self, cx: &mut Context<Self>) {
+        match self.right_tab {
+            RightTab::Tags => {
+                let rows = self.tag_rows(cx);
+                let Some(ix) = self.tag_state.selected else {
+                    return;
+                };
+                let Some(row) = rows.get(ix) else {
+                    return;
+                };
+                let depths: Vec<usize> = rows.iter().map(|row| row.depth).collect();
+                if row.has_children && !row.collapsed {
+                    let key = row.key.clone();
+                    self.toggle_tag_fold(key, cx);
+                } else if let Some(parent) = parent_row(&depths, ix) {
+                    self.tag_state.selected = Some(parent);
+                    cx.notify();
                 }
             }
-        };
-        *selected = Some(next);
-        cx.notify();
+            RightTab::Outline => {
+                let rows = self.outline_rows(cx);
+                let Some(ix) = self.outline_state.selected else {
+                    return;
+                };
+                let Some(row) = rows.get(ix) else {
+                    return;
+                };
+                let depths: Vec<usize> = rows.iter().map(|row| row.depth).collect();
+                if row.has_children && !row.collapsed {
+                    self.toggle_outline_fold(row.ix, cx);
+                } else if let Some(parent) = parent_row(&depths, ix) {
+                    self.outline_state.selected = Some(parent);
+                    cx.notify();
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Right on the marked row: opens a folded group, or hands the mark to
+    /// the first child of one already open. A leaf has nothing to open,
+    /// so Right does nothing there.
+    pub(crate) fn pane_fold_right(&mut self, cx: &mut Context<Self>) {
+        match self.right_tab {
+            RightTab::Tags => {
+                let rows = self.tag_rows(cx);
+                let Some(ix) = self.tag_state.selected else {
+                    return;
+                };
+                let Some(row) = rows.get(ix) else {
+                    return;
+                };
+                let depths: Vec<usize> = rows.iter().map(|row| row.depth).collect();
+                if !row.has_children {
+                    return;
+                }
+                if row.collapsed {
+                    let key = row.key.clone();
+                    self.toggle_tag_fold(key, cx);
+                } else if let Some(child) = first_child_row(&depths, ix) {
+                    self.tag_state.selected = Some(child);
+                    cx.notify();
+                }
+            }
+            RightTab::Outline => {
+                let rows = self.outline_rows(cx);
+                let Some(ix) = self.outline_state.selected else {
+                    return;
+                };
+                let Some(row) = rows.get(ix) else {
+                    return;
+                };
+                let depths: Vec<usize> = rows.iter().map(|row| row.depth).collect();
+                if !row.has_children {
+                    return;
+                }
+                if row.collapsed {
+                    self.toggle_outline_fold(row.ix, cx);
+                } else if let Some(child) = first_child_row(&depths, ix) {
+                    self.outline_state.selected = Some(child);
+                    cx.notify();
+                }
+            }
+            _ => {}
+        }
     }
 
     /// Enter on the selected row: the same thing a click on it does — a tag
     /// or property row searches for it, an outline row reveals its heading
-    /// in the note.
+    /// in the note, an inbox row opens the note its task came from.
     pub(crate) fn pane_activate(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let action = match self.right_tab {
+            RightTab::Tags => self
+                .tag_state
+                .selected
+                .and_then(|ix| self.tag_rows(cx).get(ix).map(tag_row_action)),
+            RightTab::Properties => self
+                .property_state
+                .selected
+                .and_then(|ix| self.property_rows(cx).get(ix).map(property_row_action)),
+            RightTab::Outline => self
+                .outline_state
+                .selected
+                .and_then(|ix| self.outline_rows(cx).get(ix).map(outline_row_action)),
+            _ => None,
+        };
+        match action {
+            Some(PaneRowAction::Search(query)) => self.show_search(&query, Some(window), cx),
+            Some(PaneRowAction::Reveal(offset)) => self.reveal_heading(offset, cx),
+            None => {}
+        }
         let ix = match self.right_tab {
             RightTab::Tags => self.tag_state.selected,
             RightTab::Properties => self.property_state.selected,
             RightTab::Outline => self.outline_state.selected,
+            RightTab::Tasks => self.task_state.selected,
             _ => None,
         };
         let Some(ix) = ix else {
@@ -1454,6 +1889,12 @@ impl Workspace {
                     self.reveal_heading(row.offset, cx);
                 }
             }
+            RightTab::Tasks => {
+                let rows = self.visible_task_rows(cx);
+                if let Some(row) = rows.get(ix) {
+                    self.open_task(row, cx);
+                }
+            }
             _ => {}
         }
     }
@@ -1464,21 +1905,282 @@ impl Workspace {
             RightTab::Tags => self.tag_state.selected = None,
             RightTab::Properties => self.property_state.selected = None,
             RightTab::Outline => self.outline_state.selected = None,
+            RightTab::Tasks => self.task_state.selected = None,
             _ => {}
         }
         self.focus_main(window, cx);
     }
+
+    /// The Footnotes pane: one row per footnote in the active note, numbered
+    /// in section order; clicking a row reveals its definition's line with
+    /// the same `reveal_offset` a footnote reference click uses.
+    fn render_footnotes_pane(&mut self, theme: &Theme, cx: &mut Context<Self>) -> gpui::AnyElement {
+        let model = self.reading.read(cx).model();
+        let rows = footnote_rows(model);
+        let empty = rows.is_empty();
+        let header = Self::pane_header();
+        let mut list = div()
+            .id("footnotes")
+            .flex()
+            .flex_col()
+            .flex_1()
+            .overflow_y_scroll()
+            .px(px(12.))
+            .pt(px(4.))
+            .pb(px(32.));
+        for row in rows {
+            let offset = row.offset;
+            list = list.child(
+                Self::tree_row(
+                    ("footnote-row", row.n),
+                    0,
+                    None,
+                    None,
+                    Self::tree_label(format!("[{}]", row.n)),
+                    None,
+                    false,
+                    theme,
+                    cx,
+                    None,
+                )
+                .on_click(cx.listener(move |this, _, window, cx| {
+                    this.reveal_offset(offset, cx);
+                    this.focus_panes(window, cx);
+                })),
+            );
+        }
+        let body: gpui::AnyElement = if empty {
+            div()
+                .flex_1()
+                .px(px(12.))
+                .child(
+                    div()
+                        .my(px(8.))
+                        .px(px(16.))
+                        .py(px(24.))
+                        .text_size(px(FONT_UI_SMALL))
+                        .text_color(theme.text_faint)
+                        .text_center()
+                        .child("No footnotes."),
+                )
+                .into_any_element()
+        } else {
+            list.into_any_element()
+        };
+        div()
+            .flex()
+            .flex_col()
+            .size_full()
+            .child(header)
+            .child(body)
+            .into_any_element()
+    }
+}
+
+/// Where the arrow keys put the pane's mark next: `current` moved by
+/// `delta` rows, clamped to the `count` rows on screen. Nothing is
+/// selected before the first press, so a downward stroke marks the first
+/// row and an upward one the last, as Obsidian's list navigation does.
+/// A pane with no rows has nothing to mark.
+pub(crate) fn next_row_selection(
+    current: Option<usize>,
+    count: usize,
+    delta: isize,
+) -> Option<usize> {
+    if count == 0 {
+        return None;
+    }
+    Some(match current {
+        Some(ix) => (ix as isize + delta).clamp(0, count as isize - 1) as usize,
+        None => {
+            if delta >= 0 {
+                0
+            } else {
+                count - 1
+            }
+        }
+    })
+}
+
+/// The nearest row before `ix` at a shallower depth: the group `ix` sits
+/// in, or none for a row at the root.
+pub(crate) fn parent_row(depths: &[usize], ix: usize) -> Option<usize> {
+    let depth = *depths.get(ix)?;
+    (0..ix).rev().find(|&k| depths[k] < depth)
+}
+
+/// The row just after `ix` when it is one level deeper: `ix`'s first
+/// child, or none when `ix` is a leaf or the last row.
+pub(crate) fn first_child_row(depths: &[usize], ix: usize) -> Option<usize> {
+    let depth = *depths.get(ix)?;
+    let next = ix + 1;
+    (depths.get(next)? > &depth).then_some(next)
+}
+
+/// What Enter does on a pane's marked row: the same thing a click on it
+/// does.
+pub(crate) enum PaneRowAction {
+    /// Search the vault for this query, the pane's own field's text set to
+    /// it, as a tag or property row's click does.
+    Search(String),
+    /// Reveal this byte offset in the note, as an outline row's click does.
+    Reveal(usize),
+}
+
+pub(crate) fn tag_row_action(row: &panes::TagRow) -> PaneRowAction {
+    PaneRowAction::Search(format!("tag:#{}", row.path))
+}
+
+pub(crate) fn property_row_action(row: &panes::PropertyRow) -> PaneRowAction {
+    PaneRowAction::Search(format!("[\"{}\"]", row.name))
+}
+
+pub(crate) fn outline_row_action(row: &panes::OutlineRow) -> PaneRowAction {
+    PaneRowAction::Reveal(row.offset)
 }
 
 /// Keys for the side panes, bound to the panes' own context beneath the
 /// workspace's: a row click (or the dock tab) focuses the panes, the
-/// arrows move the mark, Enter runs the row, Escape goes back to the note.
+/// arrows move the mark, Enter runs the row, Left/Right fold and open the
+/// group the mark is on, Escape goes back to the note.
 pub fn bind_pane_keys(cx: &mut App) {
     let ctx = Some("SidePane");
     cx.bind_keys([
         KeyBinding::new("up", PaneUp, ctx),
         KeyBinding::new("down", PaneDown, ctx),
         KeyBinding::new("enter", PaneActivate, ctx),
+        KeyBinding::new("left", PaneFoldLeft, ctx),
+        KeyBinding::new("right", PaneUnfoldRight, ctx),
         KeyBinding::new("escape", PaneLeaveFocus, ctx),
     ]);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn tag_row(path: &str, depth: usize, has_children: bool, collapsed: bool) -> panes::TagRow {
+        panes::TagRow {
+            name: path.rsplit('/').next().unwrap_or(path).to_string(),
+            parent: path
+                .rsplit_once('/')
+                .map(|(head, _)| format!("{head}/"))
+                .unwrap_or_default(),
+            path: path.to_string(),
+            key: path.to_lowercase(),
+            count: 1,
+            depth,
+            has_children,
+            collapsed,
+        }
+    }
+
+    fn property_row(name: &str) -> panes::PropertyRow {
+        panes::PropertyRow {
+            name: name.to_string(),
+            count: 1,
+            ty: None,
+            icon: "file-question",
+        }
+    }
+
+    fn outline_row(ix: usize, offset: usize, depth: usize) -> panes::OutlineRow {
+        panes::OutlineRow {
+            ix,
+            depth,
+            text: format!("Heading {ix}"),
+            level: depth as u8 + 1,
+            line: ix,
+            offset,
+            has_children: false,
+            collapsed: false,
+            active: false,
+            highlights: Vec::new(),
+        }
+    }
+
+    /// A downward key event on a pane with rows moves the mark down the
+    /// rows, one per stroke, and stops at the last one.
+    #[test]
+    fn a_down_key_moves_the_pane_mark_one_row_at_a_time() {
+        // * Nothing marked yet: the first downward stroke lands on the
+        //   first row, the way a list's first arrow does.
+        assert_eq!(next_row_selection(None, 3, 1), Some(0));
+        assert_eq!(next_row_selection(Some(0), 3, 1), Some(1));
+        assert_eq!(next_row_selection(Some(1), 3, 1), Some(2));
+        // * Clamped at the end: more strokes change nothing.
+        assert_eq!(next_row_selection(Some(2), 3, 1), Some(2));
+        assert_eq!(next_row_selection(Some(2), 5, 9), Some(4));
+    }
+
+    /// An upward key event walks the other way, and with nothing marked
+    /// yet lands on the last row.
+    #[test]
+    fn an_up_key_moves_the_pane_mark_the_other_way() {
+        assert_eq!(next_row_selection(None, 3, -1), Some(2));
+        assert_eq!(next_row_selection(Some(2), 3, -1), Some(1));
+        assert_eq!(next_row_selection(Some(1), 3, -1), Some(0));
+        // * Clamped at the top.
+        assert_eq!(next_row_selection(Some(0), 3, -1), Some(0));
+    }
+
+    /// A pane whose filter left no rows has no mark to move.
+    #[test]
+    fn an_arrow_on_a_pane_with_no_rows_moves_nothing() {
+        assert_eq!(next_row_selection(None, 0, 1), None);
+        assert_eq!(next_row_selection(Some(0), 0, -1), None);
+    }
+
+    /// Enter on a tag row searches `tag:#path`, the query a click on it
+    /// runs.
+    #[test]
+    fn enter_on_a_tag_row_searches_for_it() {
+        match tag_row_action(&tag_row("project/alpha", 1, true, false)) {
+            PaneRowAction::Search(query) => assert_eq!(query, "tag:#project/alpha"),
+            PaneRowAction::Reveal(_) => panic!("a tag row searches, it does not reveal"),
+        }
+    }
+
+    /// Enter on a property row searches `["key"]`, the query a click on it
+    /// runs.
+    #[test]
+    fn enter_on_a_property_row_searches_for_it() {
+        match property_row_action(&property_row("status")) {
+            PaneRowAction::Search(query) => assert_eq!(query, "[\"status\"]"),
+            PaneRowAction::Reveal(_) => panic!("a property row searches, it does not reveal"),
+        }
+    }
+
+    /// Enter on an outline row reveals the heading's offset in the note,
+    /// the jump a click on it makes.
+    #[test]
+    fn enter_on_an_outline_row_reveals_its_heading() {
+        match outline_row_action(&outline_row(2, 128, 1)) {
+            PaneRowAction::Reveal(offset) => assert_eq!(offset, 128),
+            PaneRowAction::Search(_) => panic!("an outline row reveals, it does not search"),
+        }
+    }
+
+    /// Left on a folded group hands the mark to the group it sits in, and
+    /// a root row has none to go to.
+    #[test]
+    fn left_hands_the_mark_to_the_parent_group() {
+        let depths = [0, 1, 2, 1];
+        assert_eq!(parent_row(&depths, 2), Some(1));
+        assert_eq!(parent_row(&depths, 3), Some(0));
+        // * A root row's parent is not on the list.
+        assert_eq!(parent_row(&depths, 0), None);
+        assert_eq!(parent_row(&depths, 9), None);
+    }
+
+    /// Right on an open group hands the mark to its first child; a leaf
+    /// and the last row have no child to go to.
+    #[test]
+    fn right_hands_the_mark_to_the_first_child() {
+        let depths = [0, 1, 1];
+        assert_eq!(first_child_row(&depths, 0), Some(1));
+        assert_eq!(first_child_row(&depths, 1), None);
+        assert_eq!(first_child_row(&depths, 2), None);
+        assert_eq!(first_child_row(&[], 0), None);
+    }
 }

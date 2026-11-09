@@ -1,5 +1,6 @@
 //! Reading view: the rendered form of a note.
 
+pub mod folds;
 pub mod model;
 pub mod view;
 

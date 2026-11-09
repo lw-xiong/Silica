@@ -518,11 +518,19 @@ pub(crate) fn html_block_start(line: &str, tip_is_paragraph: bool) -> Option<u8>
     let lower = line
         .get(..line.len().min(16))
         .map(str::to_ascii_lowercase)?;
-    for tag in ["script", "pre", "style", "textarea"] {
+    // * `pre` is not the same block type as `script`: `pre` keeps its source
+    //   and is promotable to a real preformatted block, while `script`,
+    //   `style` and `textarea` stay raw source until their close tag.
+    for tag in ["script", "style", "textarea"] {
         if let Some(rest) = lower.strip_prefix(&format!("<{tag}")) {
             if rest.is_empty() || matches!(rest.as_bytes()[0], b' ' | b'\t' | b'>') {
                 return Some(1);
             }
+        }
+    }
+    if let Some(rest) = lower.strip_prefix("<pre") {
+        if rest.is_empty() || matches!(rest.as_bytes()[0], b' ' | b'\t' | b'>') {
+            return Some(8);
         }
     }
     if line.starts_with("<!--") {
@@ -583,6 +591,7 @@ pub(crate) fn html_block_end(kind: u8, line: &str) -> bool {
         3 => line.contains("?>"),
         4 => line.contains('>'),
         5 => line.contains("]]>"),
+        8 => line.contains("</pre>"),
         _ => false,
     }
 }
@@ -625,5 +634,10 @@ mod tests {
         assert_eq!(html_block_start("<div class=x>", true), Some(6));
         assert_eq!(html_block_start("<span>", true), None);
         assert_eq!(html_block_start("<span>", false), Some(7));
+        assert_eq!(html_block_start("<pre>", true), Some(8));
+        assert_eq!(html_block_start("<script x>", true), Some(1));
+        assert_eq!(html_block_start("<!-- x -->", true), Some(2));
+        assert!(html_block_end(8, "</pre>"));
+        assert!(!html_block_end(8, "<p>x</p>"));
     }
 }

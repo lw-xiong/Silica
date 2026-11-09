@@ -5,6 +5,11 @@
 //! These need a graphical session (Wayland or X11) to launch GPUI. They run by
 //! default when a display exists; on a headless machine they skip instead of
 //! failing, so a headless CI run is not broken by them.
+//!
+//! The flows covered: opening, editing and saving a note (above), and below
+//! the shell's own overlays and their memory — the quick switcher, the
+//! command palette, the search dock and the `workspace.json` layout record a
+//! relaunch reads back.
 
 use serde_json::{json, Value};
 use silica_control::Client;
@@ -123,6 +128,64 @@ impl App {
     fn run_command(&mut self, id: &str) {
         self.call("command", json!({"id": id}));
     }
+
+    /// Blocks until the vault has finished scanning and indexing. A search
+    /// runs over the index, and a launch has not filled it yet, so one
+    /// driven straight after `settle` can answer with nothing.
+    fn loaded(&mut self) {
+        self.call("wait_loaded", json!({"timeout_ms": 20000}));
+    }
+
+    /// The overlay now up — its kind, query, selected row and rows — from
+    /// the state dump, so the switcher and the palette can be told apart
+    /// from what they are showing.
+    fn overlay(&mut self) -> Value {
+        self.call("state", json!({}))
+            .get("modal")
+            .cloned()
+            .unwrap_or(Value::Null)
+    }
+
+    /// What holds the keyboard now, from the state dump: a modal's field
+    /// names itself, so a test can tell where typed text landed.
+    fn focused(&mut self) -> Value {
+        self.call("state", json!({}))
+            .get("focus")
+            .cloned()
+            .unwrap_or(Value::Null)
+    }
+
+    /// The left dock's Search view, from the state dump.
+    fn search_dock(&mut self) -> Value {
+        self.call("state", json!({}))
+            .pointer("/docks/left/search")
+            .cloned()
+            .unwrap_or(Value::Null)
+    }
+
+    /// How the main area is split into tab groups, from the state dump.
+    fn groups(&mut self) -> Value {
+        self.call("state", json!({}))
+            .get("groups")
+            .cloned()
+            .unwrap_or(Value::Null)
+    }
+
+    /// Closes the app the way a user does. `Drop` kills the child, which
+    /// never runs the quit path — and `workspace.json` is written on the
+    /// way out, so a killed process leaves the record unwritten.
+    fn quit(&mut self) {
+        let reply = self.client.call("quit", json!({}));
+        assert!(reply.is_ok(), "quit failed: {reply:?}");
+        // The reply is written before the app exits, so waiting for the
+        // child is what proves it is gone before the next launch binds the
+        // same socket path.
+        let deadline = Instant::now() + Duration::from_secs(20);
+        while self._child.try_wait().ok().flatten().is_none() {
+            assert!(Instant::now() < deadline, "silica did not exit after quit");
+            thread::sleep(Duration::from_millis(50));
+        }
+    }
 }
 
 /// A scratch vault with one note, cleaned up when dropped.
@@ -150,6 +213,25 @@ fn serial() -> std::sync::MutexGuard<'static, ()> {
     SERIAL
         .lock()
         .unwrap_or_else(|poisoned| poisoned.into_inner())
+}
+
+/// Polls the search dock until its result list answers `files`: the query
+/// runs on the background executor, so the rows land a beat after the
+/// keystrokes that asked for them.
+fn wait_for_files(app: &mut App, files: u64) -> Value {
+    let deadline = Instant::now() + Duration::from_secs(20);
+    loop {
+        let dock = app.search_dock();
+        let answer = dock.get("files").and_then(Value::as_u64).unwrap_or(0);
+        if answer == files {
+            return dock;
+        }
+        assert!(
+            Instant::now() < deadline,
+            "the search dock never answered with {files} files: {dock:?}"
+        );
+        thread::sleep(Duration::from_millis(100));
+    }
 }
 
 /// Whether the graphical end-to-end tests should run.
@@ -684,4 +766,299 @@ fn a_graph_export_cannot_leave_the_vault() {
         !escaped.exists(),
         "the refused export still wrote the file: {escaped:?}"
     );
+}
+
+/// The quick switcher opens the note a query matches: the overlay is the
+/// switcher, its field holds the keyboard, the query narrows the rows to
+/// that one note, and Enter opens it and takes the overlay down.
+#[test]
+fn the_quick_switcher_opens_a_note_from_a_query() {
+    if !e2e_enabled() {
+        eprintln!("skipped: no display available for the graphical end-to-end tests");
+        return;
+    }
+    let _serial = serial();
+    let vault = Vault::new();
+    fs::write(vault.root.join("Travel.md"), "flight times\n").expect("a second note");
+    let mut app = match App::launch(&vault.root) {
+        Some(a) => a,
+        None => {
+            eprintln!("skipped: no graphical session to launch silica in");
+            return;
+        }
+    };
+    app.settle();
+    app.run_command("switcher:open");
+    app.settle();
+    let overlay = app.overlay();
+    assert_eq!(
+        overlay["kind"], "switcher",
+        "the switcher did not open: {overlay:?}"
+    );
+    let focus = app.focused();
+    assert_eq!(
+        focus["name"], "switcher-input",
+        "the switcher's field does not hold the keyboard: {focus:?}"
+    );
+
+    // The query goes into the field, which narrows the rows: a term one
+    // note matches must leave that note and nothing else.
+    app.call("type", json!({"text": "Travel"}));
+    app.settle();
+    let overlay = app.overlay();
+    assert_eq!(
+        overlay["query"], "Travel",
+        "the query never reached the field: {overlay:?}"
+    );
+    assert_eq!(
+        overlay["rows"],
+        json!(["Travel"]),
+        "the rows are not the note the query matches: {overlay:?}"
+    );
+
+    // Enter opens the selected row and closes the overlay.
+    app.call("keys", json!({"keys": ["enter"]}));
+    app.settle();
+    let state = app.call("state", json!({"text": true}));
+    assert_eq!(
+        state["file"]["path"], "Travel.md",
+        "Enter opened no note: {state:?}"
+    );
+    assert_eq!(
+        state["modal"]["kind"], "none",
+        "the switcher stayed open after Enter: {state:?}"
+    );
+    assert_eq!(
+        app.text(),
+        "flight times\n",
+        "the note opened is not the one the query matched"
+    );
+}
+
+/// The command palette runs the command its query selects: the palette
+/// takes the keyboard, the query puts one command on top, and Enter runs
+/// it — which is the open note switching to Reading view, what
+/// "Toggle reading view" does.
+#[test]
+fn the_command_palette_runs_the_command_its_query_selects() {
+    if !e2e_enabled() {
+        eprintln!("skipped: no display available for the graphical end-to-end tests");
+        return;
+    }
+    let _serial = serial();
+    let vault = Vault::new();
+    let mut app = match App::launch(&vault.root) {
+        Some(a) => a,
+        None => {
+            eprintln!("skipped: no graphical session to launch silica in");
+            return;
+        }
+    };
+    app.settle();
+    app.call("open_path", json!({"path": "Note.md"}));
+    app.settle();
+    app.run_command("command-palette:open");
+    app.settle();
+    let overlay = app.overlay();
+    assert_eq!(
+        overlay["kind"], "palette",
+        "the palette did not open: {overlay:?}"
+    );
+    let focus = app.focused();
+    assert_eq!(
+        focus["name"], "palette-input",
+        "the palette's field does not hold the keyboard: {focus:?}"
+    );
+
+    app.call("type", json!({"text": "Toggle reading view"}));
+    app.settle();
+    let overlay = app.overlay();
+    assert_eq!(
+        overlay["query"], "Toggle reading view",
+        "the query never reached the field: {overlay:?}"
+    );
+    let selected = overlay["selected"].as_u64().expect("a selected row") as usize;
+    let rows = overlay["rows"].as_array().expect("rows");
+    assert_eq!(
+        rows.get(selected).and_then(Value::as_str),
+        Some("Toggle reading view"),
+        "the query did not put the command on top: {overlay:?}"
+    );
+
+    app.call("keys", json!({"keys": ["enter"]}));
+    app.settle();
+    let state = app.call("state", json!({}));
+    assert_eq!(
+        state["modal"]["kind"], "none",
+        "the palette stayed open after Enter: {state:?}"
+    );
+    assert_eq!(
+        state["file"]["mode"], "reading",
+        "Enter ran no command: {state:?}"
+    );
+}
+
+/// The search dock filters the vault as the query is typed: the dock takes
+/// the keyboard, a term one note holds answers with that note alone, and
+/// the other note's term answers with it instead.
+#[test]
+fn the_search_dock_filters_the_vault_by_the_query() {
+    if !e2e_enabled() {
+        eprintln!("skipped: no display available for the graphical end-to-end tests");
+        return;
+    }
+    let _serial = serial();
+    let vault = Vault::new();
+    fs::write(vault.root.join("Alpha.md"), "the alpha text\n").expect("a second note");
+    fs::write(vault.root.join("Beta.md"), "the beta text\n").expect("a third note");
+    let mut app = match App::launch(&vault.root) {
+        Some(a) => a,
+        None => {
+            eprintln!("skipped: no graphical session to launch silica in");
+            return;
+        }
+    };
+    app.settle();
+    app.run_command("global-search:open");
+    app.settle();
+    let state = app.call("state", json!({}));
+    assert_eq!(
+        state["docks"]["left"]["tab"], "search",
+        "the dock did not open on the Search tab: {state:?}"
+    );
+    let focus = app.focused();
+    assert_eq!(
+        focus["name"], "search-input",
+        "the dock's field does not hold the keyboard: {focus:?}"
+    );
+
+    // The index has to be there before the query runs over it.
+    app.loaded();
+    app.call("type", json!({"text": "alpha"}));
+    let dock = wait_for_files(&mut app, 1);
+    assert_eq!(
+        dock["query"], "alpha",
+        "the query never reached the field: {dock:?}"
+    );
+    assert_eq!(
+        dock["files"], 1,
+        "the query did not narrow the dock to one note: {dock:?}"
+    );
+    assert_eq!(
+        dock["results"][0]["path"], "Alpha.md",
+        "the note left is not the one holding the term: {dock:?}"
+    );
+
+    // Back to an empty field, then the other note's term: the dock answers
+    // with that note instead, which is the filter at work rather than a
+    // list that happens to hold one row.
+    app.call(
+        "keys",
+        json!({"keys": ["backspace", "backspace", "backspace", "backspace", "backspace"]}),
+    );
+    let dock = wait_for_files(&mut app, 0);
+    assert_eq!(
+        dock["query"], "",
+        "backspace did not empty the field: {dock:?}"
+    );
+    app.call("type", json!({"text": "beta"}));
+    let dock = wait_for_files(&mut app, 1);
+    assert_eq!(
+        dock["files"], 1,
+        "the second term did not narrow the dock: {dock:?}"
+    );
+    assert_eq!(
+        dock["results"][0]["path"], "Beta.md",
+        "the note left is not the one holding the second term: {dock:?}"
+    );
+}
+
+/// A layout change reaches `workspace.json` and comes back: a split makes a
+/// second group, closing the app writes the record, and a relaunch reads it
+/// back as the split it was rather than the single group a fresh vault
+/// opens with.
+#[test]
+fn a_split_layout_comes_back_from_workspace_json_on_relaunch() {
+    if !e2e_enabled() {
+        eprintln!("skipped: no display available for the graphical end-to-end tests");
+        return;
+    }
+    let _serial = serial();
+    let vault = Vault::new();
+    let mut app = match App::launch(&vault.root) {
+        Some(a) => a,
+        None => {
+            eprintln!("skipped: no graphical session to launch silica in");
+            return;
+        }
+    };
+    app.settle();
+    app.loaded();
+    app.call("open_path", json!({"path": "Note.md"}));
+    app.settle();
+    app.run_command("workspace:split-vertical");
+    app.settle();
+    let groups = app.groups();
+    assert_eq!(
+        groups["items"].as_array().map(Vec::len),
+        Some(2),
+        "the split made no second group: {groups:?}"
+    );
+    assert_eq!(
+        groups["layout"]["direction"], "vertical",
+        "the split is not the one asked for: {groups:?}"
+    );
+    assert_eq!(
+        groups["layout"]["children"].as_array().map(Vec::len),
+        Some(2),
+        "the split has no two leaves: {groups:?}"
+    );
+
+    // Quitting is what writes `workspace.json`: killing the process would
+    // leave the record unwritten.
+    app.quit();
+
+    let saved = fs::read_to_string(vault.root.join(".obsidian").join("workspace.json"))
+        .expect("workspace.json was written on the way out");
+    let record: Value = serde_json::from_str(&saved).expect("the layout record is JSON");
+    assert_eq!(
+        record["main"]["type"], "split",
+        "the record holds no split: {record:?}"
+    );
+    assert_eq!(
+        record["main"]["direction"], "vertical",
+        "the record's split is not the one asked for: {record:?}"
+    );
+    assert_eq!(
+        record["main"]["children"].as_array().map(Vec::len),
+        Some(2),
+        "the record's split has no two leaves: {record:?}"
+    );
+
+    // The same vault, launched again: the split comes back off the record.
+    let mut app = match App::launch(&vault.root) {
+        Some(a) => a,
+        None => {
+            eprintln!("skipped: no graphical session to launch silica in");
+            return;
+        }
+    };
+    app.settle();
+    let groups = app.groups();
+    assert_eq!(
+        groups["items"].as_array().map(Vec::len),
+        Some(2),
+        "the relaunch restored no split: {groups:?}"
+    );
+    assert_eq!(
+        groups["layout"]["children"].as_array().map(Vec::len),
+        Some(2),
+        "the relaunch's layout has no two leaves: {groups:?}"
+    );
+    let state = app.call("state", json!({"text": true}));
+    assert_eq!(
+        state["file"]["path"], "Note.md",
+        "the relaunch opened no note: {state:?}"
+    );
+    assert_eq!(app.text(), "original\n", "the restored note lost its bytes");
 }

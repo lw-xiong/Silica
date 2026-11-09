@@ -29,6 +29,7 @@ use gpui::{
 use rayon::prelude::*;
 use serde_json::{json, Value};
 use silica_cache::{all_tags, CachedMetadata};
+use silica_markdown::html::render_html;
 use silica_search::{
     context_window, match_lines, natural_cmp, parse, MatchLine, Query, Search, SearchFile, TaskLine,
 };
@@ -43,6 +44,9 @@ pub struct FileResult {
     pub name: String,
     /// Hit ranges inside `name`, when the query matched the file name.
     pub name_ranges: Vec<Range<usize>>,
+    /// Rendered preview of the note's text: markdown → text, capped at
+    /// `PREVIEW_MAX` chars with an ellipsis, shown under the file name.
+    pub preview: String,
     pub matches: Vec<MatchLine>,
     /// Every hit range in the note's text, for the context a row grows
     /// into when it is asked for more.
@@ -137,6 +141,9 @@ const FILE_ROW_HEIGHT: f32 = 25.;
 const HOVER_ALPHA: f32 = 0.33;
 /// The accent at a tenth: the wash behind an active header button.
 const ACTIVE_ALPHA: f32 = 0.1;
+/// The most rendered characters a result row's preview line may show; a
+/// longer preview is cut with a trailing ellipsis.
+const PREVIEW_MAX: usize = 200;
 
 pub struct SearchPane {
     input: Entity<TextInput>,
@@ -936,6 +943,7 @@ impl SearchPane {
         cx: &mut Context<Self>,
     ) -> gpui::AnyElement {
         let file = &self.results[ix];
+        let preview = file.preview.clone();
         let collapsed = self.is_collapsed(&file.path);
         let path = file.path.clone();
         let name = StyledText::new(SharedString::from(file.name.clone()))
@@ -964,7 +972,7 @@ impl SearchPane {
             .id(("search-file", row_ix))
             .relative()
             .w_full()
-            .h(px(FILE_ROW_HEIGHT))
+            .min_h(px(FILE_ROW_HEIGHT))
             .mb(px(2.))
             .pl(px(24.))
             .pr(px(8.))
@@ -1012,12 +1020,29 @@ impl SearchPane {
                 div()
                     .flex_1()
                     .min_w_0()
-                    .text_size(px(FONT_UI_SMALL))
-                    .text_color(theme.text)
-                    .whitespace_nowrap()
-                    .overflow_hidden()
-                    .text_ellipsis()
-                    .child(name),
+                    .flex()
+                    .flex_col()
+                    .gap(px(1.))
+                    .child(
+                        div()
+                            .text_size(px(FONT_UI_SMALL))
+                            .text_color(theme.text)
+                            .whitespace_nowrap()
+                            .overflow_hidden()
+                            .text_ellipsis()
+                            .child(name),
+                    )
+                    .when(!preview.is_empty(), |col| {
+                        col.child(
+                            div()
+                                .text_size(px(FONT_UI_SMALLER))
+                                .text_color(theme.text_faint)
+                                .whitespace_nowrap()
+                                .overflow_hidden()
+                                .text_ellipsis()
+                                .child(SharedString::from(preview)),
+                        )
+                    }),
             )
             .children(replace_btn)
             .child(
@@ -1956,6 +1981,7 @@ pub fn run_search(search: &Search, state: &VaultState) -> Vec<FileResult> {
                 blocks: &blocks,
                 sections: &sections,
                 tasks: &tasks,
+                pages: &[],
             };
             let hits = search.matches(&file)?;
             let name = path
@@ -1968,6 +1994,7 @@ pub fn run_search(search: &Search, state: &VaultState) -> Vec<FileResult> {
                 path: path.to_string(),
                 name: name.to_string(),
                 name_ranges: clamp(&hits.name, name.len()),
+                preview: preview_of(&text),
                 matches: match_lines(text_ref, &hits.content),
                 hits: hits.content.clone(),
                 mtime,
@@ -2231,6 +2258,70 @@ pub fn apply_replacements(
     out
 }
 
+fn preview_of(text: &str) -> String {
+    let head: String = text.chars().take(2000).collect();
+    if head.is_empty() {
+        return String::new();
+    }
+    let doc = silica_markdown::parse(&head);
+    let html = render_html(&doc);
+    let mut out = String::new();
+    html_to_text(&html, &mut out);
+    let out = unescape_html(&collapse_ws(&out));
+    if out.len() > PREVIEW_MAX {
+        let cut = out
+            .char_indices()
+            .nth(PREVIEW_MAX)
+            .map_or(out.len(), |(i, _)| i);
+        format!("{}…", &out[..cut])
+    } else {
+        out
+    }
+}
+
+/// Appends the visible text of `html` to `out`: markup between `<` and `>`
+/// is dropped, everything else is kept as written.
+fn html_to_text(html: &str, out: &mut String) {
+    let mut in_tag = false;
+    for ch in html.chars() {
+        match ch {
+            '<' => in_tag = true,
+            '>' => in_tag = false,
+            c if !in_tag => out.push(c),
+            _ => {}
+        }
+    }
+}
+
+/// Collapses every run of whitespace to a single space, skipping leading and
+/// trailing whitespace, so the preview reads as a single line.
+fn collapse_ws(s: &str) -> String {
+    let mut out = String::with_capacity(s.len());
+    let mut last_space = true;
+    for ch in s.chars() {
+        if ch.is_whitespace() {
+            last_space = true;
+        } else {
+            if last_space && !out.is_empty() {
+                out.push(' ');
+            }
+            out.push(ch);
+            last_space = false;
+        }
+    }
+    out
+}
+
+/// Decodes the HTML entities the markdown renderer escapes in text, so the
+/// preview shows `& < > "` rather than `&amp; &lt; &gt; &quot;`.
+fn unescape_html(s: &str) -> String {
+    s.replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&#39;", "\'")
+        .replace("&nbsp;", " ")
+}
 #[cfg(test)]
 #[allow(clippy::single_range_in_vec_init)]
 mod tests {
@@ -2246,6 +2337,7 @@ mod tests {
             path: path.to_string(),
             name: name.to_string(),
             name_ranges: Vec::new(),
+            preview: String::new(),
             matches: Vec::new(),
             hits: Vec::new(),
             mtime: 0,

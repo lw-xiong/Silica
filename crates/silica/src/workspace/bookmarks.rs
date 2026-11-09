@@ -5,6 +5,8 @@
 
 use super::*;
 
+use crate::search::{menu, menu_item};
+
 impl Workspace {
     /// Opens "Add bookmark" for a draft: the Title field, empty, with the
     /// name the bookmark gets without one as its placeholder.
@@ -761,6 +763,7 @@ impl Workspace {
                     .flex()
                     .flex_row()
                     .gap(px(2.))
+                    .relative()
                     .child(
                         icon_button("graph", "git-fork", theme)
                             .when(view.mode == ViewMode::Graph, |d| d.bg(theme.bg_active))
@@ -799,8 +802,69 @@ impl Workspace {
                                 }),
                             ))
                         })
+                    })
+                    // * The ellipsis: "More options" — pin tab, copy path,
+                    //   close. The menu opens under the button and closes
+                    //   again on a pick or on the ellipsis itself.
+                    .child(
+                        icon_button("more-options", "ellipsis-vertical", theme)
+                            .tooltip(crate::canvas::menu::tooltip("More options"))
+                            .on_click(cx.listener(move |this, _, _, cx| {
+                                this.toggle_header_more_options(cx);
+                            })),
+                    )
+                    .when(self.header_more_options, |d| {
+                        d.child(
+                            div()
+                                .id(("header-more-options", id))
+                                .absolute()
+                                .top_0()
+                                .right_0()
+                                .size_0()
+                                .child(self.render_header_menu(view, theme, cx)),
+                        )
                     }),
             )
+    }
+
+    /// "More options" under the header's ellipsis: pin the active tab of
+    /// the group, copy its path, close the tab. A pick runs its command
+    /// and closes the menu again.
+    fn render_header_menu(
+        &self,
+        view: &GroupView,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> gpui::AnyElement {
+        let pinned = view.tabs.get(view.active_tab).is_some_and(|tab| tab.pinned);
+        let pin_label = if pinned { "Unpin tab" } else { "Pin tab" };
+
+        let mut list = menu("header-more-options-menu", theme);
+        for (ix, (label, command, icon_name)) in [
+            (pin_label, "silica:pin-tab", "pin"),
+            ("Copy path", "workspace:copy-path", "copy"),
+            ("Close", "workspace:close", "x"),
+        ]
+        .into_iter()
+        .enumerate()
+        {
+            list = list.child(
+                menu_item(
+                    "header-more-options-item",
+                    ix,
+                    Some(icon_name),
+                    label,
+                    false,
+                    theme,
+                )
+                .on_mouse_down(gpui::MouseButton::Left, |_, _, cx| cx.stop_propagation())
+                .on_click(cx.listener(move |this, _, window, cx| {
+                    this.toggle_header_more_options(cx);
+                    this.run_command(command, window, cx);
+                })),
+            );
+        }
+        list.into_any_element()
     }
 
     /// The view header's title, Obsidian's `.view-header-title`: a field

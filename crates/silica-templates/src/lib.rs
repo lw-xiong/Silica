@@ -12,9 +12,11 @@
 //! the crate needs no dependency for one.
 
 pub mod expand;
+pub mod gallery;
 pub mod moment;
 pub mod stamp;
 
 pub use expand::{expand, Context, DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT};
+pub use gallery::{find, install, GalleryTemplate, GALLERY};
 pub use moment::{format, unsupported_tokens};
 pub use stamp::Stamp;

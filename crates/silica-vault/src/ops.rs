@@ -102,7 +102,11 @@ fn why(err: &std::io::Error) -> &'static str {
 }
 
 pub fn io_error(action: &'static str, path: PathBuf, source: std::io::Error) -> OpError {
-    OpError::Io { action, path, source }
+    OpError::Io {
+        action,
+        path,
+        source,
+    }
 }
 
 pub fn io<'p>(action: &'static str, path: &'p Path) -> impl FnOnce(std::io::Error) -> OpError + 'p {
@@ -198,8 +202,7 @@ pub fn backup_vault(root: &Path, backups: &Path, keep: usize) -> Result<BackupRe
     // * Mark the backup complete only after every file copied: a torn run
     //   (crash, power loss, drive unmounted mid-copy) leaves no marker, so
     //   prune can tell a useless half-copy from a good one.
-    std::fs::File::create(dest.join(".complete"))
-        .map_err(io("create completion marker", &dest))?;
+    std::fs::File::create(dest.join(".complete")).map_err(io("create completion marker", &dest))?;
     // fsync the directory so the marker and its entries are durable.
     let dir = std::fs::File::open(&dest).map_err(io("open backup dir", &dest))?;
     dir.sync_all().map_err(io("sync backup dir", &dest))?;
@@ -543,7 +546,8 @@ impl Vault {
             return Err(OpError::InvalidName("Cannot move a folder into itself."));
         }
         if let Some(parent) = Path::new(to).parent() {
-            create_dir_all_at(&self.root, parent).map_err(io("create folder", &self.root.join(parent)))?;
+            create_dir_all_at(&self.root, parent)
+                .map_err(io("create folder", &self.root.join(parent)))?;
         }
         let moved = self.rename_plan(from, to);
         std::fs::rename(&from_abs, &to_abs).map_err(io("rename", &from_abs))?;

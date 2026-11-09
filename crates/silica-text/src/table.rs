@@ -534,6 +534,26 @@ mod tests {
     }
 
     #[test]
+    fn row_and_col_duplicate_keep_separator_and_alignment_row() {
+        // * Duplikasi baris dan kolom menyalin isi sel termasuk sel pada baris
+        // * pemisah (alignment); baris pemisah tetap ada tepat satu, di bawah
+        // * header, dan tidak pernah duplikasi itu sendiri.
+        let aligned = "| A | B | C |\n| :-- | :-: | --: |\n| 1 | 2 | 3 |\n| 4 | 5 | 6 |\n";
+        assert_eq!(
+            run(aligned, "2", TableCommand::RowDuplicate),
+            "| A   |  B  |   C |\n| :-- | :-: | --: |\n| 1   |  2  |   3 |\n| 1   |  2  |   3 |\n| 4   |  5  |   6 |\n"
+        );
+        assert_eq!(
+            run(aligned, "4", TableCommand::RowDuplicate),
+            "| A   |  B  |   C |\n| :-- | :-: | --: |\n| 1   |  2  |   3 |\n| 4   |  5  |   6 |\n| 4   |  5  |   6 |\n"
+        );
+        assert_eq!(
+            run(aligned, "B", TableCommand::ColDuplicate),
+            "| A   |  B  |  B  |   C |\n| :-- | :-: | :-: | --: |\n| 1   |  2  |  2  |   3 |\n| 4   |  5  |  5  |   6 |\n"
+        );
+    }
+
+    #[test]
     fn alignment_sets_the_delimiter_and_repads_the_column() {
         assert_eq!(
             run(PADDED, "B", TableCommand::AlignLeft),

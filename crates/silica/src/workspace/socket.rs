@@ -159,9 +159,14 @@ impl Workspace {
                 RightTab::Backlinks => "backlinks",
                 RightTab::Outgoing => "outgoing",
                 RightTab::Outline => "outline",
+                RightTab::Footnotes => "footnotes",
                 RightTab::Graph => "graph",
+                RightTab::LocalGraph => "local-graph",
                 RightTab::Tags => "tags",
                 RightTab::Properties => "properties",
+                RightTab::Calendar => "calendar",
+                RightTab::FileRecovery => "file-recovery",
+                RightTab::Tasks => "tasks",
             }),
         );
         put_capped(
@@ -374,7 +379,22 @@ impl Workspace {
                 Some(PendingOp::RenameTag { from }) => {
                     json!({"op": "rename-tag", "from": from})
                 }
+                Some(PendingOp::RenameProperty { from }) => {
+                    json!({"op": "rename-property", "from": from})
+                }
+                Some(PendingOp::SetPropertyType { key }) => {
+                    json!({"op": "set-property-type", "key": key})
+                }
+                Some(PendingOp::DeleteProperty { key }) => {
+                    json!({"op": "delete-property", "key": key})
+                }
                 Some(PendingOp::ExportSite) => json!({"op": "export-site"}),
+                Some(PendingOp::DeleteAttachments { path }) => {
+                    json!({"op": "delete-attachments", "path": path})
+                }
+                Some(PendingOp::SaveWorkspace) => json!({"op": "save-workspace"}),
+                Some(PendingOp::LoadWorkspace) => json!({"op": "load-workspace"}),
+                Some(PendingOp::DeleteWorkspace) => json!({"op": "delete-workspace"}),
             },
         );
         Value::Object(modal)

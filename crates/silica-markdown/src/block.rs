@@ -55,6 +55,10 @@ pub(crate) enum RawKind<'a> {
     },
     HtmlBlock {
         content: Cow<'a, str>,
+        /// CommonMark HTML block kind (1–8): 1 raw (`script`/`style`/`textarea`),
+        /// 2 comment, 6 block tag (`div`…), 8 preformatted (`pre`). The
+        /// reading view promotes only 6 and 8; everything else stays source.
+        kind: u8,
     },
     BlockQuote {
         children: Vec<RawBlock<'a>>,
@@ -719,8 +723,9 @@ impl<'a, 'o> BlockParser<'a, 'o> {
                     content: self.join_raw_lines(&lines),
                 }
             }
-            NodeKind::HtmlBlock { lines, .. } => RawKind::HtmlBlock {
+            NodeKind::HtmlBlock { lines, kind } => RawKind::HtmlBlock {
                 content: self.join_raw_lines(&lines),
+                kind,
             },
             NodeKind::BlockQuote { header } => {
                 let children = node.children;
@@ -984,7 +989,7 @@ impl<'a, 'o> BlockParser<'a, 'o> {
         } else if self.tip().accepts_lines() {
             self.add_line();
             if let NodeKind::HtmlBlock { kind, .. } = self.tip().kind {
-                if (1..=5).contains(&kind)
+                if ((1..=5).contains(&kind) || kind == 8)
                     && scan::html_block_end(kind, &self.src[self.offset..self.line.end])
                 {
                     self.extend_open_spans(self.open.len());

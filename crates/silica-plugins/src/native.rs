@@ -63,6 +63,13 @@ pub struct PluginContext<'a> {
     /// success or failure. Without this the work was done and the result was
     /// dropped on the floor.
     pub notify: NoticeSink<'a>,
+    /// Insert text at the cursor(s) of the active editor: how a command
+    /// reaches the open note without writing the vault file itself.
+    ///
+    /// The app drains the insert queue after the command runs, so this is a
+    /// plain `Fn` closure carrying no captures.
+    #[allow(clippy::type_complexity)]
+    pub insert_text: Box<dyn Fn(&str) -> Result<(), String> + 'a>,
 }
 
 /// A plugin Silica runs in-process: no bridge, no sandbox, no QuickJS.

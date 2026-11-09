@@ -296,6 +296,7 @@ fn collect_inlines(inlines: &[Inline<'_>], out: &mut Vec<(Span, HighlightKind)>)
             InlineKind::Text(_) | InlineKind::SoftBreak | InlineKind::HardBreak => None,
             InlineKind::Code(_) => Some(HighlightKind::Code),
             InlineKind::Html(_) => Some(HighlightKind::Html),
+            InlineKind::HtmlInline { .. } => Some(HighlightKind::Html),
             InlineKind::Emphasis(c) => {
                 collect_inlines(c, out);
                 Some(HighlightKind::Emphasis)

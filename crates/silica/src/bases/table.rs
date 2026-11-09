@@ -148,7 +148,7 @@ impl BasesView {
         };
         let (lines, widths, stretch_last) = match self.table() {
             Some(table) => (
-                lines_for(table, grouped),
+                lines_for(table, grouped, &[]),
                 column_widths(&table.columns, &layout),
                 stretches_last(&table.columns, &layout),
             ),
@@ -565,7 +565,7 @@ mod tests {
             }],
         );
         assert_eq!(
-            lines_for(&table, false),
+            lines_for(&table, false, &[]),
             vec![
                 Line::Row { group: None, ix: 0 },
                 Line::Row { group: None, ix: 1 },
@@ -595,7 +595,7 @@ mod tests {
             ],
         );
         assert_eq!(
-            lines_for(&table, true),
+            lines_for(&table, true, &[]),
             vec![
                 Line::Group(0),
                 Line::Row {
@@ -626,7 +626,7 @@ mod tests {
     fn a_grouped_view_with_no_groups_falls_back_to_the_flat_rows() {
         let table = table_of(vec![row("A.md")], Vec::new());
         assert_eq!(
-            lines_for(&table, true),
+            lines_for(&table, true, &[]),
             vec![Line::Row { group: None, ix: 0 }]
         );
     }

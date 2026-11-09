@@ -31,6 +31,21 @@ impl Workspace {
                 return;
             }
         };
+        self.restore_layout_value(layout, state, window, cx);
+    }
+
+    /// Puts a layout document on screen: the groups and their tabs, the
+    /// sidebars, the open note. The vault's own `workspace.json` comes
+    /// through here at startup; a named layout loaded out of
+    /// `workspaces.json` comes through here the same way, whichever file
+    /// it was read from.
+    pub(crate) fn restore_layout_value(
+        &mut self,
+        layout: Value,
+        state: &Arc<VaultState>,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.layout_restored = true;
         if let Some((sort, auto_reveal)) = explorer_leaf_state(&layout) {
             self.explorer
@@ -144,8 +159,10 @@ impl Workspace {
             Some("outgoing-link") => self.right_tab = RightTab::Outgoing,
             Some("outline") => self.right_tab = RightTab::Outline,
             Some("graph") => self.right_tab = RightTab::Graph,
+            Some("local-graph") => self.right_tab = RightTab::LocalGraph,
             Some("tag") => self.right_tab = RightTab::Tags,
             Some("all-properties") => self.right_tab = RightTab::Properties,
+            Some("calendar") => self.right_tab = RightTab::Calendar,
             _ => {}
         }
         self.layout = Some(layout);
@@ -505,5 +522,185 @@ impl Workspace {
             self.save_folds(&path, cx);
         }
         self.save_layout(cx);
+    }
+
+    /// `silica:workspace-save`: asks what to call the layout on screen.
+    /// The field has no suggestion list on purpose: Enter with a list
+    /// open picks the marked row instead of what was typed, and this one
+    /// takes the name as typed.
+    pub(crate) fn save_workspace_prompt(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        if self.state.is_none() {
+            self.report("Workspace layouts: no vault is open", cx);
+            return;
+        }
+        self.open_prompt(
+            PendingOp::SaveWorkspace,
+            PromptSpec {
+                title: "Save workspace layout".into(),
+                detail: Some(
+                    "The panes and tabs open now are recorded under the name you type.".into(),
+                ),
+                input: Some(String::new()),
+                placeholder: "Workspace name".into(),
+                confirm: "Save".into(),
+                ..PromptSpec::default()
+            },
+            window,
+            cx,
+        );
+    }
+
+    /// The name the prompt collected: record the layout the session would
+    /// have written under it, or say why the name will not do and keep the
+    /// prompt open.
+    pub(crate) fn commit_workspace_save(
+        &mut self,
+        name: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        let Some(name) = crate::workspaces::normalized_name(name) else {
+            self.prompt
+                .update(cx, |p, cx| p.set_error("Give the workspace a name.", cx));
+            return;
+        };
+        let Some(state) = self.state.clone() else {
+            self.close_modal(window, cx);
+            return;
+        };
+        let layout = self.layout_json(cx);
+        match state.save_workspace(&name, &layout) {
+            Ok(()) => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                self.report(format!("Saved workspace layout {name}"), cx);
+            }
+            Err(err) => self.prompt.update(cx, |p, cx| p.set_error(err, cx)),
+        }
+    }
+
+    /// The prompt over the saved names: `silica:workspace-load` with Load
+    /// as the answer, `silica:workspace-delete` with Delete. Enter takes
+    /// the marked row, the way every other prompt with a list does.
+    fn workspace_names_prompt(
+        &mut self,
+        title: &str,
+        detail: &str,
+        confirm: &str,
+        op: PendingOp,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        let Some(state) = self.state.clone() else {
+            self.report("Workspace layouts: no vault is open", cx);
+            return;
+        };
+        let names: Vec<String> = match state.workspaces() {
+            Ok(store) => store.names().iter().map(|n| n.to_string()).collect(),
+            Err(err) => {
+                self.report(format!("Workspace layouts could not be read: {err}"), cx);
+                return;
+            }
+        };
+        if names.is_empty() {
+            self.report("No workspace layouts saved yet.", cx);
+            return;
+        }
+        self.open_prompt(
+            op,
+            PromptSpec {
+                title: title.into(),
+                detail: Some(detail.into()),
+                input: Some(String::new()),
+                placeholder: "Workspace name".into(),
+                confirm: confirm.into(),
+                suggestions: names,
+                ..PromptSpec::default()
+            },
+            window,
+            cx,
+        );
+    }
+
+    /// `silica:workspace-load`: the saved layouts, one Enter away.
+    pub(crate) fn load_workspace_prompt(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self.workspace_names_prompt(
+            "Load workspace layout",
+            "The panes and tabs switch to the layout you pick.",
+            "Load",
+            PendingOp::LoadWorkspace,
+            window,
+            cx,
+        );
+    }
+
+    /// `silica:workspace-delete`: the saved layouts, with Delete as the
+    /// answer.
+    pub(crate) fn delete_workspace_prompt(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self.workspace_names_prompt(
+            "Delete workspace layout",
+            "The layout you pick is taken out of the vault's workspaces.json.",
+            "Delete",
+            PendingOp::DeleteWorkspace,
+            window,
+            cx,
+        );
+    }
+
+    /// The name the prompt picked: switch the session to that layout.
+    pub(crate) fn commit_workspace_load(
+        &mut self,
+        name: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        let Some(state) = self.state.clone() else {
+            self.close_modal(window, cx);
+            return;
+        };
+        let name = name.trim();
+        let layout = match state.workspaces() {
+            Ok(store) => match store.layout(name) {
+                Some(layout) => layout,
+                None => {
+                    self.prompt.update(cx, |p, cx| {
+                        p.set_error(format!("No saved workspace layout named {name}"), cx)
+                    });
+                    return;
+                }
+            },
+            Err(err) => {
+                self.prompt.update(cx, |p, cx| p.set_error(err, cx));
+                return;
+            }
+        };
+        self.pending = None;
+        self.close_modal(window, cx);
+        // * The note on screen keeps its edits: its buffer is flushed the
+        //   way a quit would, before the leaves that hold it are replaced.
+        self.flush_save(cx);
+        self.restore_layout_value(layout, &state, window, cx);
+        self.report(format!("Loaded workspace layout {name}"), cx);
+    }
+
+    /// The name the prompt picked: take that layout out of the vault.
+    pub(crate) fn commit_workspace_delete(
+        &mut self,
+        name: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        let Some(state) = self.state.clone() else {
+            self.close_modal(window, cx);
+            return;
+        };
+        match state.delete_workspace(name.trim()) {
+            Ok(()) => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                self.report(format!("Deleted workspace layout {}", name.trim()), cx);
+            }
+            Err(err) => self.prompt.update(cx, |p, cx| p.set_error(err, cx)),
+        }
     }
 }

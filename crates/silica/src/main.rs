@@ -20,7 +20,10 @@ mod copy_results;
 mod css_watcher;
 mod editor;
 mod explorer;
+mod export_pdf;
+mod file_recovery;
 mod fold;
+mod footnotes;
 mod graph;
 mod help;
 mod history;
@@ -43,6 +46,7 @@ mod prompt;
 mod properties;
 mod quick_capture;
 mod reading;
+mod reminder;
 mod search;
 mod settings;
 mod site;
@@ -56,6 +60,7 @@ mod vaults;
 mod video;
 mod watch;
 mod workspace;
+mod workspaces;
 
 use crate::css_watcher::CssWatcher;
 use gpui::{

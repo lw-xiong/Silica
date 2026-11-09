@@ -8,10 +8,6 @@
 
 use super::layout::{Forces, Layout};
 use crate::canvas::menu::tooltip;
-/// Shaped node label lines, keyed by (label, colour, font family). The
-/// graph paints at one fixed font size, so those three are the whole
-/// shaping input and a shaped line outlives any single paint.
-type LabelCache = Arc<Mutex<HashMap<(String, [u32; 4], SharedString), ShapedLine>>>;
 use crate::search::inputs;
 use crate::text_input::{InputEvent, TextInput};
 use crate::theme::Theme;
@@ -22,7 +18,7 @@ use gpui::{
     MouseDownEvent, MouseMoveEvent, MouseUpEvent, PathBuilder, Pixels, Point, ScrollWheelEvent,
     ShapedLine, SharedString, Subscription, Task, TextAlign, Window,
 };
-use serde_json::{json, Value};
+use serde_json::{json, Map, Value};
 use silica_formats::config::{GraphColor, GraphColorGroup, GraphConfig};
 use silica_formats::FileKind;
 use silica_search::{Search, SearchFile};
@@ -31,6 +27,23 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 mod render;
+
+/// The forces the config names, with `graph.json`'s defaults for the keys
+/// it leaves out.
+pub(super) fn forces(config: &GraphConfig) -> Forces {
+    let d = Forces::default();
+    Forces {
+        center: config.center_strength.unwrap_or(d.center),
+        repel: config.repel_strength.unwrap_or(d.repel),
+        link: config.link_strength.unwrap_or(d.link),
+        link_distance: config.link_distance.unwrap_or(d.link_distance),
+    }
+}
+
+/// Shaped node label lines, keyed by (label, colour, font family). The
+/// graph paints at one fixed font size, so those three are the whole
+/// shaping input and a shaped line outlives any single paint.
+pub(super) type LabelCache = Arc<Mutex<HashMap<(String, [u32; 4], SharedString), ShapedLine>>>;
 
 /// How long after the last change the panel waits before writing
 /// `graph.json`; Obsidian's writes landed about a third of a second after a
@@ -220,7 +233,7 @@ pub(crate) fn full_document(config: &GraphConfig) -> Value {
     };
     let mut groups = json!(config.color_groups);
     integerize(&mut groups);
-    json!({
+    let mut doc = json!({
         "collapse-filter": collapsed("collapse-filter"),
         "search": config.search.clone().unwrap_or_default(),
         "showTags": config.show_tags.unwrap_or(false),
@@ -241,7 +254,17 @@ pub(crate) fn full_document(config: &GraphConfig) -> Value {
         "linkDistance": number(config.link_distance, json!(250)),
         "scale": number(config.scale, json!(1)),
         "close": config.close.unwrap_or(false),
-    })
+    });
+    if let Some(positions) = &config.node_positions {
+        if !positions.is_empty() {
+            if let Some(map) = doc.as_object_mut() {
+                let mut positions = json!(positions);
+                integerize(&mut positions);
+                map.insert("nodePositions".into(), positions);
+            }
+        }
+    }
+    doc
 }
 
 /// The config as a value to merge into an existing `graph.json`. The
@@ -291,10 +314,31 @@ pub struct Node {
 }
 
 /// Nodes and edges ready for layout, built off the UI thread.
-struct Built {
-    nodes: Vec<Node>,
-    edges: Vec<(u32, u32)>,
-    neighbors: Vec<Vec<usize>>,
+pub(super) struct Built {
+    pub(super) nodes: Vec<Node>,
+    pub(super) edges: Vec<(u32, u32)>,
+    pub(super) neighbors: Vec<Vec<usize>>,
+}
+
+impl Built {
+    /// Attaches a finished layout, so what a pane holds is one value.
+    pub(super) fn into_layout(self, layout: Layout) -> Placed {
+        Placed {
+            nodes: self.nodes,
+            edges: self.edges,
+            neighbors: self.neighbors,
+            layout,
+        }
+    }
+}
+
+/// The node and edge lists with their layout, ready to be painted: what
+/// [`build`] returns plus a simulation run to settled.
+pub(super) struct Placed {
+    pub(super) nodes: Vec<Node>,
+    pub(super) edges: Vec<(u32, u32)>,
+    pub(super) neighbors: Vec<Vec<usize>>,
+    pub(super) layout: Layout,
 }
 
 pub enum GraphEvent {
@@ -559,13 +603,7 @@ impl GraphView {
     }
 
     fn forces(&self) -> Forces {
-        let d = Forces::default();
-        Forces {
-            center: self.config.center_strength.unwrap_or(d.center),
-            repel: self.config.repel_strength.unwrap_or(d.repel),
-            link: self.config.link_strength.unwrap_or(d.link),
-            link_distance: self.config.link_distance.unwrap_or(d.link_distance),
-        }
+        forces(&self.config)
     }
 
     /// Rebuilds nodes and edges from the cache on the background executor,
@@ -589,18 +627,7 @@ impl GraphView {
         // * Compile color groups only when config.color_groups changes —
         //   avoids recompiling 97+ regexes against every node on every rebuild.
         if self.cached_color_config != config.color_groups {
-            self.cached_color_groups = config
-                .color_groups
-                .iter()
-                .filter(|g| !g.query.trim().is_empty())
-                .filter_map(|g| {
-                    let search = Arc::new(Search::new(&g.query).ok()?);
-                    let rgb = g.color.rgb;
-                    let mut color: Hsla = gpui::rgb(rgb).into();
-                    color.a = g.color.a.clamp(0.0, 1.0);
-                    Some((search, color))
-                })
-                .collect();
+            self.cached_color_groups = color_groups(&config);
             self.cached_color_config = config.color_groups.clone();
         }
         let groups = self.cached_color_groups.clone();
@@ -648,9 +675,26 @@ impl GraphView {
         let mut layout = Layout::new(built.nodes.len(), built.edges.clone(), self.forces());
         for (i, node) in built.nodes.iter().enumerate() {
             layout.bodies[i].mass = 1.0 + (node.degree as f32).sqrt() * 0.5;
-            if let Some((x, y)) = old.get(&node.id) {
-                layout.bodies[i].x = *x;
-                layout.bodies[i].y = *y;
+            let saved: Option<(f32, f32)> = self
+                .config
+                .node_positions
+                .as_ref()
+                .and_then(|positions| positions.get(&node.id))
+                .and_then(|value| value.as_array())
+                .and_then(|array| {
+                    let mut items = array.iter();
+                    match (items.next(), items.next()) {
+                        (Some(x), Some(y)) if x.is_number() && y.is_number() => Some((
+                            x.as_f64().unwrap_or(0.0) as f32,
+                            y.as_f64().unwrap_or(0.0) as f32,
+                        )),
+                        _ => None,
+                    }
+                });
+            let pos = old.get(&node.id).copied().or(saved);
+            if let Some((x, y)) = pos {
+                layout.bodies[i].x = x;
+                layout.bodies[i].y = y;
             }
         }
         self.index = built
@@ -908,6 +952,22 @@ impl GraphView {
                 .get_mut(ix)
             {
                 b.pinned = false;
+            }
+            if drag.moved {
+                let pos = self
+                    .layout
+                    .lock()
+                    .unwrap_or_else(|e| e.into_inner())
+                    .bodies
+                    .get(ix)
+                    .map(|b| [b.x, b.y]);
+                if let Some(p) = pos {
+                    self.config
+                        .node_positions
+                        .get_or_insert_with(Map::new)
+                        .insert(self.nodes[ix].id.clone(), json!([p[0], p[1]]));
+                }
+                self.schedule_save(cx);
             }
             if !drag.moved && event.button == MouseButton::Left {
                 if let Some(node) = self.nodes.get(ix) {
@@ -1839,7 +1899,24 @@ fn frame(
     Some((scale, point(-cx * scale, -cy * scale)))
 }
 
-/// Builds the node and edge lists for the current filters.
+/// The color group queries of `config`, compiled once. First matching query
+/// wins, and a group with an empty query is dropped rather than kept as one
+/// that matches nothing.
+pub(super) fn color_groups(config: &GraphConfig) -> Vec<(Arc<Search>, Hsla)> {
+    config
+        .color_groups
+        .iter()
+        .filter(|g| !g.query.trim().is_empty())
+        .filter_map(|g| {
+            let search = Arc::new(Search::new(&g.query).ok()?);
+            let rgb = g.color.rgb;
+            let mut color: Hsla = gpui::rgb(rgb).into();
+            color.a = g.color.a.clamp(0.0, 1.0);
+            Some((search, color))
+        })
+        .collect()
+}
+
 /// A theme colour as `#rrggbb`, for the SVG the export writes.
 fn hex(color: gpui::Hsla) -> String {
     let rgba: gpui::Rgba = color.into();
@@ -1856,7 +1933,7 @@ fn hex(color: gpui::Hsla) -> String {
 // * every call. Bundling them into a struct would add a type whose only job
 // * is to be unpacked one line later.
 #[allow(clippy::too_many_arguments)]
-fn build(
+pub(super) fn build(
     state: &VaultState,
     config: &GraphConfig,
     local: Option<&str>,
@@ -1927,6 +2004,7 @@ fn build(
                 blocks: &blocks,
                 sections: &sections,
                 tasks: &tasks,
+                pages: &[],
             })
             .is_some()
     };
@@ -2059,6 +2137,7 @@ fn build(
                 blocks: &blocks,
                 sections: &sections,
                 tasks: &tasks,
+                pages: &[],
             };
             node.color = color_groups
                 .iter()
@@ -2261,6 +2340,38 @@ mod tests {
             let text = serde_json::to_string(&doc).unwrap();
             assert!(text.contains("\"a\":1,\"rgb\":15282503"), "{text}");
         }
+    }
+
+    /// A node dragged in one session has to come back where it was left in
+    /// the next, so the positions are written into `graph.json` and read
+    /// back into the same field: whole numbers keep no decimal point.
+    #[test]
+    fn a_dragged_node_position_survives_the_write_and_the_next_read() {
+        let mut positions = Map::new();
+        positions.insert("Note.md".into(), json!([100.0, 12.5]));
+        let config = GraphConfig {
+            node_positions: Some(positions),
+            ..GraphConfig::default()
+        };
+        for doc in [merge_document(&config), full_document(&config)] {
+            let text = serde_json::to_string(&doc).unwrap();
+            assert!(text.contains("\"nodePositions\""), "{text}");
+            assert!(text.contains("\"Note.md\":[100,12.5]"), "{text}");
+            let back: GraphConfig = serde_json::from_str(&text).unwrap();
+            let pair = back.node_positions.as_ref().unwrap()["Note.md"]
+                .as_array()
+                .unwrap();
+            assert_eq!(
+                (pair[0].as_f64().unwrap(), pair[1].as_f64().unwrap()),
+                (100.0, 12.5)
+            );
+        }
+        // * A `graph.json` written before positions existed stays readable.
+        let before: GraphConfig =
+            serde_json::from_str("{\"collapse-filter\":true,\"linkDistance\":250}").unwrap();
+        assert_eq!(before.node_positions, None);
+        assert_eq!(before.link_distance, Some(250.0));
+        assert_eq!(before.extra["collapse-filter"], json!(true));
     }
 
     #[test]

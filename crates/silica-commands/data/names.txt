@@ -230,7 +230,37 @@ webviewer:zoom-out	Web viewer: Zoom out
 webviewer:search	Web viewer: Search the web
 webviewer:save-to-vault	Web viewer: Save to vault
 silica:toggle-graph-pane	Toggle the graph side pane
+silica:pin-tab	Pin the active tab
 silica:vault-backup	Back up the vault to a local folder
+silica:calendar	Kalender
 silica:export-site	Export vault as site
+silica:footnotes	Footnotes view: Show footnotes
+silica:file-recovery	File recovery: Recover a note from a snapshot
+silica:export-pdf	Export active note to PDF
+silica:palette-verify	Verify the command palette
+silica:reminder-add	Reminder: add for the task at the cursor
+silica:template-gallery	Open the template gallery
+silica:voice-note	Voice note: Record audio and insert it into the active note
+silica:workspace-save	Save workspace layout
+silica:workspace-load	Load workspace layout
+silica:workspace-delete	Delete workspace layout
 quick-capture:open	Quick Capture: New note
 task-dashboard:open	Task Dashboard: Open
+silica:insert-image	Insert image
+silica:attach-file	Attach file
+silica:remove-attachment	Remove attachment
+silica:backlink-count	Backlinks: Count the notes linking here
+silica:outgoing-link-count	Outgoing links: Count this note's links
+silica:word-count	Word count: Show the current note's counts
+silica:slash-command	Slash commands: Insert a slash command
+silica:publish-vault	Publish: Export every note to HTML
+silica:slides-create	Slides: Turn this note into slides
+silica:daily-notes	Daily notes: Open today's note
+silica:insert-template	Templates: Insert a template
+silica:random-note	Random note: Open a random note
+silica:note-composer-merge	Note composer: Merge the current note
+silica:zk-prefixer	Unique note creator: Create a timestamped note
+silica:file-recovery-restore	File recovery: Restore a snapshot
+silica:bookmarks	Bookmarks: Bookmark the current note
+silica:tag-pane	Tag pane: Collect every tag in the vault
+silica:vault-doctor	Vault doctor: Write a health report

@@ -14,8 +14,8 @@ use crate::properties::{Field, Part, Target};
 use crate::workspace::VaultState;
 
 use super::{
-    Backspace, Copy, Cut, Delete, DeleteWordLeft, DeleteWordRight, Editor, EditorEvent, Newline,
-    NewlinePlain, Outdent, Paste, Redo, Tab, Undo,
+    attach, Backspace, Copy, Cut, Delete, DeleteWordLeft, DeleteWordRight, Editor, EditorEvent,
+    Newline, NewlinePlain, Outdent, Paste, Redo, Tab, Undo,
 };
 
 impl Editor {
@@ -419,5 +419,206 @@ impl Editor {
             return;
         };
         self.paste_files_attachment(&paths.0, &state, window, cx);
+    }
+
+    /// "Insert image...": the desktop's open dialog, restricted to pictures,
+    /// and each pick is stored in the vault and embedded at the cursor.
+    pub(crate) fn attach_image(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self.attach_from_disk(true, window, cx);
+    }
+
+    /// "Attach file...": the same dialog without the picture filter. An
+    /// embed of a PDF or a zip shows the file in the note, and a click
+    /// opens it.
+    pub(crate) fn attach_file(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self.attach_from_disk(false, window, cx);
+    }
+
+    /// Opens the dialog and hands what is picked to [`Editor::attach_paths`]
+    /// inside the window again: a cancelled dialog changes nothing.
+    fn attach_from_disk(&mut self, images_only: bool, window: &mut Window, cx: &mut Context<Self>) {
+        if self.name.is_empty() {
+            cx.emit(EditorEvent::Reported("Open a note first".into()));
+            return;
+        }
+        if self.suggest_vault.is_none() {
+            cx.emit(EditorEvent::Reported("Open a vault first".into()));
+            return;
+        }
+        let picked = cx.prompt_for_paths(gpui::PathPromptOptions {
+            files: true,
+            directories: false,
+            multiple: true,
+            prompt: Some(
+                if images_only {
+                    "Insert image"
+                } else {
+                    "Attach file"
+                }
+                .into(),
+            ),
+        });
+        cx.spawn_in(window, async move |this, cx| {
+            let paths = match picked.await {
+                Ok(Ok(Some(paths))) => paths,
+                Ok(Ok(None)) | Err(_) => return,
+                Ok(Err(err)) => {
+                    this.update(cx, |editor, cx| {
+                        cx.emit(EditorEvent::Reported(
+                            format!("Could not open the file dialog: {err}").into(),
+                        ));
+                        let _ = editor;
+                    })
+                    .ok();
+                    return;
+                }
+            };
+            this.update_in(cx, |editor, window, cx| {
+                editor.attach_paths(&paths, images_only, window, cx)
+            })
+            .ok();
+        })
+        .detach();
+    }
+
+    /// Stores each of `paths` in the vault, under its own name made free,
+    /// and embeds them at the cursor. A file that cannot be read, stored
+    /// or named is reported and skipped; the rest still land.
+    pub(crate) fn attach_paths(
+        &mut self,
+        paths: &[std::path::PathBuf],
+        images_only: bool,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        if paths.is_empty() || self.name.is_empty() {
+            return;
+        }
+        let Some(state) = self.suggest_vault.clone() else {
+            return;
+        };
+        let folder = silica_vault::ops::attachment_folder(
+            state.app().attachment_folder_path.as_deref(),
+            &self.name,
+        );
+        let mut embeds = Vec::new();
+        let mut all_changes = crate::workspace::Changes::default();
+        for path in paths {
+            if !path.is_file() {
+                continue;
+            }
+            let name = match attach::stored_name(path) {
+                Ok(name) => name,
+                Err(refused) => {
+                    cx.emit(EditorEvent::Reported(refused.message().into()));
+                    continue;
+                }
+            };
+            if images_only && !attach::is_image_name(&name) {
+                cx.emit(EditorEvent::Reported(
+                    format!("{name} is not an image").into(),
+                ));
+                continue;
+            }
+            let target = match attach::first_free(&folder, &name, |rel| state.vault().exists(rel)) {
+                Ok(target) => target,
+                Err(refused) => {
+                    cx.emit(EditorEvent::Reported(refused.message().into()));
+                    continue;
+                }
+            };
+            let bytes = match std::fs::read(path) {
+                Ok(bytes) => bytes,
+                Err(e) => {
+                    cx.emit(EditorEvent::Reported(
+                        format!("Could not read {}: {e}", path.display()).into(),
+                    ));
+                    continue;
+                }
+            };
+            match state.save_attachment(&target, &bytes) {
+                Ok(changes) => all_changes.extend(changes),
+                Err(e) => {
+                    cx.emit(EditorEvent::Reported(e.into()));
+                    continue;
+                }
+            }
+            let resolver = state.vault().link_resolver();
+            let written = silica_cache::links::link_path(
+                &resolver,
+                &target,
+                &self.name,
+                self.link_options.format,
+            );
+            embeds.push(attach::embed(&self.link_options, &written));
+        }
+        if embeds.is_empty() {
+            return;
+        }
+        if self.buf.paste(&embeds.join("\n")) {
+            self.after_edit(Some(window), cx, None);
+        }
+        if !all_changes.files.is_empty() {
+            cx.emit(EditorEvent::FilesChanged(all_changes));
+        }
+    }
+
+    /// The embed the cursor sits on, if any. The toolbar's "Remove" row is
+    /// only offered when this finds one, so the same question decides what
+    /// the button does and whether it can do it.
+    pub(crate) fn attachment_under_cursor(&self) -> Option<attach::Embed> {
+        if self.name.is_empty() {
+            return None;
+        }
+        attach::attachment_at(self.buf.text(), self.buf.selection().start)
+    }
+
+    /// "Remove attachment": the file behind the embed under the cursor goes
+    /// to the trash and the embed leaves the note with it. A toolbar that
+    /// is asked to remove one removes one.
+    pub(crate) fn remove_attachment(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let Some(state) = self.suggest_vault.clone() else {
+            return;
+        };
+        let Some(embed) = self.attachment_under_cursor() else {
+            cx.emit(EditorEvent::Reported(
+                "Put the cursor on an attachment to remove it".into(),
+            ));
+            return;
+        };
+        let Some(target) = attach::embed_target(&embed) else {
+            cx.emit(EditorEvent::Reported(
+                "That embed points at this note, not at a file".into(),
+            ));
+            return;
+        };
+        let resolver = state.vault().link_resolver();
+        let Some(path) = resolver.resolve(&target, &self.name).map(str::to_string) else {
+            cx.emit(EditorEvent::Reported(
+                format!("{target} is not a file in this vault").into(),
+            ));
+            return;
+        };
+        if state.vault().absolute(&path).is_dir() {
+            cx.emit(EditorEvent::Reported(
+                format!("{path} is a folder, not an attachment").into(),
+            ));
+            return;
+        }
+        let changes = match state.trash(&path) {
+            Ok(changes) => changes,
+            Err(e) => {
+                cx.emit(EditorEvent::Reported(e.into()));
+                return;
+            }
+        };
+        let range = attach::removal_range(self.buf.text(), embed.span);
+        self.edit_all(
+            vec![(range, String::new())],
+            EditKind::Other,
+            Some(window),
+            cx,
+        );
+        cx.emit(EditorEvent::FilesChanged(changes));
     }
 }

@@ -39,7 +39,7 @@ impl Plugin for VaultDoctor {
 
     fn commands(&self) -> Vec<NativeCommand> {
         vec![NativeCommand {
-            id: "vault-doctor:run".into(),
+            id: "silica:vault-doctor".into(),
             name: "Vault doctor: health report".into(),
         }]
     }
@@ -50,7 +50,7 @@ impl Plugin for VaultDoctor {
         _value: Option<&Value>,
         ctx: &PluginContext<'_>,
     ) -> Result<(), String> {
-        if id != "vault-doctor:run" {
+        if id != "silica:vault-doctor" {
             return Err(format!("'{id}' is not a command this plugin registered"));
         }
         let report = build_report(ctx)?;

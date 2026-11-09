@@ -364,16 +364,24 @@ impl<'a> Renderer<'a> {
                     )
                     .into_any_element()
             }
-            RBlock::Html(text) => {
-                // * Run every registered markdown post-processor so a plugin
+            RBlock::Html { text, kind } => {
+                // * Run every registered markdown post-processors so a plugin
                 //   can inspect the rendered output. The hook is in place;
                 //   the DOM element itself is not yet available to a native
                 //   renderer, so the callback receives no element.
                 let _ = live::run_all_post_processors();
-                // * Tags the renderer drew are prose now; a fragment it kept
-                //   as source carries the `html` style on its run, which is
-                //   what still paints it mono and muted.
-                div().mb(gap).child(self.rich(text)).into_any_element()
+                // * Source blocks (comments, scripts, unknown tags) keep
+                //   their raw text: its `html` run paints it monospace and
+                //   muted. `div` is drawn as a real block container; `pre`
+                //   keeps its newlines and stays monospace at the code-block
+                //   size, the way a `<pre>` block reads.
+                let mut block = div().mb(gap);
+                if matches!(kind, HtmlBlockKind::Pre) {
+                    block = block
+                        .font_family(t.mono_font.clone())
+                        .text_size(px(base * 0.875));
+                }
+                block.child(self.rich(text)).into_any_element()
             }
             RBlock::Quote(children) => div()
                 .mb(gap)
@@ -998,9 +1006,15 @@ impl<'a> Renderer<'a> {
         let t = self.theme;
         let base = t.base_font_size;
         let image = match &embed.kind {
-            EmbedKind::Image(path) => img(path.clone())
-                .max_w_full()
-                .object_fit(ObjectFit::Contain),
+            EmbedKind::Image(path) => {
+                let lost = path.clone();
+                img(path.clone())
+                    .max_w_full()
+                    .object_fit(ObjectFit::Contain)
+                    // * A file the vault holds no image for paints nothing at
+                    //   all: the fallback names it instead.
+                    .with_fallback(move || missing_image(&lost))
+            }
             EmbedKind::RemoteImage(url) => {
                 let err_url = url.clone();
                 let bg_sec = t.bg_secondary;
@@ -1037,9 +1051,14 @@ impl<'a> Renderer<'a> {
         let base = t.base_font_size;
         match &embed.kind {
             EmbedKind::Image(path) => {
+                let lost = path.clone();
                 let mut image = img(path.clone())
                     .max_w_full()
-                    .object_fit(ObjectFit::Contain);
+                    .object_fit(ObjectFit::Contain)
+                    // * The same fallback the inline image carries: a file the
+                    //   vault holds no image for names itself instead of
+                    //   painting nothing.
+                    .with_fallback(move || missing_image(&lost));
                 if let Some(w) = embed.width {
                     image = image.w(px(w));
                 }
@@ -1884,43 +1903,43 @@ impl<'a> Renderer<'a> {
     }
 
     /// Filter `InlineStyle` runs to those falling within `[start, end)`.
-fn filter_runs(
-    runs: &[(Range<usize>, InlineStyle)],
-    start: usize,
-    end: usize,
-) -> Vec<(Range<usize>, InlineStyle)> {
-    runs.iter()
-        .filter_map(|(r, s)| {
-            if r.end <= start || r.start >= end {
-                None
-            } else {
-                Some((r.start.max(start).min(end)..r.end.min(end), *s))
-            }
-        })
-        .collect()
-}
+    fn filter_runs(
+        runs: &[(Range<usize>, InlineStyle)],
+        start: usize,
+        end: usize,
+    ) -> Vec<(Range<usize>, InlineStyle)> {
+        runs.iter()
+            .filter_map(|(r, s)| {
+                if r.end <= start || r.start >= end {
+                    None
+                } else {
+                    Some((r.start.max(start).min(end)..r.end.min(end), *s))
+                }
+            })
+            .collect()
+    }
 
-/// Filter `LinkTarget` ranges to those falling within `[start, end)`.
-fn filter_links(
-    links: &[(Range<usize>, LinkTarget)],
-    start: usize,
-    end: usize,
-) -> Vec<(Range<usize>, LinkTarget)> {
-    links
-        .iter()
-        .filter_map(|(r, l)| {
-            if r.end <= start || r.start >= end {
-                None
-            } else {
-                Some((r.start.max(start).min(end)..r.end.min(end), l.clone()))
-            }
-        })
-        .collect()
-}
+    /// Filter `LinkTarget` ranges to those falling within `[start, end)`.
+    fn filter_links(
+        links: &[(Range<usize>, LinkTarget)],
+        start: usize,
+        end: usize,
+    ) -> Vec<(Range<usize>, LinkTarget)> {
+        links
+            .iter()
+            .filter_map(|(r, l)| {
+                if r.end <= start || r.start >= end {
+                    None
+                } else {
+                    Some((r.start.max(start).min(end)..r.end.min(end), l.clone()))
+                }
+            })
+            .collect()
+    }
 
-/// Inline content set at `size` pixels: one `InteractiveText`, with
-/// inline formulas typeset over placeholders when the text has any.
-pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
+    /// Inline content set at `size` pixels: one `InteractiveText`, with
+    /// inline formulas typeset over placeholders when the text has any.
+    pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
         // * Each `$x$` run, typeset in text style. A formula that does not
         //   parse stays as its source, in the error red (`highlight`).
         let formulas: Vec<(Range<usize>, Arc<silica_math::Formula>)> = text
@@ -1970,12 +1989,15 @@ pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
         all_special.sort_by_key(|(r, _, _)| r.start);
         for (range, _is_sup, offset) in &all_special {
             if at < range.start {
-                segments.push(self.interactive(
-                    text,
-                    &text.text[at..range.start],
-                    &Self::filter_runs(&text.runs, at, range.start),
-                    &Self::filter_links(&text.links, at, range.start),
-                ).into_any_element());
+                segments.push(
+                    self.interactive(
+                        text,
+                        &text.text[at..range.start],
+                        &Self::filter_runs(&text.runs, at, range.start),
+                        &Self::filter_links(&text.links, at, range.start),
+                    )
+                    .into_any_element(),
+                );
             }
             let segment_text = &text.text[range.clone()];
             let sup_sub_size = px(size * 0.6);
@@ -1989,12 +2011,15 @@ pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
             at = range.end;
         }
         if at < text.text.len() {
-            segments.push(self.interactive(
-                text,
-                &text.text[at..],
-                &Self::filter_runs(&text.runs, at, text.text.len()),
-                &Self::filter_links(&text.links, at, text.text.len()),
-            ).into_any_element());
+            segments.push(
+                self.interactive(
+                    text,
+                    &text.text[at..],
+                    &Self::filter_runs(&text.runs, at, text.text.len()),
+                    &Self::filter_links(&text.links, at, text.text.len()),
+                )
+                .into_any_element(),
+            );
         }
         let result = div()
             .flex()
@@ -2060,8 +2085,7 @@ pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
             .iter()
             .map(|(r, l)| (remap(r.start)..remap(r.end), l.clone()))
             .collect();
-        let (interactive, layout) =
-            self.interactive_with_layout(text, &shaped, &runs, &links);
+        let (interactive, layout) = self.interactive_with_layout(text, &shaped, &runs, &links);
         Overlay::new(interactive.into_any_element(), layout, inlines, em, t.text).into_any_element()
     }
 
@@ -2102,7 +2126,7 @@ pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
         }
         let mono: Vec<_> = runs
             .iter()
-            .filter(|(_, s)| s.code || s.html)
+            .filter(|(_, s)| s.code || s.html || s.kbd)
             .map(|(range, _)| (range.clone(), t.mono_font.clone()))
             .collect();
         let mut styled =
@@ -2168,6 +2192,12 @@ pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
         if s.code {
             h.background_color = Some(t.code_bg);
         }
+        if s.kbd {
+            // * `<kbd>` paints as a key box: monospace over a filled wash.
+            //   gpui pins no per-run border, so the box has no outline — a
+            //   gpui limit reported with the feature.
+            h.background_color = Some(t.code_bg);
+        }
         if s.math {
             // * Only a formula that failed to typeset is still text here.
             h.color = Some(math::error_color());
@@ -2175,6 +2205,11 @@ pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
         if s.html {
             h.color = Some(t.text_muted);
         }
+        // * `<sup>` / `<sub>`: raised or lowered text. This gpui's
+        //   `HighlightStyle` carries no per-run font size or vertical
+        //   offset, so they paint at base size until gpui can; the offset is
+        //   a reported gpui limit, and `InlineStyle::sup`/`::sub` keep the
+        //   intent on each run.
         if s.tag {
             h.color = Some(t.tag);
         }

@@ -144,6 +144,14 @@ pub struct AppConfig {
         skip_serializing_if = "Option::is_none"
     )]
     pub trash_option: Option<String>,
+    /// `always` | `ask` | `never`: what happens to a deleted note's
+    /// attachments that no other note refers to. Absent means ask.
+    #[serde(
+        default,
+        rename = "attachmentDelete",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub attachment_delete: Option<String>,
     #[serde(
         default,
         rename = "alwaysUpdateLinks",
@@ -408,6 +416,12 @@ pub struct GraphConfig {
     pub scale: Option<f32>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub close: Option<bool>,
+    #[serde(
+        default,
+        rename = "nodePositions",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub node_positions: Option<Map<String, Value>>,
     #[serde(flatten)]
     pub extra: Map<String, Value>,
 }
@@ -490,6 +504,11 @@ pub struct DailyNotesConfig {
     /// A template applied to a note the plugin creates.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub template: Option<String>,
+    /// Apakah pane Kalender ditawarkan di dock kanan; `true` kalau tidak
+    /// ada, sehingga `daily-notes.json` yang ditulis Silica lama tetap dibaca
+    /// dengan kalender hidup.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub calendar: Option<bool>,
     #[serde(flatten)]
     pub extra: Map<String, Value>,
 }

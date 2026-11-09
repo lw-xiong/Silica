@@ -7,6 +7,7 @@
 //! letters, digit runs compared as numbers, case only as a tie-break — over
 //! the subset of collation that note names exercise.
 
+use crate::normalize::normalize;
 use std::cmp::Ordering;
 
 /// Compares two names the way a numeric locale collation does.
@@ -66,10 +67,18 @@ fn class(c: char) -> u8 {
     }
 }
 
-/// The first char of the lowercase mapping: enough to order names, and it
-/// keeps the comparison one char against one char.
+/// The first char of the fold: enough to order names, and it keeps the
+/// comparison one char against one char. Akcent dihilangkan, sehingga
+/// `Ápple` dan `Apple` sama di level prima.
 fn fold(c: char) -> char {
-    c.to_lowercase().next().unwrap_or(c)
+    normalize(&c.to_string())
+        .0
+        .chars()
+        .next()
+        .unwrap_or(c)
+        .to_lowercase()
+        .next()
+        .unwrap_or(c)
 }
 
 fn digits(it: &mut std::iter::Peekable<std::str::Chars<'_>>) -> String {
@@ -117,7 +126,11 @@ mod tests {
         assert_eq!(natural_cmp("Apple Pie", "apple2"), Ordering::Less);
         assert_eq!(natural_cmp("apple", "APPLE"), Ordering::Less);
         assert_eq!(natural_cmp("apple", "apple"), Ordering::Equal);
-        assert_eq!(natural_cmp("Ápple", "Apple"), Ordering::Greater);
+        // * Akcent diabaikan di level prima; `Á` dan `A` berbeda hanya di
+        // * level tersier, yang sama huruf besar → sama.
+        assert_eq!(natural_cmp("Ápple", "Apple"), Ordering::Equal);
+        assert_eq!(natural_cmp("café", "cafe"), Ordering::Equal);
+        assert_eq!(natural_cmp("straße", "strasse"), Ordering::Less);
     }
 
     /// The order a real Obsidian 1.14.4 produced for these names under

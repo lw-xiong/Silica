@@ -430,6 +430,31 @@ app_choice!(
         ("Permanently delete", "none")
     ]
 );
+
+/// What happens to a deleted note's attachments that no other note refers
+/// to: move them to the vault's `.trash` folder, ask every time, or leave
+/// them alone. Written to `app.json` as `attachmentDelete`.
+const ATTACHMENT_DELETE: Typed = Typed {
+    key: "attachmentDelete",
+    options: &[
+        ("Always", "always"),
+        ("Ask every time", "ask"),
+        ("Never", "never"),
+    ],
+    read: |state| {
+        state
+            .app()
+            .attachment_delete
+            .clone()
+            .unwrap_or_else(|| "ask".to_string())
+    },
+    write: |state, value| {
+        let mut next = state.app().clone();
+        next.attachment_delete = Some(value.to_string());
+        SettingChange::App(next)
+    },
+    shape: None,
+};
 appearance_choice!(
     BASE_COLOR_SCHEME,
     "theme",
@@ -502,6 +527,7 @@ const TYPED_ALL: &[Typed] = &[
     NEW_FILE_LOCATION,
     NEW_LINK_FORMAT,
     TRASH_OPTION,
+    ATTACHMENT_DELETE,
     BASE_COLOR_SCHEME,
     LIVE_PREVIEW,
     ATTACHMENT_LOCATION,

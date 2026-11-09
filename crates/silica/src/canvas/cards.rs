@@ -823,7 +823,7 @@ fn first_text(blocks: &[Block<'_>]) -> Option<String> {
                 first_inline_line(content)
             }
             BlockKind::CodeBlock { content, .. }
-            | BlockKind::HtmlBlock { content }
+            | BlockKind::HtmlBlock { content, .. }
             | BlockKind::Math { content } => content
                 .lines()
                 .map(str::trim)

@@ -629,6 +629,12 @@ impl SettingsView {
                 state,
                 TRASH_OPTION,
             ),
+            choice(
+                "Delete attachments",
+                "Move attachments that no other note refers to into .trash when a note is deleted.",
+                state,
+                ATTACHMENT_DELETE,
+            ),
             heading("Advanced"),
             field(
                 "Excluded files",
