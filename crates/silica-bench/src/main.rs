@@ -15,7 +15,6 @@
 
 use rayon::prelude::*;
 use silica_cache::{index_markdown, CachedMetadata, LinkResolver};
-use silica_markdown::{parse, render_html};
 use silica_search::{index_terms, Search, SearchFile};
 use silica_vault::Vault;
 use std::collections::BTreeMap;
@@ -76,7 +75,7 @@ fn main() {
         Some("all") => {
             match Opts::parse(&args[1..]) {
                 Ok(opts) => {
-                    let vault = opts.positional.get(0).cloned().unwrap_or_default();
+                    let vault = opts.positional.first().cloned().unwrap_or_default();
                     if let Err(msg) = cmd_all(&opts, &vault) {
                         eprintln!("error: {msg}");
                         std::process::exit(1);
@@ -849,7 +848,8 @@ fn cmd_search(opts: &Opts) -> Result<(), String> {
                 .filter(|((path, _), _)| {
                     candidate_paths
                         .as_ref()
-                        .map_or(true, |cp| cp.contains(path.as_str()))
+                        .map(|cp| cp.contains(path.as_str()))
+                        .unwrap_or(true)
                 })
                 .filter_map(|((path, text), meta)| {
                     let file = SearchFile {
@@ -982,7 +982,7 @@ fn cmd_export(opts: &Opts) -> Result<(), String> {
         let text = std::fs::read_to_string(vault.absolute(path)).unwrap_or_default();
         let doc = silica_markdown::parse(&text);
         let html = silica_markdown::render_html(&doc);
-        let out_name = path.replace('/', "_").replace('\\', "_");
+        let out_name = path.replace(['/', '\\'], "_");
         let out_path = std::path::Path::new(out_dir).join(format!("{out_name}.html"));
         fs::write(&out_path, html).map_err(|e| format!("{}: {e}", out_path.display()))?;
         exported += 1;

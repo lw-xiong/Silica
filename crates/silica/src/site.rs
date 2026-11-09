@@ -233,7 +233,7 @@ fn cut_tag_attributes(rest: &str) -> Option<(usize, String)> {
         let attr_end = i;
         if name.len() > 2 && name.len() <= 24 && name.to_ascii_lowercase().starts_with("on")
             || is_active_url(&value)
-            || name.to_ascii_lowercase() == "style"
+            || name.eq_ignore_ascii_case("style")
         {
             cuts.push((attr_start, attr_end));
         }
@@ -262,7 +262,7 @@ fn strip_meta_refresh(html: &str) -> String {
             continue;
         }
         // Find the end of the tag (outside quotes).
-        let bytes = rest[at..].as_bytes();
+        let bytes = &rest.as_bytes()[at..];
         let mut i = 5; // skip "<meta"
         let mut in_quote: Option<u8> = None;
         let mut end = None;

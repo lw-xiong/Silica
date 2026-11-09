@@ -1967,7 +1967,7 @@ pub(crate) fn rich_at(&self, text: &RichText, size: f32) -> AnyElement {
         for (range, is_sup) in &vertical {
             all_special.push((range.clone(), *is_sup, if *is_sup { -4.0 } else { 2.0 }));
         }
-        all_special.sort_by_key(|(r, _, _)| r.start.clone());
+        all_special.sort_by_key(|(r, _, _)| r.start);
         for (range, _is_sup, offset) in &all_special {
             if at < range.start {
                 segments.push(self.interactive(

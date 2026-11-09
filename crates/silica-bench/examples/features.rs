@@ -14,11 +14,8 @@ use silica_markdown::{parse, render_html};
 use silica_plugins::Registry;
 use silica_search::{Search, SearchFile};
 use silica_vault::Vault;
-use std::collections::BTreeMap;
-use std::fmt::Write as _;
 use std::fs;
-use std::path::{Path, PathBuf};
-use std::str::FromStr;
+use std::path::Path;
 use std::time::{Duration, Instant};
 
 const USAGE: &str = "
@@ -208,7 +205,9 @@ struct IndexRun {
     read: Duration,
     index: Duration,
     resolve: Duration,
+    #[expect(dead_code)]
     files: usize,
+    #[expect(dead_code)]
     notes: usize,
     bytes: u64,
     read_errors: usize,
@@ -362,7 +361,7 @@ fn cmd_export(root: &Path, out_dir: &Path) {
         let text = fs::read_to_string(vault.absolute(path)).unwrap_or_default();
         let doc = parse(&text);
         let html = render_html(&doc);
-        let out_name = path.replace('/', "_").replace('\\', "_");
+        let out_name = path.replace(['/', '\\'], "_");
         let out_path = out_dir.join(format!("{}.html", out_name));
         fs::write(&out_path, html).expect("failed to write");
         exported += 1;
@@ -398,20 +397,6 @@ fn generate_vault(dir: &Path, notes: usize, seed: u64) -> bool {
     true
 }
 
-fn human_bytes(b: u64) -> String {
-    const UNITS: [&str; 4] = ["B", "KB", "MB", "GB"];
-    let mut v = b as f64;
-    let mut u = 0;
-    while v >= 1024.0 && u < UNITS.len() - 1 {
-        v /= 1024.0;
-        u += 1;
-    }
-    if u == 0 {
-        format!("{} B", b)
-    } else {
-        format!("{:.1} {}", v, UNITS[u])
-    }
-}
 
 fn human_duration(d: Duration) -> String {
     let ms = d.as_secs_f64() * 1000.0;

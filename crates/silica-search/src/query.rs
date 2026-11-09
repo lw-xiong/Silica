@@ -564,6 +564,32 @@ impl Parser {
     }
 }
 
+/// Extract content search terms from a query if it's safe to use AND
+/// semantics over the term index. Returns `None` when the query has `OR`,
+/// `NOT`, field scoping, or regex — those fall back to a full scan.
+///
+/// `All` of bare `Text`/`Exact` terms is safe: a file must contain every
+/// term, so intersecting posting lists is a correct superset filter. The
+/// full matcher still runs on every candidate, so false positives are
+/// harmless; false negatives are the only risk, avoided by refusing
+/// complex queries.
+pub fn index_terms(query: &Query) -> Option<Vec<String>> {
+    match query {
+        Query::Text(s) | Query::Exact(s) => Some(vec![s.clone()]),
+        Query::All(children) => {
+            let mut terms = Vec::new();
+            for c in children {
+                let t = index_terms(c)?;
+                terms.extend(t);
+            }
+            Some(terms)
+        }
+        Query::Not(_) | Query::Any(_) | Query::Field(_, _) => None,
+        _ => Some(Vec::new()),
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -786,27 +812,3 @@ mod tests {
     }
 }
 
-/// Extract content search terms from a query if it's safe to use AND
-/// semantics over the term index. Returns `None` when the query has `OR`,
-/// `NOT`, field scoping, or regex — those fall back to a full scan.
-///
-/// `All` of bare `Text`/`Exact` terms is safe: a file must contain every
-/// term, so intersecting posting lists is a correct superset filter. The
-/// full matcher still runs on every candidate, so false positives are
-/// harmless; false negatives are the only risk, avoided by refusing
-/// complex queries.
-pub fn index_terms(query: &Query) -> Option<Vec<String>> {
-    match query {
-        Query::Text(s) | Query::Exact(s) => Some(vec![s.clone()]),
-        Query::All(children) => {
-            let mut terms = Vec::new();
-            for c in children {
-                let t = index_terms(c)?;
-                terms.extend(t);
-            }
-            Some(terms)
-        }
-        Query::Not(_) | Query::Any(_) | Query::Field(_, _) => None,
-        _ => Some(Vec::new()),
-    }
-}
