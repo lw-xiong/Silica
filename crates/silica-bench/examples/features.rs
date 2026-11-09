@@ -205,10 +205,6 @@ struct IndexRun {
     read: Duration,
     index: Duration,
     resolve: Duration,
-    #[expect(dead_code)]
-    files: usize,
-    #[expect(dead_code)]
-    notes: usize,
     bytes: u64,
     read_errors: usize,
     links: usize,
