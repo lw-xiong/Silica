@@ -580,7 +580,7 @@ pub const CORE_PLUGINS: &[CorePlugin] = &[
     CorePlugin { id: "daily-notes", name: "Daily notes", description: "Create or open today's daily note.", default_on: true },
     CorePlugin { id: "file-recovery", name: "File recovery", description: "Restore recent snapshots to recover from accidental data loss. Snapshots are only saved for Markdown files.", default_on: true },
     CorePlugin { id: "file-explorer", name: "Files", description: "Browse the files and folders in your vault.", default_on: true },
-    CorePlugin { id: "footnotes", name: "Footnotes view", description: "Show a list of footnotes from the current note.", default_on: false },
+    CorePlugin { id: "footnotes", name: "Footnotes view", description: "Show a list of footnotes from the current note.", default_on: true },
     CorePlugin { id: "graph", name: "Graph view", description: "Visualize the relationships between your notes.", default_on: true },
     CorePlugin { id: "note-composer", name: "Note composer", description: "Merge two notes or split one into two.", default_on: true },
     CorePlugin { id: "outgoing-link", name: "Outgoing links", description: "Show outgoing links and detect unlinked mentions of other notes in the current note.", default_on: true },

@@ -24,6 +24,6 @@ pub mod snippet;
 pub use collate::natural_cmp;
 pub use fuzzy::{fuzzy_match, simple_search, FuzzyMatch};
 pub use matcher::{MatchSet, Search, SearchError, SearchFile, TaskLine};
-pub use query::{parse, Compare, Field, Query, index_terms};
+pub use query::{index_terms, parse, Compare, Field, Query};
 pub use relevance::{sort, sort_by_relevance, Ranked, Relevance, ResultSort};
 pub use snippet::{context_window, match_lines, MatchLine};

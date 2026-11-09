@@ -11,5 +11,3 @@ publish.workspace = true
 [dependencies]
 hayro = { workspace = true }
 
-[dev-dependencies]
-silica-search = { workspace = true }

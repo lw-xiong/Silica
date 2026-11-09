@@ -19,8 +19,11 @@ pub const REPORT_PATH: &str = "Palette check.md";
 /// What is wrong with one registered command.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum IssueKind {
-    /// The id is registered but no `run_command` arm answers for it, so
-    /// the palette offers a command that does nothing.
+    /// The id is registered but nothing runs it: no `run_command` arm
+    /// answers for it and no native plugin claims it. Asking for it by
+    /// id does nothing; whether the palette shows the row at all is
+    /// `can_run`'s separate question, so such an id may be hidden rather
+    /// than offered.
     NotRunnable,
     /// The id is registered twice: the second registration silently
     /// replaces the first, so whichever of the two wins is the one that
@@ -104,11 +107,14 @@ pub fn empty_names<'a>(named: &[(&'a str, &'a str)]) -> Vec<&'a str> {
         .collect()
 }
 
-/// Registered ids no `run_command` arm answers for.
+/// Registered ids nothing runs — no `run_command` arm and no native
+/// plugin.
 ///
-/// `runnable` is the app's own list of what it can run (`RUNNABLE` and
-/// `EDITOR_ONLY` together): `can_run` consults the same set, so an id
-/// missing from it is a palette row that does nothing.
+/// `runnable` is the app's full dispatch surface: `RUNNABLE` and
+/// `EDITOR_ONLY` together, plus any id a native plugin answers for (the
+/// workspace collects those at audit time; `can_run` consults only the
+/// narrower `RUNNABLE` set, so a runnable id missing from it is hidden
+/// from the palette rather than dead).
 pub fn unrunnable_ids<'a>(registered: &[&'a str], runnable: &[&str]) -> Vec<&'a str> {
     registered
         .iter()

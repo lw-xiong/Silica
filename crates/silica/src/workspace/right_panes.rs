@@ -1858,44 +1858,16 @@ impl Workspace {
             Some(PaneRowAction::Reveal(offset)) => self.reveal_heading(offset, cx),
             None => {}
         }
-        let ix = match self.right_tab {
-            RightTab::Tags => self.tag_state.selected,
-            RightTab::Properties => self.property_state.selected,
-            RightTab::Outline => self.outline_state.selected,
-            RightTab::Tasks => self.task_state.selected,
-            _ => None,
-        };
-        let Some(ix) = ix else {
-            return;
-        };
-        match self.right_tab {
-            RightTab::Tags => {
-                let rows = self.tag_rows(cx);
-                if let Some(row) = rows.get(ix) {
-                    let path = row.path.clone();
-                    self.show_search(&format!("tag:#{path}"), Some(window), cx);
-                }
+        // * Tags/Properties/Outline dispatch through the row-action helpers
+        //   above; only Tasks needs its own arm (open_task).
+        if let RightTab::Tasks = self.right_tab {
+            let Some(ix) = self.task_state.selected else {
+                return;
+            };
+            let rows = self.visible_task_rows(cx);
+            if let Some(row) = rows.get(ix) {
+                self.open_task(row, cx);
             }
-            RightTab::Properties => {
-                let rows = self.property_rows(cx);
-                if let Some(row) = rows.get(ix) {
-                    let name = row.name.clone();
-                    self.show_search(&format!("[\"{name}\"]"), Some(window), cx);
-                }
-            }
-            RightTab::Outline => {
-                let rows = self.outline_rows(cx);
-                if let Some(row) = rows.get(ix) {
-                    self.reveal_heading(row.offset, cx);
-                }
-            }
-            RightTab::Tasks => {
-                let rows = self.visible_task_rows(cx);
-                if let Some(row) = rows.get(ix) {
-                    self.open_task(row, cx);
-                }
-            }
-            _ => {}
         }
     }
 

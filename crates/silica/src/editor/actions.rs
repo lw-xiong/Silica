@@ -12,6 +12,7 @@ use silica_text::{autopair, EditKind};
 
 use crate::properties::{Field, Part, Target};
 use crate::workspace::VaultState;
+use silica_formats::FileKind;
 
 use super::{
     attach, Backspace, Copy, Cut, Delete, DeleteWordLeft, DeleteWordRight, Editor, EditorEvent,
@@ -602,6 +603,15 @@ impl Editor {
         if state.vault().absolute(&path).is_dir() {
             cx.emit(EditorEvent::Reported(
                 format!("{path} is a folder, not an attachment").into(),
+            ));
+            return;
+        }
+        // * A basename match can resolve to a note (embeds of `[[Note]]`
+        //   resolve across the vault); trashing a note from the attachment
+        //   toolbar would be an unconfirmed data loss, so refuse notes here.
+        if FileKind::from_path(&path).is_markdown() {
+            cx.emit(EditorEvent::Reported(
+                "That embed points at a note, not an attachment".into(),
             ));
             return;
         }

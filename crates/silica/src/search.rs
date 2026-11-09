@@ -31,7 +31,8 @@ use serde_json::{json, Value};
 use silica_cache::{all_tags, CachedMetadata};
 use silica_markdown::html::render_html;
 use silica_search::{
-    context_window, match_lines, natural_cmp, parse, MatchLine, Query, Search, SearchFile, TaskLine,
+    context_window, index_terms, match_lines, natural_cmp, parse, MatchLine, Query, Search,
+    SearchFile, TaskLine,
 };
 use silica_vault::FileChange;
 use std::collections::{HashMap, HashSet};
@@ -166,10 +167,6 @@ pub struct SearchPane {
     /// A non-empty query has run this session: an emptied one then reads
     /// "0 results" rather than nothing, as Obsidian's count does.
     has_run: bool,
-    /// Search result cache: keyed by (query, match_case) -> results.
-    /// Repeated searches with the same query return instantly without
-    /// re-reading files from disk.
-    search_cache: HashMap<(String, bool), Vec<FileResult>>,
     /// Files whose fold differs from `collapse_all`. Keyed by path so a
     /// re-run over a changed vault leaves the user's folds alone.
     toggled: HashSet<String>,
@@ -313,7 +310,6 @@ impl SearchPane {
             settings_open: false,
             has_run: false,
             toggled: HashSet::new(),
-            search_cache: HashMap::new(),
             expanded: HashMap::new(),
             rows: Vec::new(),
             focused: None,
@@ -601,15 +597,6 @@ impl SearchPane {
         }
         self.error = None;
         let order = self.sort;
-        // * Check cache first: repeated queries return instantly without
-        //   re-reading files from disk.
-        let cache_key = (query.to_string(), self.matching_case);
-        if let Some(cached) = self.search_cache.get(&cache_key) {
-            self.results = cached.clone();
-            self.replace_rows();
-            cx.notify();
-            return;
-        }
         cx.spawn(async move |this, cx| {
             let results = cx
                 .background_executor()
@@ -623,9 +610,7 @@ impl SearchPane {
                 if pane.generation != generation {
                     return;
                 }
-                pane.results = results.clone();
-                // * Cache the results for future identical queries.
-                pane.search_cache.insert(cache_key, results);
+                pane.results = results;
                 pane.replace_rows();
                 cx.notify();
             })
@@ -2004,31 +1989,6 @@ pub fn run_search(search: &Search, state: &VaultState) -> Vec<FileResult> {
         .collect();
     sort_results(&mut results, SortOrder::Alphabetical);
     results
-}
-
-/// Extract content search terms from a query if it's safe to use AND
-/// semantics over the term index. Returns `None` when the query has `OR`,
-/// `NOT`, field scoping, or regex — those fall back to a full scan.
-///
-/// `All` of bare `Text`/`Exact` terms is safe: a file must contain every
-/// term, so intersecting posting lists is a correct superset filter. The
-/// full matcher still runs on every candidate, so false positives are
-/// harmless; false negatives are the only risk, avoided by refusing
-/// complex queries.
-pub fn index_terms(query: &Query) -> Option<Vec<String>> {
-    match query {
-        Query::Text(s) | Query::Exact(s) => Some(vec![s.clone()]),
-        Query::All(children) => {
-            let mut terms = Vec::new();
-            for c in children {
-                let t = index_terms(c)?;
-                terms.extend(t);
-            }
-            Some(terms)
-        }
-        Query::Not(_) | Query::Any(_) | Query::Field(_, _) => None,
-        _ => Some(Vec::new()),
-    }
 }
 
 /// Puts results in `order`. The name orders are Obsidian's alphabetical

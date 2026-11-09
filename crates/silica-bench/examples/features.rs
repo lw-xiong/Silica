@@ -49,7 +49,9 @@ fn main() {
     match args[0].as_str() {
         "generate" => {
             let dir = args.get(1).expect("missing <dir>");
-            let notes: usize = args.iter().position(|a| a == "--notes")
+            let notes: usize = args
+                .iter()
+                .position(|a| a == "--notes")
                 .and_then(|i| args.get(i + 1))
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(20000);
@@ -57,7 +59,9 @@ fn main() {
         }
         "index" => {
             let root = args.get(1).expect("missing <vault>");
-            let runs: usize = args.iter().position(|a| a == "--runs")
+            let runs: usize = args
+                .iter()
+                .position(|a| a == "--runs")
                 .and_then(|i| args.get(i + 1))
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(3);
@@ -66,7 +70,9 @@ fn main() {
         "search" => {
             let root = args.get(1).expect("missing <vault>");
             let query = args.get(2).expect("missing <query>");
-            let runs: usize = args.iter().position(|a| a == "--runs")
+            let runs: usize = args
+                .iter()
+                .position(|a| a == "--runs")
                 .and_then(|i| args.get(i + 1))
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(3);
@@ -74,7 +80,9 @@ fn main() {
         }
         "parse" => {
             let root = args.get(1).expect("missing <vault>");
-            let runs: usize = args.iter().position(|a| a == "--runs")
+            let runs: usize = args
+                .iter()
+                .position(|a| a == "--runs")
                 .and_then(|i| args.get(i + 1))
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(3);
@@ -82,7 +90,9 @@ fn main() {
         }
         "plugin" => {
             let root = args.get(1).expect("missing <vault>");
-            let runs: usize = args.iter().position(|a| a == "--runs")
+            let runs: usize = args
+                .iter()
+                .position(|a| a == "--runs")
                 .and_then(|i| args.get(i + 1))
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(3);
@@ -95,7 +105,9 @@ fn main() {
         }
         "all" => {
             let root = args.get(1).expect("missing <vault>");
-            let runs: usize = args.iter().position(|a| a == "--runs")
+            let runs: usize = args
+                .iter()
+                .position(|a| a == "--runs")
                 .and_then(|i| args.get(i + 1))
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(3);
@@ -133,7 +145,11 @@ fn cmd_index(root: &Path, runs: usize) {
     let first = results[0].total();
     let best = results.iter().map(|r| r.total()).min().unwrap_or(first);
     println!();
-    let verdict = if first <= Duration::from_secs(2) { "PASS" } else { "FAIL" };
+    let verdict = if first <= Duration::from_secs(2) {
+        "PASS"
+    } else {
+        "FAIL"
+    };
     println!(
         "gate: {} vs 2.00s budget -> {} (best run {})",
         human_duration(first),
@@ -240,7 +256,12 @@ fn cmd_search(root: &Path, query: &str, runs: usize) {
         })
         .collect();
 
-    println!("vault {} — {} notes, query: {:?}", root.display(), notes.len(), query);
+    println!(
+        "vault {} — {} notes, query: {:?}",
+        root.display(),
+        notes.len(),
+        query
+    );
     println!();
 
     let mut results = Vec::with_capacity(runs);
@@ -260,6 +281,7 @@ fn cmd_search(root: &Path, query: &str, runs: usize) {
                     blocks: &[],
                     sections: &[],
                     tasks: &[],
+                    pages: &[],
                 };
                 if search.matches(&file).is_some() {
                     count += 1;
@@ -320,7 +342,11 @@ fn cmd_parse(root: &Path, runs: usize) {
     let avg = total_times.iter().sum::<Duration>() / total_times.len() as u32;
     let per_note = Duration::from_nanos(avg.as_nanos() as u64 / notes.len() as u64);
     println!();
-    println!("avg: total={:>9} per_note={:>9}", human_duration(avg), human_duration(per_note));
+    println!(
+        "avg: total={:>9} per_note={:>9}",
+        human_duration(avg),
+        human_duration(per_note)
+    );
 }
 
 fn cmd_plugin(root: &Path, runs: usize) {
@@ -332,7 +358,10 @@ fn cmd_plugin(root: &Path, runs: usize) {
     for i in 0..runs {
         let (plugins, scan_time) = timed(|| Registry::scan(&vault));
         let records = plugins.records();
-        let native_count = records.iter().filter(|r| r.tier == silica_plugins::Tier::Native).count();
+        let native_count = records
+            .iter()
+            .filter(|r| r.tier == silica_plugins::Tier::Native)
+            .count();
         let community_count = records.iter().filter(|r| r.enabled).count();
 
         println!(
@@ -365,8 +394,17 @@ fn cmd_export(root: &Path, out_dir: &Path) {
     let elapsed = started.elapsed();
     let notes_per_sec = exported as f64 / elapsed.as_secs_f64();
 
-    println!("vault {} — {} notes exported to {}", root.display(), exported, out_dir.display());
-    println!("total: {:>9}  notes/sec: {:.0}", human_duration(elapsed), notes_per_sec);
+    println!(
+        "vault {} — {} notes exported to {}",
+        root.display(),
+        exported,
+        out_dir.display()
+    );
+    println!(
+        "total: {:>9}  notes/sec: {:.0}",
+        human_duration(elapsed),
+        notes_per_sec
+    );
 }
 
 fn cmd_all(root: &Path, runs: usize) {
@@ -392,7 +430,6 @@ fn generate_vault(dir: &Path, notes: usize, seed: u64) -> bool {
     println!("generate not implemented in this build; use silica-bench generate");
     true
 }
-
 
 fn human_duration(d: Duration) -> String {
     let ms = d.as_secs_f64() * 1000.0;

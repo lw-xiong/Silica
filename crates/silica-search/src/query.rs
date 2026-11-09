@@ -589,7 +589,6 @@ pub fn index_terms(query: &Query) -> Option<Vec<String>> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -811,4 +810,3 @@ mod tests {
         }
     }
 }
-

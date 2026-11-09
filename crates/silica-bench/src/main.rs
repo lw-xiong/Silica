@@ -61,7 +61,6 @@ Run 1 is only cold if the OS page cache was evicted first, for example with
 
 const GATE: Duration = Duration::from_secs(2);
 
-
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
     let result = match args.first().map(String::as_str) {
@@ -88,9 +87,7 @@ fn main() {
             }
             return;
         }
-        Some(s) => {
-            Err(format!("unknown subcommand {}:{}\n\n{}", s, USAGE, USAGE))
-        }
+        Some(s) => Err(format!("unknown subcommand {}:{}\n\n{}", s, USAGE, USAGE)),
     };
     if let Err(msg) = result {
         eprintln!("error: {msg}");
@@ -821,7 +818,12 @@ fn cmd_search(opts: &Opts) -> Result<(), String> {
         term_index.insert(path, text);
     }
 
-    println!("vault {} — {} notes, query: {:?}", root.display(), notes.len(), query);
+    println!(
+        "vault {} — {} notes, query: {:?}",
+        root.display(),
+        notes.len(),
+        query
+    );
     println!();
 
     let mut results = Vec::with_capacity(runs);
@@ -834,10 +836,7 @@ fn cmd_search(opts: &Opts) -> Result<(), String> {
         let candidate_paths: Option<std::collections::HashSet<String>> =
             index_terms(search.query()).map(|terms| {
                 let term_refs: Vec<&str> = terms.iter().map(String::as_str).collect();
-                term_index
-                    .candidates(&term_refs)
-                    .into_iter()
-                    .collect()
+                term_index.candidates(&term_refs).into_iter().collect()
             });
 
         // Run the match in parallel over candidates (or all if no index filter).
@@ -860,6 +859,7 @@ fn cmd_search(opts: &Opts) -> Result<(), String> {
                         blocks: &[],
                         sections: &[],
                         tasks: &[],
+                        pages: &[],
                     };
                     if search.matches(&file).is_some() {
                         Some(1)
@@ -921,12 +921,25 @@ fn cmd_parse(opts: &Opts) -> Result<(), String> {
                 })
                 .collect::<Vec<CachedMetadata>>()
         });
-        println!("  {:<4} total={:>9} per_note={:>9}", i + 1, human_duration(parse_time), human_duration(Duration::from_nanos(parse_time.as_nanos() as u64 / notes.len() as u64)));
+        println!(
+            "  {:<4} total={:>9} per_note={:>9}",
+            i + 1,
+            human_duration(parse_time),
+            human_duration(Duration::from_nanos(
+                parse_time.as_nanos() as u64 / notes.len() as u64
+            ))
+        );
         total_times.push(parse_time);
     }
     let avg = total_times.iter().sum::<Duration>() / total_times.len() as u32;
     println!();
-    println!("avg: total={:>9} per_note={:>9}", human_duration(avg), human_duration(Duration::from_nanos(avg.as_nanos() as u64 / notes.len() as u64)));
+    println!(
+        "avg: total={:>9} per_note={:>9}",
+        human_duration(avg),
+        human_duration(Duration::from_nanos(
+            avg.as_nanos() as u64 / notes.len() as u64
+        ))
+    );
     Ok(())
 }
 
@@ -949,10 +962,19 @@ fn cmd_plugin(opts: &Opts) -> Result<(), String> {
     for i in 0..runs {
         let (plugins, scan_time) = time(|| silica_plugins::Registry::scan(&vault));
         let records = plugins.records();
-        let native_count = records.iter().filter(|r| r.tier == silica_plugins::Tier::Native).count();
+        let native_count = records
+            .iter()
+            .filter(|r| r.tier == silica_plugins::Tier::Native)
+            .count();
         let community_count = records.iter().filter(|r| r.enabled).count();
 
-        println!("  {:<4} scan={:>9} native={:<8} community={:<8}", i + 1, human_duration(scan_time), native_count, community_count);
+        println!(
+            "  {:<4} scan={:>9} native={:<8} community={:<8}",
+            i + 1,
+            human_duration(scan_time),
+            native_count,
+            community_count
+        );
     }
 
     Ok(())
@@ -990,8 +1012,17 @@ fn cmd_export(opts: &Opts) -> Result<(), String> {
     let elapsed = started.elapsed();
     let notes_per_sec = exported as f64 / elapsed.as_secs_f64();
 
-    println!("vault {} — {} notes exported to {}", root.display(), exported, out_dir);
-    println!("total: {:>9}  notes/sec: {:.0}", human_duration(elapsed), notes_per_sec);
+    println!(
+        "vault {} — {} notes exported to {}",
+        root.display(),
+        exported,
+        out_dir
+    );
+    println!(
+        "total: {:>9}  notes/sec: {:.0}",
+        human_duration(elapsed),
+        notes_per_sec
+    );
     Ok(())
 }
 

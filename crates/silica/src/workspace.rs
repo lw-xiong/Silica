@@ -4932,7 +4932,9 @@ impl Workspace {
             Err(err) => return self.report(format!("Export PDF: {err}"), cx),
         };
         let bytes = export_pdf::note_to_pdf(&title, &text);
-        match std::fs::write(&absolute, &bytes) {
+        // * Hardened write: the vault boundary refuses to follow a symlink
+        //   planted at the target (same rule as every other vault write).
+        match silica_vault::write_no_follow(&absolute, &bytes) {
             Ok(()) => self.report(format!("Export PDF: wrote {target}"), cx),
             Err(err) => {
                 self.report(format!("Export PDF: cannot write {target}: {err}"), cx);
@@ -6536,8 +6538,23 @@ impl Workspace {
         };
         // * The ids `can_run` answers for: `RUNNABLE` is what the palette
         //   offers, and `EDITOR_ONLY` is the same question asked the
-        //   other way round in the gate test below.
-        let runnable: Vec<&str> = RUNNABLE.iter().chain(EDITOR_ONLY).copied().collect();
+        //   other way round in the gate test below. Native plugins run
+        //   their own ids through `run_command` before the arms are
+        //   reached, so a registered id a native plugin answers for is
+        //   runnable even though `can_run` keeps it out of the palette.
+        let native_ids = silica_plugins::live::native(|plugins| {
+            plugins
+                .iter()
+                .flat_map(|plugin| plugin.commands())
+                .map(|command| command.id)
+                .collect::<Vec<String>>()
+        });
+        let runnable: Vec<&str> = RUNNABLE
+            .iter()
+            .chain(EDITOR_ONLY)
+            .copied()
+            .chain(native_ids.iter().map(String::as_str))
+            .collect();
         let audit = silica_commands::verify::audit(
             &silica_commands::known_ids(),
             &silica_commands::known_names(),
@@ -7811,10 +7828,13 @@ impl Workspace {
     }
 
     /// The match at `offset` in the file at `path`, across the sections
-    /// currently drawn; `None` while the sections are still being built.
+    /// currently drawn in either pane (the Outgoing pane's unlinked
+    /// mentions share the expanded map); `None` while the sections are
+    /// still being built.
     fn backlink_match(&self, path: &str, offset: usize) -> Option<&PaneMatch> {
         self.backlink_sections
             .iter()
+            .chain(self.outgoing_sections.iter())
             .flat_map(|section| section.groups.iter())
             .filter(|group| group.path.as_deref() == Some(path))
             .flat_map(|group| group.matches.iter())
