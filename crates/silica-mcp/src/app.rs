@@ -439,11 +439,15 @@ impl App {
         if !status.success() {
             let stderr = {
                 use std::io::Read as _;
-                child.stderr.as_mut().map(|s| {
-                    let mut buf = String::new();
-                    s.read_to_string(&mut buf).ok();
-                    buf
-                }).unwrap_or_default()
+                child
+                    .stderr
+                    .as_mut()
+                    .map(|s| {
+                        let mut buf = String::new();
+                        s.read_to_string(&mut buf).ok();
+                        buf
+                    })
+                    .unwrap_or_default()
             };
             return Err(format!(
                 "screenshot command failed ({}): {command}\n{stderr}",

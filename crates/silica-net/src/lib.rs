@@ -48,7 +48,9 @@ pub fn allows_destination(url: &str) -> bool {
     let authority = rest.split(['/', '?', '#']).next().unwrap_or("");
     // * Drop any userinfo, then any port.
     let host_port = authority.rsplit('@').next().unwrap_or(authority);
-    let port = host_port.rsplit_once(':').and_then(|(_, p)| p.parse::<u16>().ok());
+    let port = host_port
+        .rsplit_once(':')
+        .and_then(|(_, p)| p.parse::<u16>().ok());
     if let Some(p) = port {
         if !allowed_port(p) {
             return false;
@@ -56,7 +58,8 @@ pub fn allows_destination(url: &str) -> bool {
     }
     let host = if host_port.starts_with('[') {
         // * A bracketed IPv6 literal.
-        host_port.split(']')
+        host_port
+            .split(']')
             .next()
             .unwrap_or(host_port)
             .trim_start_matches('[')
