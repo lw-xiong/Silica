@@ -505,7 +505,7 @@ pub fn write_at(root: &Path, relative: &Path, bytes: &[u8]) -> std::io::Result<(
         return Err(std::io::Error::last_os_error());
     }
     if let Some(mode) = existing_mode {
-        let _ = unsafe { libc::fchmod(tmp_fd, mode) };
+        let _ = unsafe { libc::fchmod(tmp_fd, mode as libc::mode_t) };
     }
     let mut tmp = unsafe { std::fs::File::from_raw_fd(tmp_fd) };
     tmp.write_all(bytes)?;
