@@ -204,7 +204,7 @@ pub fn embeds(text: &str) -> Vec<Embed> {
     let mut ix = 0;
     while ix < text.len() {
         if !text[ix..].starts_with("![") {
-            ix += 1;
+            ix += text[ix..].chars().next().map(char::len_utf8).unwrap_or(1);
             continue;
         }
         let (open, close, wikilink) = if text[ix..].starts_with("![[") {
@@ -223,7 +223,7 @@ pub fn embeds(text: &str) -> Vec<Embed> {
                 });
                 ix = end;
             }
-            None => ix += 1,
+            None => ix += text[ix..].chars().next().map(char::len_utf8).unwrap_or(1),
         }
     }
     out

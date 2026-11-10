@@ -4299,47 +4299,75 @@ impl Workspace {
     /// Uses curl (already on every supported OS) so no new dependency is
     /// needed, and only reads the public releases endpoint — no auth, no
     /// private data is sent.
-    fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
-        let current = env!("CARGO_PKG_VERSION");
-        let output = std::process::Command::new("curl")
-            .arg("-s")
-            .arg("--max-time")
-            .arg("15")
-            .arg("https://api.github.com/repos/lw-xiong/Silica/releases/latest")
-            .output();
-
-        let result = match output {
-            Ok(output) if output.status.success() => {
-                let body = String::from_utf8_lossy(&output.stdout);
-                let latest: Option<String> = serde_json::from_str::<serde_json::Value>(&body)
-                    .ok()
-                    .and_then(|v| {
-                        v.get("tag_name")
-                            .and_then(|tag| tag.as_str().map(str::to_string))
-                    })
-                    .map(|s| s.trim_start_matches('v').to_string());
-                match latest {
-                    Some(latest) if !latest.is_empty() => {
-                        if latest == current {
-                            format!("Silica {current} is up to date.")
-                        } else {
-                            format!(
-                                "Silica {latest} is available — you have {current}. Get it at github.com/lw-xiong/Silica/releases"
-                            )
-                        }
-                    }
-                    _ => "Check for updates: could not read the release version.".to_string(),
-                }
-            }
-            Ok(output) => format!(
-                "Check for updates: GitHub replied with status {}.",
-                output.status
-            ),
-            Err(err) => format!("Check for updates: could not reach GitHub: {err}"),
-        };
-
-        self.report(result, cx);
+/// Component-wise numeric comparison of `X.Y.Z` version strings (a leading
+/// `v` is already stripped). Missing components count as zero, so `0.7` and
+/// `0.7.0` compare equal.
+fn version_cmp(a: &str, b: &str) -> std::cmp::Ordering {
+    let mut aa = a.split('.').filter_map(|part| part.parse::<u64>().ok());
+    let mut bb = b.split('.').filter_map(|part| part.parse::<u64>().ok());
+    loop {
+        match (aa.next(), bb.next()) {
+            (Some(x), Some(y)) => match x.cmp(&y) {
+                std::cmp::Ordering::Equal => {}
+                other => return other,
+            },
+            (Some(x), None) => return x.cmp(&0),
+            (None, Some(y)) => return 0.cmp(&y),
+            (None, None) => return std::cmp::Ordering::Equal,
+        }
     }
+}
+
+/// `Check for updates` in Settings > General: lists the repo's tags and tells
+/// the user whether this build is current. Uses curl (already on every
+/// supported OS) so no new dependency is needed, and only reads the public
+/// tags endpoint — no auth, no private data is sent.
+///
+/// The `releases/latest` endpoint still points at v0.6.0 because the v0.7.x
+/// releases were tagged without a GitHub Release, so the tags endpoint is the
+/// source of truth for the newest version.
+fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
+    let current = env!("CARGO_PKG_VERSION").trim_start_matches('v');
+    let output = std::process::Command::new("curl")
+        .arg("-s")
+        .arg("--max-time")
+        .arg("15")
+        .arg("https://api.github.com/repos/lw-xiong/Silica/tags?per_page=50")
+        .output();
+
+    let result = match output {
+        Ok(output) if output.status.success() => {
+            let body = String::from_utf8_lossy(&output.stdout);
+            let latest: Option<String> = serde_json::from_str::<Vec<serde_json::Value>>(&body)
+                .ok()
+                .and_then(|tags| {
+                    tags.iter()
+                        .filter_map(|t| t.get("name").and_then(|n| n.as_str()))
+                        .map(|s| s.trim_start_matches('v').to_string())
+                        .max_by(|a, b| Self::version_cmp(a, b))
+                });
+            match latest {
+                Some(latest) if !latest.is_empty() => {
+                    if Self::version_cmp(&latest, current) == std::cmp::Ordering::Greater {
+                        format!(
+                            "Silica {latest} is available — you have {current}. Get it at github.com/lw-xiong/Silica/releases"
+                        )
+                    } else {
+                        format!("Silica {current} is up to date.")
+                    }
+                }
+                _ => "Check for updates: could not read the release version.".to_string(),
+            }
+        }
+        Ok(output) => format!(
+            "Check for updates: GitHub replied with status {}.",
+            output.status
+        ),
+        Err(err) => format!("Check for updates: could not reach GitHub: {err}"),
+    };
+
+    self.report(result, cx);
+}
 
     /// Rebuild the global [`Theme`] from the vault's current appearance and
     /// app config, the system's dark/light state, and any CSS theme or
