@@ -211,7 +211,13 @@ pub fn backup_vault(root: &Path, backups: &Path, keep: usize) -> Result<BackupRe
     //   matters; NTFS journals the namespace change itself.
     #[cfg(windows)]
     {
-        let marker = std::fs::File::open(dest.join(".complete"))
+        // * On Windows, File::open opens read-only, but sync_all/FlushFileBuffers
+        //   needs write access. Open with write permission so the flush succeeds.
+        use std::fs::OpenOptions;
+        let marker = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(dest.join(".complete"))
             .map_err(io("open completion marker", &dest))?;
         marker
             .sync_all()
