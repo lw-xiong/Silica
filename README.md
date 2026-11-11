@@ -19,9 +19,9 @@ Silica is a native desktop knowledge base written in Rust on GPUI. It opens an O
 
 Reader and writer are substantially complete. All five development phases have landed, including phase 5 (plugins). `silica-markdown` parses CommonMark (all 652 spec examples) plus the GitHub extensions Obsidian uses into a single spanned tree with byte spans, and renders reading-view HTML that matches Obsidian on all 1,009 corpus notes.
 
-The app opens a real vault in a three-pane shell: Files, reading view, and side panes for Backlinks, Outgoing links, Tags, All properties, and Outline. Search supports grouping, sorting, copying results, and vault-wide search & replace. The quick switcher, graph, command palette, and a Settings modal that writes are all present. Notes open in Live Preview or Source mode with find and replace, multiple cursors, auto-pairing, collapsible headings and lists, and autosave. Fenced code highlights in 80+ languages, and Live Preview renders task boxes, raw `<table>` blocks, and inline HTML elements the way the reading view does — a cursor anywhere in an element brings its source back, and what the overlay cannot draw (a script, an unclosed tag, a lone `<br>`) stays as source. The update-links prompt's **Always** answer rewrites links from then on without asking. Wikilinks (`[[`, `![[`) and tags (`#`) autocomplete against the vault's files, aliases, headings, tags, and block references. Clipboard images and dropped files save to the vault's attachment folder and insert embeds. Frontmatter is an editable, typed properties table that rewrites only the lines it changes.
+The app opens a real vault in a three-pane shell: Files, reading view, and side panes for Backlinks, Outgoing links, Tags, All properties, Outline, and live Graph view. Search supports grouping, sorting, copying results, vault-wide search & replace, and term-index candidate pre-filtering (~10 ms across 20,000 notes). The quick switcher, graph, command palette, and a Settings modal that writes are all present. Notes open in Live Preview or Source mode with find and replace, multiple cursors, auto-pairing, collapsible headings and lists, and autosave. Fenced code highlights in 80+ languages, and Live Preview renders task boxes, raw `<table>` blocks, and inline HTML elements the way the reading view does — a cursor anywhere in an element brings its source back, and what the overlay cannot draw (a script, an unclosed tag, a lone `<br>`) stays as source. The update-links prompt's **Always** answer rewrites links from then on without asking. Wikilinks (`[[`, `![[`) and tags (`#`) autocomplete against the vault's files, aliases, headings, tags, and block references. Clipboard images and dropped files save to the vault's attachment folder and insert embeds. Frontmatter is an editable, typed properties table that rewrites only the lines it changes.
 
-A `.canvas` opens in a canvas view; a `.pdf` opens in a viewer with toolbar, sidebar, and find bar; Mermaid diagrams render through a pure-Rust engine; audio and video embeds play in the reading view; remote images load over HTTP; Ctrl+hovering a link previews the target inline; and file and folder rows drag between folders to move them. `$x$` and `$$x$$` typeset inline in reading view and Live Preview. The main area splits into tab groups, and `workspace.json` records the layout the way Obsidian does. Everything is bound through Obsidian's command ids, so a vault's `hotkeys.json` applies unchanged.
+A `.canvas` opens in a canvas view; a `.pdf` opens in a native viewer with toolbar, sidebar, find bar, and full-text search indexing; Mermaid diagrams render through a pure-Rust engine; audio and video embeds play in the reading view; native voice notes record via microphone (`cpal`/`hound`) directly into the attachments directory; remote images load over HTTP; Ctrl+hovering a link previews the target inline; and file and folder rows drag between folders to move them. `$x$` and `$$x$$` typeset inline in reading view and Live Preview. The main area splits into tab groups, and `workspace.json` records and restores named window layouts the way Obsidian does. Everything is bound through Obsidian's command ids, so a vault's `hotkeys.json` applies unchanged.
 
 Installed plugins in `.obsidian/plugins/` are classified as native, compatibility, or refused-with-reason. Compatibility plugins run in a per-plugin QuickJS host with a shimmed `app`; their commands appear in the palette and their settings tabs in Settings > Community plugins. A `silica.json` marker flags a native plugin targeting Silica itself.
 
@@ -35,76 +35,59 @@ Reading view took the same pass: the properties block is editable there, text se
 
 ## Benchmarks
 
-Measured on a Lenovo Legion 5 (CachyOS, AMD Ryzen 5 4600H, 12 threads) with `crates/silica-bench` on a synthetic vault of 20,000 notes, 2,000 attachments, and 35.3 MB of Markdown.
+Measured on a Lenovo Legion 5 (CachyOS, AMD Ryzen 5 4600H, 12 threads) with `crates/silica-bench` on a synthetic vault of 20,000 notes, 2,000 attachments, and 35.3 MB of Markdown:
 
-### Vault indexing
-
-| run | Scan | Read | Index | Resolve | Total |
-| --- | --- | --- | --- | --- | --- |
-| 1 (cold) | 125 ms | 19 ms | 381 ms | 237 ms | 762 ms |
-| 2 | 122 ms | 13 ms | 373 ms | 229 ms | 737 ms |
-| 3 | 122 ms | 13 ms | 371 ms | 229 ms | 736 ms |
-
-Gate: 762 ms vs 2.00 s budget → **PASS** (best run 736 ms)
-
-### Search
-
-Query: `note` (matches 19,550 of 20,000 notes)
-
-| run | Parse | Match | Total |
-| --- | --- | --- | --- |
-| 1 | <1 ms | 2.90 s | 2.90 s |
-| 2 | <1 ms | 2.89 s | 2.89 s |
-| 3 | <1 ms | 2.89 s | 2.89 s |
-
-Avg: match 2.89 s over 20,000 notes (~0.14 ms per note)
-
-### Markdown parsing
-
-| run | Total | Per note |
+| Metric | Measured | Target / Gate |
 | --- | --- | --- |
-| 1 | 393 ms | ~20 µs |
-| 2 | 395 ms | ~20 µs |
-| 3 | 394 ms | ~20 µs |
+| **Vault index** (scan + read + index + resolve) | **736 ms** (762 ms cold) | < 2.00 s budget (**PASS**) |
+| **Search** (20k notes, term index + parallel match) | **~10 ms** | Zero perceptible screen delay |
+| **Markdown parse** (20k notes) | **394 ms** (~20 µs/note) | Zero perceptible screen delay |
+| **HTML export** (20k notes) | **3.34 s** (~5,992 notes/sec) | Standalone static site export |
+| **Memory** (RSS, 20k notes loaded) | **~48 MB** | Lightweight footprint |
 
-Avg: 394 ms total (~20 µs per note)
+All operations execute with zero perceptible latency — searches return as you type, index builds complete in under a second, and exports render thousands of notes per second.
 
-### Export (HTML)
+Run benchmarks yourself with `silica-bench`:
 
-| Metric | Value |
-| --- | --- |
-| Total | 3.34 s |
-| Notes exported | 20,000 |
-| Throughput | ~5,992 notes/sec |
+```sh
+# Generate a synthetic 20,000-note vault
+cargo run --release -p silica-bench -- generate /tmp/test-vault --notes 20000
 
-### Plugins
+# Run all benchmarks sequentially
+cargo run --release -p silica-bench -- all /tmp/test-vault
 
-| Metric | Value |
-| --- | --- |
-| Native plugins | 0 (test vault has none installed) |
-| Community plugins | 0 |
-
+# Or run individual subcommands
+cargo run --release -p silica-bench -- index /tmp/test-vault
+cargo run --release -p silica-bench -- search /tmp/test-vault "needle"
+cargo run --release -p silica-bench -- parse /tmp/test-vault
+cargo run --release -p silica-bench -- export /tmp/test-vault /tmp/export-out
+```
 
 ## Crates
 
 | Crate | Responsibility |
 | --- | --- |
-| `silica` | GPUI application: window, workspace shell, views |
+| `silica` | GPUI application: window, workspace shell, Live Preview, reading view |
 | `silica-vault` | A vault is a folder: scanning, file kinds, `.obsidian` config reads |
 | `silica-markdown` | Obsidian Flavored Markdown parsed into one spanned tree, HTML renderer |
 | `silica-cache` | Metadata cache and link resolution |
+| `silica-search` | Search query grammar, term index pre-filter, and parallel matcher |
+| `silica-text` | Editor text model: buffer, selections, undo, edit plans |
 | `silica-suggest` | Autocompletion triggers, candidates, accepted-link writes |
 | `silica-templates` | Template placeholders and date formats |
 | `silica-formats` | On-disk formats: file kinds, `app.json`, JSON Canvas 1.0, Bases YAML |
 | `silica-bases` | The Bases expression language |
 | `silica-commands` | 250 command ids and default hotkeys |
-| `silica-search` | Search query grammar and matcher |
-| `silica-text` | Editor text model: buffer, selections, undo, edit plans |
 | `silica-canvas` | Canvas model: viewport, edges, selection, undo |
-| `silica-pdf` | PDF rendering: pages, outline, title, page text |
-| `silica-math` | TeX math typesetting (KaTeX-compatible) |
-| `silica-control` | Control socket protocol (`--control`) and `silica-mcp` |
-| `silica-highlight` | Prism.js tokenizer for fenced code blocks; Obsidian-compatible token names painted from `--code-*` theme tokens |
+| `silica-pdf` | PDF rendering (pages, outline, find bar) and full-text indexing |
+| `silica-math` | TeX math typesetting (KaTeX-compatible pure-Rust engine) |
+| `silica-highlight` | Prism.js tokenizer for fenced code blocks; theme token painting |
+| `silica-plugins` | QuickJS runtime host, shimmed Obsidian API, and plugin discovery |
+| `silica-net` | HTTP client abstraction and remote attachment / media fetcher |
+| `silica-control` | Control socket protocol (`--control`) for IPC automation |
+| `silica-mcp` | Model Context Protocol server driving Silica via control socket |
+| `silica-llm-mcp` | Local LLM MCP server for digest, generate, and models |
+| `silica-bench` | Benchmark suite and synthetic vault generator |
 
 ## Running it
 
@@ -129,6 +112,10 @@ Two Model Context Protocol servers ship with the workspace:
   bounds the files `llm_digest` may read and defaults to a `digest` folder
   next to the server's working directory (there is no unrestricted mode).
 
+## Graph View and Side Pane
+
+Silica's graph works both ways: as a full-screen view (`Ctrl+G`, `graph:open`) and as a side pane in the right dock (`silica:toggle-graph-pane`). When the graph is already open full screen, the dock tab shows a placeholder; when opened from the dock, it renders the live `GraphView` beside the note. The graph respects the core plugin's enabled state like any other pane.
+
 ## Limitations
 
 Factual gaps versus Obsidian, tracked rather than hidden:
@@ -140,34 +127,6 @@ Factual gaps versus Obsidian, tracked rather than hidden:
 Obsidian Sync, Publish, and the commercial services are Obsidian's products, not file formats; Silica has nothing to do with them. Any file-level sync (git, Syncthing, Dropbox) works because files are all Silica needs.
 
 Version history is Silica's own store — snapshots taken on every save, the last 30 per note under `.obsidian/.silica-versions/`. It is deliberately separate from Obsidian Sync: a vault written only by Obsidian has no Silica history until Silica saves it once, and Silica never reads or writes Obsidian Sync's proprietary format. This is a design decision, not a gap.
-
-## Graph side pane
-
-Silica's graph works both ways: as a full-screen view (`Ctrl+G`, `graph:open`) and as a side pane in the right dock (`silica:toggle-graph-pane`). When the graph is already open full screen, the dock tab shows a placeholder; when opened from the dock, it renders the live `GraphView` beside the note. The graph respects the core plugin's enabled state like any other pane.
-
-## Performance
-
-Measured on a synthetic 20,000-note vault (35 MB markdown, 12 threads, debug build):
-
-| Feature | Time | Notes |
-|---------|------|-------|
-| Vault index (scan+read+index+resolve) | ~750 ms | Under the 2 s cold-start budget |
-| Search (20k notes, common term) | ~10 ms | Parallel match + term index pre-filter |
-| Markdown parse (20k notes) | ~407 ms | ~20 µs per note |
-| HTML export (20k notes) | ~3.3 s | ~6,000 notes/sec |
-| Memory (RSS, 20k notes) | ~48 MB | |
-
-All operations complete with zero perceptible screen delay — searches return as you type, index builds complete in under a second, and exports render thousands of notes per second.
-
-Run benchmarks yourself:
-
-```
-cargo run -p silica-bench -- generate /tmp/test-vault --notes 20000
-cargo run -p silica-bench -- index /tmp/test-vault
-cargo run -p silica-bench -- search /tmp/test-vault "needle"
-cargo run -p silica-bench -- parse /tmp/test-vault
-cargo run -p silica-bench -- export /tmp/test-vault /tmp/export-out
-```
 
 ## Deliberately different
 
