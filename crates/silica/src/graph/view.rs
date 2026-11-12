@@ -371,6 +371,15 @@ pub struct GraphView {
     /// The panel changed something the file does not have yet, so a vault
     /// refresh must not reload the config over it.
     config_dirty: bool,
+    /// A background `graph.json` write is in flight; a further change queues
+    /// behind it instead of racing it on disk.
+    save_in_flight: bool,
+    /// A change arrived while a write was in flight: save again when it lands.
+    save_pending: bool,
+    /// Monotonic count of config changes; a finishing write compares it
+    /// against the count it wrote, so only a write of the newest state
+    /// clears `config_dirty`.
+    edits: u64,
     /// Pre-compiled color group searches, cached to avoid recompiling 97+
     /// regexes against every node on every rebuild.
     cached_color_groups: Vec<(Arc<Search>, Hsla)>,
@@ -468,6 +477,9 @@ impl GraphView {
             slider_drag: None,
             save_task: None,
             config_dirty: false,
+            save_in_flight: false,
+            save_pending: false,
+            edits: 0,
             cached_color_groups: Vec::new(),
             cached_color_config: Vec::new(),
             local_depth: 1,
@@ -1045,6 +1057,7 @@ impl GraphView {
         }
         slider.set(&mut self.config, value);
         self.config_dirty = true;
+        self.edits += 1;
         if slider.is_force() {
             self.apply_forces(cx);
         }
@@ -1260,31 +1273,66 @@ impl GraphView {
     /// is one write rather than one per pixel.
     fn schedule_save(&mut self, cx: &mut Context<Self>) {
         self.config_dirty = true;
+        self.edits += 1;
         self.save_task = Some(cx.spawn(async move |this, cx| {
             cx.background_executor().timer(SAVE_DELAY).await;
-            this.update(cx, |view, _| view.save_now()).ok();
+            this.update(cx, |view, cx| view.save_now(cx)).ok();
         }));
     }
 
     /// The write itself. A vault that has no `graph.json` gets the whole
     /// document in Obsidian's key order; one that has it gets the changed
     /// keys merged in, so the numbers Obsidian wrote keep their digits.
-    fn save_now(&mut self) {
+    ///
+    /// The write goes to the background executor: `write_no_follow` fsyncs
+    /// twice and snapshots the file it replaces, and on a spinning vault
+    /// disk that blocked the UI thread for a visible fraction of a second —
+    /// once per node release, since dropping a dragged node schedules this.
+    fn save_now(&mut self, cx: &mut Context<Self>) {
         self.save_task = None;
+        if self.save_in_flight {
+            self.save_pending = true;
+            return;
+        }
         let Some(state) = self.state.clone() else {
             return;
         };
-        let vault = state.vault();
-        let path = vault.absolute(&format!("{}/graph.json", vault.config_dir()));
-        let result = if path.is_file() {
-            vault.write_config("graph.json", &merge_document(&self.config))
-        } else {
-            vault.replace_config("graph.json", &full_document(&self.config))
-        };
-        match result {
-            Ok(()) => self.config_dirty = false,
-            Err(err) => eprintln!("graph.json could not be written: {err}"),
-        }
+        let merged = merge_document(&self.config);
+        let full = full_document(&self.config);
+        let edits = self.edits;
+        self.save_in_flight = true;
+        cx.spawn(async move |this, cx| {
+            let result = cx
+                .background_executor()
+                .spawn(async move {
+                    let path = {
+                        let vault = state.vault();
+                        vault.absolute(&format!("{}/graph.json", vault.config_dir()))
+                    };
+                    if path.is_file() {
+                        state.vault().write_config("graph.json", &merged)
+                    } else {
+                        state.vault().replace_config("graph.json", &full)
+                    }
+                })
+                .await;
+            this.update(cx, |view, cx| {
+                view.save_in_flight = false;
+                // * The config may have moved on while the write was in
+                //   flight; only a write of the newest state clears the flag.
+                match result {
+                    Ok(()) if view.edits == edits => view.config_dirty = false,
+                    Ok(()) => {}
+                    Err(err) => eprintln!("graph.json could not be written: {err}"),
+                }
+                if view.save_pending {
+                    view.save_pending = false;
+                    view.save_now(cx);
+                }
+            })
+            .ok();
+        })
+        .detach();
     }
 
     // ----- panel elements --------------------------------------------------------

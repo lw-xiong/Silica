@@ -579,13 +579,33 @@ impl Workspace {
             }
         }
         let contents = self.canvas.read(cx).to_json();
-        match silica_vault::write_no_follow(&absolute, contents.as_bytes()) {
-            Ok(()) => {
-                self.canvas.update(cx, |c, _| c.mark_saved(contents));
-                self.report(format!("{path} saved"), cx);
-            }
-            Err(err) => self.report(format!("Could not save {path}: {err}"), cx),
-        }
+        // * The write — two fsyncs and a snapshot of the file it replaces —
+        //   goes to the background executor: on a spinning vault disk it
+        //   stalled the UI thread for a visible fraction of a second after
+        //   every dragged-node release, since the drop is what schedules it.
+        let bytes = contents.clone();
+        cx.spawn(async move |this, cx| {
+            let result = cx
+                .background_executor()
+                .spawn(async move { silica_vault::write_no_follow(&absolute, bytes.as_bytes()) })
+                .await;
+            this.update(cx, |ws, cx| match result {
+                Ok(()) => {
+                    // * Only record the bytes when they are still the view's
+                    //   bytes: an edit landing during the write keeps the
+                    //   view dirty for its own save.
+                    ws.canvas.update(cx, |c, _| {
+                        if c.to_json() == contents {
+                            c.mark_saved(contents.clone());
+                        }
+                    });
+                    ws.report(format!("{path} saved"), cx);
+                }
+                Err(err) => ws.report(format!("Could not save {path}: {err}"), cx),
+            })
+            .ok();
+        })
+        .detach();
         cx.notify();
     }
 
