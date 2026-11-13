@@ -669,6 +669,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:copy-path",
     "workspace:copy-full-path",
     "workspace:copy-url",
+    "workspace:export-pdf",
     "open-with-default-app:open",
     "app:open-settings",
     "app:open-help",
@@ -5948,6 +5949,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:flashcards" => self.select_right_tab(RightTab::Flashcards, cx),
             "silica:ai-chat" => self.select_right_tab(RightTab::AiChat, cx),
             "silica:export-pdf" => self.export_active_pdf(cx),
+            "workspace:export-pdf" => self.export_active_pdf(cx),
             // * Asked for by id with no file open -- the palette does not offer
             //   it, and `can_run` says so -- this opens nothing, which is what
             //   Obsidian's `checkCallback` does rather than falling back to the
@@ -7110,7 +7112,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
         // * Exporting has nothing to work on with no note open, so the
         //   palette does not offer it there rather than offering a command
         //   that would only refuse.
-        if id == "silica:export-pdf" {
+        if id == "silica:export-pdf" || id == "workspace:export-pdf" {
             return self.current.is_some();
         }
         if EDITOR_ONLY.contains(&id) {
