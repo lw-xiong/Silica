@@ -587,6 +587,8 @@ pub const RUNNABLE: &[&str] = &[
     "editor:redo",
     "editor:undo",
     "switcher:open",
+    "app:show-tab-switcher",
+    "app:show-debug-info",
     "global-search:open",
     "graph:open",
     "graph:open-local",
@@ -5915,6 +5917,29 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 self.set_mode(mode, window, cx);
             }
             "switcher:open" => self.open_switcher("", window, cx),
+            "app:show-tab-switcher" => self.open_switcher("", window, cx),
+            "app:show-debug-info" => {
+                let (root, files) = match self.state.as_ref() {
+                    Some(state) => {
+                        let vault = state.vault();
+                        (
+                            vault.root().display().to_string(),
+                            vault.files().len(),
+                        )
+                    }
+                    None => (String::new(), 0),
+                };
+                let info = format!(
+                    "Silica version: {}\nOS: {} {}\nVault: {}\nFiles: {}",
+                    env!("CARGO_PKG_VERSION"),
+                    std::env::consts::OS,
+                    std::env::consts::ARCH,
+                    root,
+                    files
+                );
+                cx.write_to_clipboard(ClipboardItem::new_string(info));
+                self.report("Debug info copied to the clipboard", cx);
+            }
             "global-search:open" => self.open_search_action(&OpenSearch, window, cx),
             "graph:open" => self.open_graph_action(&OpenGraph, window, cx),
             "silica:export-site" => self.start_export_site(window, cx),
