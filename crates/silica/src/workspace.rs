@@ -658,6 +658,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:template-gallery",
     "workspace:copy-path",
     "workspace:copy-full-path",
+    "workspace:copy-url",
     "app:open-settings",
     "app:open-help",
     "app:open-vault",
@@ -6290,6 +6291,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:workspace-delete" => self.delete_workspace_prompt(window, cx),
             "workspace:copy-path" => self.copy_current_path(false, cx),
             "workspace:copy-full-path" => self.copy_current_path(true, cx),
+            "workspace:copy-url" => self.copy_current_url(cx),
             "silica:pin-tab" => self.pin_tab(cx),
             "app:toggle-left-sidebar" => {
                 self.left_visible = !self.left_visible;
@@ -6784,6 +6786,27 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             current
         };
         cx.write_to_clipboard(ClipboardItem::new_string(text));
+    }
+
+    /// `workspace:copy-url`: the note's `obsidian://open` URL, the form the
+    /// "Copy Obsidian URL" command puts on the clipboard. The app's own URI
+    /// handler parses the same shape back into vault + file.
+    fn copy_current_url(&mut self, cx: &mut Context<Self>) {
+        let Some(current) = self.current.clone() else {
+            self.report("No note is open", cx);
+            return;
+        };
+        let vault = self
+            .state
+            .as_ref()
+            .and_then(|state| state.root.file_name().map(|n| n.to_string_lossy().into_owned()))
+            .unwrap_or_default();
+        let url = format!(
+            "obsidian://open?vault={}&file={}",
+            percent_encode_path(&vault),
+            percent_encode_path(&current)
+        );
+        cx.write_to_clipboard(ClipboardItem::new_string(url));
     }
 
     /// `silica:pin-tab`: the active tab of the group, pinned for the
