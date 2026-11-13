@@ -535,6 +535,7 @@ pub const EDITOR_ONLY: &[&str] = &[
     "insert-current-date",
     "insert-current-time",
     "insert-template",
+    "templates:insert-template",
 ];
 
 /// The ids that need a base on screen, which is Obsidian's `checkCallback`
@@ -667,6 +668,7 @@ pub const RUNNABLE: &[&str] = &[
     "editor:toggle-fold-properties",
     "editor:insert-table",
     "insert-template",
+    "templates:insert-template",
     "insert-current-date",
     "insert-current-time",
     "silica:voice-note",
@@ -6323,7 +6325,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     self.insert_stamp(date, window, cx);
                 }
             }
-            "insert-template" => {
+            "insert-template" | "templates:insert-template" => {
                 if self.editing_or_report(id, window, cx) {
                     self.open_template_chooser(window, cx);
                 }

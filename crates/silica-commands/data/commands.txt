@@ -246,6 +246,7 @@ editor:table-row-copy
 editor:table-col-copy
 daily-notes
 insert-template
+templates:insert-template
 insert-current-date
 insert-current-time
 zk-prefixer

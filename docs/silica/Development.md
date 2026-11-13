@@ -3526,3 +3526,8 @@ accept both spellings. Bump 0.9.4.
 `editor:indent` / `editor:outdent` alias `editor:indent-list` / `editor:unindent-list` (same
 Tab/Shift-Tab step), and `workspace:undo-close-tab` aliases `workspace:undo-close-pane`; all
 registered in `silica-commands` data. Bump 0.9.5.
+
+## templates:insert-template alias, 2026-11-13
+
+The core Templates plugin id `templates:insert-template` now aliases `insert-template` in
+`RUNNABLE`, the match arm and `silica-commands` data. Bump 0.9.6.

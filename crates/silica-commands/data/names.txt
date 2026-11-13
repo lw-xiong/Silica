@@ -186,6 +186,7 @@ daily-notes	Daily notes: Open today's daily note
 daily-notes:goto-prev	Daily notes: Open previous daily note
 daily-notes:goto-next	Daily notes: Open next daily note
 insert-template	Templates: Insert template
+templates:insert-template	Templates: Insert template
 insert-current-date	Templates: Insert current date
 insert-current-time	Templates: Insert current time
 note-composer:merge-file	Note composer: Merge current file with another file...
