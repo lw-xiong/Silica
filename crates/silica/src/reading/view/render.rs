@@ -44,6 +44,10 @@ impl Render for ReadingView {
                     .size_full(),
                 ),
             )
+            .children(
+                (self.backlinks_in_document && !self.document_backlinks.is_empty())
+                    .then(|| self.render_document_backlinks(base, cx)),
+            )
             .child(
                 // * Records the painted width; a change lays the blocks out again.
                 canvas(
@@ -64,6 +68,8 @@ impl Render for ReadingView {
                 .inset_0(),
             )
     }
+
+
 }
 
 /// Builds GPUI elements for model blocks; the reading view and Live

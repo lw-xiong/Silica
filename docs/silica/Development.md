@@ -3503,3 +3503,13 @@ scanner. Warm page cache.
 The full parser costs about 200 ms more than the old line scanner on one
 thread (35 MB in 563 ms, roughly 60 MB/s) and is invisible with the thread
 pool. The gate still passes cold with margin; the parser is not the bottleneck.
+
+## In-document backlinks, 2026-11-13
+
+The reading view now lists a note's backlinks at its bottom: one row per
+linking occurrence (capped at 20), the linking note's name clickable (Ctrl/Cmd
+click opens in a new tab) with the snippet around the link under it. Rows are
+built from the same `backlinks::linked_mentions` section the Backlinks pane
+shows, refreshed in `refresh_panes` and cleared in `clear_panes`. The section
+honours `backlink:toggle-backlinks-in-document` (Obsidian's command id), which
+flips `ReadingView::backlinks_in_document` and reports the new state.

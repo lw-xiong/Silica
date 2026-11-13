@@ -761,6 +761,7 @@ pub const RUNNABLE: &[&str] = &[
     "app:delete-file",
     "backlink:open",
     "backlink:open-backlinks",
+    "backlink:toggle-backlinks-in-document",
     "outgoing-links:open",
     "outgoing-links:open-for-current",
     "outline:open",
@@ -6586,6 +6587,21 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 self.right_visible = true;
                 self.show_right_tab("backlinks", cx);
             }
+            "backlink:toggle-backlinks-in-document" => {
+                let on = self.reading.update(cx, |r, cx| {
+                    let on = !r.backlinks_in_document;
+                    r.set_backlinks_in_document(on, cx);
+                    on
+                });
+                self.report(
+                    if on {
+                        "Backlinks section shown at the note's bottom"
+                    } else {
+                        "Backlinks section hidden at the note's bottom"
+                    },
+                    cx,
+                );
+            }
             "outgoing-links:open" | "outgoing-links:open-for-current" => {
                 self.right_visible = true;
                 self.show_right_tab("outgoing", cx);
@@ -8050,6 +8066,8 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
         self.backlink_sections.clear();
         self.outgoing_sections.clear();
         self.backlink_state.expanded.clear();
+        self.reading
+            .update(cx, |r, cx| r.set_document_backlinks(Vec::new(), cx));
         let current = self.current.clone();
         self.bookmarks.update(cx, |b, cx| b.set_active(current, cx));
         cx.notify();
@@ -8095,6 +8113,22 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
         drop(texts);
         self.backlink_sections = vec![linked, Section::empty(backlinks::UNLINKED)];
         self.outgoing_sections = vec![links, Section::empty(backlinks::UNLINKED)];
+        // * The same links as the reading view's in-document Backlinks
+        //   section: one row per match, capped so a hub note stays readable.
+        let doc_rows: Vec<reading::view::DocBacklink> = self.backlink_sections[0]
+            .groups
+            .iter()
+            .flat_map(|g| {
+                let source = g.path.clone().unwrap_or_else(|| g.label.clone());
+                g.matches.iter().map(move |m| reading::view::DocBacklink {
+                    source: source.clone(),
+                    context: m.text.clone(),
+                })
+            })
+            .take(20)
+            .collect();
+        self.reading
+            .update(cx, |r, cx| r.set_document_backlinks(doc_rows, cx));
         self.sort_backlink_sections(state);
         self.compute_mentions(&path, state, cx);
         cx.notify();

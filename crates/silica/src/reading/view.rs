@@ -373,6 +373,21 @@ pub struct ReadingView {
     /// byte offset within its first RichText run. `None` when no drag is in
     /// progress.
     pub drag_start: Option<(usize, usize)>,
+    /// `backlink:toggle-backlinks-in-document`: whether the note's bottom
+    /// shows its Backlinks section in reading view.
+    pub backlinks_in_document: bool,
+    /// The rows of that section: the linking note and the snippet around
+    /// the link. The workspace fills them from the cache when a note opens.
+    pub document_backlinks: Vec<DocBacklink>,
+}
+
+/// One row of the reading view's in-document Backlinks section.
+#[derive(Clone)]
+pub struct DocBacklink {
+    /// Vault-relative path of the note the link was written in.
+    pub source: String,
+    /// The line around the link, trimmed.
+    pub context: String,
 }
 
 /// One video in the player.
@@ -460,6 +475,8 @@ impl ReadingView {
             property_entries: None,
             selection: None,
             drag_start: None,
+            backlinks_in_document: true,
+            document_backlinks: Vec::new(),
         }
     }
 
@@ -485,6 +502,86 @@ impl ReadingView {
 
     pub fn set_readable_line_length(&mut self, on: bool) {
         self.readable_line_length = on;
+    }
+
+    /// `backlink:toggle-backlinks-in-document`.
+    pub fn set_backlinks_in_document(&mut self, on: bool, cx: &mut Context<Self>) {
+        self.backlinks_in_document = on;
+        cx.notify();
+    }
+
+    /// The rows of the in-document Backlinks section, from the cache.
+    pub fn set_document_backlinks(&mut self, rows: Vec<DocBacklink>, cx: &mut Context<Self>) {
+        self.document_backlinks = rows;
+        cx.notify();
+    }
+
+    /// The in-document Backlinks section at the note's bottom: one row per
+    /// linking note — its name clickable, the snippet around the link below.
+    fn render_document_backlinks(&self, base: f32, cx: &mut Context<Self>) -> AnyElement {
+        let t = cx.global::<Theme>().clone();
+        let view = cx.entity();
+        let on_link: LinkHandler = Rc::new({
+            let view = view.clone();
+            move |target, window, cx| {
+                let modifiers = window.modifiers();
+                let new_tab = modifiers.control || modifiers.platform;
+                view.update(cx, |_, cx| {
+                    cx.emit(if new_tab {
+                        ReadingEvent::OpenLinkInNewTab(target)
+                    } else {
+                        ReadingEvent::OpenLink(target)
+                    })
+                });
+            }
+        });
+        div()
+            .border_t_1()
+            .border_color(t.border)
+            .mt_4()
+            .px_4()
+            .pb_4()
+            .flex()
+            .flex_col()
+            .gap_2()
+            .child(
+                div()
+                    .text_size(px(base * 0.8))
+                    .text_color(t.text_muted)
+                    .child("Backlinks"),
+            )
+            .children(self.document_backlinks.iter().map(|b| {
+                let source = b.source.clone();
+                let label = source
+                    .rsplit('/')
+                    .next()
+                    .unwrap_or(source.as_str())
+                    .to_string();
+                let on_link = on_link.clone();
+                div()
+                    .flex()
+                    .flex_col()
+                    .gap_1()
+                    .child(
+                        div()
+                            .id(("doc-backlink", source.len()))
+                            .text_size(px(base * 0.9))
+                            .text_color(t.link)
+                            .cursor_pointer()
+                            .on_click(move |_, window, cx| {
+                                on_link(LinkTarget::Internal(source.clone()), window, cx)
+                            })
+                            .child(SharedString::from(format!("↗ {label}"))),
+                    )
+                    .child(
+                        div()
+                            .text_size(px(base * 0.85))
+                            .text_color(t.text_muted)
+                            .child(SharedString::from(b.context.clone())),
+                    )
+                    .into_any_element()
+            }))
+            .into_any_element()
     }
 
     pub fn set_inline_title(&mut self, on: bool) {
