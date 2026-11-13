@@ -595,6 +595,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:footnotes",
     "silica:file-recovery",
     "silica:flashcards",
+    "silica:word-count",
     "silica:ai-chat",
     "silica:export-pdf",
     "silica:workspace-save",
@@ -6259,6 +6260,26 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 self.step_font_size(up, window, cx);
             }
             "silica:vault-backup" => self.backup_vault(window, cx),
+            "silica:word-count" => {
+                let text = self.state.as_ref().and_then(|state| {
+                    self.current
+                        .as_deref()
+                        .and_then(|path| state.text_for(path))
+                });
+                match text {
+                    Some(text) => {
+                        let stats = silica_text::word_stats(&text);
+                        self.report(
+                            format!(
+                                "{} words · {} characters ({} without spaces)",
+                                stats.words, stats.characters, stats.characters_no_spaces
+                            ),
+                            cx,
+                        );
+                    }
+                    None => self.report("No note is open", cx),
+                }
+            }
             "silica:file-recovery" => self.open_file_recovery(window, cx),
             "silica:reminder-add" => self.add_reminder(window, cx),
             "silica:toggle-graph-pane" => self.toggle_graph_pane(cx),
