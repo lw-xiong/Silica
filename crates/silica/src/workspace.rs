@@ -402,6 +402,43 @@ fn now_millis() -> i64 {
     chrono::Utc::now().timestamp_millis()
 }
 
+/// Lists the vault's `.trash` folder as file entries, for
+/// `workspace:show-trash`. The index deliberately skips `.trash`, so a
+/// separate walk is the only way the Files pane can show it.
+fn trash_files(root: &std::path::Path) -> Vec<VaultFile> {
+    let mut out = Vec::new();
+    let mut stack = vec![root.join(".trash")];
+    while let Some(dir) = stack.pop() {
+        let Ok(entries) = std::fs::read_dir(&dir) else {
+            continue;
+        };
+        for entry in entries.flatten() {
+            let path = entry.path();
+            let Ok(meta) = entry.metadata() else { continue };
+            if meta.is_dir() {
+                stack.push(path);
+                continue;
+            }
+            let Ok(rel) = path.strip_prefix(root) else { continue };
+            let rel = rel.to_string_lossy().replace('\\', "/");
+            let ms = meta
+                .modified()
+                .ok()
+                .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+                .map(|d| d.as_millis() as u64)
+                .unwrap_or(0);
+            out.push(VaultFile {
+                kind: FileKind::from_path(&rel),
+                path: rel,
+                size: meta.len(),
+                mtime: ms,
+                ctime: ms,
+            });
+        }
+    }
+    out
+}
+
 fn now() -> templates::Stamp {
     let local = chrono::Local::now();
     let naive = local.naive_local();
@@ -670,6 +707,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:copy-full-path",
     "workspace:copy-url",
     "workspace:export-pdf",
+    "workspace:show-trash",
     "open-with-default-app:open",
     "app:open-settings",
     "app:open-help",
@@ -3331,6 +3369,10 @@ pub struct Workspace {
     fold_store: Option<(PathBuf, fold::FoldStore)>,
     left_visible: bool,
     right_visible: bool,
+    /// Whether the Files pane lists the vault's `.trash` folder, toggled
+    /// by `workspace:show-trash`. The index skips `.trash`, so the tree
+    /// gets those files from a separate scan while it is on.
+    show_trash: bool,
     /// Each sidebar's width in logical pixels, `workspace.json`'s
     /// `left.width` and `right.width`; a new vault's is 300.
     left_width: f64,
@@ -4049,6 +4091,7 @@ impl Workspace {
             fold_store: None,
             left_visible: true,
             right_visible: true,
+            show_trash: false,
             left_width: SIDEBAR_WIDTH as f64,
             right_width: SIDEBAR_WIDTH as f64,
             frameless: false,
@@ -5164,7 +5207,11 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
         let show_unsupported = state.app().show_unsupported_files.unwrap_or(false);
         let tree = {
             let vault = state.vault();
-            FileTree::new(vault.files(), vault.folders(), show_unsupported)
+            let mut files: Vec<VaultFile> = vault.files().to_vec();
+            if self.show_trash {
+                files.extend(trash_files(vault.root()));
+            }
+            FileTree::new(&files, vault.folders(), show_unsupported)
         };
         self.explorer.update(cx, |e, cx| e.set_tree(tree, cx));
         self.refresh_tag_tree(&state);
@@ -5950,6 +5997,18 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:ai-chat" => self.select_right_tab(RightTab::AiChat, cx),
             "silica:export-pdf" => self.export_active_pdf(cx),
             "workspace:export-pdf" => self.export_active_pdf(cx),
+            "workspace:show-trash" => {
+                self.show_trash = !self.show_trash;
+                self.refresh_vault_views(cx);
+                self.report(
+                    if self.show_trash {
+                        "Showing the .trash folder"
+                    } else {
+                        "Hiding the .trash folder"
+                    },
+                    cx,
+                );
+            }
             // * Asked for by id with no file open -- the palette does not offer
             //   it, and `can_run` says so -- this opens nothing, which is what
             //   Obsidian's `checkCallback` does rather than falling back to the
