@@ -433,6 +433,12 @@ pub const EDITOR_ONLY: &[&str] = &[
     "bookmarks:bookmark-current-section",
     "editor:add-cursor-above",
     "editor:add-cursor-below",
+    "editor:move-caret-left",
+    "editor:move-caret-right",
+    "editor:move-caret-up",
+    "editor:move-caret-down",
+    "editor:go-start",
+    "editor:go-end",
     "editor:clear-formatting",
     "editor:cycle-list-checklist",
     "editor:delete-paragraph",
@@ -512,6 +518,12 @@ pub const RUNNABLE: &[&str] = &[
     "editor:toggle-source",
     "editor:open-search",
     "editor:open-search-replace",
+    "editor:move-caret-left",
+    "editor:move-caret-right",
+    "editor:move-caret-up",
+    "editor:move-caret-down",
+    "editor:go-start",
+    "editor:go-end",
     "editor:add-cursor-above",
     "editor:add-cursor-below",
     "editor:toggle-bold",
@@ -6131,6 +6143,23 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "editor:follow-link" => {
                 if self.editing_or_report(id, window, cx) {
                     self.editor.update(cx, |e, cx| e.follow_link_at_cursor(cx));
+                }
+            }
+            // * Caret commands dispatch the editor's own navigation actions,
+            //   so a hotkey bound to them behaves exactly like the arrow keys.
+            "editor:move-caret-left" | "editor:move-caret-right" | "editor:move-caret-up"
+            | "editor:move-caret-down" | "editor:go-start" | "editor:go-end" => {
+                if self.editing_or_report(id, window, cx) {
+                    window.focus(&self.editor.focus_handle(cx), cx);
+                    let action: Box<dyn Action> = match id {
+                        "editor:move-caret-left" => crate::editor::MoveLeft.boxed_clone(),
+                        "editor:move-caret-right" => crate::editor::MoveRight.boxed_clone(),
+                        "editor:move-caret-up" => crate::editor::MoveUp.boxed_clone(),
+                        "editor:move-caret-down" => crate::editor::MoveDown.boxed_clone(),
+                        "editor:go-start" => crate::editor::DocumentStart.boxed_clone(),
+                        _ => crate::editor::DocumentEnd.boxed_clone(),
+                    };
+                    window.dispatch_action(action, cx);
                 }
             }
             "editor:open-link-in-new-leaf" => {
