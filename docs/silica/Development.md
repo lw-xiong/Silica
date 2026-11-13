@@ -3560,3 +3560,9 @@ window closes). Bump 0.9.11.
 ## app:open-file command, 2026-11-13
 
 `app:open-file` opens the quick switcher (same as `switcher:open`). Bump 0.9.12.
+
+## editor:open-link-in-new-window + app:toggle-default-new-pane-mode, 2026-11-13
+
+`editor:open-link-in-new-window` dispatches like `editor:open-link-in-new-leaf` (a new tab in
+this window), and `app:toggle-default-new-pane-mode` flips `app.json` `focusNewTab` through
+`change_setting`. Bump 0.9.13.

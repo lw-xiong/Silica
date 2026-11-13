@@ -496,6 +496,7 @@ pub const EDITOR_ONLY: &[&str] = &[
     "editor:insert-tag",
     "editor:insert-wikilink",
     "editor:open-link-in-new-leaf",
+    "editor:open-link-in-new-window",
     "editor:open-link-in-new-split",
     "silica:insert-image",
     "silica:attach-file",
@@ -627,6 +628,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:remove-attachment",
     "editor:follow-link",
     "editor:open-link-in-new-leaf",
+    "editor:open-link-in-new-window",
     "editor:copy",
     "editor:cut",
     "editor:paste",
@@ -734,6 +736,7 @@ pub const RUNNABLE: &[&str] = &[
     "app:open-sandbox-vault",
     "app:toggle-left-sidebar",
     "app:toggle-ribbon",
+    "app:toggle-default-new-pane-mode",
     "app:toggle-right-sidebar",
     "file-explorer:open",
     "file-explorer:reveal-active-file",
@@ -6306,8 +6309,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     window.dispatch_action(action, cx);
                 }
             }
-            "editor:open-link-in-new-leaf" => {
-                if self.editing_or_report(id, window, cx) {
+                        "editor:open-link-in-new-leaf" | "editor:open-link-in-new-window" => {     if self.editing_or_report(id, window, cx) {
                     self.link_in_new_tab = true;
                     let found = self.editor.update(cx, |e, cx| e.follow_link_at_cursor(cx));
                     if !found {
@@ -6480,7 +6482,12 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 ),
                 cx,
             ),
-                        "app:toggle-ribbon" => {
+                                    "app:toggle-default-new-pane-mode" => {
+                let mut next = self.state.as_ref().map(|s| s.app().clone()).unwrap_or_default();
+                next.focus_new_tab = Some(!next.focus_new_tab.unwrap_or(true));
+                self.change_setting(SettingChange::App(next), window, cx);
+            }
+"app:toggle-ribbon" => {
                 let mut next = self.state.as_ref().map(|s| s.appearance().clone()).unwrap_or_default();
                 next.show_ribbon = Some(!next.show_ribbon.unwrap_or(true));
                 self.change_setting(SettingChange::Appearance(next), window, cx);
