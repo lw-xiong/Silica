@@ -1193,7 +1193,7 @@ impl GraphView {
 
     /// "Start timelapse animation": the layout again from its first
     /// positions, so the graph can be watched settling.
-    fn restart_layout(&mut self, cx: &mut Context<Self>) {
+    pub fn restart_layout(&mut self, cx: &mut Context<Self>) {
         let mut layout = Layout::new(self.nodes.len(), (*self.edges).clone(), self.forces());
         for (i, node) in self.nodes.iter().enumerate() {
             layout.bodies[i].mass = 1.0 + (node.degree as f32).sqrt() * 0.5;

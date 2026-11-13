@@ -590,6 +590,7 @@ pub const RUNNABLE: &[&str] = &[
     "global-search:open",
     "graph:open",
     "graph:open-local",
+    "graph:animate",
     // * Silica's own extension, not an Obsidian id: the `silica:` prefix is
     //   what the repo marks its native additions with.
     "silica:calendar",
@@ -5928,6 +5929,9 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             //   global graph.
             "graph:open-local" if self.current.is_none() => {}
             "graph:open-local" => self.show_graph(true, window, cx),
+            "graph:animate" => {
+                self.graph.update(cx, |g, cx| g.restart_layout(cx));
+            }
             "canvas:new-file" => self.new_canvas("", cx),
             "bases:new-file" => self.new_base("", cx),
             "bases:add-view" => self.add_base_view(cx),
