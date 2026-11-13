@@ -547,6 +547,8 @@ pub const RUNNABLE: &[&str] = &[
     "editor:toggle-highlight-purple",
     "editor:clear-formatting",
     "editor:toggle-spellcheck",
+    "editor:toggle-line-numbers",
+    "editor:toggle-readable-line-length",
     "editor:insert-callout",
     "editor:insert-codeblock",
     "editor:insert-mathblock",
@@ -594,6 +596,8 @@ pub const RUNNABLE: &[&str] = &[
     "silica:export-site",
     "silica:footnotes",
     "silica:file-recovery",
+    "footnotes:open",
+    "file-recovery:open",
     "silica:flashcards",
     "silica:word-count",
     "silica:ai-chat",
@@ -5910,6 +5914,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "graph:open" => self.open_graph_action(&OpenGraph, window, cx),
             "silica:export-site" => self.start_export_site(window, cx),
             "silica:footnotes" => self.select_right_tab(RightTab::Footnotes, cx),
+            "footnotes:open" => self.select_right_tab(RightTab::Footnotes, cx),
             "silica:flashcards" => self.select_right_tab(RightTab::Flashcards, cx),
             "silica:ai-chat" => self.select_right_tab(RightTab::AiChat, cx),
             "silica:export-pdf" => self.export_active_pdf(cx),
@@ -6061,6 +6066,18 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "editor:toggle-spellcheck" => {
                 if self.editing_or_report(id, window, cx) {
                     self.editor.update(cx, |e, _cx| e.toggle_spellcheck());
+                }
+            }
+            "editor:toggle-line-numbers" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor
+                        .update(cx, |e, _cx| e.toggle_show_line_number());
+                }
+            }
+            "editor:toggle-readable-line-length" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor
+                        .update(cx, |e, _cx| e.toggle_readable_line_length());
                 }
             }
             "editor:insert-callout"
@@ -6283,6 +6300,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 }
             }
             "silica:file-recovery" => self.open_file_recovery(window, cx),
+            "file-recovery:open" => self.open_file_recovery(window, cx),
             "silica:reminder-add" => self.add_reminder(window, cx),
             "silica:toggle-graph-pane" => self.toggle_graph_pane(cx),
             "silica:palette-verify" => self.verify_palette(window, cx),

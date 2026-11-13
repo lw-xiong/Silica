@@ -978,6 +978,14 @@ impl Editor {
         self.spellcheck = !self.spellcheck;
     }
 
+    pub fn toggle_show_line_number(&mut self) {
+        self.show_line_number = !self.show_line_number;
+    }
+
+    pub fn toggle_readable_line_length(&mut self) {
+        self.readable_line_length = !self.readable_line_length;
+    }
+
     pub fn set_right_to_left(&mut self, on: bool) {
         self.right_to_left = on;
     }
