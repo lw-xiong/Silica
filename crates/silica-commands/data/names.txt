@@ -21,6 +21,7 @@ workspace:copy-path	Copy current file path from vault folder
 workspace:copy-full-path	Copy current file path from system root
 workspace:copy-url	Copy Obsidian URL for current file
 workspace:undo-close-pane	Undo close tab
+workspace:undo-close-tab	Undo close tab
 workspace:export-pdf	Export to PDF...
 editor:rename-heading	Rename this heading...
 workspace:open-in-new-window	Open current tab in new window
@@ -133,7 +134,9 @@ editor:insert-horizontal-rule	Insert horizontal rule
 editor:insert-mathblock	Insert math block
 editor:insert-table	Insert table
 editor:insert-footnote	Insert footnote
+editor:indent	Indent
 editor:indent-list	Indent list item
+editor:outdent	Outdent
 editor:unindent-list	Unindent list item
 editor:swap-line-up	Move line up
 editor:swap-line-down	Move line down

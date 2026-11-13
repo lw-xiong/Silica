@@ -63,6 +63,7 @@ editor:fold-more
 editor:follow-link
 editor:go-end
 editor:go-start
+editor:indent
 editor:indent-list
 editor:insert-callout
 editor:insert-codeblock
@@ -133,6 +134,7 @@ editor:toggle-spellcheck
 editor:toggle-strikethrough
 editor:undo
 editor:unfold-all
+editor:outdent
 editor:unindent-list
 file-explorer:duplicate-file
 file-explorer:move-file
@@ -223,6 +225,7 @@ workspace:split-vertical
 workspace:toggle-pin
 workspace:toggle-stacked-tabs
 workspace:undo-close-pane
+workspace:undo-close-tab
 workspaces:load
 workspaces:open-modal
 workspaces:save

@@ -483,6 +483,7 @@ pub const EDITOR_ONLY: &[&str] = &[
     "editor:fold-less",
     "editor:fold-more",
     "editor:follow-link",
+    "editor:indent",
     "editor:indent-list",
     "editor:insert-callout",
     "editor:insert-codeblock",
@@ -529,6 +530,7 @@ pub const EDITOR_ONLY: &[&str] = &[
     "editor:toggle-numbered-list",
     "editor:toggle-strikethrough",
     "editor:unfold-all",
+    "editor:outdent",
     "editor:unindent-list",
     "insert-current-date",
     "insert-current-time",
@@ -607,7 +609,9 @@ pub const RUNNABLE: &[&str] = &[
     "editor:set-heading-4",
     "editor:set-heading-5",
     "editor:set-heading-6",
+    "editor:indent",
     "editor:indent-list",
+    "editor:outdent",
     "editor:unindent-list",
     "editor:delete-paragraph",
     "editor:swap-line-up",
@@ -752,6 +756,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:goto-tab-8",
     "workspace:goto-last-tab",
     "workspace:undo-close-pane",
+    "workspace:undo-close-tab",
     "workspace:split-vertical",
     "workspace:split-horizontal",
     "workspace:close-tab-group",
@@ -6223,9 +6228,10 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                         .update(cx, |e, cx| e.set_heading(level, Some(window), cx));
                 }
             }
-            "editor:indent-list" | "editor:unindent-list" => {
+            "editor:indent" | "editor:indent-list"
+            | "editor:outdent" | "editor:unindent-list" => {
                 if self.editing_or_report(id, window, cx) {
-                    let indent = id == "editor:indent-list";
+                    let indent = id != "editor:outdent" && id != "editor:unindent-list";
                     self.editor
                         .update(cx, |e, cx| e.indent_list(indent, window, cx));
                 }
@@ -6571,7 +6577,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "workspace:next-tab" => self.cycle_tab(1, cx),
             "workspace:previous-tab" => self.cycle_tab(self.tabs.len().saturating_sub(1), cx),
             "workspace:goto-last-tab" => self.activate_tab(self.tabs.len().saturating_sub(1), cx),
-            "workspace:undo-close-pane" => self.undo_close_tab(cx),
+            "workspace:undo-close-pane" | "workspace:undo-close-tab" => self.undo_close_tab(cx),
             _ if id.starts_with("workspace:goto-tab-") => {
                 let n: usize = id
                     .rsplit('-')

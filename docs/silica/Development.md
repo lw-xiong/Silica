@@ -3520,3 +3520,9 @@ flips `ReadingView::backlinks_in_document` and reports the new state.
 `editor:toggle-comments` / `workspace:close` in `RUNNABLE` and the match arm, and are registered
 in `silica-commands` data (`commands.txt`, `names.txt`) so the palette, hotkeys and socket all
 accept both spellings. Bump 0.9.4.
+
+## More command-id aliases, 2026-11-13
+
+`editor:indent` / `editor:outdent` alias `editor:indent-list` / `editor:unindent-list` (same
+Tab/Shift-Tab step), and `workspace:undo-close-tab` aliases `workspace:undo-close-pane`; all
+registered in `silica-commands` data. Bump 0.9.5.
