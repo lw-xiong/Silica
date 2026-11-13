@@ -730,6 +730,7 @@ pub const RUNNABLE: &[&str] = &[
     "app:open-another-vault",
     "app:open-sandbox-vault",
     "app:toggle-left-sidebar",
+    "app:toggle-ribbon",
     "app:toggle-right-sidebar",
     "file-explorer:open",
     "file-explorer:reveal-active-file",
@@ -6474,7 +6475,12 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 ),
                 cx,
             ),
-            "app:toggle-left-sidebar" => {
+                        "app:toggle-ribbon" => {
+                let mut next = self.state.as_ref().map(|s| s.appearance().clone()).unwrap_or_default();
+                next.show_ribbon = Some(!next.show_ribbon.unwrap_or(true));
+                self.change_setting(SettingChange::Appearance(next), window, cx);
+            }
+"app:toggle-left-sidebar" => {
                 self.left_visible = !self.left_visible;
                 if !self.left_visible {
                     self.leave_search_field(window, cx);

@@ -3542,3 +3542,8 @@ Obsidian's `workspaces:save`, `workspaces:load`, `workspaces:open-modal` and
 
 `properties:open-local` dispatches like `properties:open` (the right-dock properties tab), and
 `open-with-default-app:show` like `open-with-default-app:open`. Bump 0.9.8.
+
+## app:toggle-ribbon command, 2026-11-13
+
+`app:toggle-ribbon` flips `appearance.json` `showRibbon` via `change_setting`, so the
+ribbon shows/hides and persists like the Settings toggle. Bump 0.9.9.
