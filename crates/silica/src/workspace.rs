@@ -499,6 +499,7 @@ pub const EDITOR_ONLY: &[&str] = &[
     "editor:open-link-in-new-split",
     "silica:insert-image",
     "silica:attach-file",
+    "editor:attach-file",
     "silica:remove-attachment",
     "editor:set-heading",
     "editor:set-heading-0",
@@ -622,6 +623,7 @@ pub const RUNNABLE: &[&str] = &[
     "editor:insert-embed",
     "silica:insert-image",
     "silica:attach-file",
+    "editor:attach-file",
     "silica:remove-attachment",
     "editor:follow-link",
     "editor:open-link-in-new-leaf",
@@ -6274,7 +6276,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 if self.editing_or_report(id, window, cx) {
                     self.editor.update(cx, |e, cx| match id {
                         "silica:insert-image" => e.attach_image(window, cx),
-                        "silica:attach-file" => e.attach_file(window, cx),
+                        "silica:attach-file" | "editor:attach-file" => e.attach_file(window, cx),
                         _ => e.remove_attachment(window, cx),
                     });
                 }

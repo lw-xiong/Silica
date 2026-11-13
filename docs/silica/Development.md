@@ -3547,3 +3547,7 @@ Obsidian's `workspaces:save`, `workspaces:load`, `workspaces:open-modal` and
 
 `app:toggle-ribbon` flips `appearance.json` `showRibbon` via `change_setting`, so the
 ribbon shows/hides and persists like the Settings toggle. Bump 0.9.9.
+
+## editor:attach-file alias, 2026-11-13
+
+`editor:attach-file` dispatches to the same handler as `silica:attach-file`. Bump 0.9.10.
