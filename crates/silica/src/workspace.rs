@@ -752,6 +752,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:new-tab",
     "workspace:close",
     "workspace:close-tab",
+    "workspace:close-window",
     "workspace:close-others",
     "workspace:toggle-stacked-tabs",
     "workspace:next-tab",
@@ -6566,6 +6567,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             "workspace:new-tab" => self.new_tab(cx),
             "workspace:close" | "workspace:close-tab" => self.close_tab(self.active_tab, cx),
+            "workspace:close-window" => window.remove_window(),
             "workspace:close-others" => self.close_other_tabs(cx),
             "workspace:toggle-stacked-tabs" => self.toggle_stacked_tabs(cx),
             "workspace:split-vertical" => self.split(SplitDirection::Vertical, window, cx),

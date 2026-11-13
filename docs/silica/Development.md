@@ -3551,3 +3551,8 @@ ribbon shows/hides and persists like the Settings toggle. Bump 0.9.9.
 ## editor:attach-file alias, 2026-11-13
 
 `editor:attach-file` dispatches to the same handler as `silica:attach-file`. Bump 0.9.10.
+
+## workspace:close-window command, 2026-11-13
+
+`workspace:close-window` calls `window.remove_window()` (the app exits when the last
+window closes). Bump 0.9.11.
