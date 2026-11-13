@@ -615,9 +615,6 @@ pub struct Vault {
 /// everywhere, and a junction or other reparse point on Windows. `is_symlink`
 /// does not report junctions, so Windows needs the reparse-point attribute too.
 fn is_link_like(meta: &std::fs::Metadata) -> bool {
-    if meta.file_type().is_symlink() {
-        return true;
-    }
     #[cfg(windows)]
     {
         use std::os::windows::fs::MetadataExt;
@@ -626,7 +623,7 @@ fn is_link_like(meta: &std::fs::Metadata) -> bool {
             return true;
         }
     }
-    false
+    meta.file_type().is_symlink()
 }
 
 /// Reject a relative path that could leave `root` before any filesystem call.
