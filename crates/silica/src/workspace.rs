@@ -3689,9 +3689,10 @@ impl Workspace {
             cx.subscribe_in(
                 &ai_input,
                 window,
-                |this, _, event: &InputEvent, window, cx| match event {
-                    InputEvent::Submit => this.ai_send(window, cx),
-                    _ => {}
+                |this, _, event: &InputEvent, window, cx| {
+                    if let InputEvent::Submit = event {
+                        this.ai_send(window, cx);
+                    }
                 },
             ),
             // * The Outline marks the heading holding the cursor, or the one

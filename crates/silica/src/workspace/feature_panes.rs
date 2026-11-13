@@ -19,6 +19,7 @@ const AI_CONTEXT_NOTES: usize = 8;
 /// Character cap on the context block sent with a chat turn.
 const AI_CONTEXT_CHARS: usize = 8_000;
 
+#[derive(Default)]
 pub(crate) struct FlashcardState {
     /// Every card parsed from the vault, refreshed when the pane opens.
     pub(crate) cards: Vec<fc::Card>,
@@ -33,20 +34,6 @@ pub(crate) struct FlashcardState {
     pub(crate) notice: Option<String>,
 }
 
-impl Default for FlashcardState {
-    fn default() -> Self {
-        Self {
-            cards: Vec::new(),
-            queue: Vec::new(),
-            current: None,
-            show_answer: false,
-            store_path: None,
-            store: fc::Store::default(),
-            notice: None,
-        }
-    }
-}
-
 /// One chat turn: a question or an answer, rendered with `ai::parse_inline`.
 #[derive(Clone)]
 pub(crate) struct AiTurn {
@@ -54,20 +41,11 @@ pub(crate) struct AiTurn {
     pub(crate) text: String,
 }
 
+#[derive(Default)]
 pub(crate) struct AiState {
     pub(crate) turns: Vec<AiTurn>,
     pub(crate) sending: bool,
     pub(crate) notice: Option<String>,
-}
-
-impl Default for AiState {
-    fn default() -> Self {
-        Self {
-            turns: Vec::new(),
-            sending: false,
-            notice: None,
-        }
-    }
 }
 
 impl Workspace {
