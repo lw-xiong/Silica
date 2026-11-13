@@ -3531,3 +3531,9 @@ registered in `silica-commands` data. Bump 0.9.5.
 
 The core Templates plugin id `templates:insert-template` now aliases `insert-template` in
 `RUNNABLE`, the match arm and `silica-commands` data. Bump 0.9.6.
+
+## workspaces:* commands wired, 2026-11-13
+
+Obsidian's `workspaces:save`, `workspaces:load`, `workspaces:open-modal` and
+`workspaces:save-and-load` now dispatch to the same layout prompts as
+`silica:workspace-save` / `silica:workspace-load`. Bump 0.9.7.
