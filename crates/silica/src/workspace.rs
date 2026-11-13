@@ -514,6 +514,7 @@ pub const EDITOR_ONLY: &[&str] = &[
     "editor:toggle-bullet-list",
     "editor:toggle-checklist-status",
     "editor:toggle-code",
+    "editor:toggle-comment",
     "editor:toggle-comments",
     "editor:toggle-fold",
     "editor:toggle-highlight",
@@ -570,6 +571,7 @@ pub const RUNNABLE: &[&str] = &[
     "editor:toggle-highlight",
     "editor:toggle-code",
     "editor:toggle-inline-math",
+    "editor:toggle-comment",
     "editor:toggle-comments",
     "editor:toggle-blockquote",
     "editor:toggle-bullet-list",
@@ -735,6 +737,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:edit-file-title",
     "workspace:new-tab",
     "workspace:close",
+    "workspace:close-tab",
     "workspace:close-others",
     "workspace:toggle-stacked-tabs",
     "workspace:next-tab",
@@ -6101,6 +6104,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             | "editor:toggle-highlight"
             | "editor:toggle-code"
             | "editor:toggle-inline-math"
+            | "editor:toggle-comment"
             | "editor:toggle-comments" => {
                 if self.editing_or_report(id, window, cx) {
                     let marker = match id {
@@ -6538,7 +6542,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 }
             }
             "workspace:new-tab" => self.new_tab(cx),
-            "workspace:close" => self.close_tab(self.active_tab, cx),
+            "workspace:close" | "workspace:close-tab" => self.close_tab(self.active_tab, cx),
             "workspace:close-others" => self.close_other_tabs(cx),
             "workspace:toggle-stacked-tabs" => self.toggle_stacked_tabs(cx),
             "workspace:split-vertical" => self.split(SplitDirection::Vertical, window, cx),

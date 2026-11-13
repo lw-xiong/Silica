@@ -39,6 +39,7 @@ workspace:previous-tab	Go to previous tab
 workspace:new-tab	New tab
 workspace:new-window	New window
 workspace:close	Close current tab
+workspace:close-tab	Close current tab
 workspace:close-window	Close window
 workspace:close-others	Close all other tabs
 workspace:close-tab-group	Close this tab group
@@ -119,6 +120,7 @@ editor:toggle-highlight-purple	Toggle purple highlight
 editor:toggle-code	Toggle code
 editor:toggle-inline-math	Toggle inline math
 editor:toggle-blockquote	Toggle blockquote
+editor:toggle-comment	Toggle comment
 editor:toggle-comments	Toggle comment
 editor:clear-formatting	Clear formatting
 editor:toggle-bullet-list	Toggle bullet list

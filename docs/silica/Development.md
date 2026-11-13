@@ -3513,3 +3513,10 @@ built from the same `backlinks::linked_mentions` section the Backlinks pane
 shows, refreshed in `refresh_panes` and cleared in `clear_panes`. The section
 honours `backlink:toggle-backlinks-in-document` (Obsidian's command id), which
 flips `ReadingView::backlinks_in_document` and reports the new state.
+
+## Command-id aliases, 2026-11-13
+
+`editor:toggle-comment` and `workspace:close-tab` (Obsidian's singular/alternate ids) now alias
+`editor:toggle-comments` / `workspace:close` in `RUNNABLE` and the match arm, and are registered
+in `silica-commands` data (`commands.txt`, `names.txt`) so the palette, hotkeys and socket all
+accept both spellings. Bump 0.9.4.

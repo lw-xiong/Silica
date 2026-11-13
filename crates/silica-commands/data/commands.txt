@@ -117,6 +117,7 @@ editor:toggle-bold
 editor:toggle-bullet-list
 editor:toggle-checklist-status
 editor:toggle-code
+editor:toggle-comment
 editor:toggle-comments
 editor:toggle-fold
 editor:toggle-fold-properties
@@ -191,6 +192,7 @@ window:toggle-always-on-top
 window:zoom-in
 window:zoom-out
 workspace:close
+workspace:close-tab
 workspace:close-others
 workspace:close-others-tab-group
 workspace:close-tab-group
