@@ -167,6 +167,51 @@ impl Workspace {
                 RightTab::Calendar => "calendar",
                 RightTab::FileRecovery => "file-recovery",
                 RightTab::Tasks => "tasks",
+                RightTab::Flashcards => "flashcards",
+                RightTab::AiChat => "ai-chat",
+            }),
+        );
+        put_capped(
+            &mut right,
+            "flashcards",
+            self.flashcard_state
+                .cards
+                .iter()
+                .take(rows)
+                .map(|card| {
+                    json!({
+                        "id": card.id,
+                        "source": card.source,
+                        "line": card.line,
+                        "kind": match &card.kind {
+                            silica_flashcards::CardKind::Basic { .. } => "basic",
+                            silica_flashcards::CardKind::Cloze { .. } => "cloze",
+                        },
+                        "due": self.flashcard_state.queue.contains(&card.id),
+                        "state": self.flashcard_state.store.cards.get(&card.id),
+                    })
+                })
+                .collect::<Vec<_>>(),
+            rows,
+        );
+        right.insert(
+            "flashcards_options".into(),
+            json!({
+                "current": self.flashcard_state.current,
+                "show_answer": self.flashcard_state.show_answer,
+                "due": self.flashcard_state.queue.len(),
+                "total": self.flashcard_state.cards.len(),
+            }),
+        );
+        right.insert(
+            "ai_chat".into(),
+            json!({
+                "turns": self.ai_state.turns.iter().map(|turn| json!({
+                    "user": turn.user,
+                    "text": turn.text,
+                })).collect::<Vec<_>>(),
+                "sending": self.ai_state.sending,
+                "error": self.ai_state.notice,
             }),
         );
         put_capped(

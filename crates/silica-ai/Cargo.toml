@@ -1,0 +1,15 @@
+[package]
+name = "silica-ai"
+description = "OpenAI-compatible chat client for the in-app AI pane: requests, vault context, inline segments (no gpui)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+# Blocking TLS for `https://` model-server endpoints, same as silica-llm-mcp.
+native-tls = "0.2"

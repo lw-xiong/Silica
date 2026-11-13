@@ -21,11 +21,13 @@ members = [
     "crates/silica-plugins",
     "crates/silica-net",
     "crates/silica-highlight",
+    "crates/silica-flashcards",
+    "crates/silica-ai",
     "crates/silica-bench",
 ]
 
 [workspace.package]
-version = "0.7.7"
+version = "0.8.0"
 edition = "2021"
 rust-version = "1.85"
 repository = "https://github.com/lw-xiong/Silica.git"
@@ -49,6 +51,8 @@ silica-pdf = { path = "crates/silica-pdf" }
 silica-plugins = { path = "crates/silica-plugins" }
 silica-net = { path = "crates/silica-net" }
 silica-math = { path = "crates/silica-math" }
+silica-flashcards = { path = "crates/silica-flashcards" }
+silica-ai = { path = "crates/silica-ai" }
 
 anyhow = "1"
 bytes = "1"

@@ -112,6 +112,7 @@ use chrono::{Datelike, NaiveDate};
 
 mod bookmarks;
 mod calendar;
+mod feature_panes;
 mod files;
 mod record;
 mod render;
@@ -130,6 +131,13 @@ actions!(
 #[action(namespace = workspace, no_json)]
 pub struct RunCommand {
     pub id: String,
+}
+
+/// Grades the flashcard on screen: 0 again, 1 hard, 2 good, 3 easy.
+#[derive(Debug, Clone, PartialEq, Eq, Action)]
+#[action(namespace = workspace, no_json)]
+pub struct FlashcardGrade {
+    pub grade: u8,
 }
 
 /// What was right-clicked in a side-pane (Tags, All properties, Outline).
@@ -574,6 +582,8 @@ pub const RUNNABLE: &[&str] = &[
     "silica:export-site",
     "silica:footnotes",
     "silica:file-recovery",
+    "silica:flashcards",
+    "silica:ai-chat",
     "silica:export-pdf",
     "silica:workspace-save",
     "silica:workspace-load",
@@ -1791,6 +1801,11 @@ pub(crate) enum RightTab {
     FileRecovery,
     /// The Task inbox: every checkbox in the vault, in one pane.
     Tasks,
+    /// Flashcards: every `#flashcard` block in the vault, reviewed with SM-2.
+    Flashcards,
+    /// The AI chat pane: questions against a local model server, with vault
+    /// notes as context.
+    AiChat,
 }
 
 /// The Outline pane's headings for one note's metadata, whether that
@@ -3437,6 +3452,12 @@ pub struct Workspace {
     task_state: TaskPaneState,
     /// The Task inbox's search filter.
     task_filter: Entity<TextInput>,
+    /// The Flashcards pane's parsed cards, due queue and review store.
+    flashcard_state: feature_panes::FlashcardState,
+    /// The AI chat pane's turns and in-flight flag.
+    ai_state: feature_panes::AiState,
+    /// The AI chat pane's input field.
+    ai_input: Entity<TextInput>,
     /// Matcher over every note name and alias, rebuilt when files change.
     name_finder: Option<Arc<Finder>>,
     mention_generation: u64,
@@ -3587,6 +3608,7 @@ impl Workspace {
         let property_filter = cx.new(pane_filter_input);
         let outline_filter = cx.new(pane_filter_input);
         let task_filter = cx.new(pane_filter_input);
+        let ai_input = cx.new(|cx| TextInput::new("Ask about your notes...", cx));
         let bookmarks = cx.new(BookmarksPane::new);
         let switcher = cx.new(QuickSwitcher::new);
         let chooser = cx.new(Chooser::new);
@@ -3645,6 +3667,16 @@ impl Workspace {
                 |this, _, event: &InputEvent, window, cx| match event {
                     InputEvent::Changed => cx.notify(),
                     InputEvent::Cancel => this.hide_pane_search(RightTab::Tasks, window, cx),
+                    _ => {}
+                },
+            ),
+            // * The AI chat input submits on Enter; the request itself runs
+            //   on the background executor inside `ai_send`.
+            cx.subscribe_in(
+                &ai_input,
+                window,
+                |this, _, event: &InputEvent, window, cx| match event {
+                    InputEvent::Submit => this.ai_send(window, cx),
                     _ => {}
                 },
             ),
@@ -4062,6 +4094,9 @@ impl Workspace {
             property_filter,
             task_state: TaskPaneState::default(),
             task_filter,
+            flashcard_state: feature_panes::FlashcardState::default(),
+            ai_state: feature_panes::AiState::default(),
+            ai_input,
             name_finder: None,
             mention_generation: 0,
             status: "Pass a vault folder as the first argument".into(),
@@ -5860,6 +5895,8 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "graph:open" => self.open_graph_action(&OpenGraph, window, cx),
             "silica:export-site" => self.start_export_site(window, cx),
             "silica:footnotes" => self.select_right_tab(RightTab::Footnotes, cx),
+            "silica:flashcards" => self.select_right_tab(RightTab::Flashcards, cx),
+            "silica:ai-chat" => self.select_right_tab(RightTab::AiChat, cx),
             "silica:export-pdf" => self.export_active_pdf(cx),
             // * Asked for by id with no file open -- the palette does not offer
             //   it, and `can_run` says so -- this opens nothing, which is what

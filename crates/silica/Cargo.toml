@@ -18,6 +18,8 @@ path = "src/main.rs"
 
 [dependencies]
 silica-net.workspace = true
+silica-flashcards.workspace = true
+silica-ai.workspace = true
 silica-vault.workspace = true
 silica-markdown.workspace = true
 silica-cache.workspace = true

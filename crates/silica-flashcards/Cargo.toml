@@ -1,0 +1,14 @@
+[package]
+name = "silica-flashcards"
+description = "Spaced-repetition flashcards scanned from vault markdown, with SM-2 scheduling (no gpui)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+chrono.workspace = true

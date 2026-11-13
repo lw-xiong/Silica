@@ -289,3 +289,5 @@ silica:file-recovery-restore
 silica:bookmarks
 silica:tag-pane
 silica:vault-doctor
+silica:flashcards
+silica:ai-chat

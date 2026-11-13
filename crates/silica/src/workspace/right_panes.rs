@@ -1362,6 +1362,8 @@ impl Workspace {
             // * The inbox is this app's own pane, not a core plugin's
             //   leaf: an id no core plugin owns always answers enabled.
             RightTab::Tasks => "tasks",
+            RightTab::Flashcards => "flashcards",
+            RightTab::AiChat => "ai-chat",
         };
         self.state
             .as_ref()
@@ -1388,6 +1390,8 @@ impl Workspace {
                 RightTab::Calendar,
                 RightTab::LocalGraph,
                 RightTab::Tasks,
+                RightTab::Flashcards,
+                RightTab::AiChat,
             ]
             .into_iter()
             .find(|t| self.pane_enabled(*t))
@@ -1406,6 +1410,8 @@ impl Workspace {
             // * Kalender: grid bulan di samping catatan harian.
             RightTab::Calendar => render_calendar_pane(self, theme, cx).into_any_element(),
             RightTab::Tasks => self.render_tasks_pane(theme, cx),
+            RightTab::Flashcards => self.render_flashcards_pane(theme, cx),
+            RightTab::AiChat => self.render_ai_pane(theme, cx),
             // * The graph side pane: the GraphView entity the ribbon opens
             //   full screen, kept in the dock. While a group's area already
             //   paints it, the dock says so rather than painting it twice.
@@ -1483,6 +1489,7 @@ impl Workspace {
             .on_action(cx.listener(Self::pane_on_left))
             .on_action(cx.listener(Self::pane_on_right))
             .on_action(cx.listener(Self::pane_on_escape))
+            .on_action(cx.listener(Self::on_flashcard_grade))
             .map(|d| self.corners.right().apply(d))
             .child(
                 div()
@@ -1543,6 +1550,14 @@ impl Workspace {
                         RightTab::Tasks,
                         cx,
                     ))
+                    .children(tab_button(
+                        self,
+                        "Flashcards",
+                        "layers",
+                        RightTab::Flashcards,
+                        cx,
+                    ))
+                    .children(tab_button(self, "AI chat", "zap", RightTab::AiChat, cx))
                     .children(tab_button(self, "Graph", "git-fork", RightTab::Graph, cx))
                     .children(tab_button(
                         self,
