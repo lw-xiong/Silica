@@ -434,6 +434,7 @@ impl Workspace {
                     json!({"op": "delete-property", "key": key})
                 }
                 Some(PendingOp::ExportSite) => json!({"op": "export-site"}),
+                Some(PendingOp::AddAlias) => json!({"op": "add-alias"}),
                 Some(PendingOp::DeleteAttachments { path }) => {
                     json!({"op": "delete-attachments", "path": path})
                 }

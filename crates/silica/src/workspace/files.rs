@@ -1438,6 +1438,98 @@ link to it is rewritten. The current note is deleted."
         }))
     }
 
+    /// `markdown:add-alias`: asks for the alias, then appends it to the
+    /// open note's `aliases` frontmatter property.
+    pub(crate) fn start_add_alias(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        if self.current.is_none() {
+            return;
+        }
+        let detail = self.current.clone().map(Into::into);
+        self.open_prompt(
+            PendingOp::AddAlias,
+            PromptSpec {
+                title: "Add alias".into(),
+                detail,
+                input: Some(String::new()),
+                placeholder: "Alias".into(),
+                confirm: "Add".into(),
+                ..PromptSpec::default()
+            },
+            window,
+            cx,
+        );
+    }
+
+    /// Appends `alias` to the note's `aliases` property, creating the
+    /// frontmatter block when the note has none. `Ok(false)` means the
+    /// alias was already listed.
+    fn add_alias(&mut self, path: &str, alias: &str, cx: &mut Context<Self>) -> Result<bool, String> {
+        use silica_formats::properties::{Change, Value};
+        let Some(state) = self.state.clone() else {
+            return Err("no vault is open".to_string());
+        };
+        let absolute = state.vault().absolute(path);
+        let text = std::fs::read_to_string(&absolute).map_err(|e| e.to_string())?;
+        let new_text = match silica_cache::note_properties(&text) {
+            Some(props) => {
+                let mut list = match props.get("aliases").map(|p| &p.value) {
+                    Some(Value::List(items)) => items.clone(),
+                    Some(Value::Text(s)) => vec![s.clone()],
+                    Some(Value::Empty) | None => Vec::new(),
+                    Some(other) => vec![other.display()],
+                };
+                if list.iter().any(|a| a == alias) {
+                    return Ok(false);
+                }
+                list.push(alias.to_string());
+                let change = Change::Set {
+                    key: "aliases".to_string(),
+                    value: Value::List(list),
+                };
+                let Some(edits) =
+                    silica_formats::properties::plan(&text, &props, std::slice::from_ref(&change))
+                else {
+                    return Ok(false);
+                };
+                let mut next = text.clone();
+                for edit in edits.iter().rev() {
+                    next.replace_range(edit.start..edit.end, &edit.text);
+                }
+                next
+            }
+            None => format!(
+                "{}{text}",
+                silica_formats::properties::new_block(
+                    "aliases",
+                    &Value::List(vec![alias.to_string()]),
+                    "\n"
+                )
+            ),
+        };
+        std::fs::write(&absolute, &new_text).map_err(|e| e.to_string())?;
+        let changes = state.absorb(
+            state
+                .vault
+                .write()
+                .unwrap_or_else(|e| e.into_inner())
+                .refresh_path(&absolute),
+        );
+        self.after_changes(changes, cx);
+        // * The open note shows the new property in both modes: the
+        //   reading model is rebuilt from the new text and a source-mode
+        //   buffer is reloaded, the same way a merge reloads it.
+        if self.current.as_deref() == Some(path) {
+            let model = reading::build_with(path, &new_text, state.as_ref(), state.build_options());
+            self.prepare_embeds(&model, cx);
+            self.reading
+                .update(cx, |r, cx| r.set_note(Some(path.to_string()), model, cx));
+            self.editor
+                .update(cx, |e, cx| e.set_text(path.to_string(), new_text, cx));
+        }
+        cx.notify();
+        Ok(true)
+    }
+
     /// Enter in the prompt: finish the pending operation with `value`.
     pub(crate) fn prompt_submitted(
         &mut self,
@@ -1473,6 +1565,21 @@ link to it is rewritten. The current note is deleted."
                     format!("{folder}/{name}")
                 };
                 self.rename_with_links(&from, &to, Some(window), cx);
+            }
+            PendingOp::AddAlias => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                let Some(path) = self.current.clone() else {
+                    return;
+                };
+                if value.is_empty() {
+                    return;
+                }
+                match self.add_alias(&path, value, cx) {
+                    Ok(true) => self.report(format!("Added alias \"{value}\" to {path}"), cx),
+                    Ok(false) => self.report(format!("\"{value}\" is already an alias of {path}"), cx),
+                    Err(err) => self.report(err, cx),
+                }
             }
             PendingOp::Delete(path) => {
                 self.pending = None;

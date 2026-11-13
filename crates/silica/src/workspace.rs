@@ -708,6 +708,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:copy-url",
     "workspace:export-pdf",
     "workspace:show-trash",
+    "markdown:add-alias",
     "open-with-default-app:open",
     "app:open-settings",
     "app:open-help",
@@ -2159,6 +2160,9 @@ pub(crate) enum PendingOp {
         file: String,
         other: String,
     },
+    /// `markdown:add-alias`: the alias text for the open note's
+    /// frontmatter.
+    AddAlias,
     /// "Open version history": the snapshot stamp to restore `file` to.
     RestoreVersion {
         file: String,
@@ -6009,6 +6013,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     cx,
                 );
             }
+            "markdown:add-alias" => self.start_add_alias(window, cx),
             // * Asked for by id with no file open -- the palette does not offer
             //   it, and `can_run` says so -- this opens nothing, which is what
             //   Obsidian's `checkCallback` does rather than falling back to the
@@ -7172,6 +7177,9 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
         //   palette does not offer it there rather than offering a command
         //   that would only refuse.
         if id == "silica:export-pdf" || id == "workspace:export-pdf" {
+            return self.current.is_some();
+        }
+        if id == "markdown:add-alias" {
             return self.current.is_some();
         }
         if EDITOR_ONLY.contains(&id) {
