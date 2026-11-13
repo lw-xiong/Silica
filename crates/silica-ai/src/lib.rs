@@ -272,7 +272,7 @@ fn push_inline(out: &mut Vec<Segment>, text: &str) {
         let mut best: Option<(usize, usize)> = None;
         for (ix, (open, _)) in INLINE_MARKERS.iter().enumerate() {
             if let Some(pos) = rest.find(open) {
-                if best.map_or(true, |(best_pos, _)| pos < best_pos) {
+                if best.is_none_or(|(best_pos, _)| pos < best_pos) {
                     best = Some((pos, ix));
                 }
             }
