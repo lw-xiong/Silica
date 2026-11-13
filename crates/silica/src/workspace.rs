@@ -728,6 +728,7 @@ pub const RUNNABLE: &[&str] = &[
     "app:open-settings",
     "app:open-help",
     "app:open-vault",
+    "app:open-file",
     "app:switch-vault",
     "app:open-another-vault",
     "app:open-sandbox-vault",
@@ -5990,6 +5991,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 self.set_mode(mode, window, cx);
             }
             "switcher:open" => self.open_switcher("", window, cx),
+            "app:open-file" => self.open_switcher("", window, cx),
             "app:show-tab-switcher" => self.open_switcher("", window, cx),
             "app:show-debug-info" => {
                 let (root, files) = match self.state.as_ref() {

@@ -3556,3 +3556,7 @@ ribbon shows/hides and persists like the Settings toggle. Bump 0.9.9.
 
 `workspace:close-window` calls `window.remove_window()` (the app exits when the last
 window closes). Bump 0.9.11.
+
+## app:open-file command, 2026-11-13
+
+`app:open-file` opens the quick switcher (same as `switcher:open`). Bump 0.9.12.
