@@ -666,6 +666,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:copy-path",
     "workspace:copy-full-path",
     "workspace:copy-url",
+    "open-with-default-app:open",
     "app:open-settings",
     "app:open-help",
     "app:open-vault",
@@ -6314,6 +6315,20 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "workspace:copy-path" => self.copy_current_path(false, cx),
             "workspace:copy-full-path" => self.copy_current_path(true, cx),
             "workspace:copy-url" => self.copy_current_url(cx),
+            "open-with-default-app:open" => {
+                let target = self
+                    .state
+                    .as_ref()
+                    .and_then(|state| {
+                        self.current
+                            .as_deref()
+                            .map(|path| state.vault().root().join(path))
+                    });
+                match target {
+                    Some(full) => cx.open_url(&format!("file://{}", full.display())),
+                    None => self.report("No file is open", cx),
+                }
+            }
             "silica:pin-tab" => self.pin_tab(cx),
             "workspace:toggle-pin" => self.pin_tab(cx),
             "editor:focus" => {
