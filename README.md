@@ -10,7 +10,7 @@
   <img alt="Rust" src="https://img.shields.io/badge/100%25-Rust-E8590C?style=flat-square&logo=rust&logoColor=white">
   <img alt="Linux, Windows, macOS" src="https://img.shields.io/badge/Linux%20%7C%20Windows%20%7C%20macOS-2b2b2b?style=flat-square">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2b2b2b?style=flat-square">
-  <img alt="v0.7.7" src="https://img.shields.io/badge/status-early%20alpha%20v0.7.7-f2545b?style=flat-square">
+  <img alt="v0.9.0" src="https://img.shields.io/badge/status-early%20alpha%20v0.9.0-f2545b?style=flat-square">
 </p>
 
 Silica is a native desktop knowledge base written in Rust on GPUI. It opens an Obsidian vault exactly as it sits on disk: the same `.obsidian` configuration, the same Markdown dialect, the same `.canvas` and `.base` files. Nothing is imported or converted, and the vault folder is the only source of truth. Silica is an independent, clean-room implementation and is not affiliated with Obsidian.
@@ -21,7 +21,7 @@ Reader and writer are substantially complete. All five development phases have l
 
 The app opens a real vault in a three-pane shell: Files, reading view, and side panes for Backlinks, Outgoing links, Tags, All properties, Outline, and live Graph view. Search supports grouping, sorting, copying results, vault-wide search & replace, and term-index candidate pre-filtering (~10 ms across 20,000 notes). The quick switcher, graph, command palette, and a Settings modal that writes are all present. Notes open in Live Preview or Source mode with find and replace, multiple cursors, auto-pairing, collapsible headings and lists, and autosave. Fenced code highlights in 80+ languages, and Live Preview renders task boxes, raw `<table>` blocks, and inline HTML elements the way the reading view does — a cursor anywhere in an element brings its source back, and what the overlay cannot draw (a script, an unclosed tag, a lone `<br>`) stays as source. The update-links prompt's **Always** answer rewrites links from then on without asking. Wikilinks (`[[`, `![[`) and tags (`#`) autocomplete against the vault's files, aliases, headings, tags, and block references. Clipboard images and dropped files save to the vault's attachment folder and insert embeds. Frontmatter is an editable, typed properties table that rewrites only the lines it changes.
 
-A `.canvas` opens in a canvas view; a `.pdf` opens in a native viewer with toolbar, sidebar, find bar, and full-text search indexing; Mermaid diagrams render through a pure-Rust engine; audio and video embeds play in the reading view; native voice notes record via microphone (`cpal`/`hound`) directly into the attachments directory; remote images load over HTTP; Ctrl+hovering a link previews the target inline; and file and folder rows drag between folders to move them. `$x$` and `$$x$$` typeset inline in reading view and Live Preview. The main area splits into tab groups, and `workspace.json` records and restores named window layouts the way Obsidian does. Everything is bound through Obsidian's command ids, so a vault's `hotkeys.json` applies unchanged.
+A `.canvas` opens in a canvas view; a `.pdf` opens in a native viewer with toolbar, sidebar, find bar, and full-text search indexing; Mermaid diagrams render through a pure-Rust engine; audio and video embeds play in the reading view; native voice notes record via microphone (`cpal`/`hound`) directly into the attachments directory; remote images load over HTTP; Ctrl+hovering a link previews the target inline; and file and folder rows drag between folders to move them. `$x$` and `$$x$$` typeset inline in reading view and Live Preview. The right dock's Flashcards tab reviews `#flashcard` cards from the vault on an SM-2 schedule (store at `<vault>/.silica-flashcards.json`), and its AI chat tab asks a local OpenAI-compatible endpoint about your notes, configured per send with `SILICA_AI_URL` / `SILICA_AI_MODEL` / `SILICA_AI_KEY` — the key stays in memory and is never logged or written to disk. The palette also gained the caret navigation commands (`editor:move-caret-*`, `editor:go-start/end`), word count for the open note, and **Copy Obsidian URL** for the current file. The main area splits into tab groups, and `workspace.json` records and restores named window layouts the way Obsidian does. Everything is bound through Obsidian's command ids, so a vault's `hotkeys.json` applies unchanged.
 
 Installed plugins in `.obsidian/plugins/` are classified as native, compatibility, or refused-with-reason. Compatibility plugins run in a per-plugin QuickJS host with a shimmed `app`; their commands appear in the palette and their settings tabs in Settings > Community plugins. A `silica.json` marker flags a native plugin targeting Silica itself.
 
@@ -77,7 +77,7 @@ cargo run --release -p silica-bench -- export /tmp/test-vault /tmp/export-out
 | `silica-templates` | Template placeholders and date formats |
 | `silica-formats` | On-disk formats: file kinds, `app.json`, JSON Canvas 1.0, Bases YAML |
 | `silica-bases` | The Bases expression language |
-| `silica-commands` | 250 command ids and default hotkeys |
+| `silica-commands` | 284 command ids and default hotkeys |
 | `silica-canvas` | Canvas model: viewport, edges, selection, undo |
 | `silica-pdf` | PDF rendering (pages, outline, find bar) and full-text indexing |
 | `silica-math` | TeX math typesetting (KaTeX-compatible pure-Rust engine) |
@@ -131,7 +131,7 @@ Version history is Silica's own store — snapshots taken on every save, the las
 ## Deliberately different
 
 - Frontmatter links are rewritten in place: Silica replaces only the link text instead of re-serializing the whole block.
-- The command palette lists only runnable commands. The Hotkeys tab still lists all 244 ids so your bindings remain visible.
+- The command palette lists only runnable commands. The Hotkeys tab still lists all 284 ids so your bindings remain visible.
 - Default font is Liberation Sans; `appearance.json` fonts override it.
 - Copying a folder leaves links inside the copies pointing at their originals. Rewriting `[[Plan]]` to `[[Plan 1]]` inside `Notes 1/` would make the copy describe files it does not own, so the copy is a snapshot rather than a second vault.
 - Merges and version restores land in the buffer unsaved, so either is reviewed before it overwrites anything.
