@@ -3537,3 +3537,8 @@ The core Templates plugin id `templates:insert-template` now aliases `insert-tem
 Obsidian's `workspaces:save`, `workspaces:load`, `workspaces:open-modal` and
 `workspaces:save-and-load` now dispatch to the same layout prompts as
 `silica:workspace-save` / `silica:workspace-load`. Bump 0.9.7.
+
+## properties:open-local and open-with-default-app:show aliases, 2026-11-13
+
+`properties:open-local` dispatches like `properties:open` (the right-dock properties tab), and
+`open-with-default-app:show` like `open-with-default-app:open`. Bump 0.9.8.

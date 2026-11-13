@@ -722,6 +722,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:show-trash",
     "markdown:add-alias",
     "open-with-default-app:open",
+    "open-with-default-app:show",
     "app:open-settings",
     "app:open-help",
     "app:open-vault",
@@ -782,6 +783,7 @@ pub const RUNNABLE: &[&str] = &[
     "outline:open-for-current",
     "tag-pane:open",
     "properties:open",
+    "properties:open-local",
     "bookmarks:open",
     "bookmarks:bookmark-current-view",
     "bookmarks:bookmark-current-search",
@@ -6444,7 +6446,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "workspace:copy-path" => self.copy_current_path(false, cx),
             "workspace:copy-full-path" => self.copy_current_path(true, cx),
             "workspace:copy-url" => self.copy_current_url(cx),
-            "open-with-default-app:open" => {
+            "open-with-default-app:open" | "open-with-default-app:show" => {
                 let target = self
                     .state
                     .as_ref()
@@ -6720,7 +6722,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 self.right_visible = true;
                 self.show_right_tab("tags", cx);
             }
-            "properties:open" => {
+            "properties:open" | "properties:open-local" => {
                 self.right_visible = true;
                 self.show_right_tab("properties", cx);
             }
