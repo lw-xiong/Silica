@@ -6290,6 +6290,22 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     }
                 }
             }
+            // * Clipboard and history commands dispatch the editor's own
+            //   actions, the same way the caret commands above do, so a
+            //   hotkey bound to them behaves exactly like Ctrl+C etc.
+            "editor:copy" | "editor:cut" | "editor:paste" | "editor:undo" | "editor:redo" => {
+                if self.editing_or_report(id, window, cx) {
+                    window.focus(&self.editor.focus_handle(cx), cx);
+                    let action: Box<dyn Action> = match id {
+                        "editor:copy" => crate::editor::Copy.boxed_clone(),
+                        "editor:cut" => crate::editor::Cut.boxed_clone(),
+                        "editor:paste" => crate::editor::Paste.boxed_clone(),
+                        "editor:undo" => crate::editor::Undo.boxed_clone(),
+                        _ => crate::editor::Redo.boxed_clone(),
+                    };
+                    window.dispatch_action(action, cx);
+                }
+            }
             "insert-current-date" | "insert-current-time" => {
                 if self.editing_or_report(id, window, cx) {
                     let date = id == "insert-current-date";
