@@ -658,6 +658,9 @@ pub const RUNNABLE: &[&str] = &[
     "silica:reminder-add",
     "silica:toggle-graph-pane",
     "silica:pin-tab",
+    "workspace:toggle-pin",
+    "editor:focus",
+    "app:show-release-notes",
     "silica:palette-verify",
     "silica:template-gallery",
     "workspace:copy-path",
@@ -6312,6 +6315,19 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "workspace:copy-full-path" => self.copy_current_path(true, cx),
             "workspace:copy-url" => self.copy_current_url(cx),
             "silica:pin-tab" => self.pin_tab(cx),
+            "workspace:toggle-pin" => self.pin_tab(cx),
+            "editor:focus" => {
+                if self.editing_or_report(id, window, cx) {
+                    window.focus(&self.editor.focus_handle(cx), cx);
+                }
+            }
+            "app:show-release-notes" => self.report(
+                format!(
+                    "Silica v{} — native Obsidian-compatible knowledge base",
+                    env!("CARGO_PKG_VERSION")
+                ),
+                cx,
+            ),
             "app:toggle-left-sidebar" => {
                 self.left_visible = !self.left_visible;
                 if !self.left_visible {
