@@ -272,3 +272,4 @@ silica:tag-pane	Tag pane: Collect every tag in the vault
 silica:vault-doctor	Vault doctor: Write a health report
 silica:flashcards	Flashcards: Review due cards
 silica:ai-chat	AI chat: Ask about your notes
+silica:ai-summarize-note	AI: Summarize current note

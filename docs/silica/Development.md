@@ -3597,3 +3597,9 @@ socket-reported as `split-file`. Bump 0.9.17.
 
 `Workspace::due_count()` (from the flashcards pane state, SM-2 due today) appends
 `N cards due` to the status item when any are due. Bump 0.9.18.
+
+## silica:ai-summarize-note command, 2026-11-13
+
+New `silica:` command: sends the current note (buffer wins when dirty, capped at 8000
+chars) to the configured `SILICA_AI_*` backend asking for 3-5 markdown bullets, and
+inserts the reply at the cursor as a `## Summary` block. Bump 0.9.19.

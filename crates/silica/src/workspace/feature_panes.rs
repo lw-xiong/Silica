@@ -169,6 +169,78 @@ impl Workspace {
     /// Sends the input's text as a chat turn, with the question's `[[links]]`
     /// and the open note as context. The request runs on the background
     /// executor so the window never blocks on the model.
+    /// `silica:ai-summarize-note`: asks the configured AI backend for a
+    /// short bullet summary of the current note and inserts it at the
+    /// cursor. The buffer wins over disk when the note is dirty.
+    pub(crate) fn summarize_current_note(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let Some(current) = self.current.clone() else {
+            self.report("No note is open", cx);
+            return;
+        };
+        let text = {
+            let editor = self.editor.read(cx);
+            if editor.name == current && editor.is_dirty() {
+                Some(editor.file_contents())
+            } else {
+                drop(editor);
+                self.state.as_deref().and_then(|state| {
+                    state
+                        .texts()
+                        .get(&current)
+                        .map(|t| t.to_string())
+                        .or_else(|| std::fs::read_to_string(state.vault().absolute(&current)).ok())
+                })
+            }
+        };
+        let Some(text) = text else {
+            self.report(format!("{} could not be read", basename(&current)), cx);
+            return;
+        };
+        let config = match ai::Config::from_env() {
+            Ok(c) => c,
+            Err(err) => {
+                self.report(format!("AI: {err}"), cx);
+                return;
+            }
+        };
+        let model = config.model.clone();
+        let truncated: String = text.chars().take(8000).collect();
+        let request = ai::ChatRequest {
+            model,
+            messages: vec![
+                ai::ChatMessage::system(
+                    "Summarize the note in 3-5 short bullet points. Markdown bullets only, no preamble.",
+                ),
+                ai::ChatMessage::user(truncated),
+            ],
+            temperature: Some(0.2),
+            max_tokens: None,
+        };
+        self.ai_state.sending = true;
+        cx.notify();
+        let editor = self.editor.clone();
+        cx.spawn_in(window, async move |this, cx| {
+            let result = cx
+                .background_executor()
+                .spawn(async move { ai::chat(&config, &request) })
+                .await;
+            this.update_in(cx, |this, window, cx| {
+                this.ai_state.sending = false;
+                match result {
+                    Ok(reply) => {
+                        let block = format!("## Summary\n\n{}\n\n", reply.text.trim());
+                        editor.update(cx, |e, cx| e.insert_at_cursors(&block, window, cx));
+                        this.report("Summary inserted", cx);
+                    }
+                    Err(err) => this.report(format!("AI: {err}"), cx),
+                }
+                cx.notify();
+            })
+            .ok();
+        })
+        .detach();
+    }
+
     pub(crate) fn ai_send(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         if self.ai_state.sending {
             return;

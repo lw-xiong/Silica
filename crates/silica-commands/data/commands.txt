@@ -297,3 +297,4 @@ silica:tag-pane
 silica:vault-doctor
 silica:flashcards
 silica:ai-chat
+silica:ai-summarize-note

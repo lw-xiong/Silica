@@ -656,6 +656,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:flashcards",
     "silica:word-count",
     "silica:ai-chat",
+    "silica:ai-summarize-note",
     "silica:export-pdf",
     "silica:workspace-save",
     "workspaces:save",
@@ -6037,6 +6038,11 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:footnotes" => self.select_right_tab(RightTab::Footnotes, cx),
             "footnotes:open" => self.select_right_tab(RightTab::Footnotes, cx),
             "silica:flashcards" => self.select_right_tab(RightTab::Flashcards, cx),
+            "silica:ai-summarize-note" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.summarize_current_note(window, cx);
+                }
+            }
             "silica:ai-chat" => self.select_right_tab(RightTab::AiChat, cx),
             "silica:export-pdf" => self.export_active_pdf(cx),
             "workspace:export-pdf" => self.export_active_pdf(cx),
