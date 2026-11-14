@@ -3603,3 +3603,8 @@ socket-reported as `split-file`. Bump 0.9.17.
 New `silica:` command: sends the current note (buffer wins when dirty, capped at 8000
 chars) to the configured `SILICA_AI_*` backend asking for 3-5 markdown bullets, and
 inserts the reply at the cursor as a `## Summary` block. Bump 0.9.19.
+
+## Selection word count in the status bar, 2026-11-13
+
+When the editor has a non-empty selection, the caret item gains `N selected`
+(word count of the selected text). Bump 0.9.20.

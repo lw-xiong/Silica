@@ -722,6 +722,13 @@ impl Workspace {
         let (caret, words, chars) = if self.mode.is_editing() {
             let editor = self.editor.read(cx);
             let cursor = editor.cursor();
+            let sel = editor.selection();
+            let sel_note = if sel.is_empty() {
+                String::new()
+            } else {
+                let stats = silica_text::word_stats(&editor.text()[sel.clone()]);
+                format!("  ·  {} selected", stats.words)
+            };
             let cursors = match editor.cursor_count() {
                 1 => String::new(),
                 n => format!("{n} cursors  ·  "),
@@ -738,7 +745,7 @@ impl Workspace {
             };
             (
                 format!(
-                    "Ln {}, Col {}  ·  {cursors}{timings}",
+                    "Ln {}, Col {}{sel_note}  ·  {cursors}{timings}",
                     cursor.line + 1,
                     cursor.col + 1
                 ),
