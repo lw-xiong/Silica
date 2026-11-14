@@ -192,7 +192,6 @@ impl Workspace {
             if editor.name == current && editor.is_dirty() {
                 Some(editor.file_contents())
             } else {
-                drop(editor);
                 self.state.as_deref().and_then(|state| {
                     state
                         .texts()

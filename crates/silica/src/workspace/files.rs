@@ -8,6 +8,14 @@ use regex::Regex;
 
 use super::*;
 
+/// The pending extraction: which section of which note moves out.
+pub(crate) struct ExtractSpec {
+    pub source: String,
+    pub start: usize,
+    pub end: usize,
+    pub heading: String,
+}
+
 impl Workspace {
     pub(crate) fn open_prompt(
         &mut self,
@@ -1297,7 +1305,6 @@ note keeps the lines above."
             if editor.name == source && editor.is_dirty() {
                 editor.file_contents()
             } else {
-                drop(editor);
                 state
                     .texts()
                     .get(source)
@@ -1366,14 +1373,14 @@ replaced with a link to it."
     /// the editor holds the source note dirty, same as the merge.
     pub(crate) fn extract_heading(
         &mut self,
-        source: &str,
-        start: usize,
-        end: usize,
-        heading: &str,
+        spec: ExtractSpec,
         name: &str,
         window: &mut Window,
         cx: &mut Context<Self>,
     ) -> Result<String, String> {
+        let ExtractSpec { source, start, end, heading } = spec;
+        let source = source.as_str();
+        let heading = heading.as_str();
         let Some(state) = self.state.clone() else {
             return Err("No vault is open".into());
         };
@@ -1382,7 +1389,6 @@ replaced with a link to it."
             if editor.name == source && editor.is_dirty() {
                 editor.file_contents()
             } else {
-                drop(editor);
                 state
                     .texts()
                     .get(source)
@@ -1744,7 +1750,12 @@ link to it is rewritten. The current note is deleted."
                 if value.is_empty() {
                     return;
                 }
-                match self.extract_heading(&source, start, end, &heading, value, window, cx) {
+                match self.extract_heading(
+                    ExtractSpec { source, start, end, heading },
+                    value,
+                    window,
+                    cx,
+                ) {
                     Ok(msg) => self.report(msg, cx),
                     Err(e) => self.report(e, cx),
                 }
