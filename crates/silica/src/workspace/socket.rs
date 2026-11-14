@@ -753,7 +753,17 @@ impl Workspace {
             .first()
             .map(|section| section.count)
             .unwrap_or(0);
-        Self::status_items(self.current.as_deref(), &caret, backlinks, words, chars)
+        let due = self.due_count();
+        let due_txt = if due > 0 {
+            format!("  ·  {due} card{} due", plural(due))
+        } else {
+            String::new()
+        };
+        let mut items = Self::status_items(self.current.as_deref(), &caret, backlinks, words, chars);
+        if let Some(first) = items.first_mut() {
+            first.push_str(&due_txt);
+        }
+        items
     }
 
     /// The same items as one string, for the socket's state dump: the

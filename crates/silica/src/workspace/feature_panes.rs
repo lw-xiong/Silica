@@ -56,6 +56,21 @@ impl Workspace {
         Some(state.vault().root().join(fc::STORE_NAME))
     }
 
+    /// How many cards are due today, from the pane's last load; zero
+    /// until the pane has been opened once. Drives the status bar.
+    pub(crate) fn due_count(&self) -> usize {
+        if self.flashcard_state.cards.is_empty() {
+            return 0;
+        }
+        let today = chrono::Local::now().date_naive();
+        fc::due_cards(
+            &self.flashcard_state.cards,
+            &self.flashcard_state.store,
+            today,
+        )
+        .len()
+    }
+
     /// Parses every card in the vault and rebuilds the due queue. Called when
     /// the pane opens, on the refresh button, and after each grade.
     pub(crate) fn reload_flashcards(&mut self) {

@@ -3592,3 +3592,8 @@ the open editor with `[[name|heading]]` via `Editor::replace_lines`. New
 `note-composer:split-file` moves everything from the cursor line down into a new note
 named by the prompt and truncates the open editor. New `PendingOp::SplitFile`,
 socket-reported as `split-file`. Bump 0.9.17.
+
+## Due-flashcard count in the status bar, 2026-11-13
+
+`Workspace::due_count()` (from the flashcards pane state, SM-2 due today) appends
+`N cards due` to the status item when any are due. Bump 0.9.18.
