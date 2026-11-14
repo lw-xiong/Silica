@@ -8,6 +8,7 @@
 //! the question's `[[links]]` and the open note as context.
 
 use super::*;
+use gpui::ClipboardItem;
 
 use std::path::PathBuf;
 
@@ -511,7 +512,7 @@ impl Workspace {
     pub(crate) fn render_ai_pane(
         &mut self,
         theme: &Theme,
-        _cx: &mut Context<Self>,
+        cx: &mut Context<Self>,
     ) -> gpui::AnyElement {
         let turns = self.ai_state.turns.clone();
         let sending = self.ai_state.sending;
@@ -533,13 +534,30 @@ impl Workspace {
                     .child("Ask about your notes — a [[link]] in the question pulls that note in as context"),
             );
         }
-        for turn in &turns {
-            let bubble = div()
+        for (ix, turn) in turns.iter().enumerate() {
+            let text = turn.text.clone();
+            let mut bubble = div()
                 .max_w_full()
                 .rounded_md()
                 .p(px(8.))
                 .text_size(px(13.))
                 .child(render_segments(&turn.text, theme));
+            if !turn.user {
+                // * Assistant bubbles get a small copy affordance.
+                bubble = bubble.child(
+                    div()
+                        .id(("ai-copy", ix))
+                        .text_size(px(10.))
+                        .text_color(theme.text_muted)
+                        .cursor_pointer()
+                        .child("copy")
+                        .on_click(cx.listener(move |this, _, _, cx| {
+                            cx.write_to_clipboard(ClipboardItem::new_string(text.clone()));
+                            this.ai_state.notice = Some("Copied to clipboard".into());
+                            cx.notify();
+                        })),
+                );
+            }
             list = list.child(if turn.user {
                 bubble.self_end().bg(theme.bg_active)
             } else {

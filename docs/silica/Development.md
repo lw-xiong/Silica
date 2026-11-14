@@ -3656,3 +3656,8 @@ FileTree::collapse_all, exposed as FileExplorer::collapse_all. Bump 0.9.28.
 
 Symmetric to collapse-all: exposes FileTree::expand_all through FileExplorer.
 Bump 0.9.29.
+
+## AI chat: copy button on assistant replies, 2026-11-14
+
+Each assistant bubble in the AI pane has a small `copy` affordance that writes the
+reply to the clipboard and shows a "Copied to clipboard" notice. Bump 0.9.30.
