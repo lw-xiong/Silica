@@ -661,6 +661,8 @@ pub const RUNNABLE: &[&str] = &[
     "silica:word-count",
     "silica:ai-chat",
     "silica:ai-summarize-note",
+    "silica:copy-wikilink",
+    "silica:copy-path",
     "silica:export-pdf",
     "silica:workspace-save",
     "workspaces:save",
@@ -6046,6 +6048,25 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:flashcard-hard" => self.grade_flashcard_key(1, cx),
             "silica:flashcard-good" => self.grade_flashcard_key(2, cx),
             "silica:flashcard-easy" => self.grade_flashcard_key(3, cx),
+            "silica:copy-wikilink" => {
+                match self.current.clone() {
+                    Some(path) => {
+                        let stem = basename(&path).trim_end_matches(".md");
+                        cx.write_to_clipboard(ClipboardItem::new_string(format!("[[{stem}]]")));
+                        self.report(format!("Copied [[{stem}]]"), cx);
+                    }
+                    None => self.report("No note is open", cx),
+                }
+            }
+            "silica:copy-path" => {
+                match self.current.clone() {
+                    Some(path) => {
+                        cx.write_to_clipboard(ClipboardItem::new_string(path.clone()));
+                        self.report(format!("Copied {path}"), cx);
+                    }
+                    None => self.report("No note is open", cx),
+                }
+            }
             "silica:ai-summarize-note" => {
                 if self.editing_or_report(id, window, cx) {
                     self.summarize_current_note(window, cx);

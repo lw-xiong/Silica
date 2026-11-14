@@ -302,3 +302,5 @@ silica:flashcard-good
 silica:flashcard-easy
 silica:ai-chat
 silica:ai-summarize-note
+silica:copy-wikilink
+silica:copy-path

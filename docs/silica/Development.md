@@ -3619,3 +3619,8 @@ pane is cold) and grade the on-screen card, same as the pane buttons. Bump 0.9.2
 Bound in the `SidePane` context (digits are free in pane lists; not bound in the
 Workspace context, where they would eat typing): 1 again, 2 hard, 3 good, 4 easy.
 Bump 0.9.22.
+
+## silica:copy-wikilink / silica:copy-path, 2026-11-13
+
+Two clipboard commands for the current note: `[[stem]]` and the vault-relative path.
+Bump 0.9.23.

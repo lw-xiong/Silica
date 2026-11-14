@@ -277,3 +277,5 @@ silica:flashcard-good	Flashcards: grade Good
 silica:flashcard-easy	Flashcards: grade Easy
 silica:ai-chat	AI chat: Ask about your notes
 silica:ai-summarize-note	AI: Summarize current note
+silica:copy-wikilink	Copy wikilink to current note
+silica:copy-path	Copy current note path
