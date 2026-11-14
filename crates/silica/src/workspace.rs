@@ -479,6 +479,7 @@ pub const EDITOR_ONLY: &[&str] = &[
     "editor:clear-formatting",
     "editor:cycle-list-checklist",
     "editor:delete-paragraph",
+    "editor:rename-heading",
     "editor:fold-all",
     "editor:fold-less",
     "editor:fold-more",
@@ -617,6 +618,7 @@ pub const RUNNABLE: &[&str] = &[
     "editor:outdent",
     "editor:unindent-list",
     "editor:delete-paragraph",
+    "editor:rename-heading",
     "editor:swap-line-up",
     "editor:swap-line-down",
     "editor:insert-link",
@@ -2166,6 +2168,9 @@ pub(crate) enum PendingOp {
     },
     /// "Add bookmark": the title for this draft.
     AddBookmark(BookmarkDraft),
+    /// `editor:rename-heading`: the heading line and level under the
+    /// cursor, renamed through the prompt.
+    RenameHeading { line: usize, level: u8 },
     /// "Edit bookmark" on a note that already has one: Save keeps it,
     /// Remove takes it out.
     EditBookmark(String),
@@ -6572,6 +6577,29 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "workspace:edit-file-title" => {
                 if let Some(current) = self.current.clone() {
                     self.start_rename(&current, window, cx);
+                }
+            }
+            "editor:rename-heading" => {
+                if self.editing_or_report(id, window, cx) {
+                    let offset = self.editor.read(cx).selection().start;
+                    match panes::heading_at(&self.outline, offset) {
+                        Some(ix) => {
+                            let h = self.outline[ix].clone();
+                            self.open_prompt(
+                                PendingOp::RenameHeading { line: h.line, level: h.level },
+                                PromptSpec {
+                                    title: "Rename heading".into(),
+                                    input: Some(h.text.clone()),
+                                    placeholder: "Heading".into(),
+                                    confirm: "Rename".into(),
+                                    ..PromptSpec::default()
+                                },
+                                window,
+                                cx,
+                            );
+                        }
+                        None => self.report("No heading under the cursor", cx),
+                    }
                 }
             }
             "workspace:new-tab" => self.new_tab(cx),

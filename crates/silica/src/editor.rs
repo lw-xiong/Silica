@@ -1230,6 +1230,25 @@ impl Editor {
         }
     }
 
+    /// `editor:rename-heading`: rewrites the heading's text on its own
+    /// line, keeping the `#{level} ` prefix.
+    pub fn rename_heading(
+        &mut self,
+        line: usize,
+        level: u8,
+        text: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        if line >= self.buf.line_starts().len() {
+            return;
+        }
+        let range = self.buf.line_range(line);
+        let replacement = format!("{} {}", "#".repeat(level as usize), text);
+        self.buf.edit(range, &replacement, EditKind::Other);
+        self.after_edit(Some(window), cx, None);
+    }
+
     /// `editor:toggle-bullet-list`, `-numbered-list` and `-blockquote`.
     pub fn toggle_line_prefix(
         &mut self,

@@ -435,6 +435,9 @@ impl Workspace {
                 }
                 Some(PendingOp::ExportSite) => json!({"op": "export-site"}),
                 Some(PendingOp::AddAlias) => json!({"op": "add-alias"}),
+                Some(PendingOp::RenameHeading { line, level }) => {
+                    json!({"op": "rename-heading", "line": line, "level": level})
+                }
                 Some(PendingOp::DeleteAttachments { path }) => {
                     json!({"op": "delete-attachments", "path": path})
                 }

@@ -3573,3 +3573,9 @@ this window), and `app:toggle-default-new-pane-mode` flips `app.json` `focusNewT
 41 with defaults, 219 runnable; the `workspace:close-window` and
 `editor:open-link-in-new-window` rows flip to Yes and the newly runnable ids join the table.
 Site build verified (37 pages, links resolve). Bump 0.9.14.
+
+## editor:rename-heading command, 2026-11-13
+
+`editor:rename-heading` finds the heading under the cursor in the outline, prompts for the
+new text, and rewrites that line (`#{level} text`) through the editor buffer. New
+`PendingOp::RenameHeading` variant, socket-reported as `rename-heading`. Bump 0.9.15.

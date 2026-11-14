@@ -1566,6 +1566,15 @@ link to it is rewritten. The current note is deleted."
                 };
                 self.rename_with_links(&from, &to, Some(window), cx);
             }
+            PendingOp::RenameHeading { line, level } => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                if value.is_empty() {
+                    return;
+                }
+                let editor = self.editor.clone();
+                editor.update(cx, |e, cx| e.rename_heading(line, level, value, window, cx));
+            }
             PendingOp::AddAlias => {
                 self.pending = None;
                 self.close_modal(window, cx);
