@@ -149,6 +149,7 @@ file-recovery:open
 footnotes:open
 global-search:open
 graph:animate
+graph:toggle-labels
 graph:open
 graph:open-local
 markdown-importer:open

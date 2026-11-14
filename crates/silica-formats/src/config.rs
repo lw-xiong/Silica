@@ -370,6 +370,8 @@ pub struct GraphConfig {
     pub color_groups: Vec<GraphColorGroup>,
     #[serde(default, rename = "showArrow", skip_serializing_if = "Option::is_none")]
     pub show_arrow: Option<bool>,
+    #[serde(default, rename = "showLabels", skip_serializing_if = "Option::is_none")]
+    pub show_labels: Option<bool>,
     #[serde(
         default,
         rename = "textFadeMultiplier",

@@ -3639,3 +3639,10 @@ exists, so questions about highlighted text need no copy-paste. Bump 0.9.25.
 
 The card line now reads `N due · M learned · T in the vault · source`, where learned
 counts scheduled cards whose due date is in the future. Bump 0.9.26.
+
+## graph:toggle-labels, 2026-11-14
+
+New command toggles a `showLabels` flag on the graph config: Some(true) shows all
+node labels at any zoom, Some(false) hides them. When unset the zoom fade applies as
+before. The key is written to the .canvas only when set, so default documents stay
+byte-compatible with Obsidian. Bump 0.9.27.

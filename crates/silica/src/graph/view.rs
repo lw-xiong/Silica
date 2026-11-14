@@ -233,7 +233,7 @@ pub(crate) fn full_document(config: &GraphConfig) -> Value {
     };
     let mut groups = json!(config.color_groups);
     integerize(&mut groups);
-    let mut doc = json!({
+    let doc = json!({
         "collapse-filter": collapsed("collapse-filter"),
         "search": config.search.clone().unwrap_or_default(),
         "showTags": config.show_tags.unwrap_or(false),
@@ -255,6 +255,14 @@ pub(crate) fn full_document(config: &GraphConfig) -> Value {
         "scale": number(config.scale, json!(1)),
         "close": config.close.unwrap_or(false),
     });
+    // * showLabels is Silica-only: emit it only when set, so a default
+    //   document stays byte-compatible with Obsidian's 20 keys.
+    let mut doc = doc;
+    if let Some(v) = config.show_labels {
+        doc.as_object_mut()
+            .unwrap()
+            .insert("showLabels".into(), json!(v));
+    }
     if let Some(positions) = &config.node_positions {
         if !positions.is_empty() {
             if let Some(map) = doc.as_object_mut() {
@@ -830,9 +838,17 @@ impl GraphView {
     /// Zoom level from which labels show: later for bigger graphs, as
     /// `textFadeMultiplier` shifts it.
     fn label_threshold(&self) -> f32 {
-        let n = self.nodes.len().max(1) as f32;
-        let fade = self.config.text_fade_multiplier.unwrap_or(0.0);
-        0.4 + (n / 300.0).ln().max(0.0) * 0.5 + fade * 0.5
+        // * showLabels overrides the zoom fade: Some(true) always shows,
+        //   Some(false) never does.
+        match self.config.show_labels {
+            Some(true) => 0.0,
+            Some(false) => f32::MAX,
+            None => {
+                let n = self.nodes.len().max(1) as f32;
+                let fade = self.config.text_fade_multiplier.unwrap_or(0.0);
+                0.4 + (n / 300.0).ln().max(0.0) * 0.5 + fade * 0.5
+            }
+        }
     }
 
     fn hit_test(&self, p: Point<Pixels>) -> Option<usize> {
@@ -1023,13 +1039,14 @@ impl GraphView {
     }
 
     /// One of the Filters toggles, or Display's Arrows: the key, flipped.
-    fn toggle_flag(&mut self, key: &str, cx: &mut Context<Self>) {
+    pub(crate) fn toggle_flag(&mut self, key: &str, cx: &mut Context<Self>) {
         let (slot, default): (&mut Option<bool>, bool) = match key {
             "showTags" => (&mut self.config.show_tags, false),
             "showAttachments" => (&mut self.config.show_attachments, false),
             "hideUnresolved" => (&mut self.config.hide_unresolved, false),
             "showOrphans" => (&mut self.config.show_orphans, true),
             "showArrow" => (&mut self.config.show_arrow, false),
+            "showLabels" => (&mut self.config.show_labels, true),
             _ => return,
         };
         let now = !slot.unwrap_or(default);

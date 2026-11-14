@@ -167,6 +167,7 @@ file-explorer:new-folder	Files: Create new folder
 global-search:open	Search: Search in all files
 switcher:open	Quick switcher: Open quick switcher
 graph:open	Graph view: Open graph view
+graph:toggle-labels	Toggle node labels on/off
 graph:open-local	Graph view: Open local graph
 graph:animate	Graph view: Start graph timelapse animation
 backlink:open	Backlinks: Show backlinks
