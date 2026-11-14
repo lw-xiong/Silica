@@ -1247,6 +1247,91 @@ impl Workspace {
     /// the note that absorbs the current one. The prompt validates nothing
     /// by itself — the target may be a note to create, which is what
     /// Obsidian's command palette flow offers too.
+    /// "Extract heading to new note...": prompts for the new note's
+    /// name, prefilled with the heading text.
+    pub(crate) fn start_extract_heading(
+        &mut self,
+        source: &str,
+        start: usize,
+        end: usize,
+        heading: String,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        self.open_prompt(
+            PendingOp::ExtractHeading {
+                source: source.to_string(),
+                start,
+                end,
+                heading: heading.clone(),
+            },
+            PromptSpec {
+                title: format!("Extract \"{heading}\" to a new note").into(),
+                detail: Some(
+                    "The section under this heading becomes a new note; the section is \
+replaced with a link to it."
+                        .into(),
+                ),
+                input: Some(heading),
+                placeholder: "New note name".into(),
+                confirm: "Extract".into(),
+                ..PromptSpec::default()
+            },
+            window,
+            cx,
+        );
+    }
+
+    /// The extraction: the heading's section (lines `start..end`) is
+    /// written to a new note, and the section in the open editor is
+    /// replaced with a wikilink to it. The buffer wins over disk when
+    /// the editor holds the source note dirty, same as the merge.
+    pub(crate) fn extract_heading(
+        &mut self,
+        source: &str,
+        start: usize,
+        end: usize,
+        heading: &str,
+        name: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Result<String, String> {
+        let Some(state) = self.state.clone() else {
+            return Err("No vault is open".into());
+        };
+        let text = {
+            let editor = self.editor.read(cx);
+            if editor.name == source && editor.is_dirty() {
+                editor.file_contents()
+            } else {
+                drop(editor);
+                state
+                    .texts()
+                    .get(source)
+                    .map(|t| t.to_string())
+                    .or_else(|| std::fs::read_to_string(state.vault().absolute(source)).ok())
+                    .ok_or_else(|| format!("{source} could not be read"))?
+            }
+        };
+        let lines: Vec<&str> = text.lines().collect();
+        if start >= lines.len() {
+            return Err("That heading is no longer in the note".into());
+        }
+        let end = end.min(lines.len());
+        let section = lines[start..end].join("\n");
+        let path = state.new_note_path(name, Some(source));
+        if state.vault().absolute(&path).exists() {
+            return Err(format!("{} already exists", basename(&path)));
+        }
+        state.create_note(&path, &format!("{section}\n"))?;
+        let stem = basename(&path).trim_end_matches(".md").to_string();
+        let link = format!("[[{stem}|{heading}]]");
+        let editor = self.editor.clone();
+        editor.update(cx, |e, cx| e.replace_lines(start, end, &link, window, cx));
+        self.open_file(path, None, cx);
+        Ok(format!("Extracted \"{heading}\" to {stem}"))
+    }
+
     pub(crate) fn start_merge_current(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         let Some(source) = self.current.clone() else {
             return;
@@ -1574,6 +1659,17 @@ link to it is rewritten. The current note is deleted."
                 }
                 let editor = self.editor.clone();
                 editor.update(cx, |e, cx| e.rename_heading(line, level, value, window, cx));
+            }
+            PendingOp::ExtractHeading { source, start, end, heading } => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                if value.is_empty() {
+                    return;
+                }
+                match self.extract_heading(&source, start, end, &heading, value, window, cx) {
+                    Ok(msg) => self.report(msg, cx),
+                    Err(e) => self.report(e, cx),
+                }
             }
             PendingOp::AddAlias => {
                 self.pending = None;

@@ -574,6 +574,7 @@ pub const RUNNABLE: &[&str] = &[
     "editor:toggle-italics",
     "editor:toggle-strikethrough",
     "note-composer:merge-file",
+    "note-composer:extract-heading",
     "editor:toggle-highlight",
     "editor:toggle-code",
     "editor:toggle-inline-math",
@@ -2171,6 +2172,9 @@ pub(crate) enum PendingOp {
     /// `editor:rename-heading`: the heading line and level under the
     /// cursor, renamed through the prompt.
     RenameHeading { line: usize, level: u8 },
+    /// `note-composer:extract-heading`: move the section from `start`
+    /// to `end` of `source` into a new note named by the prompt.
+    ExtractHeading { source: String, start: usize, end: usize, heading: String },
     /// "Edit bookmark" on a note that already has one: Save keeps it,
     /// Remove takes it out.
     EditBookmark(String),
@@ -6787,6 +6791,35 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "note-composer:merge-file" => {
                 if self.editing_or_report(id, window, cx) {
                     self.start_merge_current(window, cx);
+                }
+            }
+            "note-composer:extract-heading" => {
+                if self.editing_or_report(id, window, cx) {
+                    let Some(current) = self.current.clone() else {
+                        return;
+                    };
+                    let offset = self.editor.read(cx).selection().start;
+                    match panes::heading_at(&self.outline, offset) {
+                        Some(ix) => {
+                            let h = self.outline[ix].clone();
+                            let end = self
+                                .outline
+                                .iter()
+                                .skip(ix + 1)
+                                .find(|o| o.level <= h.level)
+                                .map(|o| o.line)
+                                .unwrap_or(usize::MAX);
+                            self.start_extract_heading(
+                                &current,
+                                h.line,
+                                end,
+                                h.text.clone(),
+                                window,
+                                cx,
+                            );
+                        }
+                        None => self.report("No heading under the cursor", cx),
+                    }
                 }
             }
             _ => {

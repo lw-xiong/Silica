@@ -3579,3 +3579,10 @@ Site build verified (37 pages, links resolve). Bump 0.9.14.
 `editor:rename-heading` finds the heading under the cursor in the outline, prompts for the
 new text, and rewrites that line (`#{level} text`) through the editor buffer. New
 `PendingOp::RenameHeading` variant, socket-reported as `rename-heading`. Bump 0.9.15.
+
+## note-composer:extract-heading command, 2026-11-13
+
+`note-composer:extract-heading` moves the section under the cursor heading (to the next
+same-or-higher heading) into a new note named by the prompt and replaces the section in
+the open editor with `[[name|heading]]` via `Editor::replace_lines`. New
+`PendingOp::ExtractHeading`, socket-reported as `extract-heading`. Bump 0.9.16.

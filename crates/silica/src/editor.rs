@@ -1230,6 +1230,27 @@ impl Editor {
         }
     }
 
+    /// `note-composer:extract-heading`: replaces lines
+    /// `start..end` with `text`, used to swap a section for a link.
+    pub fn replace_lines(
+        &mut self,
+        start: usize,
+        end: usize,
+        text: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        let line_count = self.buf.line_starts().len();
+        if start >= line_count {
+            return;
+        }
+        let end = end.min(line_count);
+        let from = self.buf.line_range(start).start;
+        let to = if end > 0 { self.buf.line_range(end - 1).end } else { from };
+        self.buf.edit(from..to, text, EditKind::Other);
+        self.after_edit(Some(window), cx, None);
+    }
+
     /// `editor:rename-heading`: rewrites the heading's text on its own
     /// line, keeping the `#{level} ` prefix.
     pub fn rename_heading(
