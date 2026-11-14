@@ -3613,3 +3613,9 @@ When the editor has a non-empty selection, the caret item gains `N selected`
 
 `silica:flashcard-again|hard|good|easy` open the flashcards tab (loading cards if the
 pane is cold) and grade the on-screen card, same as the pane buttons. Bump 0.9.21.
+
+## Flashcard grading hotkeys 1-4, 2026-11-13
+
+Bound in the `SidePane` context (digits are free in pane lists; not bound in the
+Workspace context, where they would eat typing): 1 again, 2 hard, 3 good, 4 easy.
+Bump 0.9.22.

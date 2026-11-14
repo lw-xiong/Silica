@@ -80,3 +80,5 @@ the way Obsidian marks it. Editing the file by hand and reopening the vault stil
 
 - [Commands and hotkeys](/docs/reference/commands/): the ids, the names and the defaults.
 - [Search syntax](/docs/reference/search-syntax/)
+
+| `1`–`4` (side pane focused) | `silica:flashcard-again` / `-hard` / `-good` / `-easy` | Grade the on-screen flashcard |
