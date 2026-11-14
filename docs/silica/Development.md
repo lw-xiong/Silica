@@ -3629,3 +3629,8 @@ Bump 0.9.23.
 
 Opens the vault root in the system file manager via the existing
 open_in_default_app path. Bump 0.9.24.
+
+## AI chat sends the editor selection as context, 2026-11-13
+
+`ai_send` appends a non-empty selection to the question as `Selected text:` when one
+exists, so questions about highlighted text need no copy-paste. Bump 0.9.25.

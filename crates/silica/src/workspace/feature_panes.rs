@@ -261,6 +261,21 @@ impl Workspace {
         }
         self.ai_input
             .update(cx, |input, cx| input.set_text("", cx));
+        // * A non-empty editor selection rides along as quoted context,
+        //   so "what does this mean?" works without copy-pasting.
+        let selection = {
+            let editor = self.editor.read(cx);
+            let sel = editor.selection();
+            if sel.is_empty() {
+                None
+            } else {
+                Some(editor.text()[sel].trim().to_string())
+            }
+        };
+        let question = match selection {
+            Some(sel) if !sel.is_empty() => format!("{question}\n\nSelected text:\n{sel}"),
+            _ => question,
+        };
         self.ai_state.turns.push(AiTurn {
             user: true,
             text: question.clone(),
