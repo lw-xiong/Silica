@@ -3651,3 +3651,8 @@ byte-compatible with Obsidian. Bump 0.9.27.
 
 New command collapses every folder in the explorer via the existing
 FileTree::collapse_all, exposed as FileExplorer::collapse_all. Bump 0.9.28.
+
+## file-explorer:expand-all, 2026-11-14
+
+Symmetric to collapse-all: exposes FileTree::expand_all through FileExplorer.
+Bump 0.9.29.

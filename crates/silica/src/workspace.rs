@@ -766,6 +766,7 @@ pub const RUNNABLE: &[&str] = &[
     "file-explorer:duplicate-file",
     "file-explorer:rename-file",
     "file-explorer:collapse-all",
+    "file-explorer:expand-all",
     "workspace:edit-file-title",
     "workspace:new-tab",
     "workspace:close",
@@ -6575,6 +6576,9 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             "file-explorer:collapse-all" => {
                 self.explorer.update(cx, |e, cx| e.collapse_all(cx));
+            }
+            "file-explorer:expand-all" => {
+                self.explorer.update(cx, |e, cx| e.expand_all(cx));
             }
             "file-explorer:reveal-active-file" => {
                 self.leave_search_field(window, cx);

@@ -1105,7 +1105,13 @@ impl FileExplorer {
     /// expanded or scrolled, so a file written elsewhere in the vault does
     /// not move the list.
         /// Collapses every folder in the tree.
-    pub fn collapse_all(&mut self, cx: &mut Context<Self>) {
+        /// Expands every folder in the tree.
+    pub fn expand_all(&mut self, cx: &mut Context<Self>) {
+        self.tree.expand_all();
+        cx.notify();
+    }
+
+pub fn collapse_all(&mut self, cx: &mut Context<Self>) {
         self.tree.collapse_all();
         cx.notify();
     }
