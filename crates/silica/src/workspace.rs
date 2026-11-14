@@ -575,6 +575,7 @@ pub const RUNNABLE: &[&str] = &[
     "editor:toggle-strikethrough",
     "note-composer:merge-file",
     "note-composer:extract-heading",
+    "note-composer:split-file",
     "editor:toggle-highlight",
     "editor:toggle-code",
     "editor:toggle-inline-math",
@@ -2175,6 +2176,9 @@ pub(crate) enum PendingOp {
     /// `note-composer:extract-heading`: move the section from `start`
     /// to `end` of `source` into a new note named by the prompt.
     ExtractHeading { source: String, start: usize, end: usize, heading: String },
+    /// `note-composer:split-file`: everything from `line` down moves
+    /// into a new note named by the prompt.
+    SplitFile { source: String, line: usize },
     /// "Edit bookmark" on a note that already has one: Save keeps it,
     /// Remove takes it out.
     EditBookmark(String),
@@ -6791,6 +6795,19 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "note-composer:merge-file" => {
                 if self.editing_or_report(id, window, cx) {
                     self.start_merge_current(window, cx);
+                }
+            }
+            "note-composer:split-file" => {
+                if self.editing_or_report(id, window, cx) {
+                    let Some(current) = self.current.clone() else {
+                        return;
+                    };
+                    let line = self.editor.read(cx).cursor().line;
+                    if line == 0 {
+                        self.report("Nothing below the cursor to split", cx);
+                    } else {
+                        self.start_split_file(&current, line, window, cx);
+                    }
                 }
             }
             "note-composer:extract-heading" => {

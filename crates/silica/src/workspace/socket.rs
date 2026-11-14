@@ -440,6 +440,9 @@ impl Workspace {
                 },
                 Some(PendingOp::ExtractHeading { source, start, end, heading }) => {
                     json!({"op": "extract-heading", "source": source, "start": start, "end": end, "heading": heading})
+                },
+                Some(PendingOp::SplitFile { source, line }) => {
+                    json!({"op": "split-file", "source": source, "line": line})
                 }
                 Some(PendingOp::DeleteAttachments { path }) => {
                     json!({"op": "delete-attachments", "path": path})

@@ -1247,6 +1247,84 @@ impl Workspace {
     /// the note that absorbs the current one. The prompt validates nothing
     /// by itself — the target may be a note to create, which is what
     /// Obsidian's command palette flow offers too.
+    /// "Split file": prompts for the new note that receives everything
+    /// from the cursor line down.
+    pub(crate) fn start_split_file(
+        &mut self,
+        source: &str,
+        line: usize,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        self.open_prompt(
+            PendingOp::SplitFile {
+                source: source.to_string(),
+                line,
+            },
+            PromptSpec {
+                title: "Split file at cursor".into(),
+                detail: Some(
+                    "Everything from the cursor line down becomes a new note; the current \
+note keeps the lines above."
+                        .into(),
+                ),
+                input: Some(String::new()),
+                placeholder: "New note name".into(),
+                confirm: "Split".into(),
+                ..PromptSpec::default()
+            },
+            window,
+            cx,
+        );
+    }
+
+    /// The split: lines `line..` of the source are written to a new
+    /// note and removed from the open editor. Buffer wins over disk
+    /// when the editor holds the source dirty, same as the merge.
+    pub(crate) fn split_file(
+        &mut self,
+        source: &str,
+        line: usize,
+        name: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Result<String, String> {
+        let Some(state) = self.state.clone() else {
+            return Err("No vault is open".into());
+        };
+        let text = {
+            let editor = self.editor.read(cx);
+            if editor.name == source && editor.is_dirty() {
+                editor.file_contents()
+            } else {
+                drop(editor);
+                state
+                    .texts()
+                    .get(source)
+                    .map(|t| t.to_string())
+                    .or_else(|| std::fs::read_to_string(state.vault().absolute(source)).ok())
+                    .ok_or_else(|| format!("{source} could not be read"))?
+            }
+        };
+        let lines: Vec<&str> = text.lines().collect();
+        if line >= lines.len() {
+            return Err("Nothing below the cursor to split".into());
+        }
+        let tail = lines[line..].join("\n");
+        let path = state.new_note_path(name, Some(source));
+        if state.vault().absolute(&path).exists() {
+            return Err(format!("{} already exists", basename(&path)));
+        }
+        state.create_note(&path, &format!("{tail}\n"))?;
+        let stem = basename(&path).trim_end_matches(".md").to_string();
+        let editor = self.editor.clone();
+        editor.update(cx, |e, cx| {
+            e.replace_lines(line, usize::MAX, "", window, cx)
+        });
+        self.open_file(path, None, cx);
+        Ok(format!("Split off {stem}"))
+    }
+
     /// "Extract heading to new note...": prompts for the new note's
     /// name, prefilled with the heading text.
     pub(crate) fn start_extract_heading(
@@ -1667,6 +1745,17 @@ link to it is rewritten. The current note is deleted."
                     return;
                 }
                 match self.extract_heading(&source, start, end, &heading, value, window, cx) {
+                    Ok(msg) => self.report(msg, cx),
+                    Err(e) => self.report(e, cx),
+                }
+            }
+            PendingOp::SplitFile { source, line } => {
+                self.pending = None;
+                self.close_modal(window, cx);
+                if value.is_empty() {
+                    return;
+                }
+                match self.split_file(&source, line, value, window, cx) {
                     Ok(msg) => self.report(msg, cx),
                     Err(e) => self.report(e, cx),
                 }

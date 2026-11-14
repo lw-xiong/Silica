@@ -3586,3 +3586,9 @@ new text, and rewrites that line (`#{level} text`) through the editor buffer. Ne
 same-or-higher heading) into a new note named by the prompt and replaces the section in
 the open editor with `[[name|heading]]` via `Editor::replace_lines`. New
 `PendingOp::ExtractHeading`, socket-reported as `extract-heading`. Bump 0.9.16.
+
+## note-composer:split-file command, 2026-11-13
+
+`note-composer:split-file` moves everything from the cursor line down into a new note
+named by the prompt and truncates the open editor. New `PendingOp::SplitFile`,
+socket-reported as `split-file`. Bump 0.9.17.
