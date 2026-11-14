@@ -423,7 +423,29 @@ impl Workspace {
                         div()
                             .text_size(px(11.))
                             .text_color(theme.text_muted)
-                            .child(format!("{due} due · {total} in the vault · {card_source}", card_source = card.source)),
+                            .child({
+                                let today = chrono::Local::now().date_naive();
+                                let learned = self
+                                    .flashcard_state
+                                    .cards
+                                    .iter()
+                                    .filter(|c| {
+                                        self.flashcard_state
+                                            .store
+                                            .cards
+                                            .get(&c.id)
+                                            .and_then(|sc| sc.due.as_deref())
+                                            .and_then(|d| {
+                                                chrono::NaiveDate::parse_from_str(d, "%Y-%m-%d").ok()
+                                            })
+                                            .is_some_and(|due| due > today)
+                                    })
+                                    .count();
+                                format!(
+                                    "{due} due · {learned} learned · {total} in the vault · {card_source}",
+                                    card_source = card.source
+                                )
+                            }),
                     )
                     .child(
                         div().id("flashcard-front").text_size(px(14.)).child(front),

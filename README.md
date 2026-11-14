@@ -10,7 +10,7 @@
   <img alt="Rust" src="https://img.shields.io/badge/100%25-Rust-E8590C?style=flat-square&logo=rust&logoColor=white">
   <img alt="Linux, Windows, macOS" src="https://img.shields.io/badge/Linux%20%7C%20Windows%20%7C%20macOS-2b2b2b?style=flat-square">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2b2b2b?style=flat-square">
-  <img alt="v0.9.25" src="https://img.shields.io/badge/status-early%20alpha%20v0.9.25-f2545b?style=flat-square">
+  <img alt="v0.9.26" src="https://img.shields.io/badge/status-early%20alpha%20v0.9.26-f2545b?style=flat-square">
 </p>
 
 Silica is a native desktop knowledge base written in Rust on GPUI. It opens an Obsidian vault exactly as it sits on disk: the same `.obsidian` configuration, the same Markdown dialect, the same `.canvas` and `.base` files. Nothing is imported or converted, and the vault folder is the only source of truth. Silica is an independent, clean-room implementation and is not affiliated with Obsidian.

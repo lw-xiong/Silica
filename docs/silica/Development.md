@@ -3634,3 +3634,8 @@ open_in_default_app path. Bump 0.9.24.
 
 `ai_send` appends a non-empty selection to the question as `Selected text:` when one
 exists, so questions about highlighted text need no copy-paste. Bump 0.9.25.
+
+## Flashcard pane shows learned count, 2026-11-13
+
+The card line now reads `N due · M learned · T in the vault · source`, where learned
+counts scheduled cards whose due date is in the future. Bump 0.9.26.
