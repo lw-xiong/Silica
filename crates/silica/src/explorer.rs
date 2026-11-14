@@ -1104,7 +1104,13 @@ impl FileExplorer {
     /// carries over and the open file keeps its highlight. Nothing is
     /// expanded or scrolled, so a file written elsewhere in the vault does
     /// not move the list.
-    pub fn set_tree(&mut self, mut tree: FileTree, cx: &mut Context<Self>) {
+        /// Collapses every folder in the tree.
+    pub fn collapse_all(&mut self, cx: &mut Context<Self>) {
+        self.tree.collapse_all();
+        cx.notify();
+    }
+
+pub fn set_tree(&mut self, mut tree: FileTree, cx: &mut Context<Self>) {
         let expanded = self.tree.expanded_folders();
         tree.expand_folders(&expanded);
         tree.set_sort(self.tree.sort());

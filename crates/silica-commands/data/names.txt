@@ -80,6 +80,7 @@ window:zoom-in	Zoom in
 window:zoom-out	Zoom out
 window:reset-zoom	Reset zoom
 file-explorer:new-file	Create new note
+file-explorer:collapse-all	File explorer: Collapse all folders
 file-explorer:new-file-in-current-tab	Create new note in current tab
 file-explorer:new-file-in-new-pane	Create note to the right
 open-with-default-app:open	Open in default app

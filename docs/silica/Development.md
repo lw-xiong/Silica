@@ -3646,3 +3646,8 @@ New command toggles a `showLabels` flag on the graph config: Some(true) shows al
 node labels at any zoom, Some(false) hides them. When unset the zoom fade applies as
 before. The key is written to the .canvas only when set, so default documents stay
 byte-compatible with Obsidian. Bump 0.9.27.
+
+## file-explorer:collapse-all, 2026-11-14
+
+New command collapses every folder in the explorer via the existing
+FileTree::collapse_all, exposed as FileExplorer::collapse_all. Bump 0.9.28.

@@ -145,6 +145,7 @@ file-explorer:new-folder
 file-explorer:open
 file-explorer:reveal-active-file
 file-explorer:rename-file
+file-explorer:collapse-all
 file-recovery:open
 footnotes:open
 global-search:open
