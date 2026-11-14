@@ -3624,3 +3624,8 @@ Bump 0.9.22.
 
 Two clipboard commands for the current note: `[[stem]]` and the vault-relative path.
 Bump 0.9.23.
+
+## silica:show-vault-folder, 2026-11-13
+
+Opens the vault root in the system file manager via the existing
+open_in_default_app path. Bump 0.9.24.

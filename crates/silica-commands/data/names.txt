@@ -279,3 +279,4 @@ silica:ai-chat	AI chat: Ask about your notes
 silica:ai-summarize-note	AI: Summarize current note
 silica:copy-wikilink	Copy wikilink to current note
 silica:copy-path	Copy current note path
+silica:show-vault-folder	Show vault folder in file manager
