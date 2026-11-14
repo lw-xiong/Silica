@@ -3608,3 +3608,8 @@ inserts the reply at the cursor as a `## Summary` block. Bump 0.9.19.
 
 When the editor has a non-empty selection, the caret item gains `N selected`
 (word count of the selected text). Bump 0.9.20.
+
+## Keyboard flashcard grading, 2026-11-13
+
+`silica:flashcard-again|hard|good|easy` open the flashcards tab (loading cards if the
+pane is cold) and grade the on-screen card, same as the pane buttons. Bump 0.9.21.

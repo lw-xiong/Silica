@@ -654,6 +654,10 @@ pub const RUNNABLE: &[&str] = &[
     "footnotes:open",
     "file-recovery:open",
     "silica:flashcards",
+    "silica:flashcard-again",
+    "silica:flashcard-hard",
+    "silica:flashcard-good",
+    "silica:flashcard-easy",
     "silica:word-count",
     "silica:ai-chat",
     "silica:ai-summarize-note",
@@ -6038,6 +6042,10 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:footnotes" => self.select_right_tab(RightTab::Footnotes, cx),
             "footnotes:open" => self.select_right_tab(RightTab::Footnotes, cx),
             "silica:flashcards" => self.select_right_tab(RightTab::Flashcards, cx),
+            "silica:flashcard-again" => self.grade_flashcard_key(0, cx),
+            "silica:flashcard-hard" => self.grade_flashcard_key(1, cx),
+            "silica:flashcard-good" => self.grade_flashcard_key(2, cx),
+            "silica:flashcard-easy" => self.grade_flashcard_key(3, cx),
             "silica:ai-summarize-note" => {
                 if self.editing_or_report(id, window, cx) {
                     self.summarize_current_note(window, cx);

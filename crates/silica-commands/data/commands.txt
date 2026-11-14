@@ -296,5 +296,9 @@ silica:bookmarks
 silica:tag-pane
 silica:vault-doctor
 silica:flashcards
+silica:flashcard-again
+silica:flashcard-hard
+silica:flashcard-good
+silica:flashcard-easy
 silica:ai-chat
 silica:ai-summarize-note

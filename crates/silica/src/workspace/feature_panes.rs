@@ -128,6 +128,16 @@ impl Workspace {
     /// Grades the card on screen and persists the store: 0 again, 1 hard,
     /// 2 good, 3 easy — the buttons and the `workspace::FlashcardGrade`
     /// action both land here.
+    /// Keyboard path to the pane's grade buttons: opens the flashcards
+    /// tab (loading cards if needed) and grades the card on screen.
+    pub(crate) fn grade_flashcard_key(&mut self, grade: u8, cx: &mut Context<Self>) {
+        self.select_right_tab(RightTab::Flashcards, cx);
+        if self.flashcard_state.cards.is_empty() {
+            self.reload_flashcards();
+        }
+        self.grade_flashcard(grade, cx);
+    }
+
     pub(crate) fn grade_flashcard(&mut self, grade: u8, cx: &mut Context<Self>) {
         let Some(card) = self.current_flashcard().cloned() else {
             return;
