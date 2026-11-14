@@ -48,7 +48,7 @@ capitalised.
 
 ## The Hotkeys tab
 
-Settings' Hotkeys tab lists every command id Silica knows, all 244 of them, with its name
+Settings' Hotkeys tab lists every command id Silica knows, all 253 of them, with its name
 and its effective binding. Four filters, as in Obsidian:
 
 | Filter | Shows |

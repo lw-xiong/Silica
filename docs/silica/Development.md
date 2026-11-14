@@ -3566,3 +3566,10 @@ window closes). Bump 0.9.11.
 `editor:open-link-in-new-window` dispatches like `editor:open-link-in-new-leaf` (a new tab in
 this window), and `app:toggle-default-new-pane-mode` flips `app.json` `focusNewTab` through
 `change_setting`. Bump 0.9.13.
+
+## Site reference numbers refreshed, 2026-11-13
+
+`docs/reference/commands.md` and `docs/hotkeys.md` now count 253 Obsidian ids, 235 named,
+41 with defaults, 219 runnable; the `workspace:close-window` and
+`editor:open-link-in-new-window` rows flip to Yes and the newly runnable ids join the table.
+Site build verified (37 pages, links resolve). Bump 0.9.14.

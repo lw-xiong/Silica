@@ -1,13 +1,13 @@
 ---
 title: Commands and hotkeys
-description: The commands Silica registers: the 244 Obsidian command ids, the 227 with an observed desktop name, the 41 with a default hotkey, and the 127 Silica can actually run today, with every id and default key listed.
+description: The commands Silica registers: the 253 Obsidian command ids, the 235 with an observed desktop name, the 41 with a default hotkey, and the 219 Silica can actually run today, with every id and default key listed.
 ---
 
 # Commands and hotkeys
 
-Silica registers **244 command ids**, the exact strings Obsidian registers, so your
-`hotkeys.json` matches them. Of those, **227 have an observed desktop name**. **41** carry a
-default hotkey. **127** do something in Silica today.
+Silica registers **253 command ids**, the exact strings Obsidian registers, so your
+`hotkeys.json` matches them. Of those, **235 have an observed desktop name**. **41** carry a
+default hotkey. **219** do something in Silica today.
 
 Those four numbers are different things and the difference is the point:
 
@@ -17,11 +17,11 @@ Those four numbers are different things and the difference is the point:
 - A **default hotkey** is Obsidian's binding, applied unless your file overrides it.
 - **Runnable** means Silica implements the behavior. The [command
   palette](/docs/app/switcher/) offers only these; the [Hotkeys tab](/docs/hotkeys/) lists
-  all 244, so you can see your bindings for everything else.
+  all 253, so you can see your bindings for everything else.
 
-Some of the 127 are runnable only in the right place, which is also how Obsidian treats
-them: **37** need an editor on screen with the keyboard in it, so they leave the palette in
-a reading leaf, and the **fifteen table commands** that act on an existing table are offered
+Some of the 219 are runnable only in the right place, which is also how Obsidian treats
+them: **70** need an editor on screen with the keyboard in it, so they leave the palette in
+a reading leaf, and the **17 table commands** that act on an existing table are offered
 only while the cursor is in one. `graph:open-local` is not offered with no file open. The palette, the hotkey and the
 control socket all ask the same question, so a command that is listed is a command that
 runs.
@@ -38,7 +38,7 @@ tab commands below, which are `Ctrl` everywhere.
 |---|---|---|---|
 | Add file property | `markdown:add-metadata-property` | `Ctrl + ;` | Yes |
 | Close current tab | `workspace:close` | `Ctrl + W` | Yes |
-| Close window | `workspace:close-window` | `Ctrl + Shift + W` | No |
+| Close window | `workspace:close-window` | `Ctrl + Shift + W` | Yes |
 | Command palette: Open command palette | `command-palette:open` | `Ctrl + P` | Yes |
 | Create new note | `file-explorer:new-file` | `Ctrl + N` | Yes |
 | Create note to the right | `file-explorer:new-file-in-new-pane` | `Ctrl + Shift + N` | Yes |
@@ -55,7 +55,7 @@ tab commands below, which are `Ctrl` everywhere.
 | New tab | `workspace:new-tab` | `Ctrl + T` | Yes |
 | Open help | `app:open-help` | `F1` | Yes |
 | Open link under cursor in new tab | `editor:open-link-in-new-leaf` | `Ctrl + Enter` | Yes |
-| Open link under cursor in new window | `editor:open-link-in-new-window` | `Ctrl + Alt + Shift + Enter` | No |
+| Open link under cursor in new window | `editor:open-link-in-new-window` | `Ctrl + Alt + Shift + Enter` | Yes |
 | Open link under cursor to the right | `editor:open-link-in-new-split` | `Ctrl + Alt + Enter` | Yes |
 | Open settings | `app:open-settings` | `Ctrl + ,` | Yes |
 | Quick switcher: Open quick switcher | `switcher:open` | `Ctrl + O` | Yes |
@@ -71,8 +71,9 @@ tab commands below, which are `Ctrl` everywhere.
 | Toggle reading view | `markdown:toggle-preview` | `Ctrl + E` | Yes |
 | Undo close tab | `workspace:undo-close-pane` | `Ctrl + Shift + T` | Yes |
 
-> **Note** The two rows marked No are the two window commands: a popout window and a second
-> window do not exist here. Their ids are registered and your bindings for them are kept.
+> **Note** `workspace:close-window` closes the whole window (the app exits when the last one
+> closes), and `editor:open-link-in-new-window` opens the link in a new tab of this window:
+> a real popout window does not exist here.
 
 ## Runnable commands with no default key
 
@@ -85,6 +86,7 @@ in `hotkeys.json`. Several are worth binding on day one: `editor:toggle-source`,
 | Add cursor above | `editor:add-cursor-above` |
 | Add cursor below | `editor:add-cursor-below` |
 | Add embed | `editor:insert-embed` |
+| Attach file | `editor:attach-file` |
 | Add internal link | `editor:insert-wikilink` |
 | Backlinks: Open backlinks for the current note | `backlink:open-backlinks` |
 | Backlinks: Show backlinks | `backlink:open` |
@@ -116,6 +118,7 @@ in `hotkeys.json`. Several are worth binding on day one: `editor:toggle-source`,
 | Focus on tab group to the left | `editor:focus-left` |
 | Focus on tab group to the right | `editor:focus-right` |
 | Graph view: Open local graph | `graph:open-local` |
+| Indent | `editor:indent` |
 | Indent list item | `editor:indent-list` |
 | Insert table | `editor:insert-table` |
 | Make a copy of the current file | `file-explorer:duplicate-file` |
@@ -123,13 +126,16 @@ in `hotkeys.json`. Several are worth binding on day one: `editor:toggle-source`,
 | Move current file to another folder | `file-explorer:move-file` |
 | Move line down | `editor:swap-line-down` |
 | Move line up | `editor:swap-line-up` |
+| Open file | `app:open-file` |
 | Open sandbox vault | `app:open-sandbox-vault` |
+| Open with default app | `open-with-default-app:show` |
 | Open vault... | `app:open-another-vault` |
 | Outgoing links: Open outgoing links for the current file | `outgoing-links:open-for-current` |
 | Outgoing links: Show outgoing links | `outgoing-links:open` |
 | Outline: Open outline of the current file | `outline:open-for-current` |
 | Outline: Show outline | `outline:open` |
 | Properties view: Show all properties | `properties:open` |
+| Properties view: Show local properties | `properties:open-local` |
 | Remove heading | `editor:set-heading-0` |
 | Set as heading 1 | `editor:set-heading-1` |
 | Set as heading 2 | `editor:set-heading-2` |
@@ -155,21 +161,30 @@ in `hotkeys.json`. Several are worth binding on day one: `editor:toggle-source`,
 | Table: Move row down | `editor:table-row-down` |
 | Table: Move row up | `editor:table-row-up` |
 | Tags view: Show tags | `tag-pane:open` |
+| Workspaces: Load layout | `workspaces:load` |
+| Workspaces: Manage layouts | `workspaces:open-modal` |
+| Workspaces: Save and load | `workspaces:save-and-load` |
+| Workspaces: Save layout | `workspaces:save` |
 | Templates: Insert current date | `insert-current-date` |
 | Templates: Insert current time | `insert-current-time` |
 | Templates: Insert template | `insert-template` |
+| Templates: Insert template (plugin id) | `templates:insert-template` |
 | Toggle blockquote | `editor:toggle-blockquote` |
 | Toggle bullet list | `editor:toggle-bullet-list` |
 | Toggle code | `editor:toggle-code` |
 | Toggle fold properties in current file | `editor:toggle-fold-properties` |
 | Toggle highlight | `editor:toggle-highlight` |
 | Toggle inline math | `editor:toggle-inline-math` |
+| Toggle default new pane mode | `app:toggle-default-new-pane-mode` |
 | Toggle left sidebar | `app:toggle-left-sidebar` |
+| Toggle ribbon | `app:toggle-ribbon` |
 | Toggle Live Preview/Source mode | `editor:toggle-source` |
 | Toggle numbered list | `editor:toggle-numbered-list` |
 | Toggle right sidebar | `app:toggle-right-sidebar` |
 | Toggle strikethrough | `editor:toggle-strikethrough` |
+| Undo close tab | `workspace:undo-close-tab` |
 | Unindent list item | `editor:unindent-list` |
+| Outdent | `editor:outdent` |
 
 ## Keys that are not commands
 
@@ -188,7 +203,7 @@ A few keys belong to a widget rather than to the command registry, and are not r
 
 ## The full id list
 
-All 244 ids live in `crates/silica-commands/data/commands.txt` in the repository, and the
+All 253 ids live in `crates/silica-commands/data/commands.txt` in the repository, and the
 names in `data/names.txt` beside it. Settings' [Hotkeys tab](/docs/hotkeys/) shows the same
 list with your own bindings applied, which is usually the faster way to look one up.
 
