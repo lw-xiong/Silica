@@ -177,6 +177,109 @@ impl Workspace {
         }
     }
 
+    /// `editor:download-attachments`: every remote image in the open note is
+    /// fetched into the vault's attachment folder and the reference rewritten
+    /// to the local path. Fetches run on the background executor (silica-net
+    /// shells out to curl); the note is rewritten once, at the end.
+    pub(crate) fn download_attachments(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let Some(current) = self.current.clone() else {
+            self.report("No note is open", cx);
+            return;
+        };
+        let text = {
+            let editor = self.editor.read(cx);
+            if editor.name == current && editor.is_dirty() {
+                Some(editor.file_contents())
+            } else {
+                self.state.as_deref().and_then(|state| {
+                    state
+                        .texts()
+                        .get(&current)
+                        .map(|t| t.to_string())
+                        .or_else(|| std::fs::read_to_string(state.vault().absolute(&current)).ok())
+                })
+            }
+        };
+        let Some(text) = text else {
+            self.report(format!("{} could not be read", basename(&current)), cx);
+            return;
+        };
+        let refs = remote_image_refs(&text);
+        if refs.is_empty() {
+            self.report("No remote attachments in this note", cx);
+            return;
+        }
+        let Some(state) = self.state.clone() else {
+            self.report("No vault is open", cx);
+            return;
+        };
+        let setting = state
+            .vault()
+            .app_config()
+            .ok()
+            .and_then(|c| c.attachment_folder_path);
+        let root = state.vault().root().to_path_buf();
+        let editor = self.editor.clone();
+        let current_for_task = current.clone();
+        cx.spawn_in(window, async move |this, cx| {
+            let mut downloads: Vec<(String, Vec<u8>, String)> = Vec::new();
+            let mut used: Vec<String> = Vec::new();
+            for url in refs {
+                let name = unique_name(&url, &used);
+                used.push(name.clone());
+                let rel = silica_vault::ops::attachment_path(setting.as_deref(), &current_for_task, &name);
+                let fetch_url = url.clone();
+                let body = cx
+                    .background_executor()
+                    .spawn(async move { silica_net::fetch(&silica_net::Request::get(&fetch_url)).map(|r| r.body) })
+                    .await;
+                match body {
+                    Ok(bytes) if !bytes.is_empty() => downloads.push((rel, bytes, url)),
+                    Ok(_) => {}
+                    Err(e) => eprintln!("download {url}: {e}"),
+                }
+            }
+            this.update_in(cx, |this, _window, cx| {
+                let mut text = text.clone();
+                let mut count = 0usize;
+                for (rel, bytes, url) in &downloads {
+                    let abs = root.join(rel);
+                    if let Some(dir) = abs.parent() {
+                        let _ = std::fs::create_dir_all(dir);
+                    }
+                    if std::fs::write(&abs, bytes).is_ok() {
+                        // * Keep the spelling: `![[url]]` becomes `![[name]]`,
+                        //   `![alt](url)` becomes `![alt](name)`.
+                        let wikilink = format!("![[{url}]]");
+                        let md = format!("]({url})");
+                        if text.contains(&wikilink) {
+                            let name = rel.rsplit('/').next().unwrap_or(rel);
+                            text = text.replace(&wikilink, &format!("![[{name}]]"));
+                        } else if let Some(ix) = text.find(&md) {
+                            let name = rel.rsplit('/').next().unwrap_or(rel);
+                            text.replace_range(ix..ix + md.len(), &format!("]({name})"));
+                        }
+                        count += 1;
+                    }
+                }
+                if count > 0 {
+                    editor.update(cx, |e, cx| {
+                        if e.name == current_for_task {
+                            e.set_text(current_for_task.clone(), text.clone(), cx);
+                        }
+                    });
+                    this.state = Some(state);
+                    this.refresh_vault_views(cx);
+                    this.report(format!("Downloaded {count} attachment{}", if count == 1 { "" } else { "s" }), cx);
+                } else {
+                    this.report("No attachments could be downloaded", cx);
+                }
+                cx.notify();
+            })
+        })
+        .detach();
+    }
+
     /// Sends the input's text as a chat turn, with the question's `[[links]]`
     /// and the open note as context. The request runs on the background
     /// executor so the window never blocks on the model.
@@ -675,4 +778,88 @@ fn render_segments(text: &str, theme: &Theme) -> gpui::AnyElement {
         col = col.child(child);
     }
     col.into_any_element()
+}
+
+/// The remote image references in a note: both spellings, as
+/// `(url)` in order of appearance, deduped.
+fn remote_image_refs(text: &str) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+    let bytes = text.as_bytes();
+    let mut i = 0;
+    while i + 1 < bytes.len() {
+        if bytes[i] == b'!' && (bytes[i + 1] == b'[') {
+            // * `![[url]]` or `![alt](url)`: find the url start
+            if let Some(open) = text[i..].find("http") {
+                let start = i + open;
+                let rest = &text[start..];
+                let end = rest
+                    .find(|c: char| c.is_whitespace() || c == ')' || c == ']' || c == '|')
+                    .unwrap_or(rest.len());
+                let url = &rest[..end];
+                if (url.starts_with("https://") || url.starts_with("http://"))
+                    && !out.iter().any(|u| u == url)
+                {
+                    out.push(url.to_string());
+                }
+                i = start + end;
+                continue;
+            }
+        }
+        i += 1;
+    }
+    out
+}
+
+/// A file name for a remote url: the last path segment, sanitized, made
+/// unique against `used` with a `-2`, `-3` suffix.
+fn unique_name(url: &str, used: &[String]) -> String {
+    let no_query = url.split(['?', '#']).next().unwrap_or(url);
+    let seg = no_query.rsplit('/').next().unwrap_or("attachment");
+    let base: String = seg
+        .chars()
+        .map(|c| if c.is_alphanumeric() || c == '.' || c == '-' || c == '_' { c } else { '_' })
+        .collect();
+    let base = if base.is_empty() || base == "." { "attachment".to_string() } else { base };
+    if !used.contains(&base) {
+        return base;
+    }
+    let stem = base.rsplit_once('.').map(|(s, _)| s).unwrap_or(&base);
+    let ext = base.rsplit_once('.').map(|(_, e)| e).unwrap_or("");
+    let mut n = 2;
+    loop {
+        let cand = if ext.is_empty() {
+            format!("{stem}-{n}")
+        } else {
+            format!("{stem}-{n}.{ext}")
+        };
+        if !used.contains(&cand) {
+            return cand;
+        }
+        n += 1;
+    }
+}
+
+#[cfg(test)]
+mod download_tests {
+    use super::{remote_image_refs, unique_name};
+
+    #[test]
+    fn remote_refs_cover_both_spellings_and_dedupe() {
+        let text = "![a](https://x.test/cat.png) and ![[https://x.test/dog.png|100]]\n![b](https://x.test/cat.png) again ![c](pic.png)";
+        assert_eq!(
+            remote_image_refs(text),
+            vec![
+                "https://x.test/cat.png".to_string(),
+                "https://x.test/dog.png".to_string()
+            ]
+        );
+    }
+
+    #[test]
+    fn unique_name_sanitizes_and_disambiguates() {
+        let used = vec!["cat.png".to_string()];
+        assert_eq!(unique_name("https://x.test/cat.png", &used), "cat-2.png");
+        assert_eq!(unique_name("https://x.test/a b?.png", &[]), "a_b");
+        assert_eq!(unique_name("https://x.test/", &[]), "attachment");
+    }
 }

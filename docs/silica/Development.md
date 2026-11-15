@@ -3704,3 +3704,10 @@ Ctrl+=. Bump 0.9.37.
 The command now runs: opens a second window over the same vault
 (window options factored into `workspace_window_options` in main.rs,
 shared by the launch path and the command). Bump 0.9.39.
+
+## editor:download-attachments, 2026-11-15
+
+Fetches every remote image in the open note (`![alt](https://..)` and
+`![[https://..]]`) into the attachment folder per app.json, rewrites the
+references to the local name, keeps the original spelling. Fetches go
+through silica-net on the background executor. Bump 0.9.40.

@@ -781,6 +781,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:close-tab",
     "workspace:close-window",
     "workspace:new-window",
+    "editor:download-attachments",
     "workspace:close-others",
     "workspace:toggle-stacked-tabs",
     "workspace:next-tab",
@@ -6717,6 +6718,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "workspace:new-tab" => self.new_tab(cx),
             "workspace:close" | "workspace:close-tab" => self.close_tab(self.active_tab, cx),
             "workspace:close-window" => window.remove_window(),
+            "editor:download-attachments" => self.download_attachments(window, cx),
             "workspace:new-window" => {
                 // * Same vault, second window: `open_window` builds another
                 //   `Workspace` over the same root; closing it just removes
