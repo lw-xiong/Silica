@@ -3748,3 +3748,9 @@ is built like `workspace:new-window`, then `open_file` runs on it. Bump
 
 `workspace:open-in-new-window` plus closing the tab in the original
 window: the file moves, like Obsidian's "Move to new window". Bump 0.9.46.
+
+## silica:vault-doctor, 2026-11-15
+
+Writes `Vault health report.md` and opens it: note count, broken links
+per note (from the metadata cache's unresolved links), and orphan notes
+(no backlinks), each capped at 25 rows. Bump 0.9.47.

@@ -773,6 +773,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:backlink-count",
     "silica:zk-prefixer",
     "silica:file-recovery-restore",
+    "silica:vault-doctor",
     "silica:bookmarks",
     "silica:tag-pane",
     "silica:daily-notes",
@@ -6847,6 +6848,86 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                         cx.new(|cx| Workspace::new(Some(root), window, cx))
                     })
                     .ok();
+                }
+            }
+            "silica:vault-doctor" => {
+                let Some(state) = self.state.clone() else {
+                    self.report("No vault is open", cx);
+                    return;
+                };
+                // * The metadata cache is the doctor's chart: unresolved
+                //   links are broken, notes nothing links to are orphans.
+                let report = {
+                    let cache = state.cache();
+                    let mut broken: Vec<(String, usize)> = Vec::new();
+                    let mut broken_total = 0usize;
+                    let mut orphans: Vec<String> = Vec::new();
+                    let mut notes = 0usize;
+                    for (path, _meta) in cache.files() {
+                        if !path.ends_with(".md") {
+                            continue;
+                        }
+                        notes += 1;
+                        let unresolved = cache
+                            .unresolved_links(path)
+                            .map(|m| m.values().sum::<usize>())
+                            .unwrap_or(0);
+                        if unresolved > 0 {
+                            broken.push((path.to_string(), unresolved));
+                            broken_total += unresolved;
+                        }
+                        if cache.backlinks(path).is_empty() {
+                            orphans.push(path.to_string());
+                        }
+                    }
+                    broken.sort_by(|a, b| b.1.cmp(&a.1).then(a.0.cmp(&b.0)));
+                    let mut out = String::from("# Vault health report\n\n");
+                    out.push_str(&format!("- Notes: {notes}\n"));
+                    out.push_str(&format!(
+                        "- Broken links: {broken_total} across {} note{}\n",
+                        broken.len(),
+                        if broken.len() == 1 { "" } else { "s" }
+                    ));
+                    out.push_str(&format!(
+                        "- Orphan notes (no backlinks): {}\n\n",
+                        orphans.len()
+                    ));
+                    if !broken.is_empty() {
+                        out.push_str("## Broken links\n\n");
+                        for (path, n) in broken.iter().take(25) {
+                            out.push_str(&format!("- [[{path}]] — {n}\n"));
+                        }
+                        if broken.len() > 25 {
+                            out.push_str(&format!(
+                                "- …and {} more\n",
+                                broken.len() - 25
+                            ));
+                        }
+                        out.push('\n');
+                    }
+                    if !orphans.is_empty() {
+                        out.push_str("## Orphan notes\n\n");
+                        for path in orphans.iter().take(25) {
+                            out.push_str(&format!("- [[{path}]]\n"));
+                        }
+                        if orphans.len() > 25 {
+                            out.push_str(&format!(
+                                "- …and {} more\n",
+                                orphans.len() - 25
+                            ));
+                        }
+                    }
+                    out
+                };
+                let vault = state.vault();
+                match vault.write_bytes("Vault health report.md", report.as_bytes()) {
+                    Ok(()) => {
+                        drop(vault);
+                        self.refresh_vault_views(cx);
+                        self.open_file("Vault health report.md".to_string(), None, cx);
+                        self.report("Vault health report written", cx);
+                    }
+                    Err(err) => self.report(format!("could not write report: {err}"), cx),
                 }
             }
             "workspace:move-to-new-window" => {
