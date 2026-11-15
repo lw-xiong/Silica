@@ -422,6 +422,51 @@ fn parse_args() -> Args {
     args
 }
 
+/// The decorations for a frame style: `native` asks the desktop for its own
+/// title bar, anything else draws Obsidian's hidden frame.
+pub fn decorations_for(frame: &str) -> WindowDecorations {
+    if frame == "native" {
+        WindowDecorations::Server
+    } else {
+        WindowDecorations::Client
+    }
+}
+
+/// The `WindowOptions` every workspace window opens with: the frame style,
+/// the hidden frame's transparent margin on Linux, a sensible size.
+pub fn workspace_window_options(cx: &App) -> WindowOptions {
+    let frame = frame_style();
+    let decorations = decorations_for(&frame);
+    let bounds = Bounds::centered(None, size(px(1400.), px(900.)), cx);
+    WindowOptions {
+        window_bounds: Some(WindowBounds::Windowed(bounds)),
+        titlebar: Some(TitlebarOptions {
+            title: Some("Silica".into()),
+            // * What hides the caption on Windows and macOS, where
+            //   `window_decorations` is not read at all: the window keeps the
+            //   system's shadow and resize border and loses only the title bar.
+            appears_transparent: (cfg!(target_os = "windows") || cfg!(target_os = "macos"))
+                && frame != "native",
+            traffic_light_position: (cfg!(target_os = "macos") && frame != "native")
+                .then(|| point(px(19.), px(12.))),
+        }),
+        // * KWin only honours the xdg-activation token that `activate_window`
+        //   asks for when it can tie it to an application.
+        app_id: Some("silica".into()),
+        window_decorations: Some(decorations),
+        // * A client-drawn frame paints its shadow in a margin around the
+        //   content, which has to be see-through — only on Linux.
+        window_background: match decorations {
+            WindowDecorations::Client if !cfg!(target_os = "windows") => {
+                WindowBackgroundAppearance::Transparent
+            }
+            _ => WindowBackgroundAppearance::Opaque,
+        },
+        window_min_size: Some(size(px(480.), px(320.))),
+        ..Default::default()
+    }
+}
+
 /// Whether the window is opened without the desktop's own title bar, which
 /// is what Obsidian's "Hidden" frame style means and its default on Linux
 /// and Windows. Answered once: the window asks on the way up, and the
@@ -605,11 +650,7 @@ fn main() {
     //   desktop for its own frame instead, which is the choice for a
     //   compositor that draws client windows badly.
     let frame = args.frame.clone().unwrap_or_else(frame_style);
-    let decorations = if frame == "native" {
-        WindowDecorations::Server
-    } else {
-        WindowDecorations::Client
-    };
+    let _ = frame;
 
     gpui_platform::application()
         .with_assets(assets::Assets)
@@ -626,51 +667,17 @@ fn main() {
             silica_plugins::native_plugins::register_all();
 
             let (width, height) = args.size.unwrap_or((1400.0, 900.0));
-            let bounds = Bounds::centered(None, size(px(width), px(height)), cx);
+            let mut options = workspace_window_options(cx);
+            options.window_bounds = Some(WindowBounds::Windowed(Bounds::centered(
+                None,
+                size(px(width), px(height)),
+                cx,
+            )));
             let vault = args.vault.clone();
             let window = cx
-                .open_window(
-                    WindowOptions {
-                        window_bounds: Some(WindowBounds::Windowed(bounds)),
-                        titlebar: Some(TitlebarOptions {
-                            title: Some("Silica".into()),
-                            // * What hides the caption on Windows and macOS,
-                            //   where `window_decorations` is not read at all:
-                            //   the window keeps the system's shadow and resize
-                            //   border and loses only the title bar, which is
-                            //   the frame Obsidian draws there. macOS keeps its
-                            //   traffic lights, at the point Obsidian's window
-                            //   options put them; the workspace pads the header
-                            //   under them (see `frame_left_space`).
-                            appears_transparent: (cfg!(target_os = "windows")
-                                || cfg!(target_os = "macos"))
-                                && frame != "native",
-                            traffic_light_position: (cfg!(target_os = "macos")
-                                && frame != "native")
-                                .then(|| point(px(19.), px(12.))),
-                        }),
-                        // * KWin only honours the xdg-activation token that
-                        //   `activate_window` asks for when it can tie it to an
-                        //   application, which is what this id is for.
-                        app_id: Some("silica".into()),
-                        window_decorations: Some(decorations),
-                        // * A client-drawn frame paints its shadow in a margin
-                        //   around the content, which has to be see-through.
-                        //   Only Linux draws that margin: Windows keeps the
-                        //   system's shadow outside the window, so a
-                        //   transparent background there would only show the
-                        //   desktop through the app's own rounded corners.
-                        window_background: match decorations {
-                            WindowDecorations::Client if !cfg!(target_os = "windows") => {
-                                WindowBackgroundAppearance::Transparent
-                            }
-                            _ => WindowBackgroundAppearance::Opaque,
-                        },
-                        window_min_size: Some(size(px(480.), px(320.))),
-                        ..Default::default()
-                    },
-                    |window, cx| cx.new(|cx| Workspace::new(vault, window, cx)),
-                )
+                .open_window(options, |window, cx| {
+                    cx.new(|cx| Workspace::new(vault, window, cx))
+                })
                 .expect("open main window");
             // * Now there is a window to ask: `theme: "system"` follows the
             //   desktop, which is Obsidian's default and what a vault with no

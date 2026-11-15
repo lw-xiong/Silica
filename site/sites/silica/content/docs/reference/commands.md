@@ -1,6 +1,6 @@
 ---
 title: Commands and hotkeys
-description: The commands Silica registers: the 256 Obsidian command ids, the 238 with an observed desktop name, the 41 with a default hotkey, and 265 ids Silica can actually run today (219 Obsidian + 46 `silica:`-prefixed), with every id and default key listed.
+description: The commands Silica registers: the 256 Obsidian command ids, the 238 with an observed desktop name, the 41 with a default hotkey, and 266 ids Silica can actually run today (220 Obsidian + 46 `silica:`-prefixed), with every id and default key listed.
 ---
 
 # Commands and hotkeys

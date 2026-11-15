@@ -780,6 +780,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:close",
     "workspace:close-tab",
     "workspace:close-window",
+    "workspace:new-window",
     "workspace:close-others",
     "workspace:toggle-stacked-tabs",
     "workspace:next-tab",
@@ -6716,6 +6717,19 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "workspace:new-tab" => self.new_tab(cx),
             "workspace:close" | "workspace:close-tab" => self.close_tab(self.active_tab, cx),
             "workspace:close-window" => window.remove_window(),
+            "workspace:new-window" => {
+                // * Same vault, second window: `open_window` builds another
+                //   `Workspace` over the same root; closing it just removes
+                //   the window, the app lives on.
+                let root = self.state.as_ref().map(|s| s.vault().root().to_path_buf());
+                if let Some(root) = root {
+                    let options = crate::workspace_window_options(cx);
+                    cx.open_window(options, |window, cx| {
+                        cx.new(|cx| Workspace::new(Some(root), window, cx))
+                    })
+                    .ok();
+                }
+            }
             "workspace:close-others" => self.close_other_tabs(cx),
             "workspace:toggle-stacked-tabs" => self.toggle_stacked_tabs(cx),
             "workspace:split-vertical" => self.split(SplitDirection::Vertical, window, cx),

@@ -3698,3 +3698,9 @@ Ctrl+=. Bump 0.9.37.
 
 ["Status"] from the All properties pane matches a `status:` key
 (case-insensitive, quotes stripped). Already worked; test locks it. Bump 0.9.38.
+
+## workspace:new-window, 2026-11-15
+
+The command now runs: opens a second window over the same vault
+(window options factored into `workspace_window_options` in main.rs,
+shared by the launch path and the command). Bump 0.9.39.
