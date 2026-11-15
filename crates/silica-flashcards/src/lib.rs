@@ -440,7 +440,13 @@ mod tests {
 
     #[test]
     fn store_round_trips_through_disk() {
-        let dir = std::env::temp_dir().join(format!("silica-flashcards-test-{}", std::process::id()));
+        // * pid + counter: parallel tests in one process must not share a dir.
+        static NEXT: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        let dir = std::env::temp_dir().join(format!(
+            "silica-flashcards-test-{}-{}",
+            std::process::id(),
+            NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+        ));
         let _ = std::fs::remove_dir_all(&dir);
         let path = dir.join(".obsidian").join(STORE_NAME);
         let mut store = Store::default();

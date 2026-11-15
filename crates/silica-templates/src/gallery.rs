@@ -89,9 +89,13 @@ mod tests {
     use super::*;
 
     fn sandbox() -> PathBuf {
+        // * Keyed by pid AND a per-call counter: parallel tests in one
+        //   process would otherwise share one dir and delete each other's files.
+        static NEXT: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
         let dir = std::env::temp_dir().join(format!(
-            "silica-templates-gallery-test-{}",
-            std::process::id()
+            "silica-templates-gallery-test-{}-{}",
+            std::process::id(),
+            NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).expect("sandbox dir");
