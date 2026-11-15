@@ -3724,3 +3724,9 @@ Renames the open note to `YYYYMMDDHHMM <name>.md` (local time, like the
 Obsidian plugin); a note that is already prefixed is left alone. Reuses the
 state rename path so links update per the `updateLinksAutomatically`
 setting. Bump 0.9.42.
+
+## silica:file-recovery-restore, 2026-11-15
+
+Restores the newest snapshot of the open note through the same
+`file_recovery::restore` path the recovery pane uses; reports when the note
+has no snapshots. Bump 0.9.43.

@@ -772,6 +772,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:random-note",
     "silica:backlink-count",
     "silica:zk-prefixer",
+    "silica:file-recovery-restore",
     "silica:outgoing-link-count",
     "file-explorer:move-file",
     "file-explorer:duplicate-file",
@@ -5994,6 +5995,32 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             // * `random-note`: buka note acak dari vault. Indeks dihasilkan
             //   dari waktu sistem saat ini (tanpa dependensi `rand`).
+            "silica:file-recovery-restore" => {
+                let Some(current) = self.current.clone() else {
+                    self.report("No note is open", cx);
+                    return;
+                };
+                let Some(state) = self.state.clone() else {
+                    self.report("No vault is open", cx);
+                    return;
+                };
+                // * The snapshot list is newest first, so version 0 is the
+                //   one the user most likely wants back.
+                let root = state.root.clone();
+                let newest = crate::file_recovery::collect(
+                    &root,
+                    [current.as_str()].into_iter(),
+                )
+                .into_iter()
+                .next()
+                .and_then(|n| n.versions.first().map(|v| v.at));
+                match newest {
+                    Some(at) => self.file_recovery_restore(&current, at, cx),
+                    None => {
+                        self.report(format!("No snapshots of {}", basename(&current)), cx)
+                    }
+                }
+            }
             "silica:zk-prefixer" => {
                 let Some(current) = self.current.clone() else {
                     self.report("No note is open", cx);
