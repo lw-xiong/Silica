@@ -3687,3 +3687,9 @@ from the command palette, not just the keybindings. Bump 0.9.35.
 ## silica:graph-zoom-in/out/reset-view, 2026-11-15
 
 Palette commands driving the graph view's existing zoom actions. Bump 0.9.36.
+
+## Graph wheel zoom direction fixed, 2026-11-15
+
+gpui delivers wheel-up as negative dy in the graph scroll handler, so
+wheel_zoom_factor now negates: wheel-up zooms in, matching Obsidian and
+Ctrl+=. Bump 0.9.37.

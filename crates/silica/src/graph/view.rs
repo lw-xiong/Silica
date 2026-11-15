@@ -1935,7 +1935,9 @@ fn saved_pin(saved: Option<f32>) -> Option<f32> {
 /// `dy` positive in the same convention that scrolls the editor up, zooms the
 /// graph in, like `Ctrl+=` and like Obsidian.
 fn wheel_zoom_factor(dy: f32) -> f32 {
-    (dy * 0.004).exp()
+    // * gpui delivers wheel-up as a NEGATIVE dy in the graph's scroll handler
+    //   (the editor gets the opposite sign), so negate: wheel-up zooms in.
+    (-dy * 0.004).exp()
 }
 
 /// Whether a refresh takes its zoom from `graph.json`. The vault refresh runs
@@ -2595,8 +2597,9 @@ mod tests {
     /// `Ctrl+=` takes too.
     #[test]
     fn the_wheel_zooms_in_when_it_goes_up() {
-        assert!(wheel_zoom_factor(120.0) > 1.0);
-        assert!(wheel_zoom_factor(-120.0) < 1.0);
+        // * wheel-up arrives as negative dy (probed on the live view)
+        assert!(wheel_zoom_factor(-120.0) > 1.0);
+        assert!(wheel_zoom_factor(120.0) < 1.0);
         assert_eq!(wheel_zoom_factor(0.0), 1.0);
     }
 
