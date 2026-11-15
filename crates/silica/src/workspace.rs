@@ -665,6 +665,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:copy-wikilink",
     "silica:copy-path",
     "silica:show-vault-folder",
+    "silica:reveal-current-file",
     "silica:export-pdf",
     "silica:workspace-save",
     "workspaces:save",
@@ -6055,6 +6056,21 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:flashcard-hard" => self.grade_flashcard_key(1, cx),
             "silica:flashcard-good" => self.grade_flashcard_key(2, cx),
             "silica:flashcard-easy" => self.grade_flashcard_key(3, cx),
+            "silica:reveal-current-file" => {
+                if let Some(current) = self.current.clone() {
+                    let dir = std::path::Path::new(&current)
+                        .parent()
+                        .map(|p| p.to_string_lossy().to_string())
+                        .unwrap_or_default();
+                    if dir.is_empty() {
+                        self.report("The note is at the vault root", cx);
+                    } else {
+                        self.open_in_default_app(&dir, cx);
+                    }
+                } else {
+                    self.report("No note is open", cx);
+                }
+            }
             "silica:show-vault-folder" => {
                 if let Some(state) = self.state.as_deref() {
                     let root = state.vault().root().to_string_lossy().to_string();

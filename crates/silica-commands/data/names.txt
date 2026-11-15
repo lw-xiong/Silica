@@ -286,3 +286,4 @@ silica:ai-summarize-note	AI: Summarize current note
 silica:copy-wikilink	Copy wikilink to current note
 silica:copy-path	Copy current note path
 silica:show-vault-folder	Show vault folder in file manager
+silica:reveal-current-file	Reveal the current note in the file manager

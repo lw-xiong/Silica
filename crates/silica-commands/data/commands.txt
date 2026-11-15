@@ -311,3 +311,4 @@ silica:ai-summarize-note
 silica:copy-wikilink
 silica:copy-path
 silica:show-vault-folder
+silica:reveal-current-file
