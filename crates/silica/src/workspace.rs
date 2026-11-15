@@ -726,7 +726,6 @@ pub const RUNNABLE: &[&str] = &[
     "app:reload",
     "audio-recorder:start",
     "audio-recorder:stop",
-    "silica:voice-note",
     "quick-capture:open",
     "task-dashboard:open",
     "app:increase-font-size",
@@ -770,6 +769,9 @@ pub const RUNNABLE: &[&str] = &[
     "zk-prefixer",
     "insert-unique-link",
     "random-note",
+    "silica:random-note",
+    "silica:backlink-count",
+    "silica:outgoing-link-count",
     "file-explorer:move-file",
     "file-explorer:duplicate-file",
     "file-explorer:rename-file",
@@ -5991,7 +5993,44 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             // * `random-note`: buka note acak dari vault. Indeks dihasilkan
             //   dari waktu sistem saat ini (tanpa dependensi `rand`).
-            "random-note" => {
+            "silica:backlink-count" | "silica:outgoing-link-count" => {
+                let Some(current) = self.current.clone() else {
+                    self.report("No note is open", cx);
+                    return;
+                };
+                let backlinks_mode = id == "silica:backlink-count";
+                // * The cache and text guards borrow `self.state`, so the
+                //   count is computed in this block and dropped before the
+                //   `report` below takes `&mut self`.
+                let summary = {
+                    let Some(state) = self.state.as_ref() else {
+                        self.report("no vault loaded", cx);
+                        return;
+                    };
+                    let cache = state.cache();
+                    let texts = state.texts();
+                    let n = if backlinks_mode {
+                        backlinks::linked_mentions(&cache, &texts, &current, false)
+                            .groups
+                            .iter()
+                            .map(|g| g.matches.len())
+                            .sum::<usize>()
+                    } else {
+                        backlinks::outgoing_links(&cache, &current)
+                            .groups
+                            .iter()
+                            .map(|g| g.matches.len())
+                            .sum::<usize>()
+                    };
+                    format!(
+                        "{}: {n} {}",
+                        basename(&current),
+                        if backlinks_mode { "backlinks" } else { "outgoing links" }
+                    )
+                };
+                self.report(summary, cx);
+            }
+            "silica:random-note" | "random-note" => {
                 let Some(state) = self.state.as_ref() else {
                     self.report("no vault loaded", cx);
                     return;

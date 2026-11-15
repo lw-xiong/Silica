@@ -3711,3 +3711,9 @@ Fetches every remote image in the open note (`![alt](https://..)` and
 `![[https://..]]`) into the attachment folder per app.json, rewrites the
 references to the local name, keeps the original spelling. Fetches go
 through silica-net on the background executor. Bump 0.9.40.
+
+## silica:backlink-count / silica:outgoing-link-count / silica:random-note, 2026-11-15
+
+Two count commands report the current note's backlink and outgoing-link
+totals (reusing the backlinks pane's own group counts); `silica:random-note`
+aliases the existing `random-note` picker. Bump 0.9.41.
