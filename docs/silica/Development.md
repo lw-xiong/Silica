@@ -3661,3 +3661,8 @@ Bump 0.9.29.
 
 Each assistant bubble in the AI pane has a small `copy` affordance that writes the
 reply to the clipboard and shows a "Copied to clipboard" notice. Bump 0.9.30.
+
+## silica:outline-toggle-folds, 2026-11-14
+
+Command wrapping the outline pane's existing collapse-all/expand-all button logic
+(toggle_outline_folds). Bump 0.9.31.

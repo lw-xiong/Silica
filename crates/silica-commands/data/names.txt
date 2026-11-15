@@ -208,6 +208,7 @@ insert-unique-link	Unique note creator: Add unique internal link
 random-note	Random note: Open random note
 outline:open	Outline: Show outline
 outline:open-for-current	Outline: Open outline of the current file
+silica:outline-toggle-folds	Outline: Collapse or expand all headings
 slides:start	Slides: Start presentation
 audio-recorder:start	Audio recorder: Start recording audio
 audio-recorder:stop	Audio recorder: Stop recording audio

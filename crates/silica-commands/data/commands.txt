@@ -169,6 +169,7 @@ outgoing-links:open
 outgoing-links:open-for-current
 outline:open
 outline:open-for-current
+silica:outline-toggle-folds
 properties:open
 properties:open-local
 publish:open-in-live-site
