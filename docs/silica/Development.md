@@ -3683,3 +3683,7 @@ Opens the current note's parent folder in the system file manager. Bump 0.9.34.
 
 Four commands (zoom-in/out/reset/fit) drive the canvas view's existing zoom actions
 from the command palette, not just the keybindings. Bump 0.9.35.
+
+## silica:graph-zoom-in/out/reset-view, 2026-11-15
+
+Palette commands driving the graph view's existing zoom actions. Bump 0.9.36.

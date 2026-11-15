@@ -21,7 +21,7 @@ use crate::explorer::{display_name, kind_name, ExplorerEvent, FileExplorer, File
 use crate::export_pdf;
 use crate::fold;
 use crate::footnotes::footnote_rows;
-use crate::graph::{GraphEvent, GraphView, LocalGraph};
+use crate::graph::{GraphEvent, GraphView, LocalGraph, ResetView as GraphResetView, ZoomIn as GraphZoomIn, ZoomOut as GraphZoomOut};
 use crate::help::HelpWindow;
 use crate::mentions::{Finder, Name};
 use crate::palette::{CommandPalette, PaletteCommand, PaletteEvent};
@@ -646,6 +646,9 @@ pub const RUNNABLE: &[&str] = &[
     "graph:open-local",
     "graph:animate",
     "graph:toggle-labels",
+    "silica:graph-zoom-in",
+    "silica:graph-zoom-out",
+    "silica:graph-reset-view",
     // * Silica's own extension, not an Obsidian id: the `silica:` prefix is
     //   what the repo marks its native additions with.
     "silica:calendar",
@@ -6129,6 +6132,15 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             //   global graph.
             "graph:open-local" if self.current.is_none() => {}
             "graph:open-local" => self.show_graph(true, window, cx),
+            "silica:graph-zoom-in" => {
+                self.graph.update(cx, |g, cx| g.zoom_in(&GraphZoomIn, window, cx))
+            }
+            "silica:graph-zoom-out" => {
+                self.graph.update(cx, |g, cx| g.zoom_out(&GraphZoomOut, window, cx))
+            }
+            "silica:graph-reset-view" => {
+                self.graph.update(cx, |g, cx| g.reset_view(&GraphResetView, window, cx))
+            }
             "graph:toggle-labels" => {
                 self.graph.update(cx, |g, cx| g.toggle_flag("showLabels", cx));
             }

@@ -878,17 +878,17 @@ impl GraphView {
         cx.notify();
     }
 
-    fn zoom_in(&mut self, _: &ZoomIn, _: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn zoom_in(&mut self, _: &ZoomIn, _: &mut Window, cx: &mut Context<Self>) {
         let at = self.bounds.center();
         self.zoom_at(1.25, at, cx);
     }
 
-    fn zoom_out(&mut self, _: &ZoomOut, _: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn zoom_out(&mut self, _: &ZoomOut, _: &mut Window, cx: &mut Context<Self>) {
         let at = self.bounds.center();
         self.zoom_at(0.8, at, cx);
     }
 
-    fn reset_view(&mut self, _: &ResetView, _: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn reset_view(&mut self, _: &ResetView, _: &mut Window, cx: &mut Context<Self>) {
         // * Count the reset as a user adjustment so the simulation loop
         //   (which calls fit() while !user_adjusted) does not override it.
         self.user_adjusted = true;

@@ -7,4 +7,4 @@ mod view;
 
 pub use local::LocalGraph;
 pub(crate) use view::full_document;
-pub use view::{bind_keys, GraphEvent, GraphView};
+pub use view::{bind_keys, GraphEvent, GraphView, ResetView, ZoomIn, ZoomOut};
