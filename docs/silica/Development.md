@@ -3717,3 +3717,10 @@ through silica-net on the background executor. Bump 0.9.40.
 Two count commands report the current note's backlink and outgoing-link
 totals (reusing the backlinks pane's own group counts); `silica:random-note`
 aliases the existing `random-note` picker. Bump 0.9.41.
+
+## silica:zk-prefixer, 2026-11-15
+
+Renames the open note to `YYYYMMDDHHMM <name>.md` (local time, like the
+Obsidian plugin); a note that is already prefixed is left alone. Reuses the
+state rename path so links update per the `updateLinksAutomatically`
+setting. Bump 0.9.42.

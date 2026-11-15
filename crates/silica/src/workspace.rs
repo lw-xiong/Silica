@@ -771,6 +771,7 @@ pub const RUNNABLE: &[&str] = &[
     "random-note",
     "silica:random-note",
     "silica:backlink-count",
+    "silica:zk-prefixer",
     "silica:outgoing-link-count",
     "file-explorer:move-file",
     "file-explorer:duplicate-file",
@@ -5993,6 +5994,43 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             // * `random-note`: buka note acak dari vault. Indeks dihasilkan
             //   dari waktu sistem saat ini (tanpa dependensi `rand`).
+            "silica:zk-prefixer" => {
+                let Some(current) = self.current.clone() else {
+                    self.report("No note is open", cx);
+                    return;
+                };
+                if !current.ends_with(".md") {
+                    self.report("ZK prefixer works on markdown notes only", cx);
+                    return;
+                }
+                let stem = current.trim_end_matches(".md");
+                let name = stem.rsplit('/').next().unwrap_or(stem);
+                // * Obsidian's prefix is `YYYYMMDDHHMM` in the note's local
+                //   time; a note that already has it is left alone.
+                if name.len() >= 13 && name[..12].chars().all(|c| c.is_ascii_digit()) && name.as_bytes()[12] == b' ' {
+                    self.report(format!("{name} already has a ZK prefix"), cx);
+                    return;
+                }
+                let stamp = chrono::Local::now().format("%Y%m%d%H%M").to_string();
+                let dir = match stem.rfind('/') {
+                    Some(i) => &stem[..i + 1],
+                    None => "",
+                };
+                let to = format!("{dir}{stamp} {name}.md");
+                let Some(state) = self.state.clone() else {
+                    self.report("no vault loaded", cx);
+                    return;
+                };
+                let update_links = state.update_links_automatically();
+                match state.rename(&current, &to, update_links) {
+                    Ok(outcome) => {
+                        self.apply_rename(outcome, cx);
+                        self.refresh_vault_views(cx);
+                        self.report(format!("Renamed to {}", to.rsplit('/').next().unwrap_or(&to)), cx);
+                    }
+                    Err(err) => self.report(format!("could not rename: {err}"), cx),
+                }
+            }
             "silica:backlink-count" | "silica:outgoing-link-count" => {
                 let Some(current) = self.current.clone() else {
                     self.report("No note is open", cx);
