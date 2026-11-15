@@ -1,12 +1,12 @@
 ---
 title: Commands and hotkeys
-description: The commands Silica registers: the 253 Obsidian command ids, the 235 with an observed desktop name, the 41 with a default hotkey, and the 219 Silica can actually run today, with every id and default key listed.
+description: The commands Silica registers: the 256 Obsidian command ids, the 238 with an observed desktop name, the 41 with a default hotkey, and 265 ids Silica can actually run today (219 Obsidian + 46 `silica:`-prefixed), with every id and default key listed.
 ---
 
 # Commands and hotkeys
 
 Silica registers **253 command ids**, the exact strings Obsidian registers, so your
-`hotkeys.json` matches them. Of those, **235 have an observed desktop name**. **41** carry a
+`hotkeys.json` matches them. Of those, **238 have an observed desktop name**. **41** carry a
 default hotkey. **219** do something in Silica today.
 
 Those four numbers are different things and the difference is the point:
@@ -203,9 +203,18 @@ A few keys belong to a widget rather than to the command registry, and are not r
 
 ## The full id list
 
-All 253 ids live in `crates/silica-commands/data/commands.txt` in the repository, and the
+All 310 ids (256 Obsidian + 54 `silica:`-prefixed) live in `crates/silica-commands/data/commands.txt` in the repository, and the
 names in `data/names.txt` beside it. Settings' [Hotkeys tab](/docs/hotkeys/) shows the same
 list with your own bindings applied, which is usually the faster way to look one up.
+
+## Silica-only commands
+
+54 `silica:`-prefixed ids exist only in Silica — no Obsidian equivalent. They cover the
+app-level actions the spec calls out: `silica:copy-wikilink` / `silica:copy-path` /
+`silica:copy-embed` / `silica:copy-block-ref`, `silica:reveal-current-file`,
+`silica:canvas-zoom-in|out|reset|fit`, `silica:graph-zoom-in|out|reset-view`,
+`silica:tasks-toggle-done`, and the AI/chat pane actions. None carry a default hotkey;
+bind them in Settings' Hotkeys tab.
 
 ## Next
 
