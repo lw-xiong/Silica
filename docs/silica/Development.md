@@ -3693,3 +3693,8 @@ Palette commands driving the graph view's existing zoom actions. Bump 0.9.36.
 gpui delivers wheel-up as negative dy in the graph scroll handler, so
 wheel_zoom_factor now negates: wheel-up zooms in, matching Obsidian and
 Ctrl+=. Bump 0.9.37.
+
+## Regression test: quoted property search key, 2026-11-15
+
+["Status"] from the All properties pane matches a `status:` key
+(case-insensitive, quotes stripped). Already worked; test locks it. Bump 0.9.38.

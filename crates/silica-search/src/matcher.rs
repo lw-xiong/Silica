@@ -922,6 +922,10 @@ mod tests {
         // * A property hit highlights its key's line in the frontmatter.
         assert_eq!(run("[status]"), Some(vec!["status".into()]));
         assert_eq!(run("[Status]"), Some(vec!["status".into()]));
+        // * The All properties pane writes the key quoted: ["Status"] must
+        //   still match a `status:` frontmatter key (Obsidian matches the key
+        //   case-insensitively).
+        assert_eq!(run("[\"Status\"]"), Some(vec!["status".into()]));
         assert_eq!(run("[missing]"), None);
         assert_eq!(run("[status:done]"), Some(vec!["status".into()]));
         assert_eq!(run("[status:open OR done]"), Some(vec!["status".into()]));
