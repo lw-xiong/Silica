@@ -774,6 +774,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:zk-prefixer",
     "silica:file-recovery-restore",
     "silica:vault-doctor",
+    "silica:note-composer-merge",
     "silica:bookmarks",
     "silica:tag-pane",
     "silica:daily-notes",
@@ -6006,6 +6007,11 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             //   both spellings, so both must run. Delegation keeps one
             //   implementation per behaviour.
             "silica:bookmarks" => self.run_command("bookmarks:open", window, cx),
+            "silica:note-composer-merge" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.start_merge_current(window, cx);
+                }
+            }
             "silica:tag-pane" => self.run_command("tag-pane:open", window, cx),
             "silica:daily-notes" => self.run_command("daily-notes", window, cx),
             "silica:insert-template" => self.run_command("insert-template", window, cx),

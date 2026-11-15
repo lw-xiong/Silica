@@ -3754,3 +3754,9 @@ window: the file moves, like Obsidian's "Move to new window". Bump 0.9.46.
 Writes `Vault health report.md` and opens it: note count, broken links
 per note (from the metadata cache's unresolved links), and orphan notes
 (no backlinks), each capped at 25 rows. Bump 0.9.47.
+
+## silica:note-composer-merge, 2026-11-15
+
+Alias that runs the existing `note-composer:merge-file` flow (prompt,
+merge, link rewrites, delete) under the palette id names.txt lists. Bump
+0.9.48.
