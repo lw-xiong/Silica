@@ -3743,3 +3743,8 @@ Bump 0.9.44.
 Opens the current file in a second window over the same vault: the window
 is built like `workspace:new-window`, then `open_file` runs on it. Bump
 0.9.45.
+
+## workspace:move-to-new-window, 2026-11-15
+
+`workspace:open-in-new-window` plus closing the tab in the original
+window: the file moves, like Obsidian's "Move to new window". Bump 0.9.46.
