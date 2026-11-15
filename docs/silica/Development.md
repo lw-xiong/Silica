@@ -3666,3 +3666,7 @@ reply to the clipboard and shows a "Copied to clipboard" notice. Bump 0.9.30.
 
 Command wrapping the outline pane's existing collapse-all/expand-all button logic
 (toggle_outline_folds). Bump 0.9.31.
+
+## silica:outline-toggle-follow-cursor, 2026-11-14
+
+Command wrapping the outline pane's follow-cursor button. Bump 0.9.32.
