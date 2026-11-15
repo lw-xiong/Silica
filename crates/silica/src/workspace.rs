@@ -773,6 +773,10 @@ pub const RUNNABLE: &[&str] = &[
     "silica:backlink-count",
     "silica:zk-prefixer",
     "silica:file-recovery-restore",
+    "silica:bookmarks",
+    "silica:tag-pane",
+    "silica:daily-notes",
+    "silica:insert-template",
     "silica:outgoing-link-count",
     "file-explorer:move-file",
     "file-explorer:duplicate-file",
@@ -5995,6 +5999,13 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             // * `random-note`: buka note acak dari vault. Indeks dihasilkan
             //   dari waktu sistem saat ini (tanpa dependensi `rand`).
+            // * `silica:` aliases of the Obsidian ids: the palette shows
+            //   both spellings, so both must run. Delegation keeps one
+            //   implementation per behaviour.
+            "silica:bookmarks" => self.run_command("bookmarks:open", window, cx),
+            "silica:tag-pane" => self.run_command("tag-pane:open", window, cx),
+            "silica:daily-notes" => self.run_command("daily-notes", window, cx),
+            "silica:insert-template" => self.run_command("insert-template", window, cx),
             "silica:file-recovery-restore" => {
                 let Some(current) = self.current.clone() else {
                     self.report("No note is open", cx);

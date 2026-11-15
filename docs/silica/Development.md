@@ -3730,3 +3730,10 @@ setting. Bump 0.9.42.
 Restores the newest snapshot of the open note through the same
 `file_recovery::restore` path the recovery pane uses; reports when the note
 has no snapshots. Bump 0.9.43.
+
+## silica: alias commands, 2026-11-15
+
+`silica:bookmarks`, `silica:tag-pane`, `silica:daily-notes` and
+`silica:insert-template` delegate to their Obsidian-id implementations, so
+both palette spellings run. Also deduped `silica:voice-note` in RUNNABLE.
+Bump 0.9.44.
