@@ -3737,3 +3737,9 @@ has no snapshots. Bump 0.9.43.
 `silica:insert-template` delegate to their Obsidian-id implementations, so
 both palette spellings run. Also deduped `silica:voice-note` in RUNNABLE.
 Bump 0.9.44.
+
+## workspace:open-in-new-window, 2026-11-15
+
+Opens the current file in a second window over the same vault: the window
+is built like `workspace:new-window`, then `open_file` runs on it. Bump
+0.9.45.

@@ -789,6 +789,7 @@ pub const RUNNABLE: &[&str] = &[
     "workspace:close-tab",
     "workspace:close-window",
     "workspace:new-window",
+    "workspace:open-in-new-window",
     "editor:download-attachments",
     "workspace:close-others",
     "workspace:toggle-stacked-tabs",
@@ -6843,6 +6844,22 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     let options = crate::workspace_window_options(cx);
                     cx.open_window(options, |window, cx| {
                         cx.new(|cx| Workspace::new(Some(root), window, cx))
+                    })
+                    .ok();
+                }
+            }
+            "workspace:open-in-new-window" => {
+                let Some(current) = self.current.clone() else {
+                    self.report("No file is open", cx);
+                    return;
+                };
+                let root = self.state.as_ref().map(|s| s.vault().root().to_path_buf());
+                if let Some(root) = root {
+                    let options = crate::workspace_window_options(cx);
+                    cx.open_window(options, move |window, cx| {
+                        let ws = cx.new(|cx| Workspace::new(Some(root), window, cx));
+                        ws.update(cx, |ws, cx| ws.open_file(current, None, cx));
+                        ws
                     })
                     .ok();
                 }
