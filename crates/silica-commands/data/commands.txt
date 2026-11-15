@@ -171,6 +171,7 @@ outline:open
 outline:open-for-current
 silica:outline-toggle-folds
 silica:outline-toggle-follow-cursor
+silica:tasks-toggle-done
 properties:open
 properties:open-local
 publish:open-in-live-site

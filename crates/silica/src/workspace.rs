@@ -806,6 +806,7 @@ pub const RUNNABLE: &[&str] = &[
     "outline:open-for-current",
     "silica:outline-toggle-folds",
     "silica:outline-toggle-follow-cursor",
+    "silica:tasks-toggle-done",
     "tag-pane:open",
     "properties:open",
     "properties:open-local",
@@ -6740,6 +6741,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             "silica:outline-toggle-folds" => self.toggle_outline_folds(cx),
             "silica:outline-toggle-follow-cursor" => self.toggle_follow_cursor(cx),
+            "silica:tasks-toggle-done" => self.toggle_tasks_done(cx),
             "outline:open" | "outline:open-for-current" => {
                 self.right_visible = true;
                 self.show_right_tab("outline", cx);

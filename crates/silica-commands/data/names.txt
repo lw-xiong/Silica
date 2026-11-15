@@ -210,6 +210,7 @@ outline:open	Outline: Show outline
 outline:open-for-current	Outline: Open outline of the current file
 silica:outline-toggle-folds	Outline: Collapse or expand all headings
 silica:outline-toggle-follow-cursor	Outline: Toggle follow-cursor
+silica:tasks-toggle-done	Tasks: Show or hide completed tasks
 slides:start	Slides: Start presentation
 audio-recorder:start	Audio recorder: Start recording audio
 audio-recorder:stop	Audio recorder: Stop recording audio
