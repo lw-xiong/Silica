@@ -10,4 +10,4 @@ pub mod cards;
 pub mod menu;
 pub mod view;
 
-pub use view::{CanvasEvent, CanvasView, FilePick};
+pub use view::{CanvasEvent, CanvasView, FilePick, ResetZoom, ZoomIn, ZoomOut, ZoomToFit};

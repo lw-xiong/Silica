@@ -13,7 +13,7 @@ use crate::backlinks::{self, Group, Match as PaneMatch, Section};
 use crate::bases::{BasesEvent, BasesView};
 use crate::bookmarks::{BookmarkEvent, BookmarksPane};
 use crate::canvas::menu::tooltip;
-use crate::canvas::{CanvasEvent, CanvasView};
+use crate::canvas::{CanvasEvent, CanvasView, ResetZoom, ZoomIn, ZoomOut, ZoomToFit};
 use crate::chooser::{Chooser, ChooserEvent, Row as ChooserRow};
 use crate::copy_results::{CopyResults, CopyResultsEvent};
 use crate::editor::{Editor, EditorEvent};
@@ -676,6 +676,10 @@ pub const RUNNABLE: &[&str] = &[
     "silica:workspace-delete",
     "canvas:new-file",
     "canvas:export-as-image",
+    "silica:canvas-zoom-in",
+    "silica:canvas-zoom-out",
+    "silica:canvas-zoom-reset",
+    "silica:canvas-zoom-fit",
     "canvas:jump-to-group",
     "canvas:convert-to-file",
     "bases:new-file",
@@ -6141,6 +6145,18 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "canvas:jump-to-group" => self.jump_to_group(window, cx),
             "canvas:convert-to-file" => self.convert_card_to_file(cx),
             "canvas:export-as-image" => self.export_canvas_as_image(cx),
+            "silica:canvas-zoom-in" => self.canvas.update(cx, |v, cx| {
+                v.zoom_in(&ZoomIn, window, cx)
+            }),
+            "silica:canvas-zoom-out" => self.canvas.update(cx, |v, cx| {
+                v.zoom_out(&ZoomOut, window, cx)
+            }),
+            "silica:canvas-zoom-reset" => self.canvas.update(cx, |v, cx| {
+                v.reset_zoom(&ResetZoom, window, cx)
+            }),
+            "silica:canvas-zoom-fit" => self.canvas.update(cx, |v, cx| {
+                v.zoom_to_fit(&ZoomToFit, window, cx)
+            }),
             "markdown:toggle-preview" => self.toggle_mode(&ToggleMode, window, cx),
             // * The properties block is the same editable widget in reading
             //   view, and `editor:toggle-fold-properties` was observed running

@@ -3678,3 +3678,8 @@ Command wrapping the tasks pane's show/hide-completed toggle. Bump 0.9.33.
 ## silica:reveal-current-file, 2026-11-15
 
 Opens the current note's parent folder in the system file manager. Bump 0.9.34.
+
+## silica:canvas-zoom-* commands, 2026-11-15
+
+Four commands (zoom-in/out/reset/fit) drive the canvas view's existing zoom actions
+from the command palette, not just the keybindings. Bump 0.9.35.

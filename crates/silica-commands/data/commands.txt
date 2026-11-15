@@ -36,6 +36,10 @@ bookmarks:open
 bookmarks:unbookmark-current-view
 canvas:convert-to-file
 canvas:export-as-image
+silica:canvas-zoom-in
+silica:canvas-zoom-out
+silica:canvas-zoom-reset
+silica:canvas-zoom-fit
 canvas:jump-to-group
 canvas:new-file
 command-palette:open

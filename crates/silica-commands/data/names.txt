@@ -176,6 +176,10 @@ backlink:open	Backlinks: Show backlinks
 backlink:open-backlinks	Backlinks: Open backlinks for the current note
 backlink:toggle-backlinks-in-document	Backlinks: Toggle backlinks in document
 canvas:new-file	Canvas: Create new canvas
+silica:canvas-zoom-in	Canvas: Zoom in
+silica:canvas-zoom-out	Canvas: Zoom out
+silica:canvas-zoom-reset	Canvas: Reset zoom
+silica:canvas-zoom-fit	Canvas: Zoom to fit
 canvas:export-as-image	Canvas: Export as image
 canvas:jump-to-group	Canvas: Jump to group
 canvas:convert-to-file	Canvas: Convert to file...

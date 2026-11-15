@@ -917,23 +917,23 @@ impl CanvasView {
         }
     }
 
-    fn zoom_in(&mut self, _: &ZoomIn, _: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn zoom_in(&mut self, _: &ZoomIn, _: &mut Window, cx: &mut Context<Self>) {
         self.viewport.zoom_step(ZOOM_STEP, self.size());
         self.viewport_changed(cx);
     }
 
-    fn zoom_out(&mut self, _: &ZoomOut, _: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn zoom_out(&mut self, _: &ZoomOut, _: &mut Window, cx: &mut Context<Self>) {
         self.viewport.zoom_step(-ZOOM_STEP, self.size());
         self.viewport_changed(cx);
     }
 
     /// Scale 1 around the point the view is looking at, Obsidian's "Reset zoom".
-    fn reset_zoom(&mut self, _: &ResetZoom, _: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn reset_zoom(&mut self, _: &ResetZoom, _: &mut Window, cx: &mut Context<Self>) {
         self.viewport.zoom = 0.0;
         self.viewport_changed(cx);
     }
 
-    fn zoom_to_fit(&mut self, _: &ZoomToFit, _: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn zoom_to_fit(&mut self, _: &ZoomToFit, _: &mut Window, cx: &mut Context<Self>) {
         self.fit_all();
         self.viewport_changed(cx);
     }
