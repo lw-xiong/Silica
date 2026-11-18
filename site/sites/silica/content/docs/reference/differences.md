@@ -38,12 +38,7 @@ Things Obsidian does that Silica intends to do and does not.
 
 ### Editing
 
-| | |
-|---|---|
-| **Vim mode** | `vimMode` is read, not implemented |
-| **Line numbers, indent guides, inline title, right-to-left** | Read and shown in Settings, not acted on |
-| **Spellcheck** | Not implemented |
-| **`Ctrl + hover` page previews** | Not implemented |
+Nothing left in this table yet.
 
 ### Files and settings
 
