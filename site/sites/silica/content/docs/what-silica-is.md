@@ -74,8 +74,7 @@ At version 0.3.2, honestly:
   test on a scratch copy first. The editor is real, with Live Preview, Source mode, find and
   replace, multiple cursors and link-rewriting renames, but it is the newest code in the
   project.
-- Not yet: anyone who needs Bases, rendered math, Mermaid diagrams, PDFs, community
-  plugins or CSS themes.
+- Not yet: anyone who needs Bases, community plugins or CSS themes.
 
 ## Where to go next
 
