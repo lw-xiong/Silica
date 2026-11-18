@@ -3806,3 +3806,10 @@ fetches through SilicaHttpClient with a cache), heading folding
 (PropertyAction rows), file recovery (file_recovery.rs over the vault's own
 `.obsidian` history), and the local graph as a side pane (RightTab). Every
 removal is backed by a code check, not a memory.
+
+## commands.md number audit, 2026-11-15
+
+Every count on the site's Commands page recomputed from the data files and
+the RUNNABLE table: 313 ids (256 Obsidian + 57 `silica:`), 295 names,
+41 default hotkeys, 289 runnable (74 editor-only, 19 table). The page had
+five eras of numbers on it at once.
