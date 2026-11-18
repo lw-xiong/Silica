@@ -59,7 +59,9 @@ error here, and a parse error is shown the way MathJax shows one: the source, in
 formula that is red in Obsidian too simply has a typo. See [tables, code and
 math](/docs/format/code-math/).
 
-HTML in a note shows as text, and remote images do not load.
+HTML in a note shows as text. Remote images (`![…](https://…)`) do load —
+they are fetched and cached — but a private-network or unreachable URL
+shows the fallback text instead of a picture.
 
 ## A `.base` file does not open
 
