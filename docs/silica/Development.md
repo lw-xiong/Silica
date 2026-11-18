@@ -3797,3 +3797,12 @@ no prompt. Bump 0.9.53.
 `cargo fmt --all` applied: several crates had drifted from rustfmt across
 recent updates. `cargo clippy --workspace --all-targets -- -D warnings`
 clean, all suites green. Bump 0.9.54.
+
+## differences.md audit, 2026-11-15
+
+Six "Not yet" rows were stale and are gone: remote images (gpui `img()`
+fetches through SilicaHttpClient with a cache), heading folding
+(editor/folding.rs), stacked tabs (tabs.rs), reading-view property editing
+(PropertyAction rows), file recovery (file_recovery.rs over the vault's own
+`.obsidian` history), and the local graph as a side pane (RightTab). Every
+removal is backed by a code check, not a memory.

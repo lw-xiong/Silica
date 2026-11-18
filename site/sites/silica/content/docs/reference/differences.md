@@ -22,11 +22,9 @@ Things Obsidian does that Silica intends to do and does not.
 |---|---|
 | **Math** | Typeset with a KaTeX-compatible engine rather than MathJax: the common syntax renders alike, a MathJax-only command shows its source in red. No `\newcommand` across formulas, no `\require` |
 | **HTML in notes** | Parsed, shown as literal text |
-| **Remote images** | `![](https://…)` does not load. Local images do |
 | **Mermaid diagrams** | Not rendered |
 | **PDF viewing and export** | A PDF opens in a viewer with Obsidian's toolbar, sidebar and find bar, and `![[x.pdf]]` embeds it; the text cannot be selected or copied, and there is no export |
 | **Audio and video players** | Recognized as file kinds; no player |
-| **Heading folding** | Headings do not collapse |
 
 ### Views
 
@@ -35,17 +33,13 @@ Things Obsidian does that Silica intends to do and does not.
 | **Bases** | The Bases YAML format is implemented and round-trips; there is no base view. Canvas has one |
 | **A canvas embedded in a note** | `![[Board.canvas]]` is not drawn; the file opens in a view of its own |
 | **Popout windows** | Do not exist here |
-| **Stacked tabs** | Tabs and split groups are in; stacking them is not |
 | **Multiple vaults in one window** | Run Silica once per vault |
 | **Local graph depth beyond 1**, arrows, timelapse, screenshot export | See [the graph](/docs/app/graph/) |
-| **Local graph as a side pane** | The graph is a full view |
 
 ### Editing
 
 | | |
 |---|---|
-| **File recovery** | Obsidian keeps its snapshots in IndexedDB outside the vault, so it is out of the round-trip work rather than next in it |
-| **Editing properties in reading view** | The reading view's properties table is read-only; Live Preview's is not |
 | **Vim mode** | `vimMode` is read, not implemented |
 | **Line numbers, indent guides, inline title, right-to-left** | Read and shown in Settings, not acted on |
 | **Spellcheck** | Not implemented |
