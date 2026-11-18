@@ -3760,3 +3760,9 @@ per note (from the metadata cache's unresolved links), and orphan notes
 Alias that runs the existing `note-composer:merge-file` flow (prompt,
 merge, link rewrites, delete) under the palette id names.txt lists. Bump
 0.9.48.
+
+## window:zoom-in / window:zoom-out / window:reset-zoom, 2026-11-15
+
+Obsidian's window zoom hotkeys are the Electron font zoom, so they run the
+same `baseFontSize` steps the `app:*-font-size` commands use; reset drops
+the override back to the 16px default. Bump 0.9.49.

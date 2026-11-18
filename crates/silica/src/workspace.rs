@@ -775,6 +775,9 @@ pub const RUNNABLE: &[&str] = &[
     "silica:file-recovery-restore",
     "silica:vault-doctor",
     "silica:note-composer-merge",
+    "window:zoom-in",
+    "window:zoom-out",
+    "window:reset-zoom",
     "silica:bookmarks",
     "silica:tag-pane",
     "silica:daily-notes",
@@ -6652,9 +6655,24 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     Err(err) => self.report(format!("Task Dashboard: {err}"), cx),
                 }
             }
-            "app:increase-font-size" | "app:decrease-font-size" => {
-                let up = id == "app:increase-font-size";
+            // * Obsidian's window zoom hotkeys are the Electron zoom, which
+            //   is a font-size scale: the same steps the font-size commands
+            //   run, and reset goes back to the 16px default.
+            "app:increase-font-size" | "app:decrease-font-size" | "window:zoom-in"
+            | "window:zoom-out" => {
+                let up = id == "app:increase-font-size" || id == "window:zoom-in";
                 self.step_font_size(up, window, cx);
+            }
+            "window:reset-zoom" => {
+                let Some(state) = self.state.clone() else {
+                    return;
+                };
+                let mut next = state.appearance().clone();
+                if next.base_font_size.is_some() {
+                    next.base_font_size = None;
+                    self.change_setting(SettingChange::Appearance(next), window, cx);
+                    self.report("Zoom reset to the default size", cx);
+                }
             }
             "silica:vault-backup" => self.backup_vault(window, cx),
             "silica:word-count" => {
