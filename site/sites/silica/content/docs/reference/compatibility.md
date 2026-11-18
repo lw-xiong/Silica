@@ -37,10 +37,10 @@ same file, that no link appears or disappears, and that nothing outside the link
 ### The one note that differs
 
 Honesty about a ratchet means naming what it does not cover. One corpus note,
-`edge/Probe Inlines`, does not match, on how Obsidian splits runs of `~~` and `==` longer
-than two: `~~~~` renders an empty strikethrough, `~~x~~~y~~` closes with two of the three
-tildes, and in `==== four ==x===y==` the mark opens on the run's second pair. Nested
-`****a****` emphasis and a wikilink inside Markdown link text both match now.
+`edge/Probe Inlines`, does not match, on delimiter runs longer than two. Obsidian splits
+them its own way: `~~~~` renders an empty strikethrough, `~~x~~~y~~` closes with two of
+the three tildes, in `==== four ==x===y==` the mark opens on the run's second pair, and
+`****a****` / `*****a*****` come out as `*a**` fragments rather than nested emphasis.
 
 It is a degenerate case that no one writes on purpose. It is tracked rather than hidden,
 and the suite is set at 1,008 so that a regression elsewhere cannot hide behind it.

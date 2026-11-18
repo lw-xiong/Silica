@@ -51,10 +51,10 @@ Nothing left in this table yet.
 ### Markdown edge cases
 
 One of the 1,009 corpus notes does not match Obsidian's output: `edge/Probe Inlines`,
-on how Obsidian splits runs of `~~` and `==` longer than two (`~~~~` renders an empty
-strikethrough, `~~x~~~y~~` closes with two of the three tildes, and in
-`==== four ==x===y==` the mark opens on the run's second pair). Nested `****a****`
-emphasis and a wikilink inside Markdown link text both match now. See
+on delimiter runs longer than two. Obsidian splits them its own way — `~~~~` renders an
+empty strikethrough, `~~x~~~y~~` closes with two of the three tildes, in
+`==== four ==x===y==` the mark opens on the run's second pair, and `****a****` /
+`*****a*****` come out as `*a**` fragments rather than nested emphasis. See
 [compatibility](/docs/reference/compatibility/).
 
 ## Deliberately different
