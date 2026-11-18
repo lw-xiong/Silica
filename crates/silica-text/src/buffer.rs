@@ -608,7 +608,7 @@ impl TextBuffer {
         first..last + 1
     }
 
-        /// `silica:toggle-case`: every letter in `range` flips case — upper
+    /// `silica:toggle-case`: every letter in `range` flips case — upper
     /// to lower, lower to upper, everything else untouched. The caret ends
     /// at `range.end`, so a repeated press moves to the next word naturally.
     pub fn toggle_case(&mut self, range: Range<usize>) {
@@ -629,7 +629,7 @@ impl TextBuffer {
         self.edit(range, &swapped, EditKind::Other);
     }
 
-/// Keeps the extra cursors in place after the primary's edit replaced
+    /// Keeps the extra cursors in place after the primary's edit replaced
     /// `range` with `inserted` bytes.
     fn shift_extras(&mut self, range: &Range<usize>, inserted: usize) {
         if self.extra.is_empty() {
