@@ -1298,6 +1298,26 @@ impl Editor {
     /// stable so equal lines keep their order. An empty selection spans a
     /// single line, which nothing reorders. The comparison is by code
     /// point; locale-aware collation is a rabbit hole this does not open.
+    /// `silica:toggle-case`: the selection's letters flip case; with no
+    /// selection, the word under the caret does.
+    pub fn toggle_case(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let range = {
+            let sel = self.selection();
+            if sel.is_empty() {
+                self.buf.word_at(sel.start)
+            } else {
+                sel
+            }
+        };
+        if range.is_empty() {
+            return;
+        }
+        let end = range.end;
+        self.buf.toggle_case(range);
+        self.after_edit(Some(window), cx, None);
+        self.set_selection_range(end, end, window, cx);
+    }
+
     pub fn sort_lines(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         let lines = self.buf.selected_lines();
         if lines.len() < 2 {

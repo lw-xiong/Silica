@@ -787,6 +787,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:duplicate-line",
     "silica:publish-vault",
     "silica:note-info",
+    "silica:toggle-case",
     "publish:publish-file",
     "editor:context-menu",
     "silica:bookmarks",
@@ -6128,6 +6129,11 @@ impl Workspace {
                         cx,
                     ),
                     Err(err) => self.report(err, cx),
+                }
+            }
+            "silica:toggle-case" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor.update(cx, |e, cx| e.toggle_case(window, cx));
                 }
             }
             "silica:sort-lines" => {

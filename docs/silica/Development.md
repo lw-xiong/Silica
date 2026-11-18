@@ -3813,3 +3813,10 @@ Every count on the site's Commands page recomputed from the data files and
 the RUNNABLE table: 313 ids (256 Obsidian + 57 `silica:`), 295 names,
 41 default hotkeys, 289 runnable (74 editor-only, 19 table). The page had
 five eras of numbers on it at once.
+
+## silica:toggle-case, 2026-11-15
+
+Letters in the selection flip case; with no selection, the word under the
+caret does. The transform lives on the buffer (`TextBuffer::toggle_case`)
+with its own tests; the editor method restores the caret to the range end.
+Registry entry added. Bump 0.9.55.

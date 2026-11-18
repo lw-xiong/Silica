@@ -322,3 +322,4 @@ silica:reveal-current-file
 silica:sort-lines
 silica:duplicate-line
 silica:note-info
+silica:toggle-case

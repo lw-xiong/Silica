@@ -608,7 +608,28 @@ impl TextBuffer {
         first..last + 1
     }
 
-    /// Keeps the extra cursors in place after the primary's edit replaced
+        /// `silica:toggle-case`: every letter in `range` flips case — upper
+    /// to lower, lower to upper, everything else untouched. The caret ends
+    /// at `range.end`, so a repeated press moves to the next word naturally.
+    pub fn toggle_case(&mut self, range: Range<usize>) {
+        let range = self.clamp_offset(range.start)..self.clamp_offset(range.end);
+        if range.is_empty() {
+            return;
+        }
+        let swapped: String = self.text[range.clone()]
+            .chars()
+            .map(|c| {
+                if c.is_uppercase() {
+                    c.to_lowercase().next().unwrap_or(c)
+                } else {
+                    c.to_uppercase().next().unwrap_or(c)
+                }
+            })
+            .collect();
+        self.edit(range, &swapped, EditKind::Other);
+    }
+
+/// Keeps the extra cursors in place after the primary's edit replaced
     /// `range` with `inserted` bytes.
     fn shift_extras(&mut self, range: &Range<usize>, inserted: usize) {
         if self.extra.is_empty() {
@@ -1500,6 +1521,30 @@ pub fn char_class(c: char) -> u8 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn toggle_case_flips_letters_and_leaves_the_rest_alone() {
+        let mut buf = TextBuffer::from_file("Hello World\n");
+        buf.toggle_case(0..5);
+        assert_eq!(buf.line_text(0), "hELLO World");
+        buf.toggle_case(0..5);
+        assert_eq!(buf.line_text(0), "Hello World");
+        // Digits and punctuation pass through unchanged.
+        let mut buf = TextBuffer::from_file("abc123!\n");
+        buf.toggle_case(0..7);
+        assert_eq!(buf.line_text(0), "ABC123!");
+    }
+
+    #[test]
+    fn toggle_case_clamps_an_out_of_bounds_range() {
+        let mut buf = TextBuffer::from_file("hi\n");
+        buf.toggle_case(0..999);
+        assert_eq!(buf.line_text(0), "HI");
+        // An empty range is a no-op, not a panic.
+        let mut buf = TextBuffer::from_file("hi\n");
+        buf.toggle_case(1..1);
+        assert_eq!(buf.line_text(0), "hi");
+    }
 
     #[test]
     fn duplicate_line_composition_doubles_with_or_without_a_final_newline() {
