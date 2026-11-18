@@ -132,7 +132,12 @@ impl Worker {
         } else {
             Box::new(tcp)
         };
-        let head = build_head(&self.host, &self.path, self.body.as_deref(), self.bearer.as_deref());
+        let head = build_head(
+            &self.host,
+            &self.path,
+            self.body.as_deref(),
+            self.bearer.as_deref(),
+        );
         stream
             .write_all(head.as_bytes())
             .and_then(|_| stream.flush())
@@ -250,11 +255,9 @@ fn decode_chunked(mut data: &[u8]) -> Result<Vec<u8>, String> {
     loop {
         let line_end = find(data, b"\r\n").ok_or("chunked: no size line")?;
         let size_text = std::str::from_utf8(&data[..line_end]).map_err(|_| "chunked: bad size")?;
-        let size = usize::from_str_radix(
-            size_text.trim().split(';').next().unwrap_or("").trim(),
-            16,
-        )
-        .map_err(|_| format!("chunked: bad size `{size_text}`"))?;
+        let size =
+            usize::from_str_radix(size_text.trim().split(';').next().unwrap_or("").trim(), 16)
+                .map_err(|_| format!("chunked: bad size `{size_text}`"))?;
         data = &data[line_end + 2..];
         if size == 0 {
             break;
@@ -293,7 +296,10 @@ mod tests {
 
     #[test]
     fn decodes_plain_and_chunked_bodies() {
-        assert_eq!(decode_chunked(b"4\r\nWiki\r\n5\r\npedia\r\n0\r\n\r\n").unwrap(), b"Wikipedia");
+        assert_eq!(
+            decode_chunked(b"4\r\nWiki\r\n5\r\npedia\r\n0\r\n\r\n").unwrap(),
+            b"Wikipedia"
+        );
         assert!(decode_chunked(b"zz\r\n").is_err());
     }
 }

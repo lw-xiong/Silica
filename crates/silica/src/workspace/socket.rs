@@ -766,7 +766,8 @@ impl Workspace {
         } else {
             String::new()
         };
-        let mut items = Self::status_items(self.current.as_deref(), &caret, backlinks, words, chars);
+        let mut items =
+            Self::status_items(self.current.as_deref(), &caret, backlinks, words, chars);
         if let Some(first) = items.first_mut() {
             first.push_str(&due_txt);
         }

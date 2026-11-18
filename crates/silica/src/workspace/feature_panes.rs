@@ -81,7 +81,10 @@ impl Workspace {
         let texts = state.texts();
         let mut cards = Vec::new();
         for path in texts.keys() {
-            cards.extend(fc::parse_cards(path, texts.get(path).map_or("", |t| t.as_str())));
+            cards.extend(fc::parse_cards(
+                path,
+                texts.get(path).map_or("", |t| t.as_str()),
+            ));
         }
         cards.sort_by(|a, b| a.source.cmp(&b.source).then(a.id.cmp(&b.id)));
         let store_path = self.flashcard_store_path();
@@ -157,7 +160,8 @@ impl Workspace {
         );
         if let Some(path) = self.flashcard_state.store_path.clone() {
             if let Err(err) = fc::save(&path, &self.flashcard_state.store) {
-                self.flashcard_state.notice = Some(format!("Could not save the review store: {err}"));
+                self.flashcard_state.notice =
+                    Some(format!("Could not save the review store: {err}"));
             } else {
                 self.flashcard_state.notice = None;
             }
@@ -227,11 +231,17 @@ impl Workspace {
             for url in refs {
                 let name = unique_name(&url, &used);
                 used.push(name.clone());
-                let rel = silica_vault::ops::attachment_path(setting.as_deref(), &current_for_task, &name);
+                let rel = silica_vault::ops::attachment_path(
+                    setting.as_deref(),
+                    &current_for_task,
+                    &name,
+                );
                 let fetch_url = url.clone();
                 let body = cx
                     .background_executor()
-                    .spawn(async move { silica_net::fetch(&silica_net::Request::get(&fetch_url)).map(|r| r.body) })
+                    .spawn(async move {
+                        silica_net::fetch(&silica_net::Request::get(&fetch_url)).map(|r| r.body)
+                    })
                     .await;
                 match body {
                     Ok(bytes) if !bytes.is_empty() => downloads.push((rel, bytes, url)),
@@ -270,7 +280,13 @@ impl Workspace {
                     });
                     this.state = Some(state);
                     this.refresh_vault_views(cx);
-                    this.report(format!("Downloaded {count} attachment{}", if count == 1 { "" } else { "s" }), cx);
+                    this.report(
+                        format!(
+                            "Downloaded {count} attachment{}",
+                            if count == 1 { "" } else { "s" }
+                        ),
+                        cx,
+                    );
                 } else {
                     this.report("No attachments could be downloaded", cx);
                 }
@@ -362,8 +378,7 @@ impl Workspace {
         if question.is_empty() {
             return;
         }
-        self.ai_input
-            .update(cx, |input, cx| input.set_text("", cx));
+        self.ai_input.update(cx, |input, cx| input.set_text("", cx));
         // * A non-empty editor selection rides along as quoted context,
         //   so "what does this mean?" works without copy-pasting.
         let selection = {
@@ -464,7 +479,11 @@ impl Workspace {
         paths.truncate(AI_CONTEXT_NOTES);
         paths
             .into_iter()
-            .filter_map(|path| texts.get(&path).map(|text| (path, text.as_str().to_string())))
+            .filter_map(|path| {
+                texts
+                    .get(&path)
+                    .map(|text| (path, text.as_str().to_string()))
+            })
             .collect()
     }
 
@@ -630,12 +649,9 @@ impl Workspace {
             .gap(px(8.))
             .p(px(12.));
         if turns.is_empty() && notice.is_none() {
-            list = list.child(
-                div()
-                    .text_size(px(12.))
-                    .text_color(theme.text_muted)
-                    .child("Ask about your notes — a [[link]] in the question pulls that note in as context"),
-            );
+            list = list.child(div().text_size(px(12.)).text_color(theme.text_muted).child(
+                "Ask about your notes — a [[link]] in the question pulls that note in as context",
+            ));
         }
         for (ix, turn) in turns.iter().enumerate() {
             let text = turn.text.clone();
@@ -817,9 +833,19 @@ fn unique_name(url: &str, used: &[String]) -> String {
     let seg = no_query.rsplit('/').next().unwrap_or("attachment");
     let base: String = seg
         .chars()
-        .map(|c| if c.is_alphanumeric() || c == '.' || c == '-' || c == '_' { c } else { '_' })
+        .map(|c| {
+            if c.is_alphanumeric() || c == '.' || c == '-' || c == '_' {
+                c
+            } else {
+                '_'
+            }
+        })
         .collect();
-    let base = if base.is_empty() || base == "." { "attachment".to_string() } else { base };
+    let base = if base.is_empty() || base == "." {
+        "attachment".to_string()
+    } else {
+        base
+    };
     if !used.contains(&base) {
         return base;
     }

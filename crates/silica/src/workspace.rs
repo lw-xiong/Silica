@@ -21,7 +21,10 @@ use crate::explorer::{display_name, kind_name, ExplorerEvent, FileExplorer, File
 use crate::export_pdf;
 use crate::fold;
 use crate::footnotes::footnote_rows;
-use crate::graph::{GraphEvent, GraphView, LocalGraph, ResetView as GraphResetView, ZoomIn as GraphZoomIn, ZoomOut as GraphZoomOut};
+use crate::graph::{
+    GraphEvent, GraphView, LocalGraph, ResetView as GraphResetView, ZoomIn as GraphZoomIn,
+    ZoomOut as GraphZoomOut,
+};
 use crate::help::HelpWindow;
 use crate::mentions::{Finder, Name};
 use crate::palette::{CommandPalette, PaletteCommand, PaletteEvent};
@@ -419,7 +422,9 @@ fn trash_files(root: &std::path::Path) -> Vec<VaultFile> {
                 stack.push(path);
                 continue;
             }
-            let Ok(rel) = path.strip_prefix(root) else { continue };
+            let Ok(rel) = path.strip_prefix(root) else {
+                continue;
+            };
             let rel = rel.to_string_lossy().replace('\\', "/");
             let ms = meta
                 .modified()
@@ -2217,13 +2222,24 @@ pub(crate) enum PendingOp {
     AddBookmark(BookmarkDraft),
     /// `editor:rename-heading`: the heading line and level under the
     /// cursor, renamed through the prompt.
-    RenameHeading { line: usize, level: u8 },
+    RenameHeading {
+        line: usize,
+        level: u8,
+    },
     /// `note-composer:extract-heading`: move the section from `start`
     /// to `end` of `source` into a new note named by the prompt.
-    ExtractHeading { source: String, start: usize, end: usize, heading: String },
+    ExtractHeading {
+        source: String,
+        start: usize,
+        end: usize,
+        heading: String,
+    },
     /// `note-composer:split-file`: everything from `line` down moves
     /// into a new note named by the prompt.
-    SplitFile { source: String, line: usize },
+    SplitFile {
+        source: String,
+        line: usize,
+    },
     /// "Edit bookmark" on a note that already has one: Save keeps it,
     /// Remove takes it out.
     EditBookmark(String),
@@ -4491,75 +4507,75 @@ impl Workspace {
     /// Uses curl (already on every supported OS) so no new dependency is
     /// needed, and only reads the public releases endpoint — no auth, no
     /// private data is sent.
-/// Component-wise numeric comparison of `X.Y.Z` version strings (a leading
-/// `v` is already stripped). Missing components count as zero, so `0.7` and
-/// `0.7.0` compare equal.
-fn version_cmp(a: &str, b: &str) -> std::cmp::Ordering {
-    let mut aa = a.split('.').filter_map(|part| part.parse::<u64>().ok());
-    let mut bb = b.split('.').filter_map(|part| part.parse::<u64>().ok());
-    loop {
-        match (aa.next(), bb.next()) {
-            (Some(x), Some(y)) => match x.cmp(&y) {
-                std::cmp::Ordering::Equal => {}
-                other => return other,
-            },
-            (Some(x), None) => return x.cmp(&0),
-            (None, Some(y)) => return 0.cmp(&y),
-            (None, None) => return std::cmp::Ordering::Equal,
-        }
-    }
-}
-
-/// `Check for updates` in Settings > General: lists the repo's tags and tells
-/// the user whether this build is current. Uses curl (already on every
-/// supported OS) so no new dependency is needed, and only reads the public
-/// tags endpoint — no auth, no private data is sent.
-///
-/// The `releases/latest` endpoint still points at v0.6.0 because the v0.7.x
-/// releases were tagged without a GitHub Release, so the tags endpoint is the
-/// source of truth for the newest version.
-fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
-    let current = env!("CARGO_PKG_VERSION").trim_start_matches('v');
-    let output = std::process::Command::new("curl")
-        .arg("-s")
-        .arg("--max-time")
-        .arg("15")
-        .arg("https://api.github.com/repos/lw-xiong/Silica/tags?per_page=50")
-        .output();
-
-    let result = match output {
-        Ok(output) if output.status.success() => {
-            let body = String::from_utf8_lossy(&output.stdout);
-            let latest: Option<String> = serde_json::from_str::<Vec<serde_json::Value>>(&body)
-                .ok()
-                .and_then(|tags| {
-                    tags.iter()
-                        .filter_map(|t| t.get("name").and_then(|n| n.as_str()))
-                        .map(|s| s.trim_start_matches('v').to_string())
-                        .max_by(|a, b| Self::version_cmp(a, b))
-                });
-            match latest {
-                Some(latest) if !latest.is_empty() => {
-                    if Self::version_cmp(&latest, current) == std::cmp::Ordering::Greater {
-                        format!(
-                            "Silica {latest} is available — you have {current}. Get it at github.com/lw-xiong/Silica/releases"
-                        )
-                    } else {
-                        format!("Silica {current} is up to date.")
-                    }
-                }
-                _ => "Check for updates: could not read the release version.".to_string(),
+    /// Component-wise numeric comparison of `X.Y.Z` version strings (a leading
+    /// `v` is already stripped). Missing components count as zero, so `0.7` and
+    /// `0.7.0` compare equal.
+    fn version_cmp(a: &str, b: &str) -> std::cmp::Ordering {
+        let mut aa = a.split('.').filter_map(|part| part.parse::<u64>().ok());
+        let mut bb = b.split('.').filter_map(|part| part.parse::<u64>().ok());
+        loop {
+            match (aa.next(), bb.next()) {
+                (Some(x), Some(y)) => match x.cmp(&y) {
+                    std::cmp::Ordering::Equal => {}
+                    other => return other,
+                },
+                (Some(x), None) => return x.cmp(&0),
+                (None, Some(y)) => return 0.cmp(&y),
+                (None, None) => return std::cmp::Ordering::Equal,
             }
         }
-        Ok(output) => format!(
-            "Check for updates: GitHub replied with status {}.",
-            output.status
-        ),
-        Err(err) => format!("Check for updates: could not reach GitHub: {err}"),
-    };
+    }
 
-    self.report(result, cx);
-}
+    /// `Check for updates` in Settings > General: lists the repo's tags and tells
+    /// the user whether this build is current. Uses curl (already on every
+    /// supported OS) so no new dependency is needed, and only reads the public
+    /// tags endpoint — no auth, no private data is sent.
+    ///
+    /// The `releases/latest` endpoint still points at v0.6.0 because the v0.7.x
+    /// releases were tagged without a GitHub Release, so the tags endpoint is the
+    /// source of truth for the newest version.
+    fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
+        let current = env!("CARGO_PKG_VERSION").trim_start_matches('v');
+        let output = std::process::Command::new("curl")
+            .arg("-s")
+            .arg("--max-time")
+            .arg("15")
+            .arg("https://api.github.com/repos/lw-xiong/Silica/tags?per_page=50")
+            .output();
+
+        let result = match output {
+            Ok(output) if output.status.success() => {
+                let body = String::from_utf8_lossy(&output.stdout);
+                let latest: Option<String> = serde_json::from_str::<Vec<serde_json::Value>>(&body)
+                    .ok()
+                    .and_then(|tags| {
+                        tags.iter()
+                            .filter_map(|t| t.get("name").and_then(|n| n.as_str()))
+                            .map(|s| s.trim_start_matches('v').to_string())
+                            .max_by(|a, b| Self::version_cmp(a, b))
+                    });
+                match latest {
+                    Some(latest) if !latest.is_empty() => {
+                        if Self::version_cmp(&latest, current) == std::cmp::Ordering::Greater {
+                            format!(
+                            "Silica {latest} is available — you have {current}. Get it at github.com/lw-xiong/Silica/releases"
+                        )
+                        } else {
+                            format!("Silica {current} is up to date.")
+                        }
+                    }
+                    _ => "Check for updates: could not read the release version.".to_string(),
+                }
+            }
+            Ok(output) => format!(
+                "Check for updates: GitHub replied with status {}.",
+                output.status
+            ),
+            Err(err) => format!("Check for updates: could not reach GitHub: {err}"),
+        };
+
+        self.report(result, cx);
+    }
 
     /// Rebuild the global [`Theme`] from the vault's current appearance and
     /// app config, the system's dark/light state, and any CSS theme or
@@ -6033,10 +6049,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     self.report("No note is open", cx);
                     return;
                 };
-                let abs = self
-                    .state
-                    .as_ref()
-                    .map(|s| s.vault().absolute(&current));
+                let abs = self.state.as_ref().map(|s| s.vault().absolute(&current));
                 let stat = abs.as_deref().and_then(|p| std::fs::metadata(p).ok());
                 let text = self
                     .state
@@ -6142,18 +6155,13 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 // * The snapshot list is newest first, so version 0 is the
                 //   one the user most likely wants back.
                 let root = state.root.clone();
-                let newest = crate::file_recovery::collect(
-                    &root,
-                    [current.as_str()].into_iter(),
-                )
-                .into_iter()
-                .next()
-                .and_then(|n| n.versions.first().map(|v| v.at));
+                let newest = crate::file_recovery::collect(&root, [current.as_str()].into_iter())
+                    .into_iter()
+                    .next()
+                    .and_then(|n| n.versions.first().map(|v| v.at));
                 match newest {
                     Some(at) => self.file_recovery_restore(&current, at, cx),
-                    None => {
-                        self.report(format!("No snapshots of {}", basename(&current)), cx)
-                    }
+                    None => self.report(format!("No snapshots of {}", basename(&current)), cx),
                 }
             }
             "silica:zk-prefixer" => {
@@ -6169,7 +6177,10 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 let name = stem.rsplit('/').next().unwrap_or(stem);
                 // * Obsidian's prefix is `YYYYMMDDHHMM` in the note's local
                 //   time; a note that already has it is left alone.
-                if name.len() >= 13 && name[..12].chars().all(|c| c.is_ascii_digit()) && name.as_bytes()[12] == b' ' {
+                if name.len() >= 13
+                    && name[..12].chars().all(|c| c.is_ascii_digit())
+                    && name.as_bytes()[12] == b' '
+                {
                     self.report(format!("{name} already has a ZK prefix"), cx);
                     return;
                 }
@@ -6188,7 +6199,10 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     Ok(outcome) => {
                         self.apply_rename(outcome, cx);
                         self.refresh_vault_views(cx);
-                        self.report(format!("Renamed to {}", to.rsplit('/').next().unwrap_or(&to)), cx);
+                        self.report(
+                            format!("Renamed to {}", to.rsplit('/').next().unwrap_or(&to)),
+                            cx,
+                        );
                     }
                     Err(err) => self.report(format!("could not rename: {err}"), cx),
                 }
@@ -6225,7 +6239,11 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     format!(
                         "{}: {n} {}",
                         basename(&current),
-                        if backlinks_mode { "backlinks" } else { "outgoing links" }
+                        if backlinks_mode {
+                            "backlinks"
+                        } else {
+                            "outgoing links"
+                        }
                     )
                 };
                 self.report(summary, cx);
@@ -6276,10 +6294,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 let (root, files) = match self.state.as_ref() {
                     Some(state) => {
                         let vault = state.vault();
-                        (
-                            vault.root().display().to_string(),
-                            vault.files().len(),
-                        )
+                        (vault.root().display().to_string(), vault.files().len())
                     }
                     None => (String::new(), 0),
                 };
@@ -6327,25 +6342,21 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     self.report("No vault is open", cx);
                 }
             }
-            "silica:copy-wikilink" => {
-                match self.current.clone() {
-                    Some(path) => {
-                        let stem = basename(&path).trim_end_matches(".md");
-                        cx.write_to_clipboard(ClipboardItem::new_string(format!("[[{stem}]]")));
-                        self.report(format!("Copied [[{stem}]]"), cx);
-                    }
-                    None => self.report("No note is open", cx),
+            "silica:copy-wikilink" => match self.current.clone() {
+                Some(path) => {
+                    let stem = basename(&path).trim_end_matches(".md");
+                    cx.write_to_clipboard(ClipboardItem::new_string(format!("[[{stem}]]")));
+                    self.report(format!("Copied [[{stem}]]"), cx);
                 }
-            }
-            "silica:copy-path" => {
-                match self.current.clone() {
-                    Some(path) => {
-                        cx.write_to_clipboard(ClipboardItem::new_string(path.clone()));
-                        self.report(format!("Copied {path}"), cx);
-                    }
-                    None => self.report("No note is open", cx),
+                None => self.report("No note is open", cx),
+            },
+            "silica:copy-path" => match self.current.clone() {
+                Some(path) => {
+                    cx.write_to_clipboard(ClipboardItem::new_string(path.clone()));
+                    self.report(format!("Copied {path}"), cx);
                 }
-            }
+                None => self.report("No note is open", cx),
+            },
             "silica:ai-summarize-note" => {
                 if self.editing_or_report(id, window, cx) {
                     self.summarize_current_note(window, cx);
@@ -6373,17 +6384,18 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             //   global graph.
             "graph:open-local" if self.current.is_none() => {}
             "graph:open-local" => self.show_graph(true, window, cx),
-            "silica:graph-zoom-in" => {
-                self.graph.update(cx, |g, cx| g.zoom_in(&GraphZoomIn, window, cx))
-            }
-            "silica:graph-zoom-out" => {
-                self.graph.update(cx, |g, cx| g.zoom_out(&GraphZoomOut, window, cx))
-            }
-            "silica:graph-reset-view" => {
-                self.graph.update(cx, |g, cx| g.reset_view(&GraphResetView, window, cx))
-            }
+            "silica:graph-zoom-in" => self
+                .graph
+                .update(cx, |g, cx| g.zoom_in(&GraphZoomIn, window, cx)),
+            "silica:graph-zoom-out" => self
+                .graph
+                .update(cx, |g, cx| g.zoom_out(&GraphZoomOut, window, cx)),
+            "silica:graph-reset-view" => self
+                .graph
+                .update(cx, |g, cx| g.reset_view(&GraphResetView, window, cx)),
             "graph:toggle-labels" => {
-                self.graph.update(cx, |g, cx| g.toggle_flag("showLabels", cx));
+                self.graph
+                    .update(cx, |g, cx| g.toggle_flag("showLabels", cx));
             }
             "graph:animate" => {
                 self.graph.update(cx, |g, cx| g.restart_layout(cx));
@@ -6398,18 +6410,18 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "canvas:jump-to-group" => self.jump_to_group(window, cx),
             "canvas:convert-to-file" => self.convert_card_to_file(cx),
             "canvas:export-as-image" => self.export_canvas_as_image(cx),
-            "silica:canvas-zoom-in" => self.canvas.update(cx, |v, cx| {
-                v.zoom_in(&ZoomIn, window, cx)
-            }),
-            "silica:canvas-zoom-out" => self.canvas.update(cx, |v, cx| {
-                v.zoom_out(&ZoomOut, window, cx)
-            }),
-            "silica:canvas-zoom-reset" => self.canvas.update(cx, |v, cx| {
-                v.reset_zoom(&ResetZoom, window, cx)
-            }),
-            "silica:canvas-zoom-fit" => self.canvas.update(cx, |v, cx| {
-                v.zoom_to_fit(&ZoomToFit, window, cx)
-            }),
+            "silica:canvas-zoom-in" => self
+                .canvas
+                .update(cx, |v, cx| v.zoom_in(&ZoomIn, window, cx)),
+            "silica:canvas-zoom-out" => self
+                .canvas
+                .update(cx, |v, cx| v.zoom_out(&ZoomOut, window, cx)),
+            "silica:canvas-zoom-reset" => self
+                .canvas
+                .update(cx, |v, cx| v.reset_zoom(&ResetZoom, window, cx)),
+            "silica:canvas-zoom-fit" => self
+                .canvas
+                .update(cx, |v, cx| v.zoom_to_fit(&ZoomToFit, window, cx)),
             "markdown:toggle-preview" => self.toggle_mode(&ToggleMode, window, cx),
             // * The properties block is the same editable widget in reading
             //   view, and `editor:toggle-fold-properties` was observed running
@@ -6547,8 +6559,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             "editor:toggle-line-numbers" => {
                 if self.editing_or_report(id, window, cx) {
-                    self.editor
-                        .update(cx, |e, _cx| e.toggle_show_line_number());
+                    self.editor.update(cx, |e, _cx| e.toggle_show_line_number());
                 }
             }
             "editor:toggle-readable-line-length" => {
@@ -6596,8 +6607,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                         .update(cx, |e, cx| e.set_heading(level, Some(window), cx));
                 }
             }
-            "editor:indent" | "editor:indent-list"
-            | "editor:outdent" | "editor:unindent-list" => {
+            "editor:indent" | "editor:indent-list" | "editor:outdent" | "editor:unindent-list" => {
                 if self.editing_or_report(id, window, cx) {
                     let indent = id != "editor:outdent" && id != "editor:unindent-list";
                     self.editor
@@ -6645,8 +6655,12 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             }
             // * Caret commands dispatch the editor's own navigation actions,
             //   so a hotkey bound to them behaves exactly like the arrow keys.
-            "editor:move-caret-left" | "editor:move-caret-right" | "editor:move-caret-up"
-            | "editor:move-caret-down" | "editor:go-start" | "editor:go-end" => {
+            "editor:move-caret-left"
+            | "editor:move-caret-right"
+            | "editor:move-caret-up"
+            | "editor:move-caret-down"
+            | "editor:go-start"
+            | "editor:go-end" => {
                 if self.editing_or_report(id, window, cx) {
                     window.focus(&self.editor.focus_handle(cx), cx);
                     let action: Box<dyn Action> = match id {
@@ -6660,7 +6674,8 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     window.dispatch_action(action, cx);
                 }
             }
-                        "editor:open-link-in-new-leaf" | "editor:open-link-in-new-window" => {     if self.editing_or_report(id, window, cx) {
+            "editor:open-link-in-new-leaf" | "editor:open-link-in-new-window" => {
+                if self.editing_or_report(id, window, cx) {
                     self.link_in_new_tab = true;
                     let found = self.editor.update(cx, |e, cx| e.follow_link_at_cursor(cx));
                     if !found {
@@ -6770,7 +6785,9 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             // * Obsidian's window zoom hotkeys are the Electron zoom, which
             //   is a font-size scale: the same steps the font-size commands
             //   run, and reset goes back to the 16px default.
-            "app:increase-font-size" | "app:decrease-font-size" | "window:zoom-in"
+            "app:increase-font-size"
+            | "app:decrease-font-size"
+            | "window:zoom-in"
             | "window:zoom-out" => {
                 let up = id == "app:increase-font-size" || id == "window:zoom-in";
                 self.step_font_size(up, window, cx);
@@ -6814,21 +6831,20 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:palette-verify" => self.verify_palette(window, cx),
             "silica:template-gallery" => self.open_template_gallery(window, cx),
             "silica:workspace-save" | "workspaces:save" => self.save_workspace_prompt(window, cx),
-            "silica:workspace-load" | "workspaces:load" | "workspaces:open-modal"
+            "silica:workspace-load"
+            | "workspaces:load"
+            | "workspaces:open-modal"
             | "workspaces:save-and-load" => self.load_workspace_prompt(window, cx),
             "silica:workspace-delete" => self.delete_workspace_prompt(window, cx),
             "workspace:copy-path" => self.copy_current_path(false, cx),
             "workspace:copy-full-path" => self.copy_current_path(true, cx),
             "workspace:copy-url" => self.copy_current_url(cx),
             "open-with-default-app:open" | "open-with-default-app:show" => {
-                let target = self
-                    .state
-                    .as_ref()
-                    .and_then(|state| {
-                        self.current
-                            .as_deref()
-                            .map(|path| state.vault().root().join(path))
-                    });
+                let target = self.state.as_ref().and_then(|state| {
+                    self.current
+                        .as_deref()
+                        .map(|path| state.vault().root().join(path))
+                });
                 match target {
                     Some(full) => cx.open_url(&format!("file://{}", full.display())),
                     None => self.report("No file is open", cx),
@@ -6848,17 +6864,25 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                 ),
                 cx,
             ),
-                                    "app:toggle-default-new-pane-mode" => {
-                let mut next = self.state.as_ref().map(|s| s.app().clone()).unwrap_or_default();
+            "app:toggle-default-new-pane-mode" => {
+                let mut next = self
+                    .state
+                    .as_ref()
+                    .map(|s| s.app().clone())
+                    .unwrap_or_default();
                 next.focus_new_tab = Some(!next.focus_new_tab.unwrap_or(true));
                 self.change_setting(SettingChange::App(next), window, cx);
             }
-"app:toggle-ribbon" => {
-                let mut next = self.state.as_ref().map(|s| s.appearance().clone()).unwrap_or_default();
+            "app:toggle-ribbon" => {
+                let mut next = self
+                    .state
+                    .as_ref()
+                    .map(|s| s.appearance().clone())
+                    .unwrap_or_default();
                 next.show_ribbon = Some(!next.show_ribbon.unwrap_or(true));
                 self.change_setting(SettingChange::Appearance(next), window, cx);
             }
-"app:toggle-left-sidebar" => {
+            "app:toggle-left-sidebar" => {
                 self.left_visible = !self.left_visible;
                 if !self.left_visible {
                     self.leave_search_field(window, cx);
@@ -6953,7 +6977,10 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                         Some(ix) => {
                             let h = self.outline[ix].clone();
                             self.open_prompt(
-                                PendingOp::RenameHeading { line: h.line, level: h.level },
+                                PendingOp::RenameHeading {
+                                    line: h.line,
+                                    level: h.level,
+                                },
                                 PromptSpec {
                                     title: "Rename heading".into(),
                                     input: Some(h.text.clone()),
@@ -7034,10 +7061,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                             out.push_str(&format!("- [[{path}]] — {n}\n"));
                         }
                         if broken.len() > 25 {
-                            out.push_str(&format!(
-                                "- …and {} more\n",
-                                broken.len() - 25
-                            ));
+                            out.push_str(&format!("- …and {} more\n", broken.len() - 25));
                         }
                         out.push('\n');
                     }
@@ -7047,10 +7071,7 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                             out.push_str(&format!("- [[{path}]]\n"));
                         }
                         if orphans.len() > 25 {
-                            out.push_str(&format!(
-                                "- …and {} more\n",
-                                orphans.len() - 25
-                            ));
+                            out.push_str(&format!("- …and {} more\n", orphans.len() - 25));
                         }
                     }
                     out
@@ -7583,7 +7604,12 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
         let vault = self
             .state
             .as_ref()
-            .and_then(|state| state.root.file_name().map(|n| n.to_string_lossy().into_owned()))
+            .and_then(|state| {
+                state
+                    .root
+                    .file_name()
+                    .map(|n| n.to_string_lossy().into_owned())
+            })
             .unwrap_or_default();
         let url = format!(
             "obsidian://open?vault={}&file={}",

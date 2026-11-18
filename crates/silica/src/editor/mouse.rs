@@ -361,7 +361,7 @@ impl Editor {
         })
     }
 
-        /// `editor:context-menu`: the same menu a right-click shows, opened at
+    /// `editor:context-menu`: the same menu a right-click shows, opened at
     /// the caret — the anchor math is `suggest_anchor`'s, with the caret's
     /// offset as the target.
     pub(crate) fn open_context_menu_at_caret(&mut self, cx: &mut Context<Self>) {
@@ -383,7 +383,7 @@ impl Editor {
         cx.notify();
     }
 
-/// Resolves a window point against the last frame's layout.
+    /// Resolves a window point against the last frame's layout.
     pub(crate) fn display_hit(&self, window: &mut Window, position: Point<Pixels>) -> Option<Hit> {
         let layout = &self.layout;
         if layout.line_height <= px(0.) || layout.visible.is_empty() {

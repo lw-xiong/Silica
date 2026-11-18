@@ -46,10 +46,16 @@ pub struct Card {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CardKind {
-    Basic { front: String, back: String },
+    Basic {
+        front: String,
+        back: String,
+    },
     /// `text` holds the question with each answer replaced by `____`;
     /// `answers` holds the `==...==` contents in order.
-    Cloze { text: String, answers: Vec<String> },
+    Cloze {
+        text: String,
+        answers: Vec<String>,
+    },
 }
 
 impl Card {
@@ -93,7 +99,10 @@ pub fn parse_cards(source: &str, text: &str) -> Vec<Card> {
             let _ = next_ix;
         }
         if let Some(kind) = block_kind(&block) {
-            let id = format!("{:016x}", fnv1a64(format!("{source}:{line_no}:{block}").as_bytes()));
+            let id = format!(
+                "{:016x}",
+                fnv1a64(format!("{source}:{line_no}:{block}").as_bytes())
+            );
             cards.push(Card {
                 id,
                 source: source.to_string(),
@@ -135,11 +144,7 @@ fn block_kind(block: &str) -> Option<CardKind> {
         // * A `?` on its own line separates a multiline question from its
         // * answer, the way the spaced-repetition plugin writes them.
         let front = block.lines().take(qpos).collect::<Vec<_>>().join("\n");
-        let back = block
-            .lines()
-            .skip(qpos + 1)
-            .collect::<Vec<_>>()
-            .join("\n");
+        let back = block.lines().skip(qpos + 1).collect::<Vec<_>>().join("\n");
         let front = front.trim().to_string();
         let back = back.trim().to_string();
         if !front.is_empty() || !back.is_empty() {
@@ -314,8 +319,16 @@ pub fn is_due(card: &Card, store: &Store, today: NaiveDate) -> bool {
 pub fn due_cards<'a>(cards: &'a [Card], store: &Store, today: NaiveDate) -> Vec<&'a Card> {
     let mut due: Vec<&Card> = cards.iter().filter(|c| is_due(c, store, today)).collect();
     due.sort_by(|a, b| {
-        let da = store.cards.get(&a.id).and_then(|s| s.due.as_deref()).map(str::to_string);
-        let db = store.cards.get(&b.id).and_then(|s| s.due.as_deref()).map(str::to_string);
+        let da = store
+            .cards
+            .get(&a.id)
+            .and_then(|s| s.due.as_deref())
+            .map(str::to_string);
+        let db = store
+            .cards
+            .get(&b.id)
+            .and_then(|s| s.due.as_deref())
+            .map(str::to_string);
         da.cmp(&db).then_with(|| a.id.cmp(&b.id))
     });
     due
@@ -366,7 +379,10 @@ mod tests {
 
     #[test]
     fn parses_a_cloze_card_and_hides_the_answers() {
-        let cards = parse_cards("A.md", "#flashcard The capital of France is ==Paris== and of Japan is ==Tokyo==.\n");
+        let cards = parse_cards(
+            "A.md",
+            "#flashcard The capital of France is ==Paris== and of Japan is ==Tokyo==.\n",
+        );
         assert_eq!(cards.len(), 1);
         let CardKind::Cloze { text, answers } = &cards[0].kind else {
             panic!("expected a cloze: {:?}", cards[0].kind);
@@ -459,7 +475,8 @@ mod tests {
 
     #[test]
     fn load_of_a_missing_file_is_an_empty_store() {
-        let path = std::env::temp_dir().join(format!("silica-flashcards-missing-{}", std::process::id()));
+        let path =
+            std::env::temp_dir().join(format!("silica-flashcards-missing-{}", std::process::id()));
         let store = load(&path).expect("missing file is empty");
         assert_eq!(store, Store::default());
     }

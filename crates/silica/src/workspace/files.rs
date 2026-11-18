@@ -1378,7 +1378,12 @@ replaced with a link to it."
         window: &mut Window,
         cx: &mut Context<Self>,
     ) -> Result<String, String> {
-        let ExtractSpec { source, start, end, heading } = spec;
+        let ExtractSpec {
+            source,
+            start,
+            end,
+            heading,
+        } = spec;
         let source = source.as_str();
         let heading = heading.as_str();
         let Some(state) = self.state.clone() else {
@@ -1632,7 +1637,12 @@ link to it is rewritten. The current note is deleted."
     /// Appends `alias` to the note's `aliases` property, creating the
     /// frontmatter block when the note has none. `Ok(false)` means the
     /// alias was already listed.
-    fn add_alias(&mut self, path: &str, alias: &str, cx: &mut Context<Self>) -> Result<bool, String> {
+    fn add_alias(
+        &mut self,
+        path: &str,
+        alias: &str,
+        cx: &mut Context<Self>,
+    ) -> Result<bool, String> {
         use silica_formats::properties::{Change, Value};
         let Some(state) = self.state.clone() else {
             return Err("no vault is open".to_string());
@@ -1744,14 +1754,24 @@ link to it is rewritten. The current note is deleted."
                 let editor = self.editor.clone();
                 editor.update(cx, |e, cx| e.rename_heading(line, level, value, window, cx));
             }
-            PendingOp::ExtractHeading { source, start, end, heading } => {
+            PendingOp::ExtractHeading {
+                source,
+                start,
+                end,
+                heading,
+            } => {
                 self.pending = None;
                 self.close_modal(window, cx);
                 if value.is_empty() {
                     return;
                 }
                 match self.extract_heading(
-                    ExtractSpec { source, start, end, heading },
+                    ExtractSpec {
+                        source,
+                        start,
+                        end,
+                        heading,
+                    },
                     value,
                     window,
                     cx,
@@ -1782,7 +1802,9 @@ link to it is rewritten. The current note is deleted."
                 }
                 match self.add_alias(&path, value, cx) {
                     Ok(true) => self.report(format!("Added alias \"{value}\" to {path}"), cx),
-                    Ok(false) => self.report(format!("\"{value}\" is already an alias of {path}"), cx),
+                    Ok(false) => {
+                        self.report(format!("\"{value}\" is already an alias of {path}"), cx)
+                    }
                     Err(err) => self.report(err, cx),
                 }
             }

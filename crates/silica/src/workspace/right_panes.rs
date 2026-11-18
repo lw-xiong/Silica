@@ -2041,10 +2041,34 @@ pub fn bind_pane_keys(cx: &mut App) {
         KeyBinding::new("escape", PaneLeaveFocus, ctx),
         // * Flashcard grading, 1-4 while a side pane has focus: same keys
         //   Anki uses, and digits are free in the pane lists.
-        KeyBinding::new("1", RunCommand { id: "silica:flashcard-again".into() }, ctx),
-        KeyBinding::new("2", RunCommand { id: "silica:flashcard-hard".into() }, ctx),
-        KeyBinding::new("3", RunCommand { id: "silica:flashcard-good".into() }, ctx),
-        KeyBinding::new("4", RunCommand { id: "silica:flashcard-easy".into() }, ctx),
+        KeyBinding::new(
+            "1",
+            RunCommand {
+                id: "silica:flashcard-again".into(),
+            },
+            ctx,
+        ),
+        KeyBinding::new(
+            "2",
+            RunCommand {
+                id: "silica:flashcard-hard".into(),
+            },
+            ctx,
+        ),
+        KeyBinding::new(
+            "3",
+            RunCommand {
+                id: "silica:flashcard-good".into(),
+            },
+            ctx,
+        ),
+        KeyBinding::new(
+            "4",
+            RunCommand {
+                id: "silica:flashcard-easy".into(),
+            },
+            ctx,
+        ),
     ]);
 }
 

@@ -1527,8 +1527,7 @@ mod tests {
         buf.select_all();
         let lines = buf.selected_lines();
         assert_eq!(lines, 0..3);
-        let mut texts: Vec<&str> =
-            (lines.start..lines.end).map(|l| buf.line_text(l)).collect();
+        let mut texts: Vec<&str> = (lines.start..lines.end).map(|l| buf.line_text(l)).collect();
         texts.sort_unstable();
         let joined = texts.join("\n");
         let from = buf.line_range(lines.start).start;

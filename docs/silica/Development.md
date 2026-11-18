@@ -3791,3 +3791,9 @@ bytes and modified time from the shared word stats. Bump 0.9.52.
 Publishes the open note to the vault's default site folder through the
 same site export the whole-vault command uses, with a one-file list and
 no prompt. Bump 0.9.53.
+
+## fmt + workspace clippy pass, 2026-11-15
+
+`cargo fmt --all` applied: several crates had drifted from rustfmt across
+recent updates. `cargo clippy --workspace --all-targets -- -D warnings`
+clean, all suites green. Bump 0.9.54.

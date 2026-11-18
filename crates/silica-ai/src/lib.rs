@@ -257,12 +257,7 @@ pub fn parse_inline(text: &str) -> Vec<Segment> {
     out
 }
 
-const INLINE_MARKERS: [(&str, &str); 4] = [
-    ("[[", "]]"),
-    ("`", "`"),
-    ("**", "**"),
-    ("*", "*"),
-];
+const INLINE_MARKERS: [(&str, &str); 4] = [("[[", "]]"), ("`", "`"), ("**", "**"), ("*", "*")];
 
 fn push_inline(out: &mut Vec<Segment>, text: &str) {
     let mut rest = text;
@@ -316,10 +311,7 @@ mod tests {
     fn request_serializes_to_the_openai_shape() {
         let request = ChatRequest {
             model: "m".to_string(),
-            messages: vec![
-                ChatMessage::system("sys"),
-                ChatMessage::user("hi"),
-            ],
+            messages: vec![ChatMessage::system("sys"), ChatMessage::user("hi")],
             temperature: Some(0.2),
             max_tokens: None,
         };
@@ -344,7 +336,10 @@ mod tests {
     #[test]
     fn an_error_object_is_an_err_with_the_message() {
         let body = r#"{"error":{"message":"model not loaded"}}"#;
-        assert_eq!(parse_chat_response(body), Err("model not loaded".to_string()));
+        assert_eq!(
+            parse_chat_response(body),
+            Err("model not loaded".to_string())
+        );
         assert!(parse_chat_response("not json").is_err());
         assert!(parse_chat_response("{}").is_err());
     }
@@ -374,7 +369,10 @@ mod tests {
     fn an_unclosed_marker_stays_plain_text() {
         assert_eq!(
             parse_inline("a **b"),
-            vec![Segment::Text("a ".to_string()), Segment::Text("**b".to_string())]
+            vec![
+                Segment::Text("a ".to_string()),
+                Segment::Text("**b".to_string())
+            ]
         );
     }
 
@@ -388,8 +386,14 @@ mod tests {
         assert_eq!(messages.len(), 1);
         assert_eq!(messages[0].role, Role::System);
         assert!(messages[0].content.contains("--- A.md ---"));
-        assert!(messages[0].content.contains("--- B.md ---"), "the cap fits a prefix of the second note");
-        assert!(messages[0].content.len() <= 150 + 200, "system text plus at most max_chars of notes");
+        assert!(
+            messages[0].content.contains("--- B.md ---"),
+            "the cap fits a prefix of the second note"
+        );
+        assert!(
+            messages[0].content.len() <= 150 + 200,
+            "system text plus at most max_chars of notes"
+        );
     }
 
     /// A loopback server that answers one chat call with a canned reply and
@@ -416,7 +420,11 @@ mod tests {
             let head = String::from_utf8_lossy(&buf[..head_end]).to_string();
             let length = head
                 .lines()
-                .find_map(|l| l.split_once(':').filter(|(n, _)| n.trim().eq_ignore_ascii_case("content-length")).map(|(_, v)| v.trim().to_string()))
+                .find_map(|l| {
+                    l.split_once(':')
+                        .filter(|(n, _)| n.trim().eq_ignore_ascii_case("content-length"))
+                        .map(|(_, v)| v.trim().to_string())
+                })
                 .and_then(|v| v.parse::<usize>().ok())
                 .unwrap_or(0);
             let mut body_bytes = buf[head_end + 4..].to_vec();
@@ -457,10 +465,7 @@ mod tests {
         );
         let request = ChatRequest {
             model: "test-model".to_string(),
-            messages: vec![
-                ChatMessage::system("sys"),
-                ChatMessage::user("hello"),
-            ],
+            messages: vec![ChatMessage::system("sys"), ChatMessage::user("hello")],
             temperature: None,
             max_tokens: None,
         };
@@ -468,15 +473,27 @@ mod tests {
         assert_eq!(reply.text, "pong");
         assert_eq!(reply.prompt_tokens, Some(3));
         let seen = server.join().expect("server thread");
-        assert!(seen.contains("POST /v1/chat/completions"), "the path: {seen}");
-        assert!(seen.contains("\"model\":\"test-model\""), "the model: {seen}");
+        assert!(
+            seen.contains("POST /v1/chat/completions"),
+            "the path: {seen}"
+        );
+        assert!(
+            seen.contains("\"model\":\"test-model\""),
+            "the model: {seen}"
+        );
         assert!(seen.contains("hello"), "the message: {seen}");
-        assert!(seen.contains("Authorization: Bearer secret"), "the key: {seen}");
+        assert!(
+            seen.contains("Authorization: Bearer secret"),
+            "the key: {seen}"
+        );
     }
 
     #[test]
     fn chat_surfaces_a_server_error_body() {
-        let (port, server) = loopback("500 Internal Server Error", r#"{"error":{"message":"boom"}}"#);
+        let (port, server) = loopback(
+            "500 Internal Server Error",
+            r#"{"error":{"message":"boom"}}"#,
+        );
         let request = ChatRequest {
             model: "test-model".to_string(),
             messages: vec![ChatMessage::user("hello")],

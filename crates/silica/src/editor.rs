@@ -1246,7 +1246,11 @@ impl Editor {
         }
         let end = end.min(line_count);
         let from = self.buf.line_range(start).start;
-        let to = if end > 0 { self.buf.line_range(end - 1).end } else { from };
+        let to = if end > 0 {
+            self.buf.line_range(end - 1).end
+        } else {
+            from
+        };
         self.buf.edit(from..to, text, EditKind::Other);
         self.after_edit(Some(window), cx, None);
     }
@@ -1290,7 +1294,7 @@ impl Editor {
     }
 
     /// `editor:swap-line-up` and `-down`.
-        /// `silica:sort-lines`: the lines the selection spans sort ascending,
+    /// `silica:sort-lines`: the lines the selection spans sort ascending,
     /// stable so equal lines keep their order. An empty selection spans a
     /// single line, which nothing reorders. The comparison is by code
     /// point; locale-aware collation is a rabbit hole this does not open.
@@ -1299,8 +1303,9 @@ impl Editor {
         if lines.len() < 2 {
             return;
         }
-        let mut texts: Vec<&str> =
-            (lines.start..lines.end).map(|l| self.buf.line_text(l)).collect();
+        let mut texts: Vec<&str> = (lines.start..lines.end)
+            .map(|l| self.buf.line_text(l))
+            .collect();
         texts.sort_unstable();
         let joined = texts.join("\n");
         self.replace_lines(lines.start, lines.end, &joined, window, cx);
@@ -1322,7 +1327,7 @@ impl Editor {
         self.after_edit(Some(window), cx, None);
     }
 
-pub fn swap_lines(&mut self, up: bool, window: &mut Window, cx: &mut Context<Self>) {
+    pub fn swap_lines(&mut self, up: bool, window: &mut Window, cx: &mut Context<Self>) {
         if self.buf.swap_lines(up) {
             self.after_edit(Some(window), cx, None);
         }

@@ -68,8 +68,6 @@ impl Render for ReadingView {
                 .inset_0(),
             )
     }
-
-
 }
 
 /// Builds GPUI elements for model blocks; the reading view and Live
