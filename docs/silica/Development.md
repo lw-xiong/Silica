@@ -3779,3 +3779,9 @@ names entries added for the palette. Bump 0.9.50.
 The right-click menu, opened at the caret with the caret as its target:
 the anchor math mirrors the suggest popup's. Obsidian's id is mobile-only;
 on the desktop it still gives keyboard users the menu. Bump 0.9.51.
+
+## silica:publish-vault / silica:note-info, 2026-11-15
+
+`publish-vault` runs the site export's own prompt (export every note is
+what it does); `note-info` reports the open note's words, characters,
+bytes and modified time from the shared word stats. Bump 0.9.52.

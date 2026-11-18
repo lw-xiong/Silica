@@ -780,6 +780,8 @@ pub const RUNNABLE: &[&str] = &[
     "window:reset-zoom",
     "silica:sort-lines",
     "silica:duplicate-line",
+    "silica:publish-vault",
+    "silica:note-info",
     "editor:context-menu",
     "silica:bookmarks",
     "silica:tag-pane",
@@ -6023,6 +6025,45 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     self.editor
                         .update(cx, |e, cx| e.open_context_menu_at_caret(cx));
                 }
+            }
+            "silica:publish-vault" => self.run_command("silica:export-site", window, cx),
+            "silica:note-info" => {
+                let Some(current) = self.current.clone() else {
+                    self.report("No note is open", cx);
+                    return;
+                };
+                let abs = self
+                    .state
+                    .as_ref()
+                    .map(|s| s.vault().absolute(&current));
+                let stat = abs.as_deref().and_then(|p| std::fs::metadata(p).ok());
+                let text = self
+                    .state
+                    .as_ref()
+                    .and_then(|s| s.texts().get(&current).map(|t| t.to_string()))
+                    .or_else(|| abs.as_deref().and_then(|p| std::fs::read_to_string(p).ok()));
+                let (words, chars) = match &text {
+                    Some(t) => {
+                        let ws = silica_text::word_stats(t);
+                        (ws.words, ws.characters)
+                    }
+                    None => (0, 0),
+                };
+                let modified = stat
+                    .as_ref()
+                    .and_then(|m| m.modified().ok())
+                    .map(|t| {
+                        let t: chrono::DateTime<chrono::Local> = t.into();
+                        t.format("%Y-%m-%d %H:%M").to_string()
+                    })
+                    .unwrap_or_else(|| "unknown".into());
+                self.report(
+                    format!(
+                        "{current}: {words} words, {chars} characters, {} bytes, modified {modified}",
+                        stat.as_ref().map(|m| m.len()).unwrap_or(0)
+                    ),
+                    cx,
+                );
             }
             "silica:sort-lines" => {
                 if self.editing_or_report(id, window, cx) {
