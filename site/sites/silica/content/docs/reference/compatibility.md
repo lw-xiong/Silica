@@ -59,7 +59,7 @@ them.
 | Config files | Sparse, optional, unknown keys round-trip |
 | JSON Canvas 1.0 | Fields, z-order by array order, tab-indented output |
 | Bases | Top-level keys and recursive filters |
-| Command ids | All 244, with Obsidian's names and default hotkeys |
+| Command ids | All 256 of Obsidian 1.12.7's, with Obsidian's names and default hotkeys |
 
 ## Tier 2: feature parity
 
