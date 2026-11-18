@@ -3785,3 +3785,9 @@ on the desktop it still gives keyboard users the menu. Bump 0.9.51.
 `publish-vault` runs the site export's own prompt (export every note is
 what it does); `note-info` reports the open note's words, characters,
 bytes and modified time from the shared word stats. Bump 0.9.52.
+
+## publish:publish-file, 2026-11-15
+
+Publishes the open note to the vault's default site folder through the
+same site export the whole-vault command uses, with a one-file list and
+no prompt. Bump 0.9.53.

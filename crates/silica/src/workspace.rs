@@ -782,6 +782,7 @@ pub const RUNNABLE: &[&str] = &[
     "silica:duplicate-line",
     "silica:publish-vault",
     "silica:note-info",
+    "publish:publish-file",
     "editor:context-menu",
     "silica:bookmarks",
     "silica:tag-pane",
@@ -6064,6 +6065,57 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
                     ),
                     cx,
                 );
+            }
+            "publish:publish-file" => {
+                let Some(current) = self.current.clone() else {
+                    self.report("No note is open", cx);
+                    return;
+                };
+                let Some(state) = self.state.clone() else {
+                    self.report("No vault is open", cx);
+                    return;
+                };
+                if !silica_formats::FileKind::from_path(&current).is_markdown() {
+                    self.report("Publish works on notes only", cx);
+                    return;
+                }
+                // * One note to the vault's default site folder: the same
+                //   export the whole-vault command runs, with a one-file
+                //   list, and no prompt — publishing one note is a
+                //   keystroke, not a dialog.
+                let (vault_root, files) = {
+                    let vault = state.vault();
+                    (
+                        vault.root().to_path_buf(),
+                        vault
+                            .files()
+                            .iter()
+                            .filter(|f| f.path == current)
+                            .cloned()
+                            .collect::<Vec<_>>(),
+                    )
+                };
+                if files.is_empty() {
+                    self.report(format!("{current} is not in the vault index"), cx);
+                    return;
+                }
+                let Some(out) = vault_root.parent().map(|p| {
+                    let name = vault_root
+                        .file_name()
+                        .map(|n| n.to_string_lossy().into_owned())
+                        .unwrap_or_else(|| "vault".into());
+                    p.join(format!("{name}-site"))
+                }) else {
+                    self.report("No folder to export into.", cx);
+                    return;
+                };
+                match crate::site::export(&vault_root, &files, &out) {
+                    Ok(done) => self.report(
+                        format!("Published {} to {}", done.output.display(), out.display()),
+                        cx,
+                    ),
+                    Err(err) => self.report(err, cx),
+                }
             }
             "silica:sort-lines" => {
                 if self.editing_or_report(id, window, cx) {
