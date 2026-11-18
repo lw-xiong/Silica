@@ -94,10 +94,9 @@ is what Silica itself last wrote.
 
 ## Several vaults
 
-One Silica process opens one vault. To work in two, run it twice. `app:open-vault` and
-`app:open-another-vault` exist as command ids, and your `hotkeys.json` bindings for them are
-honored as bindings, but switching vaults from inside the window is not implemented and the
-command is not offered in the palette.
+`app:open-another-vault` switches the window to a vault you pick from the folder
+dialog (`app:open-vault` takes the vault manager), and both are offered in the palette.
+Each window still holds one vault; to see two at once, run Silica twice.
 
 ## Next
 

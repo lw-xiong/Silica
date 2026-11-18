@@ -96,8 +96,9 @@ Not bugs, just differences you will notice in the first ten minutes:
 
 - **It starts immediately.** There is no splash: the vault is scanned on a background
   thread while the window is already up.
-- **One window, one vault.** Run it twice for two vaults. Popout windows do not exist here.
-- **Tabs and splits, but no stacked tabs.** `Ctrl + T` opens a tab, Split right and Split
+- **One window, one vault.** `app:open-another-vault` switches in place; to see two vaults
+  at once, run Silica twice. Popout windows do not exist here.
+- **Tabs and splits.** `Ctrl + T` opens a tab, Split right and Split
   down divide the main area into groups, a tab drags between them, and `Ctrl + Alt + ←` /
   `→` still walk the history of what you have opened.
 - **Settings writes one key at a time.** Obsidian re-serialises a settings file on every

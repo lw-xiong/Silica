@@ -92,7 +92,6 @@ it.
 
 - **Search and replace across the vault.** Replace works inside one note; see [find and
   replace](/docs/app/find/).
-- **A right-click menu on a result.**
 - The sort order and the copy modal's selects are menus rather than native drop-downs, and
   the modal's preview is read-only where Obsidian's is a text area you can edit before
   copying.
