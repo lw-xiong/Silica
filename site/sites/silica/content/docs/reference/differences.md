@@ -42,15 +42,10 @@ Nothing left in this table yet.
 
 | | |
 |---|---|
-| **Writing `graph.json`** | Graph forces and filters are read, not written back |
-| **Drag and drop in Files** | Use `file-explorer:move-file` |
-| **Inline title editing** | Use `F2` |
-| **Pasting or dropping attachments** | Put the file in the folder yourself |
 | **System trash on Windows and macOS** | Implemented on Linux (freedesktop trash with a `.trashinfo` record); elsewhere it falls back to the vault's `.trash/` |
 | **Themes (`cssTheme`)** | Base theme, accent color and fonts are honored; a CSS theme is not. Tier 3 |
 | **A few Settings controls** | Most rows write. The font families, spellcheck languages, excluded files, accent color and the theme list do not, because the control Obsidian offers for them is one Silica has not built |
-| **Search result context menu** | Sorting, copying, collapsing and the keyboard are in; a result has no right-click menu yet. See [search](/docs/app/search/) |
-| **A context menu on a side-pane row** | The Files view's is the only one in the app so far |
+| **A context menu on a side-pane row** | The Files view and the Search pane have one; the other panes do not |
 | **Vault-wide search and replace** | Replace works within one note |
 
 ### Markdown edge cases
