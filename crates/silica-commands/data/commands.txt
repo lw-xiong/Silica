@@ -319,3 +319,5 @@ silica:copy-wikilink
 silica:copy-path
 silica:show-vault-folder
 silica:reveal-current-file
+silica:sort-lines
+silica:duplicate-line

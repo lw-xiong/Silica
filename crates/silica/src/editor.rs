@@ -1290,7 +1290,39 @@ impl Editor {
     }
 
     /// `editor:swap-line-up` and `-down`.
-    pub fn swap_lines(&mut self, up: bool, window: &mut Window, cx: &mut Context<Self>) {
+        /// `silica:sort-lines`: the lines the selection spans sort ascending,
+    /// stable so equal lines keep their order. An empty selection spans a
+    /// single line, which nothing reorders. The comparison is by code
+    /// point; locale-aware collation is a rabbit hole this does not open.
+    pub fn sort_lines(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let lines = self.buf.selected_lines();
+        if lines.len() < 2 {
+            return;
+        }
+        let mut texts: Vec<&str> =
+            (lines.start..lines.end).map(|l| self.buf.line_text(l)).collect();
+        texts.sort_unstable();
+        let joined = texts.join("\n");
+        self.replace_lines(lines.start, lines.end, &joined, window, cx);
+    }
+
+    /// `silica:duplicate-line`: a copy of the caret's line lands right
+    /// under it. The copy is inserted before the line's own newline, so a
+    /// final line with no newline still ends up doubled with one.
+    pub fn duplicate_line(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let lines = self.buf.selected_lines();
+        if lines.len() != 1 {
+            return;
+        }
+        let line = lines.start;
+        let range = self.buf.line_range(line);
+        let text = self.buf.line_text(line);
+        let at = range.end;
+        self.buf.edit(at..at, &format!("\n{text}"), EditKind::Other);
+        self.after_edit(Some(window), cx, None);
+    }
+
+pub fn swap_lines(&mut self, up: bool, window: &mut Window, cx: &mut Context<Self>) {
         if self.buf.swap_lines(up) {
             self.after_edit(Some(window), cx, None);
         }

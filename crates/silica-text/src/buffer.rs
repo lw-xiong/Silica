@@ -1502,6 +1502,44 @@ mod tests {
     use super::*;
 
     #[test]
+    fn duplicate_line_composition_doubles_with_or_without_a_final_newline() {
+        // * What `Editor::duplicate_line` runs: "\n<line>" inserted at the
+        //   line's own end. A line with a newline gets its copy under it;
+        //   a final line without one ends up doubled all the same.
+        for src in ["b\na\nc\n", "b\na"] {
+            let mut buf = TextBuffer::from_file(src);
+            let line = 1;
+            let range = buf.line_range(line);
+            let text = buf.line_text(line).to_string();
+            buf.edit(range.end..range.end, &format!("\n{text}"), EditKind::Other);
+            assert_eq!(buf.line_text(line), "a");
+            assert_eq!(buf.line_text(line + 1), "a");
+            assert_eq!(buf.line_text(0), "b");
+        }
+    }
+
+    #[test]
+    fn sort_composition_spans_whole_lines_and_keeps_the_final_newline() {
+        // * What `Editor::sort_lines` runs: the selected lines' texts join
+        //   with \n and replace the same span, so a trailing newline after
+        //   the last line survives and a final line without one stays bare.
+        let mut buf = TextBuffer::from_file("b\na\nc\n");
+        buf.select_all();
+        let lines = buf.selected_lines();
+        assert_eq!(lines, 0..3);
+        let mut texts: Vec<&str> =
+            (lines.start..lines.end).map(|l| buf.line_text(l)).collect();
+        texts.sort_unstable();
+        let joined = texts.join("\n");
+        let from = buf.line_range(lines.start).start;
+        let to = buf.line_range(lines.end - 1).end;
+        buf.edit(from..to, &joined, EditKind::Other);
+        assert_eq!(buf.line_text(0), "a");
+        assert_eq!(buf.line_text(1), "b");
+        assert_eq!(buf.line_text(2), "c");
+    }
+
+    #[test]
     fn word_classes_split_identifiers_from_punctuation() {
         assert_eq!(char_class(' '), 0);
         assert_eq!(char_class('a'), 1);

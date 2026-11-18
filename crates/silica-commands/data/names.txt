@@ -294,3 +294,5 @@ silica:copy-wikilink	Copy wikilink to current note
 silica:copy-path	Copy current note path
 silica:show-vault-folder	Show vault folder in file manager
 silica:reveal-current-file	Reveal the current note in the file manager
+silica:sort-lines	Sort lines: Sort the selected lines
+silica:duplicate-line	Duplicate line: Duplicate the current line

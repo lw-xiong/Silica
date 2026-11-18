@@ -778,6 +778,8 @@ pub const RUNNABLE: &[&str] = &[
     "window:zoom-in",
     "window:zoom-out",
     "window:reset-zoom",
+    "silica:sort-lines",
+    "silica:duplicate-line",
     "silica:bookmarks",
     "silica:tag-pane",
     "silica:daily-notes",
@@ -6013,6 +6015,16 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:note-composer-merge" => {
                 if self.editing_or_report(id, window, cx) {
                     self.start_merge_current(window, cx);
+                }
+            }
+            "silica:sort-lines" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor.update(cx, |e, cx| e.sort_lines(window, cx));
+                }
+            }
+            "silica:duplicate-line" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor.update(cx, |e, cx| e.duplicate_line(window, cx));
                 }
             }
             "silica:tag-pane" => self.run_command("tag-pane:open", window, cx),

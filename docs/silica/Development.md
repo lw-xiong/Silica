@@ -3766,3 +3766,10 @@ merge, link rewrites, delete) under the palette id names.txt lists. Bump
 Obsidian's window zoom hotkeys are the Electron font zoom, so they run the
 same `baseFontSize` steps the `app:*-font-size` commands use; reset drops
 the override back to the 16px default. Bump 0.9.49.
+
+## silica:sort-lines / silica:duplicate-line, 2026-11-15
+
+Two editor helpers on the buffer's own line primitives: the selection's
+lines sort ascending (stable, code-point order), and the caret's line is
+doubled under itself, final-line-without-newline included. Registry and
+names entries added for the palette. Bump 0.9.50.
