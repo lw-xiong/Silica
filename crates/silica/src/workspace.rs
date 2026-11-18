@@ -780,6 +780,7 @@ pub const RUNNABLE: &[&str] = &[
     "window:reset-zoom",
     "silica:sort-lines",
     "silica:duplicate-line",
+    "editor:context-menu",
     "silica:bookmarks",
     "silica:tag-pane",
     "silica:daily-notes",
@@ -6015,6 +6016,12 @@ fn check_for_updates(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
             "silica:note-composer-merge" => {
                 if self.editing_or_report(id, window, cx) {
                     self.start_merge_current(window, cx);
+                }
+            }
+            "editor:context-menu" => {
+                if self.editing_or_report(id, window, cx) {
+                    self.editor
+                        .update(cx, |e, cx| e.open_context_menu_at_caret(cx));
                 }
             }
             "silica:sort-lines" => {

@@ -3773,3 +3773,9 @@ Two editor helpers on the buffer's own line primitives: the selection's
 lines sort ascending (stable, code-point order), and the caret's line is
 doubled under itself, final-line-without-newline included. Registry and
 names entries added for the palette. Bump 0.9.50.
+
+## editor:context-menu, 2026-11-15
+
+The right-click menu, opened at the caret with the caret as its target:
+the anchor math mirrors the suggest popup's. Obsidian's id is mobile-only;
+on the desktop it still gives keyboard users the menu. Bump 0.9.51.

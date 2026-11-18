@@ -16,7 +16,7 @@ use silica_formats::properties as props;
 use silica_suggest::blocks::{self, IdInsertion, Placement};
 use silica_suggest::{self as suggest, Accept, BlockId, Suggestion};
 
-use super::{newline_of, CellEdit, Editor, EditorEvent, Hit, SuggestState};
+use super::{newline_of, CellEdit, ContextMenu, Editor, EditorEvent, Hit, SuggestState};
 use crate::preview;
 use crate::properties::{self, Field, Part, PillStep, Target};
 use crate::reading::view::{PropertyAction, TableAction};
@@ -361,7 +361,29 @@ impl Editor {
         })
     }
 
-    /// Resolves a window point against the last frame's layout.
+        /// `editor:context-menu`: the same menu a right-click shows, opened at
+    /// the caret — the anchor math is `suggest_anchor`'s, with the caret's
+    /// offset as the target.
+    pub(crate) fn open_context_menu_at_caret(&mut self, cx: &mut Context<Self>) {
+        let offset = self.selection().end;
+        let Some(shaped) = self.layout.cursor_line.clone() else {
+            return;
+        };
+        let (row, x) = shaped.row_and_x(offset);
+        let origin = self.layout.bounds.origin;
+        let top = self.layout.cursor_top - origin.y + shaped.row_height * row as f32;
+        let position = point(
+            self.layout.content_x - origin.x + x,
+            top + shaped.row_height,
+        );
+        self.context_menu = Some(ContextMenu {
+            position,
+            target: Some(offset),
+        });
+        cx.notify();
+    }
+
+/// Resolves a window point against the last frame's layout.
     pub(crate) fn display_hit(&self, window: &mut Window, position: Point<Pixels>) -> Option<Hit> {
         let layout = &self.layout;
         if layout.line_height <= px(0.) || layout.visible.is_empty() {
