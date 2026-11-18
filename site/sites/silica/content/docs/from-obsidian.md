@@ -45,8 +45,8 @@ Be realistic about this list before you make Silica your daily reader.
   not open. A `.canvas` does, in a canvas view of its own.
 - **A few settings controls.** Most rows write; the font pickers, spellcheck languages,
   excluded files, accent color and the theme list do not.
-- **Popout windows and multiple vaults in one window**, PDF export, heading folding,
-  drag-and-drop in Files, inline title editing, pasting attachments.
+- **Popout windows, and two vaults side by side in one window.** Heading folding, PDF
+  export, drag-and-drop in Files, inline title editing and pasting attachments are all in.
 
 The full list, kept honest, is [what differs from
 Obsidian](/docs/reference/differences/).

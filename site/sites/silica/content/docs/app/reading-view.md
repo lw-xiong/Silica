@@ -87,11 +87,7 @@ The gaps, honestly. None of these are in reading view today:
 |---|---|
 | Math (`$x$`, `$$x$$`) | The source text, unrendered |
 | HTML in a note | The tags as literal text |
-| Remote images (`https://…`) | Nothing; local images work |
 | Bases (`.base`) | The format round-trips on disk, but there is no base view. A `.canvas` does open, in a canvas view of its own |
-| Heading folding | Headings do not collapse |
-| Editing a property | The properties table is read-only here; edit it in [Live Preview](/docs/app/editing/) |
-| PDF export | Not implemented |
 
 Frontmatter edge cases match Obsidian: a `<script>` in a note is removed, unknown HTML
 elements are unwrapped, and a raw `<a>` gains `target` and `rel`.

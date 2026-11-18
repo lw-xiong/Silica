@@ -23,7 +23,6 @@ Things Obsidian does that Silica intends to do and does not.
 | **Math** | Typeset with a KaTeX-compatible engine rather than MathJax: the common syntax renders alike, a MathJax-only command shows its source in red. No `\newcommand` across formulas, no `\require` |
 | **HTML in notes** | Parsed, shown as literal text |
 | **Mermaid diagrams** | Not rendered |
-| **PDF viewing and export** | A PDF opens in a viewer with Obsidian's toolbar, sidebar and find bar, and `![[x.pdf]]` embeds it; the text cannot be selected or copied, and there is no export |
 | **Audio and video players** | Recognized as file kinds; no player |
 
 ### Views
