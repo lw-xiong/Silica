@@ -27,25 +27,23 @@ allowed to go down:
 | Suite | Result |
 |---|---|
 | CommonMark 0.31.2 | **652 of 652** spec examples render byte-identical HTML |
-| Obsidian 1.13.7 reading view | **1,007 of 1,009** corpus notes render the same canonical HTML |
+| Obsidian 1.13.7 reading view | **1,008 of 1,009** corpus notes render the same canonical HTML |
 
 The corpus is a real 1,009-note vault rendered by Obsidian itself, kept as expected output.
 A third suite renames every note in it under every link format, moves its folders, and
 renames its attachments, checking each time that every resolved link still resolves to the
 same file, that no link appears or disappears, and that nothing outside the links changed.
 
-### The two notes that differ
+### The one note that differs
 
-Honesty about a ratchet means naming what it does not cover. Two corpus notes do not match,
-on three constructs:
+Honesty about a ratchet means naming what it does not cover. One corpus note,
+`edge/Probe Inlines`, does not match, on how Obsidian splits runs of `~~` and `==` longer
+than two: `~~~~` renders an empty strikethrough, `~~x~~~y~~` closes with two of the three
+tildes, and in `==== four ==x===y==` the mark opens on the run's second pair. Nested
+`****a****` emphasis and a wikilink inside Markdown link text both match now.
 
-- Nested delimiter runs such as `****a****`.
-- `==== four ==x===y==`.
-- A wikilink inside Markdown link text, which Obsidian splits the link on.
-
-All three are degenerate cases that no one writes on purpose. They are tracked rather than
-hidden, and the suite is set at 1,007 so that a regression elsewhere cannot hide behind
-them.
+It is a degenerate case that no one writes on purpose. It is tracked rather than hidden,
+and the suite is set at 1,008 so that a regression elsewhere cannot hide behind it.
 
 ### What tier 1 covers beyond Markdown
 

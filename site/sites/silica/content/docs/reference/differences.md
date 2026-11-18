@@ -50,9 +50,12 @@ Nothing left in this table yet.
 
 ### Markdown edge cases
 
-Two of the 1,009 corpus notes do not match Obsidian's output, on three constructs: nested
-delimiter runs such as `****a****`, `==== four ==x===y==`, and a wikilink inside Markdown
-link text (which Obsidian splits the link on). See [compatibility](/docs/reference/compatibility/).
+One of the 1,009 corpus notes does not match Obsidian's output: `edge/Probe Inlines`,
+on how Obsidian splits runs of `~~` and `==` longer than two (`~~~~` renders an empty
+strikethrough, `~~x~~~y~~` closes with two of the three tildes, and in
+`==== four ==x===y==` the mark opens on the run's second pair). Nested `****a****`
+emphasis and a wikilink inside Markdown link text both match now. See
+[compatibility](/docs/reference/compatibility/).
 
 ## Deliberately different
 
