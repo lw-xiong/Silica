@@ -21,7 +21,7 @@ Things Obsidian does that Silica intends to do and does not.
 | | |
 |---|---|
 | **Math** | Typeset with a KaTeX-compatible engine rather than MathJax: the common syntax renders alike, a MathJax-only command shows its source in red. No `\newcommand` across formulas, no `\require` |
-| **HTML in notes** | Parsed, shown as literal text |
+| **HTML in notes** | The common tags render — inline formatting, `<a href>`, `<br>`, a raw `<table>`, block containers; scripts, comments, lists and unknown tags show as source |
 | **Audio and video players** | Recognized as file kinds; no player |
 
 ### Views

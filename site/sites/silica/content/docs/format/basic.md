@@ -125,10 +125,12 @@ should, and match Obsidian:
 
 ## HTML in notes
 
-Raw HTML is parsed as Obsidian parses it, but **not rendered**; the tags show as literal
-text in reading view. The one place it has an effect is frontmatter sanitising, where a
-`<script>` is removed, unknown elements are unwrapped, and a raw `<a>` gains `target` and
-`rel`. Rendering HTML is a later phase.
+The tags Silica knows render in reading view: inline formatting (`<b>`, `<i>`, `<u>`,
+`<s>`, `<sup>`, `<sub>`, `<mark>`, `<code>`), `<a href>`, `<br>`, a raw `<table>`, and
+block containers like `<div>`. Everything else — scripts, comments, lists, an `<img>`
+mixed with text, any tag it does not know — shows as source, whole, so nothing is
+half-drawn. Frontmatter sanitising matches Obsidian either way: a `<script>` is removed,
+unknown elements are unwrapped, and a raw `<a>` gains `target` and `rel`.
 
 ## Escaping
 
