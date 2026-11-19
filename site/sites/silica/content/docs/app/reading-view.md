@@ -79,15 +79,12 @@ Fenced code blocks never wrap. A long line scrolls sideways inside its own block
 The view lays out one item per top-level block, measured lazily, so only what is on screen is
 ever laid out. A 50,000-line note opens and scrolls like a short one.
 
-## Not yet
+## What renders, and what shows as source
 
-The gaps, honestly. None of these are in reading view today:
-
-| Not drawn | What you see instead |
-|---|---|
-| Math (`$x$`, `$$x$$`) | The source text, unrendered |
-| HTML in a note | Common tags render; scripts, comments, lists and unknown tags show as source |
-| Bases (`.base`) | Drawn inside the note, rows linking to their files |
+Math (`$x$`, `$$x$$`) typesets, images and embeds draw, and HTML renders for the tags
+Silica knows. The rest of what a note can hold — scripts, comments, lists inside raw HTML,
+any tag Silica does not know — shows as source, whole, so nothing is half-drawn. The
+current gap list is [what differs from Obsidian](/docs/reference/differences/).
 
 Frontmatter edge cases match Obsidian: a `<script>` in a note is removed, unknown HTML
 elements are unwrapped, and a raw `<a>` gains `target` and `rel`.
