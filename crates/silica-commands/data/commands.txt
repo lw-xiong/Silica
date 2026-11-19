@@ -323,3 +323,5 @@ silica:sort-lines
 silica:duplicate-line
 silica:note-info
 silica:toggle-case
+silica:copy-embed
+silica:copy-block-ref

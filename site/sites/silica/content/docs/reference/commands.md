@@ -1,13 +1,13 @@
 ---
 title: Commands and hotkeys
-description: The commands Silica registers: the 256 Obsidian command ids, the 295 with an observed desktop name, the 41 with a default hotkey, and 290 ids Silica can actually run today (234 Obsidian + 56 `silica:`-prefixed), with every id and default key listed.
+description: The commands Silica registers: the 256 Obsidian command ids, the 295 with an observed desktop name, the 41 with a default hotkey, and 292 ids Silica can actually run today (234 Obsidian + 58 `silica:`-prefixed), with every id and default key listed.
 ---
 
 # Commands and hotkeys
 
 Silica registers **313 command ids**: the **256** exact strings Obsidian 1.12.7 registers, plus
-**58** `silica:`-prefixed ones. Of those, **295 have an observed desktop name**. **41** carry a
-default hotkey. **290** do something in Silica today.
+**60** `silica:`-prefixed ones. Of those, **295 have an observed desktop name**. **41** carry a
+default hotkey. **292** do something in Silica today.
 
 Those four numbers are different things and the difference is the point:
 
@@ -19,7 +19,7 @@ Those four numbers are different things and the difference is the point:
   palette](/docs/app/switcher/) offers only these; the [Hotkeys tab](/docs/hotkeys/) lists
   all 313, so you can see your bindings for everything else.
 
-Some of the 290 are runnable only in the right place, which is also how Obsidian treats
+Some of the 292 are runnable only in the right place, which is also how Obsidian treats
 them: **74** need an editor on screen with the keyboard in it, so they leave the palette in
 a reading leaf, and the **19 table commands** that act on an existing table are offered
 only while the cursor is in one. `graph:open-local` is not offered with no file open. The palette, the hotkey and the
@@ -203,13 +203,13 @@ A few keys belong to a widget rather than to the command registry, and are not r
 
 ## The full id list
 
-All 314 ids (256 Obsidian + 58 `silica:`-prefixed) live in `crates/silica-commands/data/commands.txt` in the repository, and the
+All 316 ids (256 Obsidian + 60 `silica:`-prefixed) live in `crates/silica-commands/data/commands.txt` in the repository, and the
 names in `data/names.txt` beside it. Settings' [Hotkeys tab](/docs/hotkeys/) shows the same
 list with your own bindings applied, which is usually the faster way to look one up.
 
 ## Silica-only commands
 
-58 `silica:`-prefixed ids exist only in Silica — no Obsidian equivalent. They cover the
+60 `silica:`-prefixed ids exist only in Silica — no Obsidian equivalent. They cover the
 app-level actions the spec calls out: `silica:copy-wikilink` / `silica:copy-path` /
 `silica:copy-embed` / `silica:copy-block-ref`, `silica:reveal-current-file`,
 `silica:canvas-zoom-in|out|reset|fit`, `silica:graph-zoom-in|out|reset-view`,

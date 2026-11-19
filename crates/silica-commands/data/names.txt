@@ -298,3 +298,5 @@ silica:sort-lines	Sort lines: Sort the selected lines
 silica:duplicate-line	Duplicate line: Duplicate the current line
 silica:note-info	Note info: Show the current note's file facts
 silica:toggle-case	Toggle case: Swap the case of the selection or word
+silica:copy-embed	Copy embed: Copy the current note as an embed
+silica:copy-block-ref	Copy block reference: Copy a link to the block under the cursor

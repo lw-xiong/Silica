@@ -3820,3 +3820,11 @@ Letters in the selection flip case; with no selection, the word under the
 caret does. The transform lives on the buffer (`TextBuffer::toggle_case`)
 with its own tests; the editor method restores the caret to the range end.
 Registry entry added. Bump 0.9.55.
+
+## silica:copy-embed / silica:copy-block-ref, 2026-11-15
+
+Both commands the site's command list already claimed but nothing
+dispatched: the embed copies `![[stem]]`, the block reference copies
+`[[stem#^id]]`, inserting the id when the block has none via the same
+editor call the section bookmark uses. Registry entries added. Bump
+0.9.56.

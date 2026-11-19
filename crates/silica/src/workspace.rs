@@ -671,6 +671,8 @@ pub const RUNNABLE: &[&str] = &[
     "silica:ai-chat",
     "silica:ai-summarize-note",
     "silica:copy-wikilink",
+    "silica:copy-embed",
+    "silica:copy-block-ref",
     "silica:copy-path",
     "silica:show-vault-folder",
     "silica:reveal-current-file",
@@ -6356,6 +6358,34 @@ impl Workspace {
                 }
                 None => self.report("No note is open", cx),
             },
+            "silica:copy-embed" => match self.current.clone() {
+                Some(path) => {
+                    let stem = basename(&path).trim_end_matches(".md");
+                    cx.write_to_clipboard(ClipboardItem::new_string(format!("![[{stem}]]")));
+                    self.report(format!("Copied ![[{stem}]]"), cx);
+                }
+                None => self.report("No note is open", cx),
+            },
+            "silica:copy-block-ref" => {
+                if self.editing_or_report(id, window, cx) {
+                    let Some(current) = self.current.clone() else {
+                        self.report("No note is open", cx);
+                        return;
+                    };
+                    let stem = basename(&current).trim_end_matches(".md").to_string();
+                    // * `block_id_at_cursor` inserts the id when the block
+                    //   has none, like Obsidian's copy-block-reference.
+                    let bid = self
+                        .editor
+                        .update(cx, |e, cx| e.block_id_at_cursor(window, cx));
+                    if let Some(bid) = bid {
+                        cx.write_to_clipboard(ClipboardItem::new_string(format!(
+                            "[[{stem}#^{bid}]]"
+                        )));
+                        self.report(format!("Copied [[{stem}#^{bid}]]"), cx);
+                    }
+                }
+            }
             "silica:copy-path" => match self.current.clone() {
                 Some(path) => {
                     cx.write_to_clipboard(ClipboardItem::new_string(path.clone()));
