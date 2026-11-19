@@ -26,7 +26,7 @@ Silica this afternoon and in Obsidian this evening, and neither will notice.
 | `bookmarks.json` | Read into the Bookmarks pane and written back in Obsidian's bytes |
 | `workspace.json` | The `main` tree of tab groups and the panes' own leaf state are read at restore and written back in place |
 | Canvas files | Opened in a canvas view and saved in Obsidian's bytes |
-| Bases files | Recognized, parsed and round-tripped on disk, but **not drawn yet** |
+| Bases files | Opened in the Bases view, drawn inside notes as embeds, and round-tripped on disk |
 
 ## What you will miss
 
@@ -41,8 +41,6 @@ Be realistic about this list before you make Silica your daily reader.
   shows its source in red. See [tables, code and math](/docs/format/code-math/).
 - **HTML in notes.** The common tags render; scripts, comments, lists and unknown tags
   show as source.
-- **The Bases view.** The Bases YAML format is implemented and round-trips; a `.base` does
-  not open. A `.canvas` does, in a canvas view of its own.
 - **A few settings controls.** Most rows write; the font pickers, spellcheck languages,
   excluded files, accent color and the theme list do not.
 - **Popout windows, and two vaults side by side in one window.** Heading folding, PDF
