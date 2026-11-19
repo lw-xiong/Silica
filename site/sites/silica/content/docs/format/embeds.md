@@ -40,11 +40,11 @@ the note doing the embedding.
 | Kind | In reading view |
 |---|---|
 | Local image | Displayed, with size hints honored |
-| Remote image (`https://…`) | **Not loaded yet** |
-| Audio, video | Recognized as a file kind; no player yet |
-| PDF | Recognized; no viewer yet |
-| Canvas | Not drawn inside a note. A `.canvas` opens in a canvas view of its own |
-| Base | Recognized and round-tripped on disk; no view yet |
+| Remote image (`https://…`) | Loaded, fetched and cached |
+| Audio, video | Local audio plays in Silica's own player; local video plays with ffmpeg decoding; other media opens in the system player |
+| PDF | The pages draw inside the note, and a `.pdf` opens in a viewer with Obsidian's toolbar, sidebar and find bar; text selects and copies |
+| Canvas | Drawn inside a note; a `.canvas` also opens in a canvas view of its own |
+| Base | Drawn inside a note, rows linking to their files; a `.base` also opens in the Bases view |
 
 Size hints are Obsidian's: `|400` sets the width, `|400x300` fits a box. A hint is not an
 alias, and Silica tells them apart the way Obsidian does, which is described next.

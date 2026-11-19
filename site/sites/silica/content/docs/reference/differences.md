@@ -22,14 +22,11 @@ Things Obsidian does that Silica intends to do and does not.
 |---|---|
 | **Math** | Typeset with a KaTeX-compatible engine rather than MathJax: the common syntax renders alike, a MathJax-only command shows its source in red. No `\newcommand` across formulas, no `\require` |
 | **HTML in notes** | The common tags render — inline formatting, `<a href>`, `<br>`, a raw `<table>`, block containers; scripts, comments, lists and unknown tags show as source |
-| **Audio and video players** | Recognized as file kinds; no player |
 
 ### Views
 
 | | |
 |---|---|
-| **Bases** | The Bases YAML format is implemented and round-trips; there is no base view. Canvas has one |
-| **A canvas embedded in a note** | `![[Board.canvas]]` is not drawn; the file opens in a view of its own |
 | **Popout windows** | Do not exist here |
 | **Multiple vaults in one window** | Run Silica once per vault |
 | **Local graph depth beyond 1**, arrows, timelapse, screenshot export | See [the graph](/docs/app/graph/) |

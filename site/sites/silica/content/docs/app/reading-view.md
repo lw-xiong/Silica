@@ -87,7 +87,7 @@ The gaps, honestly. None of these are in reading view today:
 |---|---|
 | Math (`$x$`, `$$x$$`) | The source text, unrendered |
 | HTML in a note | Common tags render; scripts, comments, lists and unknown tags show as source |
-| Bases (`.base`) | The format round-trips on disk, but there is no base view. A `.canvas` does open, in a canvas view of its own |
+| Bases (`.base`) | Drawn inside the note, rows linking to their files |
 
 Frontmatter edge cases match Obsidian: a `<script>` in a note is removed, unknown HTML
 elements are unwrapped, and a raw `<a>` gains `target` and `rel`.

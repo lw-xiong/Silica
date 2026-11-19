@@ -95,8 +95,8 @@ note is still not drawn.
 ## Bases
 
 `.base` files are Obsidian's Bases format, YAML. Silica implements the top-level keys and the
-recursive filter structure, and round-trips a base file unchanged. There is no base view
-yet: opening a `.base` says the kind is not supported.
+recursive filter structure, round-trips a base file unchanged, and opens one in the Bases
+view; `![[x.base]]` draws inside a note.
 
 ## What Silica writes, completely
 

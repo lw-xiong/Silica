@@ -49,14 +49,14 @@ Type part of a command's name and press Enter to run it. The order is Obsidian's
 Fuzzy matching is over command *names*, the ones you see, as in *Toggle reading view*, not
 `markdown:toggle-preview`.
 
-> **Note** The palette lists only the commands Silica can actually run, 127 of them today.
+> **Note** The palette lists only the commands Silica can actually run, 290 of them today.
 > This is the same way Obsidian hides a command whose check callback fails, and it means the
 > palette never offers you something that does nothing. Every command id is still listed in
 > Settings' [Hotkeys](/docs/hotkeys/) tab, so you can see and keep bindings for features that
 > are not implemented yet.
 
-The list also narrows with where you are, as Obsidian's does: 37 of those commands need an
-editor on screen with the keyboard in it, the fifteen commands that act on an existing table
+The list also narrows with where you are, as Obsidian's does: 74 of those commands need an
+editor on screen with the keyboard in it, the nineteen commands that act on an existing table
 appear only while the cursor is in one, and `graph:open-local` is gone with no file open.
 
 What is in the palette today: the palette and switcher themselves, Search, the graph and

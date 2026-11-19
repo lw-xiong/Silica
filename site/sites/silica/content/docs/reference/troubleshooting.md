@@ -63,14 +63,11 @@ HTML renders for the tags Silica knows; the rest shows as source. Remote images
 (`![…](https://…)`) load — fetched and cached — but a private-network or unreachable URL
 shows the fallback text instead of a picture.
 
-## A `.base` file does not open
+## A `.base` or `.canvas` file does not open
 
-Also current behavior: the Bases YAML format is implemented and round-trips on disk, but
-there is no base view yet, so the file is listed in Files and the main area says the kind is
-not supported. See [what differs](/docs/reference/differences/).
-
-A `.canvas` does open, in a canvas view of its own. If one does not, that is a bug worth
-[reporting](https://github.com/lw-xiong/Silica/issues) with the file.
+A `.canvas` opens in a canvas view of its own and a `.base` in the Bases view; both also
+draw inside a note as `![[x.canvas]]` and `![[x.base]]` embeds. If one does not, that is a
+bug worth [reporting](https://github.com/lw-xiong/Silica/issues) with the file.
 
 ## A link opened the wrong note
 
