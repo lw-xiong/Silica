@@ -3760,6 +3760,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "md5"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "490cc448043f947bae3cbee9c203358d62dbee0db12107a74be5c30ccfd09771"
+
+[[package]]
 name = "media"
 version = "0.1.0"
 source = "git+https://github.com/zed-industries/zed?rev=4ce18741ad2ea007cb20a1dd96d2a170d224cc01#4ce18741ad2ea007cb20a1dd96d2a170d224cc01"
@@ -6131,7 +6137,7 @@ dependencies = [
 
 [[package]]
 name = "silica"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "anyhow",
  "async-channel 2.5.0",
@@ -6168,6 +6174,7 @@ dependencies = [
  "silica-pdf",
  "silica-plugins",
  "silica-search",
+ "silica-spell",
  "silica-suggest",
  "silica-templates",
  "silica-text",
@@ -6178,7 +6185,7 @@ dependencies = [
 
 [[package]]
 name = "silica-ai"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "native-tls",
  "serde",
@@ -6187,7 +6194,7 @@ dependencies = [
 
 [[package]]
 name = "silica-bases"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "chrono",
  "indexmap",
@@ -6198,7 +6205,7 @@ dependencies = [
 
 [[package]]
 name = "silica-bench"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "rayon",
  "silica-cache",
@@ -6211,7 +6218,7 @@ dependencies = [
 
 [[package]]
 name = "silica-cache"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "serde",
  "serde_yaml",
@@ -6221,7 +6228,7 @@ dependencies = [
 
 [[package]]
 name = "silica-canvas"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "image",
  "resvg",
@@ -6233,7 +6240,7 @@ dependencies = [
 
 [[package]]
 name = "silica-commands"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "serde_json",
  "silica-formats",
@@ -6241,7 +6248,7 @@ dependencies = [
 
 [[package]]
 name = "silica-control"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "serde",
  "serde_json",
@@ -6250,7 +6257,7 @@ dependencies = [
 
 [[package]]
 name = "silica-flashcards"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "chrono",
  "serde",
@@ -6259,7 +6266,7 @@ dependencies = [
 
 [[package]]
 name = "silica-formats"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "indexmap",
  "serde",
@@ -6269,7 +6276,7 @@ dependencies = [
 
 [[package]]
 name = "silica-highlight"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "fancy-regex 0.16.2",
  "serde",
@@ -6278,7 +6285,7 @@ dependencies = [
 
 [[package]]
 name = "silica-llm-mcp"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "libc",
  "native-tls",
@@ -6288,11 +6295,11 @@ dependencies = [
 
 [[package]]
 name = "silica-markdown"
-version = "0.9.56"
+version = "0.9.57"
 
 [[package]]
 name = "silica-math"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "ab_glyph",
  "ratex-font",
@@ -6304,7 +6311,7 @@ dependencies = [
 
 [[package]]
 name = "silica-mcp"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "serde",
  "serde_json",
@@ -6313,21 +6320,21 @@ dependencies = [
 
 [[package]]
 name = "silica-net"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "url",
 ]
 
 [[package]]
 name = "silica-pdf"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "hayro",
 ]
 
 [[package]]
 name = "silica-plugins"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "chrono",
  "cpal 0.16.0",
@@ -6346,15 +6353,25 @@ dependencies = [
 
 [[package]]
 name = "silica-search"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "regex",
  "serde_yaml",
 ]
 
 [[package]]
+name = "silica-spell"
+version = "0.9.57"
+dependencies = [
+ "md5",
+ "silica-markdown",
+ "spellbook",
+ "tempfile",
+]
+
+[[package]]
 name = "silica-suggest"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "silica-cache",
  "silica-formats",
@@ -6365,11 +6382,11 @@ dependencies = [
 
 [[package]]
 name = "silica-templates"
-version = "0.9.56"
+version = "0.9.57"
 
 [[package]]
 name = "silica-text"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "regex",
  "serde",
@@ -6385,7 +6402,7 @@ dependencies = [
 
 [[package]]
 name = "silica-vault"
-version = "0.9.56"
+version = "0.9.57"
 dependencies = [
  "indexmap",
  "libc",
@@ -6512,6 +6529,16 @@ checksum = "eeb7109d23f319619d4cc0de5464613c8b7b1a09db2774a58101459cf6be2f10"
 dependencies = [
  "borsh",
  "serde_core",
+]
+
+[[package]]
+name = "spellbook"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d204abcbdf8e88729306a8d0ca01a79d8a49969fe1f84696909d6dbc4321c1a"
+dependencies = [
+ "foldhash 0.2.0",
+ "hashbrown 0.17.1",
 ]
 
 [[package]]

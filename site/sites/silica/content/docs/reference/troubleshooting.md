@@ -97,9 +97,9 @@ corpus of Obsidian's own output as a test ratchet, and a reproducing note gets a
 ## I cannot change a setting
 
 Most rows do write; see [Settings](/docs/settings/). The ones that do not are the controls
-Silica has no equivalent for yet: the three font families, spellcheck languages, excluded
-files, accent color, the theme list, and the vault name, vault folder, config folder and
-language rows, which are not settings of the vault at all. Change those in Obsidian, or edit
+Silica has no equivalent for yet: the three font families, excluded files, accent color, the
+theme list, and the vault name, vault folder, config folder and language rows, which are
+not settings of the vault at all. Change those in Obsidian, or edit
 the JSON in `.obsidian/` and reopen the vault.
 
 A row that writes but changes nothing you can see is a different thing, and the row says so

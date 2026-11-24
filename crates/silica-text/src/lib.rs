@@ -19,7 +19,6 @@ pub mod find;
 pub mod format;
 pub mod lists;
 mod plan;
-mod spell;
 pub mod table;
 pub mod wrap;
 
@@ -30,7 +29,6 @@ pub use buffer::{
 pub use format::BlockInsert;
 pub use format::{LinePrefix, LinkSyntax};
 pub use plan::{indent_plan, newline_plan, shifted};
-pub use spell::SpellChecker;
 
 /// Word/character counts for a note, as the status bar and the word-count
 /// command report them. A word is a maximal run of non-whitespace; markdown

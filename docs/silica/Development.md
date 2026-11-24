@@ -3828,3 +3828,26 @@ dispatched: the embed copies `![[stem]]`, the block reference copies
 `[[stem#^id]]`, inserting the id when the block has none via the same
 editor call the section bookmark uses. Registry entries added. Bump
 0.9.56.
+
+## Hunspell spellchecking, 2026-11-25
+
+The spellchecker had a 1,302-word list and flagged most real prose as
+misspelled. It now reads Hunspell dictionaries: the bundled SCOWL `en_US`
+(size 60, the dictionary Chromium's own `en-US` is built from, with its
+licence in `crates/silica-spell/dictionaries/en_US/`), or the dictionaries
+of the `spellcheckLanguages` setting when this machine has them, read from
+the desktop's Hunspell folders.
+
+New crate `silica-spell`, in three parts: `dict` reads a `.aff`/`.dic`
+pair (UTF-8 and ISO-8859-1), `custom` keeps the words "Add to dictionary"
+collects in Chromium's `Custom Dictionary.txt` format, under the app's
+configuration folder, and `text` says which bytes of a note are checked
+from the Markdown tree — code, URLs, tags, frontmatter, math and block ids
+are not, the inside of a wikilink is.
+
+The editor paints the squiggles from the parse's own result, so the check
+costs no extra pass, and a right-click on a misspelled word offers the
+dictionary's corrections and the word itself. The word being typed is left
+alone until the caret leaves it. The icons are the bundled `check` and
+`book-open`: there is no `spell-check` or `book-plus` glyph in the tree.
+Bump 0.9.57.

@@ -138,6 +138,7 @@ const INDONESIAN: &[(&str, &str)] = &[
     ("Undo", "Kembalikan"),
     ("Redo", "Ulangi"),
     ("Select all", "Pilih semua"),
+    ("Add to dictionary", "Tambahkan ke kamus"),
     ("Paste", "Tempel"),
     ("Graph", "Grafik"),
     ("Reload", "Muat ulang"),

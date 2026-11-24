@@ -41,7 +41,7 @@ Nothing left in this table yet.
 |---|---|
 | **System trash on Windows and macOS** | Implemented on Linux (freedesktop trash with a `.trashinfo` record); elsewhere it falls back to the vault's `.trash/` |
 | **Themes (`cssTheme`)** | Base theme, accent color and fonts are honored; a CSS theme is not. Tier 3 |
-| **A few Settings controls** | Most rows write. The font families, spellcheck languages, excluded files, accent color and the theme list do not, because the control Obsidian offers for them is one Silica has not built |
+| **A few Settings controls** | Most rows write. The font families, excluded files, accent color and the theme list do not, because the control Obsidian offers for them is one Silica has not built |
 | **A context menu on a side-pane row** | The Files view and the Search pane have one; the other panes do not |
 | **Vault-wide search and replace** | Replace works within one note |
 

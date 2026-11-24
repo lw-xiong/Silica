@@ -1,0 +1,20 @@
+[package]
+name = "silica-spell"
+description = "Spell checking: Hunspell dictionaries, a custom word list, and the words a note misspells"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+# A pure Rust reader of Hunspell `.aff`/`.dic` dictionaries, the format the
+# editor's own spellchecker uses.
+spellbook = "0.4"
+# The custom dictionary file carries an MD5 checksum of its words.
+md5 = "0.7"
+silica-markdown.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

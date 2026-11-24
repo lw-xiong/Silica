@@ -663,6 +663,14 @@ fn main() {
             bind_all_keys(cx, &registry);
             cx.set_global(Commands(registry));
 
+            // * The spellchecker's own words live in the app's configuration
+            //   folder, outside every vault, the way the editor's own
+            //   custom dictionary does.
+            if let Some(dir) = silica_vault::registry::config_dir() {
+                let path = silica_spell::CustomDictionary::path_in(&dir);
+                silica_spell::Speller::shared().load_custom(&path);
+            }
+
             // * Register native plugins compiled into Silica.
             silica_plugins::native_plugins::register_all();
 

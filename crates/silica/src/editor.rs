@@ -52,9 +52,9 @@ use silica_markdown::highlight::{flatten, highlight_lines, HighlightKind, Highli
 use silica_markdown::{Block, BlockKind, Document};
 use silica_suggest::{self as suggest};
 use silica_text::table::{self, TableCommand};
+use silica_spell::Speller;
 use silica_text::{
-    autopair, find, wrap, BlockInsert, Cursor, EditKind, LinePrefix, LinkSyntax, Sel, SpellChecker,
-    TextBuffer,
+    autopair, find, wrap, BlockInsert, Cursor, EditKind, LinePrefix, LinkSyntax, Sel, TextBuffer,
 };
 use std::collections::{HashMap, HashSet};
 use std::ops::Range;
@@ -248,6 +248,17 @@ pub enum EditorEvent {
     ToggleNumbered,
     /// Context menu: toggle blockquote on the current line.
     ToggleBlockquote,
+    /// Context menu: a misspelled word is replaced with a correction.
+    ReplaceSpelling {
+        /// The misspelled word's bytes in the buffer.
+        range: Range<usize>,
+        /// The correction to write in its place.
+        replacement: String,
+    },
+    /// Context menu: a misspelled word is added to the custom dictionary.
+    AddToDictionary {
+        word: String,
+    },
 }
 
 /// A table cell being typed into.
@@ -723,8 +734,12 @@ pub struct Editor {
     /// Whether text direction is right-to-left (`rightToLeft`). When on,
     /// lines are aligned to the right and shaped RTL.
     right_to_left: bool,
-    /// The spell checker: dictionary and misspelled-word positions.
-    spellchecker: SpellChecker,
+    /// The speller: the Hunspell dictionaries and the custom words. Shared
+    /// by every editor, so the dictionary is parsed once.
+    speller: Arc<Speller>,
+    /// The misspelled words of the last parse, as byte ranges over the
+    /// buffer's text. Empty while the spellchecker is off.
+    spell_ranges: Arc<Vec<Range<usize>>>,
     /// Live Preview: markers hidden and constructs rendered in place,
     /// except where the cursor is.
     live_preview: bool,
@@ -754,7 +769,7 @@ struct ContextMenu {
 /// One context menu row: label, icon, and the command it emits.
 #[derive(Clone)]
 struct MenuItem {
-    label: &'static str,
+    label: SharedString,
     icon: &'static str,
     event: EditorEvent,
 }
@@ -847,7 +862,8 @@ impl Editor {
             vim_insert_mode: false,
             spellcheck: false,
             right_to_left: false,
-            spellchecker: SpellChecker::new(),
+            speller: Speller::shared(),
+            spell_ranges: Arc::new(Vec::new()),
             live_preview: false,
             smart_indent_list: true,
             use_tab: true,
@@ -969,13 +985,33 @@ impl Editor {
         }
     }
 
-    pub fn set_spellcheck(&mut self, on: bool) {
-        self.spellcheck = on;
+    pub fn set_spellcheck(&mut self, on: bool, cx: &mut Context<Self>) {
+        if self.spellcheck != on {
+            self.spellcheck = on;
+            // * The misspelled words come out of the parse, so it has to
+            //   run again with the spellchecker on or off.
+            self.request_parse(cx);
+        }
     }
 
     /// Toggles spellchecking on or off (`editor:toggle-spellcheck`).
-    pub fn toggle_spellcheck(&mut self) {
-        self.spellcheck = !self.spellcheck;
+    pub fn toggle_spellcheck(&mut self, cx: &mut Context<Self>) {
+        let on = !self.spellcheck;
+        self.set_spellcheck(on, cx);
+    }
+
+    /// Replaces a misspelled word with a correction from the dictionary.
+    fn replace_spelling(&mut self, range: Range<usize>, replacement: &str, cx: &mut Context<Self>) {
+        self.buf.edit(range, replacement, EditKind::Other);
+        self.after_edit(None, cx, None);
+    }
+
+    /// Adds a misspelled word to the custom dictionary, so it is not
+    /// flagged again, and writes the dictionary to its file.
+    fn add_to_dictionary(&mut self, word: &str, cx: &mut Context<Self>) {
+        if self.speller.add_to_dictionary(word) {
+            self.request_parse(cx);
+        }
     }
 
     pub fn toggle_show_line_number(&mut self) {
@@ -1877,6 +1913,11 @@ impl Editor {
         let live = self.live_preview;
         let path = self.name.to_string();
         let fold_options = self.fold_options();
+        let spellcheck = self.spellcheck;
+        let speller = self.speller.clone();
+        // * The word the caret sits at the end of is the one being typed:
+        //   it is not flagged until the caret leaves it.
+        let typing = self.buf.head;
         self.pending_parse = Some(cx.spawn(async move |this, cx| {
             let result = cx
                 .background_executor()
@@ -1896,6 +1937,10 @@ impl Editor {
                         true => code_flairs(&text, &doc),
                         false => Vec::new(),
                     };
+                    let spell = match spellcheck {
+                        true => speller.misspellings(&doc, Some(typing)),
+                        false => Vec::new(),
+                    };
                     let elapsed = started.elapsed();
                     let spans = lines.iter().map(Vec::len).sum();
                     let words = text.split_whitespace().count();
@@ -1910,6 +1955,7 @@ impl Editor {
                         widgets,
                         flairs,
                         foldables,
+                        spell,
                     )
                 })
                 .await;
@@ -1933,6 +1979,7 @@ impl Editor {
                 }
                 editor.widgets = Arc::new(widgets);
                 editor.flairs = Arc::new(result.7);
+                editor.spell_ranges = Arc::new(result.9);
                 // * Unlike the decorations, a stale set of foldables is worse
                 //   than none: resolving the folds against another text's
                 //   lines would drop them. Only the parse of the current text
@@ -2484,9 +2531,16 @@ impl Editor {
     }
 
     /// The editor's right-click context menu items, matching Obsidian's.
-    fn menu_items(_target: Option<usize>) -> Vec<MenuItem> {
+    /// A right-click on a misspelled word puts the corrections the
+    /// dictionary knows first, and the word itself after them, as
+    /// Obsidian's menu does.
+    fn menu_items(&self, target: Option<usize>) -> Vec<MenuItem> {
         use EditorEvent as E;
-        let item = |label, icon, event| MenuItem { label, icon, event };
+        let item = |label: &'static str, icon, event| MenuItem {
+            label: label.into(),
+            icon,
+            event,
+        };
         let mut items: Vec<MenuItem> = vec![
             item(t("Cut"), "scissors", E::Cut),
             item(t("Copy"), "copy", E::Copy),
@@ -2513,6 +2567,33 @@ impl Editor {
         items.push(item(t("Bullet list"), "list", E::ToggleBullet));
         items.push(item(t("Numbered list"), "list-ordered", E::ToggleNumbered));
         items.push(item(t("Blockquote"), "quote", E::ToggleBlockquote));
+        // * The corrections of a misspelled word come first, the way
+        //   Obsidian's menu opens on the word that was clicked.
+        if let Some(at) = target {
+            if let Some(range) = Speller::word_at(&self.spell_ranges, at) {
+                let word = self.buf.text()[range.clone()].to_string();
+                if !self.speller.check(&word) {
+                    for suggestion in self.speller.suggest(&word) {
+                        items.insert(
+                            0,
+                            MenuItem {
+                                label: suggestion.clone().into(),
+                                icon: "check",
+                                event: E::ReplaceSpelling {
+                                    range: range.clone(),
+                                    replacement: suggestion,
+                                },
+                            },
+                        );
+                    }
+                    items.push(MenuItem {
+                        label: t("Add to dictionary").into(),
+                        icon: "book-open",
+                        event: E::AddToDictionary { word },
+                    });
+                }
+            }
+        }
         items
     }
 
@@ -2520,7 +2601,7 @@ impl Editor {
     fn render_menu(&self, cx: &mut Context<Self>) -> Option<gpui::AnyElement> {
         let menu = self.context_menu.as_ref()?;
         let theme = cx.global::<Theme>().clone();
-        let items = Self::menu_items(menu.target);
+        let items = self.menu_items(menu.target);
         let mut list = div()
             .id("editor-menu")
             .absolute()
@@ -2564,7 +2645,7 @@ impl Editor {
                         cx.listener(move |_this, _, _, cx| {
                             entity.update(cx, |e, cx| {
                                 e.context_menu = None;
-                                match item.event {
+                                match &item.event {
                                     EditorEvent::Cut => e.do_cut(None, cx),
                                     EditorEvent::Copy => e.do_copy(None, cx),
                                     EditorEvent::Paste => e.do_paste(None, cx),
@@ -2587,6 +2668,13 @@ impl Editor {
                                     EditorEvent::ToggleBullet => e.toggle_list(None, cx),
                                     EditorEvent::ToggleNumbered => e.toggle_list(None, cx),
                                     EditorEvent::ToggleBlockquote => e.toggle_blockquote(None, cx),
+                                    EditorEvent::ReplaceSpelling {
+                                        range,
+                                        replacement,
+                                    } => e.replace_spelling(range.clone(), replacement, cx),
+                                    EditorEvent::AddToDictionary { word } => {
+                                        e.add_to_dictionary(word, cx)
+                                    }
                                     _ => {}
                                 }
                             });
@@ -3581,11 +3669,16 @@ impl Element for EditorElement {
             let spellcheck_words = if editor.spellcheck {
                 let mut words = Vec::new();
                 for (visible, shaped) in &lines {
-                    let text = editor.buf.line_text(visible.line);
-                    for (start, end) in editor.spellchecker.misspelled(text) {
+                    let range = editor.buf.line_range(visible.line);
+                    for word in editor.spell_ranges.iter() {
+                        // * The ranges are over the whole buffer; the paint
+                        //   wants the line's own offsets.
+                        if word.start < range.start || word.end > range.end {
+                            continue;
+                        }
                         let unwrapped = &shaped.line.unwrapped_layout;
-                        let start_x = unwrapped.x_for_index(start);
-                        let end_x = unwrapped.x_for_index(end);
+                        let start_x = unwrapped.x_for_index(word.start - range.start);
+                        let end_x = unwrapped.x_for_index(word.end - range.start);
                         words.push((
                             start_x,
                             visible.top + visible.row_height - px(2.),

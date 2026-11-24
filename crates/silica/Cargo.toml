@@ -30,6 +30,7 @@ silica-search.workspace = true
 silica-suggest.workspace = true
 silica-templates.workspace = true
 silica-text.workspace = true
+silica-spell.workspace = true
 silica-bases.workspace = true
 silica-canvas.workspace = true
 silica-pdf.workspace = true

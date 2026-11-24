@@ -12,6 +12,7 @@ members = [
     "crates/silica-control",
     "crates/silica-search",
     "crates/silica-text",
+    "crates/silica-spell",
     "crates/silica-canvas",
     "crates/silica-bases",
     "crates/silica-suggest",
@@ -27,7 +28,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.9.56"
+version = "0.9.57"
 edition = "2021"
 rust-version = "1.85"
 repository = "https://github.com/lw-xiong/Silica.git"
@@ -43,6 +44,7 @@ silica-commands = { path = "crates/silica-commands" }
 silica-control = { path = "crates/silica-control" }
 silica-search = { path = "crates/silica-search" }
 silica-text = { path = "crates/silica-text" }
+silica-spell = { path = "crates/silica-spell" }
 silica-canvas = { path = "crates/silica-canvas" }
 silica-bases = { path = "crates/silica-bases" }
 silica-suggest = { path = "crates/silica-suggest" }

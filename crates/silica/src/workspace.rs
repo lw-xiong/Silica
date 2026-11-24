@@ -3766,7 +3766,9 @@ fn view_subscriptions(
             | EditorEvent::SetHeading2
             | EditorEvent::ToggleBullet
             | EditorEvent::ToggleNumbered
-            | EditorEvent::ToggleBlockquote => {
+            | EditorEvent::ToggleBlockquote
+            | EditorEvent::ReplaceSpelling { .. }
+            | EditorEvent::AddToDictionary { .. } => {
                 // * Handled directly in the editor's context menu handler.
             }
         }),
@@ -4403,6 +4405,15 @@ impl Workspace {
         //   force from the first frame, not from the next time someone opens
         //   Settings.
         crate::native_menus::apply(state, cx);
+        // * "Spellcheck languages": the dictionaries the spellchecker uses.
+        //   The bundled English one is the fallback when the setting is
+        //   empty, or when a language has no dictionary on this machine.
+        let languages = state.app().spellcheck_languages.clone().unwrap_or_default();
+        let speller = silica_spell::Speller::shared();
+        if speller.configured_languages() != languages {
+            let config_dir = silica_vault::registry::config_dir();
+            speller.set_languages(&languages, config_dir.as_deref());
+        }
         let readable = state.app().readable_line_length.unwrap_or(true);
         let properties =
             PropertiesInDocument::from_config(state.app().properties_in_document.as_deref());
@@ -4432,7 +4443,7 @@ impl Workspace {
                 e.set_show_line_number(state.app().show_line_number.unwrap_or(false));
                 e.set_show_indent_guide(state.app().show_indent_guide.unwrap_or(true));
                 e.set_vim_mode(state.app().vim_mode.unwrap_or(false));
-                e.set_spellcheck(state.app().spellcheck.unwrap_or(false));
+                e.set_spellcheck(state.app().spellcheck.unwrap_or(false), cx);
                 e.set_right_to_left(state.app().right_to_left.unwrap_or(false));
                 e.set_indent_options(smart, use_tab, tab_size);
                 e.set_property_types(state.property_types().clone());
@@ -6590,7 +6601,7 @@ impl Workspace {
             }
             "editor:toggle-spellcheck" => {
                 if self.editing_or_report(id, window, cx) {
-                    self.editor.update(cx, |e, _cx| e.toggle_spellcheck());
+                    self.editor.update(cx, |e, cx| e.toggle_spellcheck(cx));
                 }
             }
             "editor:toggle-line-numbers" => {
