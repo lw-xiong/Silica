@@ -1,0 +1,93 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  build:
+    name: build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    outputs:
+      archive: ${{ steps.archive.outputs.path }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwayland-dev libxkbcommon-dev libxkbcommon-x11-dev \
+            libfontconfig1-dev libfreetype-dev libssl-dev pkg-config \
+            libvulkan1 mesa-vulkan-drivers libgbm-dev libasound2-dev
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Clippy release gate
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+
+      - name: Build release
+        run: cargo build --release --locked --workspace
+
+      - name: Package release binaries
+        id: archive
+        shell: bash
+        run: |
+          set -e
+          version="${GITHUB_REF_NAME#v}"
+          case "${{ runner.os }}" in
+            Linux)   target="x86_64-unknown-linux-gnu"   ; suffix="tar.gz" ;;
+            Windows) target="x86_64-pc-windows-msvc"      ; suffix="zip"   ;;
+            macOS)   target="x86_64-apple-darwin"        ; suffix="tar.gz" ;;
+          esac
+          release_dir="target/release"
+          archive="silica-${version}-${target}.${suffix}"
+          case "${suffix}" in
+            tar.gz)
+              tar -czf "${archive}" \
+                -C "${release_dir}" silica silica-mcp silica-llm-mcp silica-bench
+              ;;
+            zip)
+              7z a -tzip "${archive}" \
+                "${release_dir}/silica.exe" \
+                "${release_dir}/silica-mcp.exe" \
+                "${release_dir}/silica-llm-mcp.exe" \
+                "${release_dir}/silica-bench.exe"
+              ;;
+          esac
+          echo "path=${archive}" >> "$GITHUB_OUTPUT"
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Silica ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          reuse_release: true
+          files: ${{ steps.archive.outputs.path }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload SHA256SUMS
+        shell: bash
+        run: |
+          set -e
+          version="${GITHUB_REF_NAME#v}"
+          sha256sum silica-${version}-*.tar.gz silica-${version}-*.zip 2>/dev/null > SHA256SUMS || true
+          if [ -f SHA256SUMS ]; then
+            gh release upload "${GITHUB_REF_NAME}" SHA256SUMS --clobber
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
