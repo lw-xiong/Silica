@@ -24,6 +24,18 @@ test:
 test-lib:
     cargo test --workspace --exclude silica
 
+# Test one crate only — fast feedback when you touched one crate
+test-crate name:
+    cargo test -p {{name}}
+
+# Type-check one crate only
+check-crate name:
+    cargo check -p {{name}} --all-targets
+
+# Lint one crate only
+clippy-crate name:
+    cargo clippy -p {{name}} --all-targets -- -D warnings
+
 # The Writer gate: round-trip the test corpus and a real vault through the text model
 roundtrip vault:
     SILICA_ROUNDTRIP_VAULT="{{vault}}" cargo test -p silica-text --test writer_roundtrip

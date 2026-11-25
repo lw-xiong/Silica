@@ -741,21 +741,48 @@ fn copy_assets(root: &Path, files: &[VaultFile], out: &Path) -> Result<(), Strin
     Ok(())
 }
 
-/// The stylesheet every page links. Deliberately small and quiet: a single
-/// column, the code and quote shapes, nothing a theme would own.
+/// The stylesheet every page links. One column, quiet colors, and real
+/// styling for the callouts, code blocks, tables, task lists, footnotes and
+/// images a note can carry. Deliberately no theme tokens — a browser's
+/// `color-scheme: light dark` and the page's own palette do theming.
 const STYLE: &str = ":root { color-scheme: light dark; }
-body { font: 16px/1.6 -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; }
-h1, h2, h3 { line-height: 1.25; }
-a { color: #4a6da7; }
-img, video { max-width: 100%; height: auto; }
-pre { background: #f4f4f4; padding: 0.75rem 1rem; border-radius: 6px; overflow-x: auto; }
-@media (prefers-color-scheme: dark) { pre { background: #1f1f23; } body { background: #141417; color: #e6e6e6; } }
-blockquote { border-inline-start: 3px solid #8888; margin-inline: 0; padding-inline-start: 1rem; color: inherit; opacity: 0.85; }
-table { border-collapse: collapse; }
-th, td { border: 1px solid #8884; padding: 0.3rem 0.6rem; }
+html { line-height: 1.5; }
+body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; color: inherit; background: inherit; }
+a { color: #4a6da7; text-decoration: underline; }
+img, video { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+h1 { font-size: 2rem; margin: 1.5rem 0 0.75rem; line-height: 1.25; }
+h2 { font-size: 1.5rem; margin: 1.5rem 0 0.75rem; line-height: 1.25; border-bottom: 1px solid; padding-bottom: 0.3rem; }
+h3 { font-size: 1.25rem; margin: 1.25rem 0 0.6rem; line-height: 1.25; }
+h4, h5, h6 { font-size: 1.1rem; margin: 1rem 0 0.5rem; }
+p { margin: 0 0 1rem; }
+ul, ol { margin: 0 0 1rem 1.5rem; }
+li { margin: 0.25rem 0; }
+hr { border: none; border-top: 1px solid; margin: 1.5rem 0; }
+pre { background: #f4f4f4; padding: 0.75rem 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; }
+code { font-family: ui-monospace, SFMono-Regular, 'Monaco', monospace; font-size: 0.875em; }
+pre code { padding: 0; font-size: inherit; }
+table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+th, td { border: 1px solid; padding: 0.35rem 0.6rem; text-align: left; }
+th { font-weight: 600; }
+blockquote { border-inline-start: 3px solid; margin-inline: 0 1rem; padding-inline-start: 1rem; color: inherit; opacity: 0.85; }
+.callout { border-radius: 6px; padding: 0.75rem 1rem; margin: 1rem 0; border-left: 4px solid; }
+.callout-title { font-weight: 600; display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 0.5rem; }
+.callout-title-inner { flex: 1; }
+.callout-content { margin-top: 0.5rem; }
+.task-list-item { display: flex; align-items: center; gap: 0.4rem; list-style: none; margin: 0.25rem 0; }
+.task-list-item-checkbox { width: 1rem; height: 1rem; cursor: pointer; }
+.footnotes { margin-top: 2rem; border-top: 1px solid; padding-top: 1rem; font-size: 0.9em; }
+.footnotes ol { margin: 0; padding-left: 1.5rem; }
+.footnotes li { margin: 0.4rem 0; }
+.footnote-ref, .footnote-link { text-decoration: none; }
+.mermaid, .mermaid-diagram { margin: 1rem 0; text-align: center; }
+@media (prefers-color-scheme: dark) {
+  pre { background: #1f1f23; }
+  body { background: #141417; color: #e6e6e6; }
+  a { color: #7a9ec9; }
+}
 a.internal-link[data-href]:not([href]) { color: #a33; }
 ";
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1018,5 +1045,28 @@ mod tests {
             !html.to_ascii_lowercase().contains("data:text/html"),
             "data:text/html survived: {html}"
         );
+    
     }
+
+    #[test]
+    fn the_stylesheet_covers_callouts_code_tables_and_footnotes() {
+        let style = STYLE;
+        for selector in [
+            ".callout", ".callout-title", ".callout-content",
+            ".task-list-item", ".task-list-item-checkbox",
+            ".footnotes", ".footnote-ref", ".footnote-link",
+            "pre", "code", "table", "th, td",
+            "h1", "h2", "h3",
+            ".mermaid", ".mermaid-diagram",
+        ] {
+            assert!(
+                style.contains(selector),
+                "stylesheet missing selector {selector}: {style}"
+            );
+        }
+        // Dark-mode override exists.
+        assert!(style.contains("@media (prefers-color-scheme: dark)"));
+    }
+
 }
+

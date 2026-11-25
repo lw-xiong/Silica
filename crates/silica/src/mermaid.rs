@@ -170,6 +170,97 @@ mod tests {
     }
 
     #[test]
+    fn renders_graph_alias() {
+        let diagram = "graph TD\n    A[Start] --> B{Decision}";
+        let image = render_mermaid(diagram, false).expect("graph rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_sequence_diagram() {
+        let diagram = "sequenceDiagram\n    Alice->>Bob: Hello\n    Bob-->>Alice: Hi";
+        let image = render_mermaid(diagram, false).expect("sequence rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_class_diagram() {
+        let diagram = "classDiagram\n    Animal <|-- Duck\n    Animal: +int age\n    Duck: +swim()";
+        let image = render_mermaid(diagram, false).expect("class rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_state_diagram() {
+        let diagram = "stateDiagram-v2\n    [*] --> Active\n    Active --> [*]";
+        let image = render_mermaid(diagram, false).expect("state rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_er_diagram() {
+        let diagram = "erDiagram\n    CUSTOMER ||--o{ ORDER : places\n    CUSTOMER: {\n        string name\n    }";
+        let image = render_mermaid(diagram, false).expect("er rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_pie_chart() {
+        let diagram = "pie\n    title Pets\n    \"Dogs\" : 10\n    Cats : 5";
+        let image = render_mermaid(diagram, false).expect("pie rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_xychart() {
+        let diagram = "xychart-beta\n    title Sales\n    x-axis [Mon, Tue, Wed]\n    y-axis \"Revenue\" 0 --> 200\n    line [50, 100, 150]";
+        let image = render_mermaid(diagram, false).expect("xychart rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_quadrant_chart() {
+        let diagram = "quadrantChart\n    title Reach and engagement\n    x-axis Low Reach --> High Reach\n    y-axis Low Engagement --> High Engagement\n    quadrant-1 We should expand\n    quadrant-2 Need to promote\n    quadrant-3 Re-evaluate\n    quadrant-4 May be improved\n    Example One: [0.9, 0.9]";
+        let image = render_mermaid(diagram, false).expect("quadrant rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_gantt() {
+        let diagram = "gantt\n    title Project\n    dateFormat  YYYY-MM-DD\n    section Design\n    Task       :a1, 2024-01-01, 30d";
+        let image = render_mermaid(diagram, false).expect("gantt rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_timeline() {
+        let diagram = "timeline\n    title History\n    section Early\n    Event : 2020 : Detail";
+        let image = render_mermaid(diagram, false).expect("timeline rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_journey() {
+        let diagram = "journey\n    title My day\n    section Morning\n    Wake up: 5: Me\n    section Evening\n    Sleep: 5: Me";
+        let image = render_mermaid(diagram, false).expect("journey rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_mindmap() {
+        let diagram = "mindmap\n    root((Root))\n        Child 1\n        Child 2";
+        let image = render_mermaid(diagram, false).expect("mindmap rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
+    fn renders_git_graph() {
+        let diagram = "gitGraph\n    commit\n    branch develop\n    checkout develop\n    commit";
+        let image = render_mermaid(diagram, false).expect("gitgraph rendered");
+        assert!(image.as_bytes(0).is_some_and(|b| !b.is_empty()));
+    }
+
+    #[test]
     fn catches_invalid_syntax() {
         let bad = "not a valid mermaid diagram at all %%%";
         let err = render_mermaid(bad, false);
