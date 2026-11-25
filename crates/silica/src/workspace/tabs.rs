@@ -23,6 +23,7 @@ impl Workspace {
             history_ix: self.history_ix,
             pinned: slot.map(|t| t.pinned).unwrap_or(false),
             leaf,
+            link: slot.and_then(|t| t.link.clone()),
             view_state,
         };
         match self.tabs.get_mut(self.active_tab) {
@@ -186,6 +187,9 @@ impl Workspace {
             }
         }
         self.remember_closed(ix, tab);
+        // * A link left with one tab is dissolved: the tab left behind
+        //   loses its link, as Obsidian does.
+        self.dissolve_lone_links();
         if self.tabs.is_empty() {
             // * A group whose last tab closes goes with it, as Obsidian's
             //   does, unless it is the only one.
@@ -424,6 +428,7 @@ impl Workspace {
         let (tab, mode_before_graph) = match path {
             None => (
                 Tab {
+                    link: None,
                     path: self.current.clone(),
                     mode: self.mode,
                     history: self.history.clone(),
@@ -441,6 +446,7 @@ impl Workspace {
                 let mode = self.default_mode();
                 (
                     Tab {
+                        link: None,
                         path: Some(path),
                         mode,
                         history: Vec::new(),
@@ -1762,9 +1768,25 @@ impl Workspace {
                             })
                             .when(!active, |d| d.hover(|s| s.text_color(theme.text_muted)))
                             .on_click(cx.listener(move |this, _, _, cx| {
+                                // * While picking a tab to link with, the
+                                //   click links the two instead of
+                                //   activating the tab.
+                                if this.linking.is_some() {
+                                    this.link_pick(group, ix, cx);
+                                    return;
+                                }
                                 this.activate_group(group, cx);
                                 this.activate_tab(ix, cx)
                             }))
+                            // * The tab's own menu: "Link with tab..." and
+                            //   "Unlink tab".
+                            .on_mouse_down(
+                                gpui::MouseButton::Right,
+                                cx.listener(move |this, _, _, cx| {
+                                    this.tab_context_menu = Some((group, ix));
+                                    cx.notify();
+                                }),
+                            )
                             // * Picking the tab up: the ghost is its title, and the
                             //   workspace is told so every group shows its zones.
                             .on_drag(drag, move |drag, grab, _, cx| {
@@ -1816,6 +1838,21 @@ impl Workspace {
                                             .text_ellipsis()
                                             .child(title),
                                     )
+                                    // * A linked tab carries the link that
+                                    //   joins it to the others of its link.
+                                    .when(tab.link.is_some(), |d| {
+                                        d.child(
+                                            div()
+                                                .id(("tab-link", ix))
+                                                .flex_shrink_0()
+                                                .w(px(18.))
+                                                .h(px(18.))
+                                                .flex()
+                                                .items_center()
+                                                .justify_center()
+                                                .child(icon("link", 14., theme.text_muted)),
+                                        )
+                                    })
                                     // * The close button: no wash of its own, its cross
                                     //   brightens from muted to normal under the pointer.
                                     .child(
@@ -1845,6 +1882,13 @@ impl Workspace {
                                             ),
                                     ),
                             )
+                            .children(self.render_tab_context_menu(
+                                group,
+                                ix,
+                                tab.link.is_some(),
+                                theme,
+                                cx,
+                            ))
                     }),
             )
             // * Stacked tabs: only the active tab is in the strip, so a
@@ -1949,6 +1993,75 @@ impl Workspace {
                         .bg(theme.accent),
                 ))
             })
+    }
+
+    /// The tab's own menu: "Link with tab..." on an unlinked tab,
+    /// "Unlink tab" on a linked one. It drops from the tab's top-left
+    /// corner, as Obsidian's tab menu does.
+    pub(crate) fn render_tab_context_menu(
+        &self,
+        group: u64,
+        ix: usize,
+        linked: bool,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> Option<gpui::AnyElement> {
+        if self.tab_context_menu != Some((group, ix)) {
+            return None;
+        }
+        let row = |id: gpui::ElementId, name: &'static str, theme: &Theme| {
+            div()
+                .id(id)
+                .flex()
+                .flex_row()
+                .items_center()
+                .gap(px(8.))
+                .px(px(8.))
+                .h(px(25.))
+                .rounded(px(4.))
+                .cursor_pointer()
+                .hover(|s| s.bg(theme.bg_alt))
+                .child(icon(name, ICON_SIZE, theme.text_muted))
+        };
+        let list = div()
+            .id(("tab-context-menu", ix))
+            .flex()
+            .flex_col()
+            .min_w(px(150.))
+            .p(px(6.))
+            .bg(theme.bg_secondary)
+            .border_1()
+            .border_color(theme.border)
+            .rounded(px(8.))
+            .shadow_lg()
+            .text_size(px(FONT_UI_SMALL))
+            .text_color(theme.text)
+            .occlude()
+            .on_mouse_down_out(cx.listener(|this, _, _, cx| {
+                this.tab_context_menu = None;
+                cx.notify();
+            }))
+            .child(if linked {
+                row(("tab-context-unlink", ix).into(), "link", theme)
+                    .on_click(cx.listener(move |this, _, _, cx| this.unlink_tab(group, ix, cx)))
+                    .child("Unlink tab")
+            } else {
+                row(("tab-context-link", ix).into(), "link", theme)
+                    .on_click(
+                        cx.listener(move |this, _, _, cx| this.start_link_pick(group, ix, cx)),
+                    )
+                    .child("Link with tab...")
+            });
+        Some(
+            deferred(
+                anchored()
+                    .offset(point(px(0.), px(2.)))
+                    .snap_to_window_with_margin(px(8.))
+                    .child(list),
+            )
+            .with_priority(1)
+            .into_any_element(),
+        )
     }
 
     pub(crate) fn toggle_tab_list_menu(&mut self, group: u64, cx: &mut Context<Self>) {

@@ -113,6 +113,9 @@ impl Workspace {
                     self.stash_active_group();
                 }
             }
+            // * Tabs whose link was restored on different files settle on
+            //   one, the later tab in the layout winning.
+            self.settle_restored_links(cx);
             // * The most recently used order Obsidian would have: the active
             //   group first, the rest in layout order.
             self.group_mru = {

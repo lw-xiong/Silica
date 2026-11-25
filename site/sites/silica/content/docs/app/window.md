@@ -55,6 +55,11 @@ groups or onto a group's edge to make a new one. `Ctrl + Tab` and `Ctrl + 1`…`
 tabs, and `editor:focus-left` and its three siblings move between groups. The `main`
 tree is written back to `workspace.json` in the shape Obsidian writes it.
 
+A tab's own menu (right-click) offers **Link with tab...** and **Unlink tab**. The next
+tab clicked joins the link, and the tabs of a link follow each other: whichever one opens
+a file, the others open it too, in their own mode. The link is the leaf's `group` in
+`workspace.json`, so it survives a restart.
+
 > **Note** Silica still opens its own default layout rather than restoring the one it
 > saved. Popout windows do not exist here.
 

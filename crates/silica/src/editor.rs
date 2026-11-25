@@ -50,9 +50,9 @@ use silica_formats::config::PropertyTypes;
 use silica_formats::properties::{self as props, PropertiesInDocument};
 use silica_markdown::highlight::{flatten, highlight_lines, HighlightKind, HighlightSpan};
 use silica_markdown::{Block, BlockKind, Document};
+use silica_spell::Speller;
 use silica_suggest::{self as suggest};
 use silica_text::table::{self, TableCommand};
-use silica_spell::Speller;
 use silica_text::{
     autopair, find, wrap, BlockInsert, Cursor, EditKind, LinePrefix, LinkSyntax, Sel, TextBuffer,
 };
@@ -256,9 +256,7 @@ pub enum EditorEvent {
         replacement: String,
     },
     /// Context menu: a misspelled word is added to the custom dictionary.
-    AddToDictionary {
-        word: String,
-    },
+    AddToDictionary { word: String },
 }
 
 /// A table cell being typed into.
@@ -2668,10 +2666,9 @@ impl Editor {
                                     EditorEvent::ToggleBullet => e.toggle_list(None, cx),
                                     EditorEvent::ToggleNumbered => e.toggle_list(None, cx),
                                     EditorEvent::ToggleBlockquote => e.toggle_blockquote(None, cx),
-                                    EditorEvent::ReplaceSpelling {
-                                        range,
-                                        replacement,
-                                    } => e.replace_spelling(range.clone(), replacement, cx),
+                                    EditorEvent::ReplaceSpelling { range, replacement } => {
+                                        e.replace_spelling(range.clone(), replacement, cx)
+                                    }
                                     EditorEvent::AddToDictionary { word } => {
                                         e.add_to_dictionary(word, cx)
                                     }

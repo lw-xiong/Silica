@@ -28,7 +28,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.9.57"
+version = "0.9.58"
 edition = "2021"
 rust-version = "1.85"
 repository = "https://github.com/lw-xiong/Silica.git"

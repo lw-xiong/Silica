@@ -117,6 +117,7 @@ mod bookmarks;
 mod calendar;
 mod feature_panes;
 mod files;
+mod linked_tabs;
 mod record;
 mod render;
 mod right_panes;
@@ -2334,6 +2335,9 @@ pub(crate) struct Tab {
     /// The `workspace.json` leaf this tab was restored from, so a layout
     /// nothing changed is written back with the keys Obsidian gave it.
     leaf: Option<Value>,
+    /// The leaf's `group`: tabs sharing it are linked, and a linked tab
+    /// follows the file another tab of its link opens.
+    link: Option<String>,
     /// A canvas tab's `viewState` (`x`, `y`, `zoom`): read from the leaf,
     /// kept current by the view's [`CanvasEvent::Viewport`] while the tab
     /// is on screen, and written back into the leaf. It lives here rather
@@ -2353,6 +2357,7 @@ impl Tab {
             history_ix: 0,
             pinned: false,
             leaf: None,
+            link: None,
             view_state: None,
         }
     }
@@ -3440,6 +3445,11 @@ pub struct Workspace {
     vault_switcher_hovered: bool,
     /// The group whose tab-list menu (the strip's `chevron-down`) is open.
     tab_list_menu: Option<u64>,
+    /// The tab whose own menu is open: its group and its index.
+    tab_context_menu: Option<(u64, usize)>,
+    /// The tab "Link with tab..." was picked on: its group and its index.
+    /// The next tab clicked is linked with it.
+    linking: Option<(u64, usize)>,
     /// The Quick Capture window while one is up; a stale handle means it
     /// was closed.
     capture_window: Option<gpui::WindowHandle<QuickCaptureWindow>>,
@@ -4176,6 +4186,8 @@ impl Workspace {
             vault_menu_open: false,
             vault_switcher_hovered: false,
             tab_list_menu: None,
+            tab_context_menu: None,
+            linking: None,
             capture_window: None,
             dashboard_window: None,
             help_window: None,
@@ -8263,6 +8275,9 @@ impl Workspace {
         subpath: Option<Subpath<'_>>,
         cx: &mut Context<Self>,
     ) {
+        // * A pick ends with the open that took the reader elsewhere: the
+        //   tab to link with is picked before the next note is opened.
+        self.linking = None;
         let Some(state) = self.state.clone() else {
             self.current = Some(path);
             return;
@@ -8300,6 +8315,8 @@ impl Workspace {
         if let Some(sub) = subpath {
             self.scroll_to_subpath(&path, &sub, &state, cx);
         }
+        // * The tabs linked with this one follow it to the file it opened.
+        self.follow_linked_tabs(cx);
     }
 
     fn show_file(&mut self, path: &str, state: &Arc<VaultState>, cx: &mut Context<Self>) {
@@ -9273,6 +9290,9 @@ impl Workspace {
             self.reveal_offset(entry.offset, cx);
         }
         self.request_focus_main(cx);
+        // * Back and forward move the tab, so the tabs linked with it
+        //   follow it to the note it went to.
+        self.follow_linked_tabs(cx);
     }
 
     /// Writes the view state into the entry the history is standing on,
@@ -9908,7 +9928,7 @@ fn tab_from_leaf(
         .and_then(Value::as_str);
     let inner = leaf.get("state").and_then(|s| s.get("state"));
     let file = inner.and_then(|s| s.get("file")).and_then(Value::as_str);
-    let tab = match (view, file) {
+    let mut tab = match (view, file) {
         (_, Some(file)) => {
             if !known(file) {
                 return None;
@@ -9927,6 +9947,7 @@ fn tab_from_leaf(
                 _ => default_mode,
             };
             Tab {
+                link: None,
                 path: Some(file.to_string()),
                 mode,
                 history: vec![HistoryEntry::new(file.to_string(), mode)],
@@ -9937,15 +9958,21 @@ fn tab_from_leaf(
             }
         }
         (Some("empty"), None) => Tab {
+            link: None,
             leaf: Some(leaf.clone()),
             ..Tab::empty(default_mode)
         },
         (Some("graph"), None) => Tab {
+            link: None,
             leaf: Some(leaf.clone()),
             ..Tab::empty(ViewMode::Graph)
         },
         _ => return None,
     };
+    tab.link = leaf
+        .get("group")
+        .and_then(Value::as_str)
+        .map(str::to_string);
     Some((id.to_string(), tab))
 }
 
@@ -10286,6 +10313,17 @@ fn leaf_json(tab: &Tab) -> Value {
         }
         if let Some(state) = leaf.get_mut("state").and_then(Value::as_object_mut) {
             state.insert("title".into(), json!(title));
+        }
+    }
+    // * The link is the leaf's `group`, as Obsidian records it.
+    if let Some(object) = leaf.as_object_mut() {
+        match &tab.link {
+            Some(link) => {
+                object.insert("group".into(), json!(link));
+            }
+            None => {
+                object.shift_remove("group");
+            }
         }
     }
     leaf
@@ -11463,6 +11501,7 @@ mod tests {
     fn a_restored_leaf_is_written_back_as_it_was_read() {
         let read = leaf("a1072f377b3d1c69", "Sub/Note.md", "source", false);
         let tab = Tab {
+            link: None,
             path: Some("Sub/Note.md".into()),
             mode: ViewMode::LivePreview,
             history: vec![HistoryEntry::new(
@@ -11478,9 +11517,36 @@ mod tests {
     }
 
     #[test]
+    fn a_linked_tab_is_written_back_with_its_group() {
+        let read = leaf("a1072f377b3d1c69", "Note.md", "source", false);
+        let mut tab = Tab {
+            path: Some("Note.md".into()),
+            mode: ViewMode::LivePreview,
+            history: Vec::new(),
+            history_ix: 0,
+            pinned: false,
+            leaf: Some(read.clone()),
+            link: None,
+            view_state: None,
+        };
+        // * A leaf restored with a group comes back linked.
+        let mut with_group = read.clone();
+        with_group["group"] = json!("e47f88ecd2cab5de");
+        let (_, restored) = tab_from_leaf(&with_group, ViewMode::LivePreview, &|_| true).unwrap();
+        assert_eq!(restored.link.as_deref(), Some("e47f88ecd2cab5de"));
+        // * A linked tab is written back with it.
+        tab.link = Some("e47f88ecd2cab5de".into());
+        assert_eq!(leaf_json(&tab)["group"], json!("e47f88ecd2cab5de"));
+        // * A tab that is not linked carries no group.
+        tab.link = None;
+        assert!(leaf_json(&tab).get("group").is_none());
+    }
+
+    #[test]
     fn a_mode_change_rewrites_only_the_mode_keys() {
         let read = leaf("a1072f377b3d1c69", "Note.md", "source", false);
         let tab = Tab {
+            link: None,
             path: Some("Note.md".into()),
             mode: ViewMode::Reading,
             history: Vec::new(),
@@ -11495,6 +11561,7 @@ mod tests {
         assert_eq!(written["state"]["state"]["mode"], json!("preview"));
         assert_eq!(written["state"]["state"]["source"], json!(false));
         let tab = Tab {
+            link: None,
             mode: ViewMode::Source,
             ..tab
         };
@@ -11509,6 +11576,7 @@ mod tests {
     #[test]
     fn a_canvas_tab_is_written_as_a_canvas_leaf() {
         let tab = Tab {
+            link: None,
             path: Some("Plans/Board.canvas".into()),
             mode: ViewMode::LivePreview,
             history: Vec::new(),
@@ -11540,6 +11608,7 @@ mod tests {
     #[test]
     fn a_base_tab_is_written_as_a_bases_leaf() {
         let tab = Tab {
+            link: None,
             path: Some("Shelf/Books.base".into()),
             mode: ViewMode::LivePreview,
             history: Vec::new(),
@@ -11583,6 +11652,7 @@ mod tests {
     #[test]
     fn a_pdf_tab_is_written_as_a_file_only_pdf_leaf() {
         let tab = Tab {
+            link: None,
             path: Some("Papers/Field.pdf".into()),
             mode: ViewMode::LivePreview,
             history: Vec::new(),
@@ -11625,6 +11695,7 @@ mod tests {
     fn a_tab_that_moved_to_another_note_gets_a_fresh_leaf() {
         let read = leaf("a1072f377b3d1c69", "Old.md", "source", false);
         let tab = Tab {
+            link: None,
             path: Some("New.md".into()),
             mode: ViewMode::LivePreview,
             history: Vec::new(),

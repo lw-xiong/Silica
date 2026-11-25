@@ -67,7 +67,10 @@ impl Speller {
 
     /// The bundled `en_US` dictionary and an empty custom list.
     pub fn bundled() -> Speller {
-        Speller::new(vec![Arc::new(Dictionary::bundled())], CustomDictionary::default())
+        Speller::new(
+            vec![Arc::new(Dictionary::bundled())],
+            CustomDictionary::default(),
+        )
     }
 
     /// The one speller the app shares: the bundled dictionary is parsed
@@ -114,7 +117,10 @@ impl Speller {
 
     /// The language codes the dictionaries were loaded for.
     pub fn configured_languages(&self) -> Vec<String> {
-        self.configured.lock().map(|c| c.clone()).unwrap_or_default()
+        self.configured
+            .lock()
+            .map(|c| c.clone())
+            .unwrap_or_default()
     }
 
     /// The custom words, in the order the file writes them.
@@ -145,11 +151,7 @@ impl Speller {
     /// Adds a word to the custom dictionary and writes the file, when one
     /// is known. False when the word was there already or is not valid.
     pub fn add_to_dictionary(&self, word: &str) -> bool {
-        let added = self
-            .custom
-            .lock()
-            .map(|mut c| c.add(word))
-            .unwrap_or(false);
+        let added = self.custom.lock().map(|mut c| c.add(word)).unwrap_or(false);
         if !added {
             return false;
         }
@@ -184,7 +186,12 @@ impl Speller {
     /// [`Speller::check`] with the verdicts already locked, so a whole
     /// note takes the lock once.
     fn check_with(&self, verdicts: &mut HashMap<String, bool>, word: &str) -> bool {
-        if self.dictionaries.read().map(|d| d.is_empty()).unwrap_or(true) || !text::is_checked(word)
+        if self
+            .dictionaries
+            .read()
+            .map(|d| d.is_empty())
+            .unwrap_or(true)
+            || !text::is_checked(word)
         {
             return true;
         }
@@ -203,7 +210,12 @@ impl Speller {
         if !text::is_checked(word) {
             return true;
         }
-        if self.custom.lock().map(|c| c.contains(word)).unwrap_or(false) {
+        if self
+            .custom
+            .lock()
+            .map(|c| c.contains(word))
+            .unwrap_or(false)
+        {
             return true;
         }
         self.dictionaries
@@ -253,7 +265,12 @@ impl Speller {
     ) -> Vec<Range<usize>> {
         let src = doc.source;
         let mut out = Vec::new();
-        if self.dictionaries.read().map(|d| d.is_empty()).unwrap_or(true) {
+        if self
+            .dictionaries
+            .read()
+            .map(|d| d.is_empty())
+            .unwrap_or(true)
+        {
             return out;
         }
         let Ok(mut verdicts) = self.verdicts.lock() else {

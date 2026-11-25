@@ -3851,3 +3851,23 @@ dictionary's corrections and the word itself. The word being typed is left
 alone until the caret leaves it. The icons are the bundled `check` and
 `book-open`: there is no `spell-check` or `book-plus` glyph in the tree.
 Bump 0.9.57.
+
+## Linked tabs, 2026-11-25
+
+A tab can now be linked with another. The tab's own menu (right-click) offers
+"Link with tab..." on an unlinked tab and "Unlink tab" on a linked one; the
+next tab clicked joins the link, and the tabs of a link follow each other to
+the file one of them opens, in their own mode. A link left with one tab is
+dissolved, so closing one of a pair leaves the other unlinked.
+
+The link is the leaf's `group` in `workspace.json`, the key Obsidian records
+it under: it is read back when the layout is restored and written back out,
+and a restored layout whose linked tabs came back on different files settles
+on one, the later tab in the layout winning.
+
+New module `crates/silica/src/workspace/linked_tabs.rs`: the rules
+(`joined_link`, `lone_links`, `followers`, `settled_leader`) are pure and
+tested, and the workspace side (the pick, the menu, the follow, the
+dissolve) sits on top of them. Links work between the groups of one window;
+a tab in a popout window carries its `group` but does not follow. Bump
+0.9.58.
