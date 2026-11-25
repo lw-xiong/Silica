@@ -3905,3 +3905,45 @@ group and the window keep a `LocalGraph` of their own (`TabGroup::graph_tab`,
 **The scope limit.** The graph is the local graph of one note: depth is fixed at one, and the
 graph has no filters or controls of its own, the way the right dock's graph pane has none.
 Bump 0.9.59.
+
+## HTML paste, 2026-11-25
+
+`crates/silica/src/html_to_markdown.rs` now writes the Markdown Obsidian writes for a pasted
+`text/html`, not a converter of our own shape. The HTML is parsed by html5ever (the WHATWG
+parser, `html5ever` and `markup5ever_rcdom` in the workspace dependencies), so a browser's
+fragment — Chromium's `<meta charset='utf-8'>`, its fragment markers, an unclosed `<li>` — is
+recovered the way the page itself was.
+
+The rules it holds to, each one observed from Obsidian 1.15.0 and frozen in
+`crates/silica/tests/obsidian_html_paste.json` (51 cases, pasted on 2026-11-15):
+
+- Blocks are a blank line apart; `<br>` is a hard break (two spaces and a newline); headings
+  are ATX; `<hr>` is `---`.
+- `b`/`strong` are `**`, `i`/`em` are `_`, `del`/`s` are `~~`, `mark` is `==`; the spaces just
+  inside a mark go outside it (`<b> x </b>` is ` **x** `), and an empty mark writes nothing.
+  `strike`, `u`, `sup`, `sub`, `kbd` and any other inline element write their text alone.
+- `<code>` is a code span whose backtick run is the shortest the text does not hold, padded
+  with a space when the text starts or ends with a backtick; `<pre><code>` is a fenced block,
+  three backticks plus a `language-x` class's `x`, the fence one longer than any fence inside.
+- A link is `[text](href "title")`, the href's spaces as `%20` and its parentheses escaped; an
+  anchor without an href writes its text. An image is `![alt](src "title")`.
+- Lists use `- ` and `1. ` (an `<ol start>` counts from there), children indented four spaces;
+  a task item's checkbox is `[x] ` or `[ ] `.
+- Tables are pipe tables with no padding, the alignment row from the header cells' `align`, a
+  cell's `|` escaped; a table with no header row gets an empty one.
+- Nothing is escaped: `*stars*` and `[[wiki]]` in the text stay as they are. Entities are
+  decoded, a no-break space kept as U+00A0.
+- `script`, `style`, `noscript`, comments, `iframe`, `video` and the document head write
+  nothing.
+
+One rule is ours and stricter than Obsidian's: a destination whose scheme is `javascript:`,
+`vbscript:` or `data:` keeps its text and loses its link, so a pasted page cannot hand the
+reader a live script.
+
+The fixtures live in `crates/silica/tests/obsidian_html_paste.json` and the test
+`every_fixture_converts_to_the_markdown_obsidian_writes` in the module converts each of them
+and compares the result with the text Obsidian's editor held after the paste. The paste path
+itself did not change: `editor/actions.rs` still reads the clipboard's HTML with
+`clipboard_html.rs` when `autoConvertHtml` is on and hands it to `convert`.
+
+Bump 0.9.60.

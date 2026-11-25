@@ -28,7 +28,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.9.59"
+version = "0.9.60"
 edition = "2021"
 rust-version = "1.85"
 repository = "https://github.com/lw-xiong/Silica.git"
@@ -55,6 +55,9 @@ silica-net = { path = "crates/silica-net" }
 silica-math = { path = "crates/silica-math" }
 silica-flashcards = { path = "crates/silica-flashcards" }
 silica-ai = { path = "crates/silica-ai" }
+
+html5ever = "0.40"
+markup5ever_rcdom = "0.40"
 
 anyhow = "1"
 bytes = "1"

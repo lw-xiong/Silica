@@ -1,0 +1,260 @@
+{
+  "source": "Obsidian 1.15.0 (installer 1.13.7), 2026-11-15: each html put on the clipboard and pasted with Ctrl+V into an empty Live Preview note; markdown is the editor text read back",
+  "cases": [
+    {
+      "id": "headings",
+      "html": "<h1>One</h1><h2>Two</h2><h3>Three</h3><h4>Four</h4><h5>Five</h5><h6>Six</h6>",
+      "markdown": "# One\n\n## Two\n\n### Three\n\n#### Four\n\n##### Five\n\n###### Six"
+    },
+    {
+      "id": "inline-marks",
+      "html": "<p><b>b</b> <strong>strong</strong> <i>i</i> <em>em</em> <del>del</del> <s>s</s> <strike>strike</strike> <code>code</code> <u>u</u> <mark>mark</mark> <sup>sup</sup> <sub>sub</sub> <kbd>kbd</kbd></p>",
+      "markdown": "**b** **strong** _i_ _em_ ~~del~~ ~~s~~ strike `code` u ==mark== sup sub kbd"
+    },
+    {
+      "id": "nested-marks",
+      "html": "<p><b>bold <i>both</i></b> and <em><strong>both2</strong></em> and <b> padded </b>x</p>",
+      "markdown": "**bold _both_** and _**both2**_ and **padded** x"
+    },
+    {
+      "id": "links",
+      "html": "<p><a href=\"https://example.com/a b?q=1&amp;r=2\">Example</a> <a href=\"https://example.com\" title=\"T\">titled</a> <a>no href</a> <a href=\"/rel/path\">relative</a> <a href=\"https://example.com/x\">https://example.com/x</a> <a href=\"mailto:a@b.c\">mail</a> <a href=\"#frag\">frag</a></p>",
+      "markdown": "[Example](https://example.com/a%20b?q=1&r=2) [titled](https://example.com \"T\") no href [relative](/rel/path) [https://example.com/x](https://example.com/x) [mail](mailto:a@b.c) [frag](#frag)"
+    },
+    {
+      "id": "images",
+      "html": "<p><img src=\"https://example.com/a.png\" alt=\"Alt text\"> <img src=\"https://example.com/b.png\"> <img src=\"https://example.com/c.png\" alt=\"t\" title=\"Title\" width=\"100\"></p>",
+      "markdown": "![Alt text](https://example.com/a.png) ![](https://example.com/b.png) ![t](https://example.com/c.png \"Title\")"
+    },
+    {
+      "id": "image-in-link",
+      "html": "<a href=\"https://example.com/page\"><img src=\"https://example.com/i.png\" alt=\"I\"></a>",
+      "markdown": "[![I](https://example.com/i.png)](https://example.com/page)"
+    },
+    {
+      "id": "ul-nested",
+      "html": "<ul><li>one</li><li>two<ul><li>two a</li><li>two b<ul><li>deep</li></ul></li></ul></li><li>three</li></ul>",
+      "markdown": "- one\n- two\n    - two a\n    - two b\n        - deep\n- three"
+    },
+    {
+      "id": "ol",
+      "html": "<ol><li>first</li><li>second<ol><li>inner</li></ol></li></ol><ol start=\"5\"><li>five</li><li>six</li></ol>",
+      "markdown": "1. first\n2. second\n    1. inner\n\n5. five\n6. six"
+    },
+    {
+      "id": "li-paragraphs",
+      "html": "<ul><li><p>para one</p><p>para two</p></li><li>plain</li></ul>",
+      "markdown": "- para one\n    \n    para two\n    \n- plain"
+    },
+    {
+      "id": "tasks",
+      "html": "<ul><li><input type=\"checkbox\" checked> done</li><li><input type=\"checkbox\"> todo</li></ul>",
+      "markdown": "- [x]  done\n- [ ]  todo"
+    },
+    {
+      "id": "table-thead",
+      "html": "<table><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>x | y</td><td><b>bold</b></td></tr></tbody></table>",
+      "markdown": "|A|B|\n|---|---|\n|1|2|\n|x \\| y|**bold**|"
+    },
+    {
+      "id": "table-no-thead",
+      "html": "<table><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></table>",
+      "markdown": "|   |   |\n|---|---|\n|a|b|\n|c|d|"
+    },
+    {
+      "id": "table-align-uneven",
+      "html": "<table><tr><th align=\"left\">L</th><th align=\"center\">C</th><th align=\"right\">R</th></tr><tr><td>1</td><td>2</td></tr></table>",
+      "markdown": "|L|C|R|\n|:--|:-:|--:|\n|1|2|"
+    },
+    {
+      "id": "pre",
+      "html": "<pre><code>fn main() {\n    println!(\"hi\");\n}</code></pre>",
+      "markdown": "```\nfn main() {\n    println!(\"hi\");\n}\n```"
+    },
+    {
+      "id": "pre-lang",
+      "html": "<pre><code class=\"language-rust\">let x = 1;\n</code></pre><pre class=\"lang-js\">var y;</pre>",
+      "markdown": "```rust\nlet x = 1;\n```\n\nvar y;"
+    },
+    {
+      "id": "blockquote",
+      "html": "<blockquote><p>quoted</p><blockquote><p>nested</p></blockquote></blockquote><p>after</p>",
+      "markdown": "> quoted\n> \n> > nested\n\nafter"
+    },
+    {
+      "id": "br-and-paras",
+      "html": "<p>line one<br>line two</p><p>second para</p><hr><p>after rule</p>",
+      "markdown": "line one  \nline two\n\nsecond para\n\n---\n\nafter rule"
+    },
+    {
+      "id": "entities",
+      "html": "<p>&amp; &lt;tag&gt; &quot;q&quot; &nbsp;nbsp&nbsp; &copy; &#8212; &eacute;</p>",
+      "markdown": "& <tag> \"q\"  nbsp  © — é"
+    },
+    {
+      "id": "script-style-comment",
+      "html": "<style>p{color:red}</style><p>visible</p><script>alert(1)</script><!-- comment --><noscript>ns</noscript>",
+      "markdown": "visible"
+    },
+    {
+      "id": "chromium-wrapper",
+      "html": "<meta charset='utf-8'><html><head></head><body><!--StartFragment--><span style=\"color: rgb(0, 0, 0);\">Hello <b>world</b></span><!--EndFragment--></body></html>",
+      "markdown": "Hello **world**"
+    },
+    {
+      "id": "plain-span-only",
+      "html": "<meta charset='utf-8'><html><head></head><body><!--StartFragment--><span>just text</span><!--EndFragment--></body></html>",
+      "markdown": "just text"
+    },
+    {
+      "id": "markdown-chars",
+      "html": "<p>*stars* _under_ # hash [brackets] `tick` 1. num &lt;angle&gt; a\\b ~tilde~ ==eq== [[wiki]] #tag</p>",
+      "markdown": "*stars* _under_ # hash [brackets] `tick` 1. num <angle> a\\b ~tilde~ ==eq== [[wiki]] #tag"
+    },
+    {
+      "id": "whitespace",
+      "html": "<p>a\n   b\t\tc</p>\n\n<div>div one</div><div>div two</div>",
+      "markdown": "a b c\n\ndiv one\n\ndiv two"
+    },
+    {
+      "id": "gdocs-spans",
+      "html": "<meta charset='utf-8'><html><head></head><body><!--StartFragment--><b style=\"font-weight:normal;\" id=\"docs-internal-guid-1\"><p dir=\"ltr\"><span style=\"font-weight:700;\">Bold by style</span><span style=\"font-style:italic;\"> italic by style</span></p></b><!--EndFragment--></body></html>",
+      "markdown": "**\n\nBold by style italic by style\n\n**"
+    },
+    {
+      "id": "headings-with-inline",
+      "html": "<h2><a href=\"https://e.com\">Linked</a> <code>code</code> heading</h2>",
+      "markdown": "## [Linked](https://e.com) `code` heading"
+    },
+    {
+      "id": "empty-elements",
+      "html": "<p></p><p><b></b></p><p>x</p><div></div>",
+      "markdown": "x"
+    },
+    {
+      "id": "dl-sup",
+      "html": "<dl><dt>Term</dt><dd>Definition</dd></dl>",
+      "markdown": "Term\n\nDefinition"
+    },
+    {
+      "id": "html-no-text",
+      "html": "<b>only html</b>",
+      "markdown": "**only html**"
+    },
+    {
+      "id": "text-differs",
+      "html": "<p>from html</p>",
+      "markdown": "from html"
+    },
+    {
+      "id": "iframe-video",
+      "html": "<p>before</p><iframe src=\"https://www.youtube.com/embed/x\"></iframe><video src=\"v.mp4\"></video><p>after</p>",
+      "markdown": "before\n\nafter"
+    },
+    {
+      "id": "inline-code-backtick",
+      "html": "<p><code>a`b</code> and <code>``x</code></p>",
+      "markdown": "``a`b`` and ` ``x `"
+    },
+    {
+      "id": "pre-with-backticks",
+      "html": "<pre><code>```\ninner\n```</code></pre>",
+      "markdown": "````\n```\ninner\n```\n````"
+    },
+    {
+      "id": "nested-list-in-ol-with-p",
+      "html": "<ol><li>one<ul><li>a</li></ul></li><li>two</li></ol>",
+      "markdown": "1. one\n    - a\n2. two"
+    },
+    {
+      "id": "center-font",
+      "html": "<center>centered</center><font color=\"red\">font</font>",
+      "markdown": "centered\n\nfont"
+    },
+    {
+      "id": "heading-in-li",
+      "html": "<ul><li><h3>Heading item</h3></li></ul>",
+      "markdown": "- ### Heading item"
+    },
+    {
+      "id": "br-only",
+      "html": "a<br><br><br>b",
+      "markdown": "a  \n  \n  \nb"
+    },
+    {
+      "id": "ol-start-alone",
+      "html": "<ol start=\"5\"><li>five</li><li>six</li></ol>",
+      "markdown": "5. five\n6. six"
+    },
+    {
+      "id": "ol-after-ul",
+      "html": "<ul><li>u</li></ul><ol><li>o1</li><li>o2</li></ol>",
+      "markdown": "- u\n\n1. o1\n2. o2"
+    },
+    {
+      "id": "link-escapes",
+      "html": "<p><a href=\"https://e.com/a_(b)\">parens</a> <a href=\"https://e.com/café?x=%20y\">unicode</a> <a href=\"https://e.com/q?a=&quot;b&quot;\" title='say \"hi\"'>quote</a> <a href=\"https://e.com/x\"></a> <a href=\"https://e.com/<b>\">angle</a> <a href=\" https://e.com/trim \">trim</a></p>",
+      "markdown": "[parens](https://e.com/a_\\(b\\)) [unicode](https://e.com/café?x=%20y) [quote](https://e.com/q?a=\"b\" \"say \\\"hi\\\"\") [](https://e.com/x)[angle](https://e.com/<b>) [trim](https://e.com/trim)"
+    },
+    {
+      "id": "img-odd",
+      "html": "<p><img alt=\"no src\"> <img src=\"https://e.com/a b.png\" alt=\"sp\"> <img src=\"https://e.com/(p).png\" alt=\"multi\nline alt\"></p>",
+      "markdown": " ![sp](https://e.com/a%20b.png) ![multi\nline alt](https://e.com/\\(p\\).png)"
+    },
+    {
+      "id": "table-cell-blocks",
+      "html": "<table><tr><th>h<br>two</th><th>h2</th></tr><tr><td><p>p1</p><p>p2</p></td><td colspan=\"2\">wide</td></tr></table>",
+      "markdown": "|h  <br>two|h2|\n|---|---|\n|p1<br><br>p2|wide|   |"
+    },
+    {
+      "id": "table-in-text",
+      "html": "<p>before</p><table><tr><th>a</th></tr><tr><td>1</td></tr></table><p>after</p>",
+      "markdown": "before\n\n|a|\n|---|\n|1|\n\nafter"
+    },
+    {
+      "id": "trailing-space-in-block",
+      "html": "<p>a </p>b<p> c</p>",
+      "markdown": "a\n\nb\n\nc"
+    },
+    {
+      "id": "code-with-markup",
+      "html": "<pre><code><span class=\"k\">let</span> x = <b>1</b>;\n\n\nend</code></pre><p><code>a <b>b</b></code></p>",
+      "markdown": "```\nlet x = 1;\n\n\nend\n```\n\n`a **b**`"
+    },
+    {
+      "id": "quote-with-list",
+      "html": "<blockquote><ul><li>a</li><li>b</li></ul></blockquote>",
+      "markdown": "> - a\n> - b"
+    },
+    {
+      "id": "emphasis-edge",
+      "html": "<p>a<em>b</em>c <strong> </strong> <em>x </em>y <b>multi<br>line</b></p>",
+      "markdown": "a_b_c _x_ y **multi  \nline**"
+    },
+    {
+      "id": "heading-br",
+      "html": "<h3>one<br>two</h3>",
+      "markdown": "### one  \ntwo"
+    },
+    {
+      "id": "unknown-and-section",
+      "html": "<section><article><custom-el>custom</custom-el></article></section><figure><img src=\"https://e.com/f.png\" alt=\"f\"><figcaption>cap</figcaption></figure>",
+      "markdown": "custom\n\n![f](https://e.com/f.png)\n\ncap"
+    },
+    {
+      "id": "list-loose-text",
+      "html": "<ul><li>one\n  <b>bold</b>\n</li><li>  two  </li></ul>",
+      "markdown": "- one **bold**\n- two"
+    },
+    {
+      "id": "ol-in-ul-depth",
+      "html": "<ul><li>a<ol><li>b<ul><li>c</li></ul></li></ol></li></ul>",
+      "markdown": "- a\n    1. b\n        - c"
+    },
+    {
+      "id": "crlf-text",
+      "html": "<p>line\r\nnext</p><pre><code>x\r\ny</code></pre>",
+      "markdown": "line next\n\n```\nx\ny\n```"
+    }
+  ]
+}

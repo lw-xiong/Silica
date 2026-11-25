@@ -188,6 +188,27 @@ wrote, the watcher's reload is skipped. If the note changed underneath an unedit
 it reloads and keeps your cursor. If you have unsaved edits, they are left alone; Silica
 will not throw away your typing to take the disk's version.
 
+## Pasting rich text
+
+A page puts two forms on the clipboard: the text you see, and the markup it is made of.
+With **Convert pasted HTML to Markdown** on (the default), a paste reads the markup and writes
+Markdown instead, the way Obsidian writes it:
+
+| Copied | Pasted |
+|---|---|
+| Headings | `## Heading` |
+| Bold, italic, strike, highlight | `**bold**`, `_italic_`, `~~strike~~`, `==highlight==` |
+| Lists and tasks | `- item`, `1. item`, `- [x] done` |
+| Quotes, rules, tables | `> quote`, `---`, a pipe table |
+| Code | `` `inline` `` and a fenced block with the language |
+| Links and images | `[text](url)`, `![alt](url)` |
+
+The HTML is parsed the way a browser parses it, so a fragment cut out of a page — with its
+`<meta charset>` and its fragment markers — comes through whole. What the page wrote as plain
+text stays plain text: nothing is escaped, so `*stars*` and `[[wiki]]` in the text stay as they
+are. A link whose scheme a browser would run (`javascript:`, `vbscript:`) or that wraps a
+document (`data:`) keeps its text and loses its link.
+
 ## Not yet
 
 File recovery, `Ctrl + hover` page previews, heading folding, indent guides and line
