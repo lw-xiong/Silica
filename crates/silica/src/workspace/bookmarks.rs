@@ -414,7 +414,20 @@ impl Workspace {
             self.current.is_some() && self.canvas.read(cx).path() == self.current.as_deref();
         let bases = self.current.is_some() && self.bases.read(cx).path() == self.current.as_deref();
         let pdf = self.current.is_some() && self.pdf.read(cx).path() == self.current.as_deref();
-        Self::main_view_for(self.mode, has_note, image, has_buffer, canvas, bases, pdf)
+        let local_graph = self
+            .tabs
+            .get(self.active_tab)
+            .is_some_and(local_graph_tab::is_local_graph);
+        Self::main_view_for(
+            self.mode,
+            has_note,
+            image,
+            has_buffer,
+            canvas,
+            bases,
+            pdf,
+            local_graph,
+        )
     }
 
     /// The rule itself, over what the views have to show: `has_note` is the
@@ -424,6 +437,7 @@ impl Workspace {
     /// Bases view does and `pdf` whether the PDF view does. None of a
     /// canvas, a base or a PDF has a reading or a source mode, so any of
     /// them is painted in every mode but the graph's.
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn main_view_for(
         mode: ViewMode,
         has_note: bool,
@@ -432,9 +446,13 @@ impl Workspace {
         canvas: bool,
         bases: bool,
         pdf: bool,
+        local_graph: bool,
     ) -> MainView {
         match mode {
             ViewMode::Graph => MainView::Graph,
+            // * A local graph is a tab of its own: it shows the graph, not
+            //   a note.
+            _ if local_graph => MainView::LocalGraph,
             _ if canvas => MainView::Canvas,
             _ if bases => MainView::Bases,
             _ if pdf => MainView::Pdf,
@@ -468,6 +486,7 @@ impl Workspace {
                 canvas: self.canvas.clone(),
                 bases: self.bases.clone(),
                 pdf: self.pdf.clone(),
+                graph_tab: self.graph_tab.clone(),
             };
         }
         let tab = g.tabs.get(g.active_tab);
@@ -486,6 +505,7 @@ impl Workspace {
             canvas: g.canvas.clone(),
             bases: g.bases.clone(),
             pdf: g.pdf.clone(),
+            graph_tab: g.graph_tab.clone(),
             stacked: g.stacked,
         }
     }
@@ -1291,8 +1311,22 @@ impl Workspace {
             view.current.is_some() && view.canvas.read(cx).path() == view.current.as_deref();
         let bases = view.current.is_some() && view.bases.read(cx).path() == view.current.as_deref();
         let pdf = view.current.is_some() && view.pdf.read(cx).path() == view.current.as_deref();
-        match Self::main_view_for(view.mode, has_note, image, has_buffer, canvas, bases, pdf) {
+        let local_graph = view
+            .tabs
+            .get(view.active_tab)
+            .is_some_and(local_graph_tab::is_local_graph);
+        match Self::main_view_for(
+            view.mode,
+            has_note,
+            image,
+            has_buffer,
+            canvas,
+            bases,
+            pdf,
+            local_graph,
+        ) {
             MainView::Canvas => view.canvas.clone().into_any_element(),
+            MainView::LocalGraph => view.graph_tab.clone().into_any_element(),
             MainView::Bases => view.bases.clone().into_any_element(),
             MainView::Pdf => view.pdf.clone().into_any_element(),
             MainView::Graph if self.graph_group() == Some(view.id) => {

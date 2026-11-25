@@ -50,8 +50,15 @@ number of nodes, so a 5,000-note graph does not try to paint 5,000 labels at onc
 `graph:open-local` shows the open note and the notes one link away from it, in either
 direction. Opening another note re-centres it on that note.
 
-> **Note** Depth is fixed at one. Obsidian's depth slider, and its local graph as a side pane
-> beside the note, are both still ahead.
+It opens in a group of its own beside the note, as a tab of that group, and that tab is
+**linked** with the note's tab: move to another note and the graph re-centres on it. The
+graph's tab is titled `Graph of <note>`, and the group keeps its own place when you split
+further.
+
+The keyboard stays in the note, so you keep typing with the graph beside you, and a node
+clicked in the graph opens in the note's tab, so the graph stays on screen.
+
+> **Note** Depth is fixed at one. Obsidian's depth slider is still ahead.
 
 ## How the layout works
 
@@ -69,7 +76,7 @@ a large graph stays smooth.
 
 ## Not yet
 
-- Local-graph depth beyond one, and the local graph as a side pane.
+- Local-graph depth beyond one.
 - Arrows on the edges.
 - The timelapse animation.
 - Screenshot export.

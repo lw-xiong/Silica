@@ -3871,3 +3871,37 @@ tested, and the workspace side (the pick, the menu, the follow, the
 dissolve) sits on top of them. Links work between the groups of one window;
 a tab in a popout window carries its `group` but does not follow. Bump
 0.9.58.
+
+## Local graph as a tab, 2026-11-25
+
+`graph:open-local` no longer opens the local graph in place of the note. It opens it in a
+group of its own beside the note, as a tab of that group, and that tab is **linked** with the
+note's tab, so the graph re-centres on the note the reader moves to.
+
+**The leaf.** A local-graph tab is a tab with no file and no history whose leaf is a
+`localgraph` leaf: the file it centres on is in the leaf's own `state`, and the link it shares
+with the note's tab is the leaf's `group`, as for every other tab. `leaf_json` writes that leaf
+back out, `tab_from_leaf` restores it, and the link survives a restart with the rest of the
+layout.
+
+**The title.** `Graph of <name>` while it has a note of its own, `Local graph` when it has none.
+
+**The follow.** `sync_local_graph_tabs` reads the file of the note tab each link holds and
+writes it into the graph's leaf and into the graph's own `LocalGraph` view, so the graph is
+about the note it is linked with. It runs when a file opens, when the tab history moves, and
+when a tab comes up. A graph whose note tab is gone follows the note the main area shows, and
+its title goes back to `Local graph`.
+
+**The keyboard.** The graph opens beside the note with the keyboard where it was, so the
+reader keeps typing in the note. A node clicked in the graph opens in the tab the graph is
+linked with, so the graph stays on screen: each group's `LocalGraph` is subscribed to its
+`GraphEvent::Open`, and the workspace routes it to the linked note's tab.
+
+**The new module.** `crates/silica/src/workspace/local_graph_tab.rs` holds the leaf rules
+(`is_local_graph`, `file_of`, `title`, `new_leaf`) and the workspace side (open, sync). Each
+group and the window keep a `LocalGraph` of their own (`TabGroup::graph_tab`,
+`Workspace::graph_tab`), so a graph in a group is that group's.
+
+**The scope limit.** The graph is the local graph of one note: depth is fixed at one, and the
+graph has no filters or controls of its own, the way the right dock's graph pane has none.
+Bump 0.9.59.

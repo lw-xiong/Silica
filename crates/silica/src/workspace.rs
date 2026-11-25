@@ -118,6 +118,7 @@ mod calendar;
 mod feature_panes;
 mod files;
 mod linked_tabs;
+mod local_graph_tab;
 mod record;
 mod render;
 mod right_panes;
@@ -1866,6 +1867,8 @@ pub(crate) enum MainView {
     Reading,
     Editor,
     Graph,
+    /// A local graph of its own, in a tab of its own.
+    LocalGraph,
     Canvas,
     Bases,
     Pdf,
@@ -1879,6 +1882,7 @@ impl MainView {
             MainView::Reading => "reading",
             MainView::Editor => "editor",
             MainView::Graph => "graph",
+            MainView::LocalGraph => "localgraph",
             MainView::Canvas => "canvas",
             MainView::Bases => "bases",
             MainView::Pdf => "pdf",
@@ -2365,6 +2369,10 @@ impl Tab {
     /// The tab's title as the strip shows it: the note's name, or Obsidian's
     /// "New tab" for one with nothing in it.
     fn title(&self) -> SharedString {
+        // * A local graph names the note it is about.
+        if local_graph_tab::is_local_graph(self) {
+            return local_graph_tab::title(self).into();
+        }
         leaf_title(self.path.as_deref(), self.mode)
     }
 }
@@ -2613,6 +2621,8 @@ struct TabGroup {
     canvas: Entity<CanvasView>,
     bases: Entity<BasesView>,
     pdf: Entity<PdfView>,
+    /// The group's own local graph, for a local-graph tab in it.
+    graph_tab: Entity<LocalGraph>,
     /// When set, the group's tabs are stacked: only the active tab shows
     /// in the strip, and a badge beside it cycles through the rest.
     stacked: bool,
@@ -2622,6 +2632,7 @@ struct TabGroup {
 }
 
 impl TabGroup {
+    #[allow(clippy::too_many_arguments)]
     fn new(
         id: u64,
         editor: Entity<Editor>,
@@ -2629,6 +2640,7 @@ impl TabGroup {
         canvas: Entity<CanvasView>,
         bases: Entity<BasesView>,
         pdf: Entity<PdfView>,
+        graph_tab: Entity<LocalGraph>,
         mode: ViewMode,
     ) -> TabGroup {
         let mut node = Map::new();
@@ -2647,6 +2659,7 @@ impl TabGroup {
             canvas,
             bases,
             pdf,
+            graph_tab,
             stacked: false,
             node,
         }
@@ -2703,6 +2716,8 @@ pub(crate) struct GroupView {
     canvas: Entity<CanvasView>,
     bases: Entity<BasesView>,
     pdf: Entity<PdfView>,
+    /// The group's own local graph, for a local-graph tab in it.
+    graph_tab: Entity<LocalGraph>,
 }
 
 /// The view-header title being renamed in place.
@@ -3518,6 +3533,9 @@ pub struct Workspace {
     /// The local graph pane in the right dock: the open note and its
     /// immediate neighbours, with no controls and no pan or zoom.
     local_graph: Entity<LocalGraph>,
+    /// The active group's local graph, shown in the main area when a
+    /// local-graph tab is the one on screen.
+    graph_tab: Entity<LocalGraph>,
     /// `![[Board.canvas]]` embeds, made once per path and reused: a canvas
     /// view holds a parsed scene, a viewport and a card cache, so making a
     /// new one on every paint would drop all three.
@@ -3809,7 +3827,15 @@ impl Workspace {
         let pdf = cx.new(PdfView::new);
         let graph = cx.new(GraphView::new);
         let local_graph = cx.new(LocalGraph::new);
+        let graph_tab = cx.new(LocalGraph::new);
         let subscriptions = vec![
+            // * A node clicked in the window's local graph opens in the note
+            //   the graph is linked with, so the graph stays on screen.
+            cx.subscribe(&graph_tab, |this, _, event: &GraphEvent, cx| {
+                if let GraphEvent::Open(path) = event {
+                    this.open_from_local_graph_tab(0, path.clone(), cx);
+                }
+            }),
             // * The filter is applied as the pane is drawn; a keystroke only
             //   has to ask for a draw.
             cx.subscribe(&backlink_filter, |_, _, event: &InputEvent, cx| {
@@ -4165,6 +4191,7 @@ impl Workspace {
             canvas.clone(),
             bases.clone(),
             pdf.clone(),
+            graph_tab.clone(),
             ViewMode::Reading,
         )];
         // ! Closing the window must not lose edits waiting for the autosave.
@@ -4225,6 +4252,7 @@ impl Workspace {
             pdf,
             graph,
             local_graph,
+            graph_tab,
             embedded_canvases: std::rc::Rc::new(std::cell::RefCell::new(
                 std::collections::HashMap::new(),
             )),
@@ -6442,7 +6470,7 @@ impl Workspace {
             //   Obsidian's `checkCallback` does rather than falling back to the
             //   global graph.
             "graph:open-local" if self.current.is_none() => {}
-            "graph:open-local" => self.show_graph(true, window, cx),
+            "graph:open-local" => self.open_linked_local_graph(window, cx),
             "silica:graph-zoom-in" => self
                 .graph
                 .update(cx, |g, cx| g.zoom_in(&GraphZoomIn, window, cx)),
@@ -8162,6 +8190,7 @@ impl Workspace {
             MainView::Reading => window.focus(&self.reading.focus_handle(cx), cx),
             MainView::Editor => window.focus(&self.editor.focus_handle(cx), cx),
             MainView::Graph => window.focus(&self.graph.focus_handle(cx), cx),
+            MainView::LocalGraph => window.focus(&self.graph_tab.focus_handle(cx), cx),
             MainView::Canvas => window.focus(&self.canvas.focus_handle(cx), cx),
             MainView::Bases => window.focus(&self.bases.focus_handle(cx), cx),
             MainView::Pdf => window.focus(&self.pdf.focus_handle(cx), cx),
@@ -8317,6 +8346,9 @@ impl Workspace {
         }
         // * The tabs linked with this one follow it to the file it opened.
         self.follow_linked_tabs(cx);
+        // * A local graph linked with this tab centres on the file it
+        //   opened.
+        self.sync_local_graph_tabs(cx);
     }
 
     fn show_file(&mut self, path: &str, state: &Arc<VaultState>, cx: &mut Context<Self>) {
@@ -9293,6 +9325,7 @@ impl Workspace {
         // * Back and forward move the tab, so the tabs linked with it
         //   follow it to the note it went to.
         self.follow_linked_tabs(cx);
+        self.sync_local_graph_tabs(cx);
     }
 
     /// Writes the view state into the entry the history is standing on,
@@ -9929,6 +9962,13 @@ fn tab_from_leaf(
     let inner = leaf.get("state").and_then(|s| s.get("state"));
     let file = inner.and_then(|s| s.get("file")).and_then(Value::as_str);
     let mut tab = match (view, file) {
+        // * A local graph is a tab with no file: the file it is about is
+        //   in its leaf, not its path.
+        (Some(local_graph_tab::VIEW_TYPE), _) => Tab {
+            link: None,
+            leaf: Some(leaf.clone()),
+            ..Tab::empty(default_mode)
+        },
         (_, Some(file)) => {
             if !known(file) {
                 return None;
@@ -10261,6 +10301,9 @@ fn leaf_json(tab: &Tab) -> Value {
             match (&tab.path, tab.mode) {
                 (Some(p), _) => file == Some(p.as_str()),
                 (None, ViewMode::Graph) => view == Some("graph"),
+                (None, _) if local_graph_tab::is_local_graph(tab) => {
+                    view == Some(local_graph_tab::VIEW_TYPE)
+                }
                 (None, _) => view == Some("empty"),
             }
         })
@@ -10280,6 +10323,11 @@ fn leaf_json(tab: &Tab) -> Value {
                 "type": "leaf",
                 "state": {"type": "graph", "state": {}, "icon": "lucide-git-fork", "title": title},
             }),
+            // * A local graph keeps its own leaf, with the file it is
+            //   about in it.
+            (None, _) if local_graph_tab::is_local_graph(tab) => {
+                local_graph_tab::new_leaf(local_graph_tab::file_of(tab).as_deref())
+            }
             (None, _) => json!({
                 "id": leaf_id(),
                 "type": "leaf",
@@ -11543,6 +11591,32 @@ mod tests {
     }
 
     #[test]
+    fn a_local_graph_tab_is_written_back_as_its_own_leaf() {
+        let tab = Tab {
+            link: Some("e47f88ecd2cab5de".into()),
+            path: None,
+            mode: ViewMode::Reading,
+            history: Vec::new(),
+            history_ix: 0,
+            pinned: false,
+            leaf: Some(local_graph_tab::new_leaf(Some("Notes/Board.md"))),
+            view_state: None,
+        };
+        let written = leaf_json(&tab);
+        assert_eq!(written["state"]["type"], json!("localgraph"));
+        assert_eq!(written["state"]["state"]["file"], json!("Notes/Board.md"));
+        assert_eq!(written["group"], json!("e47f88ecd2cab5de"));
+        // * A leaf restored with that type comes back as the same tab.
+        let (_, restored) = tab_from_leaf(&written, ViewMode::Reading, &|_| true).unwrap();
+        assert!(local_graph_tab::is_local_graph(&restored));
+        assert_eq!(restored.link.as_deref(), Some("e47f88ecd2cab5de"));
+        assert_eq!(
+            local_graph_tab::file_of(&restored).as_deref(),
+            Some("Notes/Board.md")
+        );
+    }
+
+    #[test]
     fn a_mode_change_rewrites_only_the_mode_keys() {
         let read = leaf("a1072f377b3d1c69", "Note.md", "source", false);
         let tab = Tab {
@@ -11862,7 +11936,16 @@ mod tests {
             assert_eq!(closed.path, fresh.path);
             assert_eq!(closed.title(), fresh.title());
             assert_eq!(
-                Workspace::main_view_for(closed.mode, false, false, false, false, false, false),
+                Workspace::main_view_for(
+                    closed.mode,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                ),
                 MainView::Empty
             );
             assert_eq!(
@@ -13154,64 +13237,100 @@ mod tests {
     fn the_main_area_paints_no_editor_without_a_file_behind_it() {
         for mode in [ViewMode::LivePreview, ViewMode::Source] {
             assert_eq!(
-                Workspace::main_view_for(mode, false, false, false, false, false, false),
+                Workspace::main_view_for(mode, false, false, false, false, false, false, false),
                 MainView::Empty,
                 "{mode:?} with nothing open"
             );
             assert_eq!(
-                Workspace::main_view_for(mode, true, false, true, false, false, false),
+                Workspace::main_view_for(mode, true, false, true, false, false, false, false),
                 MainView::Editor,
                 "{mode:?} with a note open"
             );
             // * The `--synthetic` spike hands the editor a note that is in no
             //   vault: the buffer names a file, and that is what mounts it.
             assert_eq!(
-                Workspace::main_view_for(mode, false, false, true, false, false, false),
+                Workspace::main_view_for(mode, false, false, true, false, false, false, false),
                 MainView::Editor,
                 "{mode:?} with a buffer that belongs to no vault"
             );
             assert_eq!(
-                Workspace::main_view_for(mode, true, true, true, false, false, false),
+                Workspace::main_view_for(mode, true, true, true, false, false, false, false),
                 MainView::Reading,
                 "{mode:?} over an image"
             );
         }
         assert_eq!(
-            Workspace::main_view_for(ViewMode::Reading, false, false, true, false, false, false),
+            Workspace::main_view_for(
+                ViewMode::Reading,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false
+            ),
             MainView::Empty,
             "a buffer is not a built note"
         );
         assert_eq!(
-            Workspace::main_view_for(ViewMode::Graph, false, false, false, false, false, false),
+            Workspace::main_view_for(
+                ViewMode::Graph,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ),
             MainView::Graph,
             "the graph needs no file"
         );
         for mode in [ViewMode::Reading, ViewMode::LivePreview, ViewMode::Source] {
             assert_eq!(
-                Workspace::main_view_for(mode, false, false, false, true, false, false),
+                Workspace::main_view_for(mode, false, false, false, true, false, false, false),
                 MainView::Canvas,
                 "{mode:?} over a canvas"
             );
             assert_eq!(
-                Workspace::main_view_for(mode, false, false, false, false, true, false),
+                Workspace::main_view_for(mode, false, false, false, false, true, false, false),
                 MainView::Bases,
                 "{mode:?} over a base"
             );
             assert_eq!(
-                Workspace::main_view_for(mode, false, false, false, false, false, true),
+                Workspace::main_view_for(mode, false, false, false, false, false, true, false),
                 MainView::Pdf,
                 "{mode:?} over a PDF"
             );
         }
         assert_eq!(
-            Workspace::main_view_for(ViewMode::Graph, false, false, false, false, false, true),
+            Workspace::main_view_for(
+                ViewMode::Graph,
+                false,
+                false,
+                false,
+                false,
+                false,
+                true,
+                false
+            ),
             MainView::Graph,
             "the graph wins over a PDF"
         );
         // * The graph is the one view that outranks a file: a canvas or a base
         //   open behind it stays behind it.
         assert_eq!(
-            Workspace::main_view_for(ViewMode::Graph, false, false, false, false, true, false),
+            Workspace::main_view_for(
+                ViewMode::Graph,
+                false,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false
+            ),
             MainView::Graph,
             "the graph wins over a base"
         );

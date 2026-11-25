@@ -74,6 +74,8 @@ impl Workspace {
         }
         self.request_focus_main(cx);
         self.sync_reading(cx);
+        // * A local graph tab shows the file it is about.
+        self.sync_local_graph_tabs(cx);
         cx.notify();
     }
 
@@ -305,6 +307,7 @@ impl Workspace {
         self.canvas = group.canvas.clone();
         self.bases = group.bases.clone();
         self.pdf = group.pdf.clone();
+        self.graph_tab = group.graph_tab.clone();
         let tab = self
             .tabs
             .get(self.active_tab)
@@ -363,17 +366,30 @@ impl Workspace {
         let canvas = cx.new(CanvasView::new);
         let bases = cx.new(BasesView::new);
         let pdf = cx.new(PdfView::new);
+        let graph_tab = cx.new(LocalGraph::new);
         self._subscriptions.extend(view_subscriptions(
             &editor, &reading, &canvas, &bases, &pdf, cx,
         ));
         let id = self.next_group_id;
         self.next_group_id += 1;
+        // * A node clicked in this group's local graph opens in the note
+        //   the graph is linked with, so the graph stays on screen.
+        self._subscriptions.push(cx.subscribe(
+            &graph_tab,
+            move |this, _, event: &GraphEvent, cx| {
+                if let GraphEvent::Open(path) = event {
+                    this.open_from_local_graph_tab(id, path.clone(), cx);
+                }
+            },
+        ));
         if let Some(state) = self.state.clone() {
             Self::give_editor_the_vault(&editor, &state, cx);
             Self::give_reading_the_vault(&reading, &state, cx);
+            graph_tab.update(cx, |g, cx| g.set_state(state.clone(), cx));
         }
-        self.groups
-            .push(TabGroup::new(id, editor, reading, canvas, bases, pdf, mode));
+        self.groups.push(TabGroup::new(
+            id, editor, reading, canvas, bases, pdf, graph_tab, mode,
+        ));
         if let Some(state) = self.state.clone() {
             self.apply_app_config(&state, cx);
         }
