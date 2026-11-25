@@ -6,12 +6,17 @@
 //! edge case. `LinkResolver` holds the vault-wide indexes needed to turn link
 //! text into a file path with Obsidian's rules.
 
+pub mod composer;
 pub mod index;
 pub mod links;
 pub mod properties;
 pub mod resolver;
 pub mod vault;
 
+pub use composer::{
+    counts, expand_template, joint, merge_notes, plan_extract, plan_merge, ExtractOptions,
+    ExtractPlan, MergePlan, Placement, Replacement, TemplateVars,
+};
 pub use links::{basename, link_path, rewrite_note, LinkFormat, Rewrite};
 pub use properties::note_properties;
 pub use resolver::LinkResolver;

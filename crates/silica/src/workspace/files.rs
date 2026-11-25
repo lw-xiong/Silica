@@ -7,6 +7,7 @@
 use regex::Regex;
 
 use super::*;
+use silica_cache::composer::{plan_extract, plan_merge, ExtractOptions, Placement, Replacement};
 
 /// The pending extraction: which section of which note moves out.
 pub(crate) struct ExtractSpec {
@@ -1406,17 +1407,71 @@ replaced with a link to it."
         if start >= lines.len() {
             return Err("That heading is no longer in the note".into());
         }
+        let start = start.min(lines.len());
         let end = end.min(lines.len());
-        let section = lines[start..end].join("\n");
         let path = state.new_note_path(name, Some(source));
         if state.vault().absolute(&path).exists() {
             return Err(format!("{} already exists", basename(&path)));
         }
-        state.create_note(&path, &format!("{section}\n"))?;
+        // * Byte range of the section the extraction takes: the template
+        //   wraps these exact bytes, and the source keeps the replacement.
+        let mut offset = 0usize;
+        let mut start_byte = 0usize;
+        let mut end_byte = text.len();
+        for (i, line) in text.split_inclusive('\n').enumerate() {
+            if i == start {
+                start_byte = offset;
+            }
+            if i == end {
+                end_byte = offset;
+                break;
+            }
+            offset += line.len();
+        }
+
+        let local = chrono::Local::now();
+        let naive = local.naive_local();
+        let stamp = templates::Stamp {
+            year: chrono::Datelike::year(&naive) as i64,
+            month: chrono::Datelike::month(&naive),
+            day: chrono::Datelike::day(&naive),
+            hour: chrono::Timelike::hour(&naive),
+            minute: chrono::Timelike::minute(&naive),
+            second: chrono::Timelike::second(&naive),
+        };
+        let composer = state.note_composer();
+        let template = composer
+            .template
+            .as_deref()
+            .map(|tpl| (tpl, stamp));
+        let format = LinkFormat::from_config(state.app().new_link_format.as_deref());
+        let link = silica_cache::links::link_path(
+            &state.vault().link_resolver(),
+            &path,
+            source,
+            format,
+        );
+        let plan = plan_extract(
+            source,
+            &text,
+            start_byte..end_byte,
+            &path,
+            None,
+            Placement::Append,
+            &ExtractOptions {
+                replacement: Replacement::from_config(
+                    state.note_composer().replacement_text.as_deref(),
+                ),
+                link: &format!("[[{link}|{heading}]]"),
+                template,
+            },
+        );
+        // * The new note holds the section (template applied when one is
+        //   set); the source keeps the replacement link in its place.
+        state.create_note(&path, &plan.target_text)?;
         let stem = basename(&path).trim_end_matches(".md").to_string();
-        let link = format!("[[{stem}|{heading}]]");
         let editor = self.editor.clone();
-        editor.update(cx, |e, cx| e.replace_lines(start, end, &link, window, cx));
+        editor.update(cx, |e, cx| e.replace_lines(start, end, &plan.replacement, window, cx));
         self.open_file(path, None, cx);
         Ok(format!("Extracted \"{heading}\" to {stem}"))
     }
@@ -1509,17 +1564,44 @@ link to it is rewritten. The current note is deleted."
         };
         let source_text = read_note(source)?;
         let target_text = read_note(&target)?;
-        // * Obsidian separates the two halves with one blank line; a
-        //   trailing newline on either side would otherwise stack into a
-        //   triple newline that the next save would happily write back.
-        let mut merged = format!(
-            "{}\n\n{}",
-            target_text.trim_end_matches(['\n', '\r']),
-            source_text.trim_end_matches(['\n', '\r'])
-        );
-        if source_text.ends_with('\n') {
-            merged.push('\n');
-        }
+        // * The link rewrites are planned against the pre-merge index, so a
+        //   failure leaves the vault consistent: every note still resolves
+        //   as it did.
+        let rewrites = state
+            .cache()
+            .plan_merge_rewrites(source, &target, state.link_format(), &|p| {
+                state.texts().get(p).map(|t| t.to_string())
+            });
+        // * The merge goes through the composer core: one frontmatter at
+        //   the top, bodies joined by the joint rule, the source wrapped in
+        //   the template when one is set. `rewrites` feeds `plan_merge`,
+        //   which applies the target's own rewrite first, so self-links
+        //   stay as written.
+        let local = chrono::Local::now();
+        let naive = local.naive_local();
+        let stamp = templates::Stamp {
+            year: chrono::Datelike::year(&naive) as i64,
+            month: chrono::Datelike::month(&naive),
+            day: chrono::Datelike::day(&naive),
+            hour: chrono::Timelike::hour(&naive),
+            minute: chrono::Timelike::minute(&naive),
+            second: chrono::Timelike::second(&naive),
+        };
+        let composer = state.note_composer();
+        let template = composer
+            .template
+            .as_deref()
+            .map(|tpl| (tpl, stamp));
+        let merged = plan_merge(
+            source,
+            &source_text,
+            &target,
+            &target_text,
+            Placement::Append,
+            template,
+            &rewrites,
+        )
+        .target;
 
         // * The link rewrites are planned against the pre-merge index and
         //   written before the source disappears, so a failure leaves the
@@ -1535,7 +1617,7 @@ link to it is rewritten. The current note is deleted."
         //   consistent instead of half-rewritten.
         let mut merge_write_errors: Vec<String> = Vec::new();
         let index_texts = state.texts();
-        for rw in &plan {
+        for rw in &rewrites {
             let absolute = state
                 .vault()
                 .write_path(&rw.new_path)

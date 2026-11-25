@@ -10,7 +10,7 @@
   <img alt="Rust" src="https://img.shields.io/badge/100%25-Rust-E8590C?style=flat-square&logo=rust&logoColor=white">
   <img alt="Linux, Windows, macOS" src="https://img.shields.io/badge/Linux%20%7C%20Windows%20%7C%20macOS-2b2b2b?style=flat-square">
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-2b2b2b?style=flat-square">
-  <img alt="v0.9.57" src="https://img.shields.io/badge/status-early%20alpha%20v0.9.60-f2545b?style=flat-square">
+  <img alt="v0.9.61" src="https://img.shields.io/badge/status-early%20alpha%20v0.9.61-f2545b?style=flat-square">
 </p>
 
 Silica is a native desktop knowledge base written in Rust on GPUI. It opens an Obsidian vault exactly as it sits on disk: the same `.obsidian` configuration, the same Markdown dialect, the same `.canvas` and `.base` files. Nothing is imported or converted, and the vault folder is the only source of truth. Silica is an independent, clean-room implementation and is not affiliated with Obsidian.
@@ -28,6 +28,8 @@ A `.canvas` opens in a canvas view; a `.pdf` opens in a native viewer with toolb
 Installed plugins in `.obsidian/plugins/` are classified as native, compatibility, or refused-with-reason. Compatibility plugins run in a per-plugin QuickJS host with a shimmed `app`; their commands appear in the palette and their settings tabs in Settings > Community plugins. A `silica.json` marker flags a native plugin targeting Silica itself.
 
 Every item in Obsidian's file explorer context menu now runs. **Merge entire file with...** is a three-way merge against the note on disk, with conflicts written as standard `<<<<<<<`/`=======`/`>>>>>>>` blocks rather than guessed away. **Open version history** lists the snapshots Silica records on every save — the last 30 per note, under `.obsidian/.silica-versions/` — and a restore lands in the buffer unsaved. **Open in new window** opens a popout, re-activating an existing one instead of duplicating it. **Show in system explorer** selects the file through D-Bus `FileManager1.ShowItems`, falling back to opening the containing folder. **Make a copy** on a folder copies the whole tree.
+
+The note composer gained its settings tab: "Text after extraction" (`link`/`embed`/`none`), a "Template file location" with `{{fromTitle}}`, `{{newTitle}}`, `{{date:FORMAT}}` and `{{content}}`, and "Confirm file merge". Merges join bodies with a blank line, blend two frontmatters into one (target keys first, source keys after, scalar clashes take the source's value, list clashes union), and wrap the source in the template when one is set. Extractions can land in an existing note by the same joint rule, and rewrites follow every link to the merged note.
 
 Reading view took the same pass: the properties block is editable there, text selects and copies, the inline title renames its file with link rewriting, and image embeds render inline mid-sentence instead of breaking the line. The view header's bookmark button bookmarks the open note through the same prompt as the palette. The file tree renames the same way: F2 or the row menu's **Rename...** turns the row's own label into the field — basename selected, click lands the caret, Enter rewrites links, and a name the filesystem refuses leaves the field open and says nothing.
 

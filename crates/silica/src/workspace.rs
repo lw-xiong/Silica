@@ -94,7 +94,8 @@ use silica_commands::{hotkey_label, keystroke, CommandRegistry};
 use silica_formats::bookmarks::{Bookmark, Bookmarks};
 use silica_formats::config::{
     self as config, AppConfig, AppearanceConfig, CommandPaletteConfig, CorePlugins,
-    DailyNotesConfig, Hotkeys, PropertyTypes, SwitcherConfig, TemplatesConfig, ZkPrefixerConfig,
+    DailyNotesConfig, Hotkeys, NoteComposerConfig, PropertyTypes, SwitcherConfig, TemplatesConfig,
+    ZkPrefixerConfig,
     CORE_PLUGINS, ZK_PREFIXER_DEFAULT_FORMAT,
 };
 use silica_formats::properties::{Change, PropertiesInDocument};
@@ -911,6 +912,9 @@ pub struct VaultState {
     templates: RwLock<TemplatesConfig>,
     /// The Daily notes plugin's settings.
     daily_notes: RwLock<DailyNotesConfig>,
+    /// The Note composer plugin's settings: which merge or extraction asks
+    /// first, what an extraction leaves behind, and the template.
+    note_composer: RwLock<NoteComposerConfig>,
     /// Every installed plugin, classified into what Silica can run —
     /// native, in the compatibility host, or refused with a reason.
     pub plugins: silica_plugins::Registry,
@@ -1010,6 +1014,9 @@ impl VaultState {
         let daily_notes = vault.daily_notes_config();
         note("daily-notes.json", daily_notes.as_ref().err());
         let daily_notes = daily_notes.unwrap_or_default();
+        let note_composer = vault.note_composer_config();
+        note("note-composer.json", note_composer.as_ref().err());
+        let note_composer = note_composer.unwrap_or_default();
         let property_types = vault.property_types();
         note("types.json", property_types.as_ref().err());
         let property_types = property_types.unwrap_or_default();
@@ -1062,6 +1069,7 @@ impl VaultState {
             switcher: RwLock::new(switcher),
             templates: RwLock::new(templates),
             daily_notes: RwLock::new(daily_notes),
+            note_composer: RwLock::new(note_composer),
             plugins,
             palette,
             property_types: RwLock::new(property_types),
@@ -1143,6 +1151,10 @@ impl VaultState {
         self.daily_notes.read().unwrap_or_else(|e| e.into_inner())
     }
 
+    pub fn note_composer(&self) -> RwLockReadGuard<'_, NoteComposerConfig> {
+        self.note_composer.read().unwrap_or_else(|e| e.into_inner())
+    }
+
     pub fn switcher(&self) -> RwLockReadGuard<'_, SwitcherConfig> {
         self.switcher.read().unwrap_or_else(|e| e.into_inner())
     }
@@ -1183,6 +1195,11 @@ impl VaultState {
             SettingChange::DailyNotes(config) => {
                 self.write_config("daily-notes.json", config)?;
                 *self.daily_notes.write().unwrap_or_else(|e| e.into_inner()) = config.clone();
+            }
+            SettingChange::NoteComposer(config) => {
+                let config = config.clone().with_defaults();
+                self.write_config("note-composer.json", &config)?;
+                *self.note_composer.write().unwrap_or_else(|e| e.into_inner()) = config;
             }
             SettingChange::Hotkeys(overrides) => {
                 // * Whole, not merged: an entry taken out is a command back

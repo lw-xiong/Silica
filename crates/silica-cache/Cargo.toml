@@ -11,5 +11,6 @@ publish.workspace = true
 [dependencies]
 silica-markdown.workspace = true
 silica-formats.workspace = true
+silica-templates.workspace = true
 serde.workspace = true
 serde_yaml.workspace = true

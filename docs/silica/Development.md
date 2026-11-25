@@ -3761,6 +3761,21 @@ Alias that runs the existing `note-composer:merge-file` flow (prompt,
 merge, link rewrites, delete) under the palette id names.txt lists. Bump
 0.9.48.
 
+## note-composer settings tab, 2026-11-26
+
+`note-composer.json` gained three rows under Settings > Core plugins >
+Note composer: "Text after extraction" (`link`/`embed`/`none`, read as
+`replacementText`), "Template file location" (`template`), and
+"Confirm file merge" (`askBeforeMerging`, on by default). The merge core
+now blends two frontmatters into one (target keys first, source keys
+after, scalar clash takes the source's value, list clash unions as a
+block list), joins bodies by the blank-line joint rule, wraps the source
+in the template when one is set (`{{fromTitle}}`, `{{newTitle}}`,
+`{{date:FORMAT}}`, `{{content}}`), and plans link rewrites through the
+rename planner so the merged-in self-link stays as written. Extractions
+leave a link, an embed, or nothing, can land in an existing note by the
+same joint rule, and rewrite every link to the merged note. Bump 0.9.61.
+
 ## window:zoom-in / window:zoom-out / window:reset-zoom, 2026-11-15
 
 Obsidian's window zoom hotkeys are the Electron font zoom, so they run the

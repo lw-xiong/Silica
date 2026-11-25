@@ -36,7 +36,8 @@ use gpui::{
 use serde_json::{json, Value};
 use silica_commands::{hotkey_label, keystroke, Command};
 use silica_formats::config::{
-    AppConfig, AppearanceConfig, CorePlugins, DailyNotesConfig, Hotkey, Hotkeys, SwitcherConfig,
+    AppConfig, AppearanceConfig, CorePlugins, DailyNotesConfig, Hotkey, Hotkeys, NoteComposerConfig,
+    SwitcherConfig,
     TemplatesConfig, CORE_PLUGINS, DAILY_NOTE_DEFAULT_FORMAT,
 };
 use silica_plugins::Tier;
@@ -250,12 +251,43 @@ flags!(
     SHOW_ALL_FILE_TYPES, "showAllFileTypes", show_all_file_types, false, false;
 );
 
+flags!(
+    ComposerFlag,
+    NoteComposerConfig,
+    ASK_BEFORE_MERGING, "askBeforeMerging", ask_before_merging, true, false;
+);
+
+/// "Text after extraction": `note-composer.json`'s `replacementText`, whose
+/// absent value is `link`.
+const COMPOSER_REPLACEMENT_TEXT: Typed = Typed {
+    key: "replacementText",
+    options: &[
+        ("Link to new file", "link"),
+        ("Embed new file", "embed"),
+        ("None", "none"),
+    ],
+    read: |state| {
+        state
+            .note_composer()
+            .replacement_text
+            .clone()
+            .unwrap_or_else(|| "link".to_string())
+    },
+    write: |state, value| {
+        let mut next = state.note_composer().clone();
+        next.replacement_text = Some(value.to_string());
+        SettingChange::NoteComposer(next)
+    },
+    shape: None,
+};
+
 /// What a toggle writes.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub(crate) enum Flag {
     App(AppFlag),
     Appearance(AppearanceFlag),
     Switcher(SwitcherFlag),
+    Composer(ComposerFlag),
     /// A core plugin in `core-plugins.json`, with what a vault without the
     /// file does.
     CorePlugin(&'static str, bool),
@@ -871,6 +903,7 @@ pub enum SettingChange {
     CommunityPlugins(Vec<String>),
     Templates(TemplatesConfig),
     DailyNotes(DailyNotesConfig),
+    NoteComposer(NoteComposerConfig),
     /// `hotkeys.json` whole: the map in the file's order with one entry
     /// added, changed or removed.
     Hotkeys(Hotkeys),
@@ -893,6 +926,7 @@ impl SettingChange {
             SettingChange::CommunityPlugins(_) => "community-plugins.json",
             SettingChange::Templates(_) => "templates.json",
             SettingChange::DailyNotes(_) => "daily-notes.json",
+            SettingChange::NoteComposer(_) => "note-composer.json",
             SettingChange::Hotkeys(_) => "hotkeys.json",
             SettingChange::Frame(_) => "silica.json",
             SettingChange::ConfigFolder(_) => "silica.json",
@@ -906,6 +940,7 @@ impl Flag {
             Flag::App(flag) => flag.is_on(&state.app()),
             Flag::Appearance(flag) => flag.is_on(&state.appearance()),
             Flag::Switcher(flag) => flag.is_on(&state.switcher()),
+            Flag::Composer(flag) => flag.is_on(&state.note_composer()),
             Flag::CorePlugin(id, default_on) => {
                 core_plugin_enabled(state.core_plugins().as_ref(), id, *default_on)
             }
@@ -924,6 +959,7 @@ impl Flag {
             Flag::App(flag) => SettingChange::App(flag.toggled(&state.app())),
             Flag::Appearance(flag) => SettingChange::Appearance(flag.toggled(&state.appearance())),
             Flag::Switcher(flag) => SettingChange::Switcher(flag.toggled(&state.switcher())),
+            Flag::Composer(flag) => SettingChange::NoteComposer(flag.toggled(&state.note_composer())),
             Flag::CorePlugin(id, _) => SettingChange::CorePlugins(toggled_core_plugin(
                 state.core_plugins().as_ref(),
                 id,
@@ -1302,6 +1338,10 @@ fn appearance_toggle(
 
 fn switcher_toggle(name: &str, desc: &str, switcher: &SwitcherConfig, flag: SwitcherFlag) -> Item {
     toggle(name, desc, flag.is_on(switcher), Flag::Switcher(flag))
+}
+
+fn composer_toggle(name: &str, desc: &str, state: &VaultState, flag: ComposerFlag) -> Item {
+    toggle(name, desc, flag.is_on(&state.note_composer()), Flag::Composer(flag))
 }
 
 /// "Language": `app.json`'s `locale`, read by [`crate::i18n`] at startup and
@@ -2633,6 +2673,14 @@ pub(crate) mod tests {
         assert_eq!(appearance.show_ribbon, Some(false));
         let switcher = SHOW_EXISTING_ONLY.toggled(&SwitcherConfig::default());
         assert_eq!(switcher.show_existing_only, Some(true));
+    }
+
+    #[test]
+    fn the_composer_flags_are_listed() {
+        assert_eq!(
+            ComposerFlag::ALL.iter().map(|f| f.key).collect::<Vec<_>>(),
+            ["askBeforeMerging"]
+        );
     }
 
     /// A vault with no `core-plugins.json` gets the whole default map, not

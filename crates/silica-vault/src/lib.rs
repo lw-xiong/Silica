@@ -13,7 +13,8 @@ use silica_cache::LinkResolver;
 use silica_formats::bookmarks::Bookmarks;
 use silica_formats::config::{
     AppConfig, AppearanceConfig, CommandPaletteConfig, CommunityPlugins, CorePlugins,
-    DailyNotesConfig, GraphConfig, Hotkeys, PluginManifest, PropertyTypes, SwitcherConfig,
+    DailyNotesConfig, GraphConfig, Hotkeys, NoteComposerConfig, PluginManifest, PropertyTypes,
+    SwitcherConfig,
     TemplatesConfig, DEFAULT_CONFIG_DIR,
 };
 use silica_formats::FileKind;
@@ -1337,6 +1338,11 @@ impl Vault {
 
     pub fn daily_notes_config(&self) -> Result<DailyNotesConfig, VaultError> {
         Ok(self.read_config("daily-notes.json")?.unwrap_or_default())
+    }
+
+    /// `note-composer.json`, the Note composer plugin's settings.
+    pub fn note_composer_config(&self) -> Result<NoteComposerConfig, VaultError> {
+        Ok(self.read_config("note-composer.json")?.unwrap_or_default())
     }
 
     /// Manifests of the community plugins installed under `plugins/`, sorted

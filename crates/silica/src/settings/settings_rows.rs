@@ -937,6 +937,40 @@ impl SettingsView {
                     ),
                 ]
             }
+            "note-composer" => {
+                vec![
+                    choice(
+                        "Text after extraction",
+                        "What to show in place of the selected text after extracting it.",
+                        state,
+                        COMPOSER_REPLACEMENT_TEXT,
+                    ),
+                    field(
+                        "Template file location",
+                        "Template file to use when merging or extracting. Available variables: {{content}}, {{fromTitle}}, {{newTitle}}, {{date:FORMAT}}, e.g. {{date:YYYY-MM-DD}}.",
+                        state,
+                        TextField {
+                            key: "template",
+                            placeholder: "",
+                            prefix: "",
+                            read: |s| s.note_composer().template.clone().unwrap_or_default(),
+                            // * A cleared row writes `""`; Obsidian keeps the
+                            //   key rather than dropping it.
+                            write: |s, value| {
+                                let mut next = s.note_composer().clone();
+                                next.template = Some(value.to_string());
+                                SettingChange::NoteComposer(next)
+                            },
+                        },
+                    ),
+                    composer_toggle(
+                        "Confirm file merge",
+                        "Prompt before merge two files.",
+                        state,
+                        ASK_BEFORE_MERGING,
+                    ),
+                ]
+            }
             _ => vec![item(
                 "Options not shown yet",
                 "Silica does not read this plugin's settings file yet.",

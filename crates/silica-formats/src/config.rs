@@ -538,6 +538,44 @@ pub struct ZkPrefixerConfig {
 /// Format default untuk awalan zk-prefixer.
 pub const ZK_PREFIXER_DEFAULT_FORMAT: &str = "YYYYMMDDHHmm";
 
+/// `note-composer.json`: the Note composer core plugin's settings.
+///
+/// The file is written only once something is set, and its in-memory default
+/// is `{"askBeforeMerging": true}`, which a first write carries too.
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
+pub struct NoteComposerConfig {
+    /// "Confirm file merge", on when absent.
+    #[serde(
+        default,
+        rename = "askBeforeMerging",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub ask_before_merging: Option<bool>,
+    /// "Text after extraction": `link`, `embed` or `none`.
+    #[serde(
+        default,
+        rename = "replacementText",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub replacement_text: Option<String>,
+    /// "Template file location": the template's vault path, `.md` and all;
+    /// clearing the row writes `""` rather than dropping the key.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub template: Option<String>,
+    #[serde(flatten)]
+    pub extra: Map<String, Value>,
+}
+
+impl NoteComposerConfig {
+    /// The config as the plugin saves it: its in-memory default,
+    /// `askBeforeMerging: true`, is written with the first change when the
+    /// file did not say.
+    pub fn with_defaults(mut self) -> NoteComposerConfig {
+        self.ask_before_merging.get_or_insert(true);
+        self
+    }
+}
+
 /// `plugins/<id>/manifest.json` of an installed community plugin.
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
 pub struct PluginManifest {
