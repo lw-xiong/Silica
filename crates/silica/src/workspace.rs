@@ -3803,6 +3803,12 @@ fn view_subscriptions(
             | EditorEvent::ToggleBold
             | EditorEvent::ToggleItalic
             | EditorEvent::ToggleHighlight
+            | EditorEvent::ToggleHighlightRed
+            | EditorEvent::ToggleHighlightOrange
+            | EditorEvent::ToggleHighlightYellow
+            | EditorEvent::ToggleHighlightGreen
+            | EditorEvent::ToggleHighlightBlue
+            | EditorEvent::ToggleHighlightPurple
             | EditorEvent::InsertWikilink
             | EditorEvent::InsertLink
             | EditorEvent::InsertEmbed
@@ -6647,13 +6653,13 @@ impl Workspace {
                         .next()
                         .and_then(silica_markdown::HighlightColor::from_name);
                     self.editor
-                        .update(cx, |e, cx| e.toggle_highlight(color, window, cx));
+                        .update(cx, |e, cx| e.toggle_highlight(color, Some(window), cx));
                 }
             }
             "editor:clear-formatting" => {
                 if self.editing_or_report(id, window, cx) {
                     self.editor
-                        .update(cx, |e, cx| e.clear_formatting(window, cx));
+                        .update(cx, |e, cx| e.clear_formatting(Some(window), cx));
                 }
             }
             "editor:toggle-spellcheck" => {

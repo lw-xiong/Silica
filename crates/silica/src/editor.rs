@@ -49,7 +49,7 @@ use gpui::{
 use silica_formats::config::PropertyTypes;
 use silica_formats::properties::{self as props, PropertiesInDocument};
 use silica_markdown::highlight::{flatten, highlight_lines, HighlightKind, HighlightSpan};
-use silica_markdown::{Block, BlockKind, Document};
+use silica_markdown::{Block, BlockKind, Document, HighlightColor};
 use silica_spell::Speller;
 use silica_suggest::{self as suggest};
 use silica_text::table::{self, TableCommand};
@@ -230,6 +230,18 @@ pub enum EditorEvent {
     ToggleItalic,
     /// Context menu: toggle highlight on the selection.
     ToggleHighlight,
+    /// Context menu: toggle red highlight on the selection.
+    ToggleHighlightRed,
+    /// Context menu: toggle orange highlight on the selection.
+    ToggleHighlightOrange,
+    /// Context menu: toggle yellow highlight on the selection.
+    ToggleHighlightYellow,
+    /// Context menu: toggle green highlight on the selection.
+    ToggleHighlightGreen,
+    /// Context menu: toggle blue highlight on the selection.
+    ToggleHighlightBlue,
+    /// Context menu: toggle purple highlight on the selection.
+    ToggleHighlightPurple,
     /// Context menu: insert a wikilink at the caret.
     InsertWikilink,
     /// Context menu: insert a markdown link at the caret.
@@ -1235,18 +1247,22 @@ impl Editor {
     pub fn toggle_highlight(
         &mut self,
         color: Option<silica_markdown::HighlightColor>,
-        window: &mut Window,
+        window: Option<&mut Window>,
         cx: &mut Context<Self>,
     ) {
         if self.buf.toggle_wrap_colored("==", color) {
-            self.after_edit(Some(window), cx, None);
+            self.after_edit(window, cx, None);
         }
     }
 
     /// `editor:clear-formatting`: the markers inside the selection go.
-    pub fn clear_formatting(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+    pub fn clear_formatting(
+        &mut self,
+        window: Option<&mut Window>,
+        cx: &mut Context<Self>,
+    ) {
         if self.buf.clear_formatting() {
-            self.after_edit(Some(window), cx, None);
+            self.after_edit(window, cx, None);
         }
     }
 
@@ -2552,6 +2568,24 @@ impl Editor {
             "highlighter",
             E::ToggleHighlight,
         ));
+        items.push(item(t("Toggle highlight red"), "highlighter", E::ToggleHighlightRed));
+        items.push(item(
+            t("Toggle highlight orange"),
+            "highlighter",
+            E::ToggleHighlightOrange,
+        ));
+        items.push(item(t("Toggle highlight yellow"), "highlighter", E::ToggleHighlightYellow));
+        items.push(item(
+            t("Toggle highlight green"),
+            "highlighter",
+            E::ToggleHighlightGreen,
+        ));
+        items.push(item(t("Toggle highlight blue"), "highlighter", E::ToggleHighlightBlue));
+        items.push(item(
+            t("Toggle highlight purple"),
+            "highlighter",
+            E::ToggleHighlightPurple,
+        ));
         items.push(item(t("Insert link"), "link", E::InsertLink));
         items.push(item(t("Insert wikilink"), "link-2", E::InsertWikilink));
         items.push(item(t("Insert embed"), "image", E::InsertEmbed));
@@ -2651,6 +2685,23 @@ impl Editor {
                                     EditorEvent::ToggleBold => e.toggle_wrap("**", None, cx),
                                     EditorEvent::ToggleItalic => e.toggle_wrap("*", None, cx),
                                     EditorEvent::ToggleHighlight => e.toggle_wrap("==", None, cx),
+                                    EditorEvent::ToggleHighlightRed => {
+                                        e.toggle_highlight(Some(HighlightColor::Red), None, cx)
+                                    }
+                                    EditorEvent::ToggleHighlightOrange => {
+                                        e.toggle_highlight(Some(HighlightColor::Orange), None, cx)
+                                    }
+                                    EditorEvent::ToggleHighlightYellow => e
+                                        .toggle_highlight(Some(HighlightColor::Yellow), None, cx),
+                                    EditorEvent::ToggleHighlightGreen => e
+                                        .toggle_highlight(Some(HighlightColor::Green), None, cx),
+                                    EditorEvent::ToggleHighlightBlue => e
+                                        .toggle_highlight(Some(HighlightColor::Blue), None, cx),
+                                    EditorEvent::ToggleHighlightPurple => e.toggle_highlight(
+                                        Some(HighlightColor::Purple),
+                                        None,
+                                        cx,
+                                    ),
                                     EditorEvent::InsertWikilink => {
                                         // * Handled by typing [[ in the editor
                                     }
