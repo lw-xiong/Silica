@@ -21,6 +21,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     outputs:
       archive: ${{ steps.archive.outputs.path }}
+      sha: ${{ steps.archive.outputs.sha }}
     steps:
       - uses: actions/checkout@v7
 
@@ -69,7 +70,9 @@ jobs:
                 "${release_dir}/silica-bench.exe"
               ;;
           esac
+          (sha256sum "${archive}" 2>/dev/null || shasum -a 256 "${archive}") > "${archive}.sha256"
           echo "path=${archive}" >> "$GITHUB_OUTPUT"
+          echo "sha=${archive}.sha256" >> "$GITHUB_OUTPUT"
 
       - uses: softprops/action-gh-release@v2
         with:
@@ -78,19 +81,9 @@ jobs:
           draft: false
           prerelease: false
           reuse_release: true
-          files: ${{ steps.archive.outputs.path }}
+          files: |
+            ${{ steps.archive.outputs.path }}
+            ${{ steps.archive.outputs.sha }}
           generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload SHA256SUMS
-        shell: bash
-        run: |
-          set -e
-          version="${GITHUB_REF_NAME#v}"
-          sha256sum silica-${version}-*.tar.gz silica-${version}-*.zip 2>/dev/null > SHA256SUMS || true
-          if [ -f SHA256SUMS ]; then
-            gh release upload "${GITHUB_REF_NAME}" SHA256SUMS --clobber
-          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
